@@ -3,7 +3,6 @@ require("tiles")
 require("collision")
 
 function love.load()
-
 	xWindowSize, yWindowSize = love.window.getDesktopDimensions(1)
 
 	love.window.setMode(xWindowSize, yWindowSize, {display = 1, centered = true}) --fullscreen = true})
@@ -17,6 +16,10 @@ function love.load()
 	background = love.graphics.newImage("images/backgrounds/grassland.png")
 	love.graphics.setDefaultFilter("nearest", "nearest")
 	screenCanvas = love.graphics.newCanvas(xWindowSize, yWindowSize)
+
+	keyPress = {}
+	keyDown = {}
+	debug = false
 
 	hitboxes = {}
 
@@ -59,13 +62,44 @@ function love.load()
 	end
 end
 
+-- if something awful happens like, keypresses are changing in the middle of love.update then just cry or something.
+-- never do
+-- *   if keyPress["space"] == false then
+-- *   if keyPress["space"] == true then
+-- instead use
+-- *   if keyPress["space"] then
+function love.keypressed(key, _, _)
+	keyPress[key] = true
+	keyDown[key] = true
+end
+
+function love.keyreleased(key, _, _)
+	keyPress[key] = false
+	keyDown[key] = false
+end
+
 function love.update()
 	xWindowSize, yWindowSize = love.graphics.getDimensions()
 
-	hitboxes = {}
-	for _, actor in ipairs(actors) do
-        actor:act()
+	if keyPress["f12"] then
+		debug = not debug
+		keyPress = {}
+	elseif not debug or (debug and keyPress["f11"]) then
+		gameLogic()
+    	keyPress = {}
     end
+end
+
+function gameLogic()
+	hitboxes = {}
+	debugStrings = {"debug"}
+	for _, actor in ipairs(actors) do
+		actor:act()
+	end
+end
+
+function debugPrint(string)
+	table.insert(debugStrings, string)
 end
 
 function love.draw()
@@ -80,6 +114,12 @@ function love.draw()
         love.graphics.draw(actor.canvas, math.floor(actor.x), math.floor(actor.y))
     end
     
+    if debug then
+    	for i, string in ipairs(debugStrings) do
+    		love.graphics.print(string, 2, (i - 1) * 12)
+    	end
+    end
+
     --draw hitboxes
     if love.keyboard.isDown("z") then
         for _, hitbox in ipairs(hitboxes) do

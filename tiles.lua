@@ -1,5 +1,4 @@
 function newTile(tileX, tileY, tileWidth, tileHeight, mapX, mapY, tileQuad, tileset, tileCollidable)
-
 	local tile = {}
 	tile.x = mapX
 	tile.y = mapY - (tileHeight - 16)

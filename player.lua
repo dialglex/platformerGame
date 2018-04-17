@@ -23,15 +23,19 @@ function newPlayer(playerX, playerY)
         player:checkGrounded()
 		player:physics()
         if player.grounded then
-
+            player:jump()
         else
             player:airPhysics()
         end
         player:xMovement()
+
+        debugPrint("player.xVelocity: " .. player.xVelocity)
+        debugPrint("player.yVelocity: " .. player.yVelocity)
+        debugPrint("player.grounded: " .. tostring(player.grounded))
     end
 
-   	function love.keypressed(key, _, _)
-        if key == "space" and player.grounded then
+   	function player:jump(key, _, _)
+        if keyPress["space"] and player.grounded then
             player.grounded = false
             player.y = player.y - 1
             player.yVelocity = - player.jumpAcceleration + player.fallAcceleration
