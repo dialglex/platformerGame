@@ -48,15 +48,11 @@ function love.load()
                 			local blockQuad = love.graphics.newQuad(tileX * tilesetData.tilewidth, tileY * tilesetData.tileheight, tilesetData.tilewidth, tilesetData.tileheight, tilesetData.imagewidth, tilesetData.imageheight)
 
 							if layer.name == "player" then
-                				table.insert(actors, newPlayer(mapX * 16, mapY * 16))
+                				table.insert(actors, newPlayer(mapX * 16, (mapY * 16) - 8))
                 			else
                 				local tile = tilesetData.tiles[tileID+1]
                 				if tile.properties["collidable"] then
                 					local tileHitbox = tile.objectGroup.objects[1]
-                					print(tileHitbox.x)
-                					print(tileHitbox.y)
-                					print(tileHitbox.width)
-                					print(tileHitbox.height)
                 					table.insert(actors, newTile(tileX, tileY, tilesetData.tilewidth, tilesetData.tileheight, mapX * 16, mapY * 16,
                 						blockQuad, tileset, tile.properties["collidable"], tileHitbox.x, tileHitbox.y, tileHitbox.width, tileHitbox.height))
                 				else
@@ -121,7 +117,11 @@ function love.draw()
 	for _, actor in ipairs(actors) do
 		actor:draw()
 		love.graphics.setCanvas(screenCanvas)
-        love.graphics.draw(actor.canvas, actor:getX(), actor:getY())
+		if actor.actor == "player" then
+        	love.graphics.draw(actor.canvas, actor:getX() - 3, actor:getY() - 1)
+        else
+        	love.graphics.draw(actor.canvas, actor:getX(), actor:getY())
+        end
     end
     
     if debug then

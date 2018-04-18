@@ -4,20 +4,36 @@ function newPlayer(playerX, playerY)
     player.y = playerY
     player.width = 15
     player.height = 24
+
+    player.hitboxX = player.x
+    player.hitboxY = player.y
+    player.hitboxWidth = 15
+    player.hitboxHeight = 24
+
     player.xVelocity = 0
     player.yVelocity = 0
     player.xAcceleration = 0.1
-    player.xTerminalVelocity = 2
+    player.xTerminalVelocity = 1.8
     player.jumpAcceleration = 6
     player.fallAcceleration = 0.25
     player.yTerminalVelocity = 8
     player.directon = "right"
-    player.walking = false
     player.grounded = true
     player.actor = "player"
 
-    player.spritesheet = love.graphics.newImage("images/player/player.png")
-	player.canvas = love.graphics.newCanvas(20, 26)
+    player.runCounter = 0
+    player.runQuadSection = 0
+    player.jumpCounter = 0
+    player.jumpQuadSection = 0
+
+    player.idleLeftSpritesheet = love.graphics.newImage("images/player/playerIdleLeftSpritesheet.png")
+    player.idleRightSpritesheet = love.graphics.newImage("images/player/playerIdleRightSpritesheet.png")
+    player.runLeftSpritesheet = love.graphics.newImage("images/player/playerRunLeftSpritesheet.png")
+    player.runRightSpritesheet = love.graphics.newImage("images/player/playerRunRightSpritesheet.png")
+    player.jumpLeftSpritesheet = love.graphics.newImage("images/player/playerJumpLeftSpritesheet.png")
+    player.jumpRightSpritesheet = love.graphics.newImage("images/player/playerJumpRightSpritesheet.png")
+
+	player.canvas = love.graphics.newCanvas(21, 26)
 
     function player:getX()
         return math.floor(player.x + 0.5)
@@ -65,7 +81,7 @@ function newPlayer(playerX, playerY)
         if minXMovement < 0 then
             --collision to the left
             for _, actor in ipairs(getCollidingActors(player:getX() - 32, player:getY(), 32, player.height)) do -- 32 = 2*16 tile width
-                local newXMovement = actor.x + actor.width - player.x
+                local newXMovement = (actor.x + actor.hitboxX) + actor.hitboxWidth - player.x
                 if newXMovement > minXMovement then
                     minXMovement = newXMovement
                 end
@@ -73,7 +89,7 @@ function newPlayer(playerX, playerY)
         else
           --collision to the right
             for _, actor in ipairs(getCollidingActors(player:getX() + player.width, player:getY(), 32, player.height)) do
-                local newXMovement = actor.x - (player.x + player.width)
+                local newXMovement = (actor.x + actor.hitboxX) - (player.x + player.width)
                 if newXMovement < minXMovement then
                     minXMovement = newXMovement
                 end
@@ -89,7 +105,7 @@ function newPlayer(playerX, playerY)
         if minYMovement > 0 then
             --collision below player
             for _, actor in ipairs(getCollidingActors(player:getX(), player:getY() + player.height, player.width, 32)) do
-                local newYMovement = actor.y - (player.y + player.height)
+                local newYMovement = (actor.y + actor.hitboxY) - (player.y + player.height)
                 if newYMovement < player.yVelocity then
                     minYMovement = newYMovement
                 end
@@ -97,7 +113,7 @@ function newPlayer(playerX, playerY)
         else
             --collision above player
             for _, actor in ipairs(getCollidingActors(player:getX(), player:getY() - 32, player.width, 32)) do
-                local newYMovement = actor.y + actor.height - player.y
+                local newYMovement = (actor.y + actor.hitboxY) + actor.hitboxHeight - player.y
                 if newYMovement > player.yVelocity then
                     minYMovement = newYMovement
                     player.yVelocity = 0
@@ -143,7 +159,68 @@ function newPlayer(playerX, playerY)
         love.graphics.clear()
     
         love.graphics.setBackgroundColor(0, 0, 0, 0)
-        love.graphics.draw(player.spritesheet)
+        if player.direction == "left" then
+            if player.grounded then
+                if player.xVelocity == 0 then
+                    player.Spritesheet = player.idleLeftSpritesheet
+                    player.Quad = love.graphics.newQuad(0, 0, 21, 26, 21, 26)
+                else
+                    player.Spritesheet = player.runLeftSpritesheet
+                    player.Quad = love.graphics.newQuad(player.runQuadSection, 0, 21, 26, 168, 26)
+
+                    if player.runCounter >= 6 then
+                        player.runQuadSection = player.runQuadSection + 21
+                        player.runCounter = 0
+                    end
+                    if player.runQuadSection >= 168 then
+                        player.runQuadSection = 0
+                        player.runCounter = 0
+                    end
+                    player.runCounter = player.runCounter + 1
+                end
+                player.jumpCounter = 0
+                player.jumpQuadSection = 0
+            else
+                player.Spritesheet = player.jumpLeftSpritesheet
+                player.Quad = love.graphics.newQuad(player.jumpQuadSection, 0, 21, 26, 63, 26)
+
+                if player.jumpCounter >= 10 and player.jumpQuadSection < 42 then
+                    player.jumpQuadSection = player.jumpQuadSection + 21
+                end
+                player.jumpCounter = player.jumpCounter + 1
+            end
+        else
+            if player.grounded then
+                if player.xVelocity == 0 then
+                    player.Spritesheet = player.idleRightSpritesheet
+                    player.Quad = love.graphics.newQuad(0, 0, 21, 26, 21, 26)
+                else
+                    player.Spritesheet = player.runRightSpritesheet
+                    player.Quad = love.graphics.newQuad(player.runQuadSection, 0, 21, 26, 168, 26)
+
+                    if player.runCounter >= 6 then
+                        player.runQuadSection = player.runQuadSection + 21
+                        player.runCounter = 0
+                    end
+                    if player.runQuadSection >= 168 then
+                        player.runQuadSection = 0
+                        player.runCounter = 0
+                    end
+                    player.runCounter = player.runCounter + 1
+                end
+                player.jumpCounter = 0
+                player.jumpQuadSection = 0
+            else
+                player.Spritesheet = player.jumpRightSpritesheet
+                player.Quad = love.graphics.newQuad(player.jumpQuadSection, 0, 21, 26, 63, 26)
+
+                if player.jumpCounter >= 10 and player.jumpQuadSection < 42 then
+                    player.jumpQuadSection = player.jumpQuadSection + 21
+                end
+                player.jumpCounter = player.jumpCounter + 1
+            end
+        end
+        love.graphics.draw(player.Spritesheet, player.Quad)
     end
 
     return player

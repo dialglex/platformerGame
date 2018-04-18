@@ -67,7 +67,7 @@
    <property name="collidable" type="bool" value="true"/>
   </properties>
   <objectgroup draworder="index">
-   <object id="1" template="templates/16.tx" x="0" y="0"/>
+   <object id="2" x="0" y="0" width="16" height="16"/>
   </objectgroup>
  </tile>
  <tile id="9">

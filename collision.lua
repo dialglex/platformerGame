@@ -7,9 +7,10 @@ end
 function checkCollision(x, y, width, height)
     table.insert(hitboxes, {x, y, width, height})
     for _, actor in ipairs(actors) do
-        table.insert(hitboxes, {actor.x, actor.y, actor.width, actor.height})
-        if AABB(x, y, width, height, actor.x, actor.y, actor.width, actor.height) and actor.actor ~= "player" and actor.collidable then
-            return true
+        if actor.collidable then
+            if AABB(x, y, width, height, actor.x + actor.hitboxX, actor.y + actor.hitboxY, actor.hitboxWidth, actor.hitboxHeight) and actor.actor ~= "player" then
+                return true
+            end
         end
     end
     return false
@@ -19,8 +20,10 @@ function getCollidingActors(x, y, width, height)
     collides = {}
     table.insert(hitboxes, {x, y, width, height})
     for _, actor in ipairs(actors) do
-        if AABB(x, y, width, height, actor.x, actor.y, actor.width, actor.height) and actor.actor ~= "player" and actor.collidable then
-            table.insert(collides, actor)
+        if actor.collidable then
+            if AABB(x, y, width, height, actor.x + actor.hitboxX, actor.y + actor.hitboxY, actor.hitboxWidth, actor.hitboxHeight) and actor.actor ~= "player" then
+                table.insert(collides, actor)
+            end
         end
     end
     return collides
