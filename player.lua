@@ -12,7 +12,8 @@ function newPlayer(playerX, playerY)
 
     player.xVelocity = 0
     player.yVelocity = 0
-    player.xAcceleration = 0.1
+    player.xAcceleration = 0.25
+    player.xDeceleration = 0.15
     player.xTerminalVelocity = 1.8
     player.jumpAcceleration = 6
     player.fallAcceleration = 0.25
@@ -141,13 +142,13 @@ function newPlayer(playerX, playerY)
             player.direction = "right" 	 
         else
            	if player.xVelocity > 0 then
-             	player.xVelocity = player.xVelocity - player.xAcceleration
-             	if player.xVelocity < player.xAcceleration then
+             	player.xVelocity = player.xVelocity - player.xDeceleration
+             	if player.xVelocity < player.xDeceleration then
                		player.xVelocity = 0
              	end
             elseif player.xVelocity < 0 then
-            	player.xVelocity = player.xVelocity + player.xAcceleration
-             	if player.xVelocity > - player.xAcceleration then
+            	player.xVelocity = player.xVelocity + player.xDeceleration
+             	if player.xVelocity > - player.xDeceleration then
               		player.xVelocity = 0
              	end
             end
