@@ -43,7 +43,7 @@ function newPlayer(playerX, playerY)
     end
 
     function player:checkGrounded()
-        if checkCollision(player.x, player.y + player.height + 1, player.width, 1) then
+        if checkCollision(player.x, player.y + player.height, player.width, 1) then
             player.grounded = true
             player.yVelocity = 0
         else
@@ -80,7 +80,7 @@ function newPlayer(playerX, playerY)
         if minYMovement > 0 then
             --collision below player
             for _, actor in ipairs(getCollidingActors(player.x, player.y + player.height, player.width, 32)) do
-                local newYMovement = actor.y - (player.y + player.height + 1)
+                local newYMovement = actor.y - (player.y + player.height)
                 if newYMovement < player.yVelocity then
                     minYMovement = newYMovement
                 end
@@ -100,7 +100,7 @@ function newPlayer(playerX, playerY)
             player.yVelocity = player.yTerminalVelocity
         end
 
-        player.y = player.y + minYMovement
+        player.y = math.floor(player.y + minYMovement)
     end
 
 	function player:xMovement()

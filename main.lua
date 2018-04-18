@@ -81,10 +81,10 @@ end
 function love.update()
 	xWindowSize, yWindowSize = love.graphics.getDimensions()
 
-	if keyPress["f12"] then
+	if keyPress["d"] then
 		debug = not debug
 		keyPress = {}
-	elseif not debug or (debug and keyPress["f11"]) then
+	elseif not debug or (debug and keyPress["f"]) then
 		gameLogic()
     	keyPress = {}
     end
