@@ -7,6 +7,7 @@ end
 function checkCollision(x, y, width, height)
     table.insert(hitboxes, {x, y, width, height})
     for _, actor in ipairs(actors) do
+        table.insert(hitboxes, {actor.x, actor.y, actor.width, actor.height})
         if AABB(x, y, width, height, actor.x, actor.y, actor.width, actor.height) and actor.actor ~= "player" and actor.collidable then
             return true
         end

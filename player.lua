@@ -19,6 +19,14 @@ function newPlayer(playerX, playerY)
     player.spritesheet = love.graphics.newImage("images/player/player.png")
 	player.canvas = love.graphics.newCanvas(20, 26)
 
+    function player:getX()
+        return math.floor(player.x + 0.5)
+    end
+
+    function player:getY()
+        return math.floor(player.y + 0.5)
+    end
+
     function player:act()
         player:checkGrounded()
 		player:physics()
@@ -28,13 +36,14 @@ function newPlayer(playerX, playerY)
             player:airPhysics()
         end
         player:xMovement()
-
+        debugPrint("player.x: " .. player.x)
+        debugPrint("player.y: " .. player.y)
         debugPrint("player.xVelocity: " .. player.xVelocity)
         debugPrint("player.yVelocity: " .. player.yVelocity)
         debugPrint("player.grounded: " .. tostring(player.grounded))
     end
 
-   	function player:jump(key, _, _)
+   	function player:jump()
         if keyPress["space"] and player.grounded then
             player.grounded = false
             player.y = player.y - 1
@@ -43,7 +52,7 @@ function newPlayer(playerX, playerY)
     end
 
     function player:checkGrounded()
-        if checkCollision(player.x, player.y + player.height, player.width, 1) then
+        if checkCollision(player:getX(), player:getY() + player.height, player.width, 1) then
             player.grounded = true
             player.yVelocity = 0
         else
@@ -55,7 +64,7 @@ function newPlayer(playerX, playerY)
         local minXMovement = player.xVelocity
         if minXMovement < 0 then
             --collision to the left
-            for _, actor in ipairs(getCollidingActors(player.x - 32, player.y, 32, player.height)) do -- 32 = 2*16 tile width
+            for _, actor in ipairs(getCollidingActors(player:getX() - 32, player:getY(), 32, player.height)) do -- 32 = 2*16 tile width
                 local newXMovement = actor.x + actor.width - player.x
                 if newXMovement > minXMovement then
                     minXMovement = newXMovement
@@ -63,7 +72,7 @@ function newPlayer(playerX, playerY)
             end
         else
           --collision to the right
-            for _, actor in ipairs(getCollidingActors(player.x + player.width, player.y, 32, player.height)) do
+            for _, actor in ipairs(getCollidingActors(player:getX() + player.width, player:getY(), 32, player.height)) do
                 local newXMovement = actor.x - (player.x + player.width)
                 if newXMovement < minXMovement then
                     minXMovement = newXMovement
@@ -79,7 +88,7 @@ function newPlayer(playerX, playerY)
         local minYMovement = player.yVelocity
         if minYMovement > 0 then
             --collision below player
-            for _, actor in ipairs(getCollidingActors(player.x, player.y + player.height, player.width, 32)) do
+            for _, actor in ipairs(getCollidingActors(player:getX(), player:getY() + player.height, player.width, 32)) do
                 local newYMovement = actor.y - (player.y + player.height)
                 if newYMovement < player.yVelocity then
                     minYMovement = newYMovement
@@ -87,7 +96,7 @@ function newPlayer(playerX, playerY)
             end
         else
             --collision above player
-            for _, actor in ipairs(getCollidingActors(player.x, player.y - 32, player.width, 32)) do
+            for _, actor in ipairs(getCollidingActors(player:getX(), player:getY() - 32, player.width, 32)) do
                 local newYMovement = actor.y + actor.height - player.y
                 if newYMovement > player.yVelocity then
                     minYMovement = newYMovement
@@ -100,7 +109,7 @@ function newPlayer(playerX, playerY)
             player.yVelocity = player.yTerminalVelocity
         end
 
-        player.y = math.floor(player.y + minYMovement)
+        player.y = player.y + minYMovement
     end
 
 	function player:xMovement()

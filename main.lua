@@ -41,7 +41,6 @@ function love.load()
 						local blockID = layer.data[1 + mapX + mapY*layer.width]
 						if blockID ~= 0 then
 							local tileID = blockID - tilesetData.firstgid
-							local blockQuad = nil -- investigate LATTERELORFLOSON
 
 							local tileX = tileID % (tilesetData.imagewidth / tilesetData.tilewidth)
 							local tileY = math.floor(tileID / (tilesetData.imageheight / tilesetData.tileheight))
@@ -52,7 +51,18 @@ function love.load()
                 				table.insert(actors, newPlayer(mapX * 16, mapY * 16))
                 			else
                 				local tile = tilesetData.tiles[tileID+1]
-                				table.insert(actors, newTile(tileX, tileY, tilesetData.tilewidth, tilesetData.tileheight, mapX * 16, mapY * 16, blockQuad, tileset, tile.properties["collidable"]))
+                				if tile.properties["collidable"] then
+                					local tileHitbox = tile.objectGroup.objects[1]
+                					print(tileHitbox.x)
+                					print(tileHitbox.y)
+                					print(tileHitbox.width)
+                					print(tileHitbox.height)
+                					table.insert(actors, newTile(tileX, tileY, tilesetData.tilewidth, tilesetData.tileheight, mapX * 16, mapY * 16,
+                						blockQuad, tileset, tile.properties["collidable"], tileHitbox.x, tileHitbox.y, tileHitbox.width, tileHitbox.height))
+                				else
+                					table.insert(actors, newTile(tileX, tileY, tilesetData.tilewidth, tilesetData.tileheight, mapX * 16, mapY * 16,
+                						blockQuad, tileset, tile.properties["collidable"]))
+                				end
                 			end
 						end
 					end
@@ -111,7 +121,7 @@ function love.draw()
 	for _, actor in ipairs(actors) do
 		actor:draw()
 		love.graphics.setCanvas(screenCanvas)
-        love.graphics.draw(actor.canvas, math.floor(actor.x), math.floor(actor.y))
+        love.graphics.draw(actor.canvas, actor:getX(), actor:getY())
     end
     
     if debug then
