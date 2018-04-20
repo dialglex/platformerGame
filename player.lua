@@ -12,11 +12,11 @@ function newPlayer(playerX, playerY)
 
     player.xVelocity = 0
     player.yVelocity = 0
-    player.xAcceleration = 0.25
+    player.xAcceleration = 0.5
     player.xDeceleration = 0.15
-    player.xTerminalVelocity = 1.8
+    player.xTerminalVelocity = 1.65
     player.jumpAcceleration = 6
-    player.fallAcceleration = 0.25
+    player.fallAcceleration = 0.225
     player.yTerminalVelocity = 8
     player.directon = "right"
     player.grounded = true
@@ -26,6 +26,8 @@ function newPlayer(playerX, playerY)
     player.runQuadSection = 0
     player.jumpCounter = 0
     player.jumpQuadSection = 0
+    player.idleCounter = 0
+    player.idleQuadSection = 0
 
     player.idleLeftSpritesheet = love.graphics.newImage("images/player/playerIdleLeftSpritesheet.png")
     player.idleRightSpritesheet = love.graphics.newImage("images/player/playerIdleRightSpritesheet.png")
@@ -33,6 +35,10 @@ function newPlayer(playerX, playerY)
     player.runRightSpritesheet = love.graphics.newImage("images/player/playerRunRightSpritesheet.png")
     player.jumpLeftSpritesheet = love.graphics.newImage("images/player/playerJumpLeftSpritesheet.png")
     player.jumpRightSpritesheet = love.graphics.newImage("images/player/playerJumpRightSpritesheet.png")
+
+    player.dustLeftSpritesheet = love.graphics.newImage("images/player/playerDustLeftSpritesheet.png")
+    player.dustRightSpritesheet = love.graphics.newImage("images/player/playerDustRightSpritesheet.png")
+    player.dustJumpSpritesheet = love.graphics.newImage("images/player/playerDustJumpSpritesheet.png")
 
 	player.canvas = love.graphics.newCanvas(21, 26)
 
@@ -53,6 +59,8 @@ function newPlayer(playerX, playerY)
             player:airPhysics()
         end
         player:xMovement()
+        player:animations()
+
         debugPrint("player.x: " .. player.x)
         debugPrint("player.y: " .. player.y)
         debugPrint("player.xVelocity: " .. player.xVelocity)
@@ -155,70 +163,71 @@ function newPlayer(playerX, playerY)
         end
     end
 
+    function player:animations()
+        if player.grounded then
+            if player.xVelocity == 0 then
+                if player.idleCounter >= 15 then
+                    player.idleQuadSection = player.idleQuadSection + 21
+                    player.idleCounter = 0
+                end
+                if player.idleQuadSection >= 63 then
+                    player.idleQuadSection = 0
+                    player.idleCounter = 0
+                end
+                player.idleCounter = player.idleCounter + 1
+            else
+                if player.runCounter >= 6 then
+                    player.runQuadSection = player.runQuadSection + 21
+                    player.runCounter = 0
+                end
+                if player.runQuadSection >= 168 then
+                    player.runQuadSection = 0
+                    player.runCounter = 0
+                end
+                player.runCounter = player.runCounter + 1
+            end
+            player.jumpCounter = 0
+            player.jumpQuadSection = 0
+        else
+            if player.jumpCounter >= 5 and player.jumpQuadSection < 42 then
+                player.jumpQuadSection = player.jumpQuadSection + 21
+                player.jumpCounter = 0
+            end
+            player.jumpCounter = player.jumpCounter + 1
+        end
+    end
+
     function player:draw()
         love.graphics.setCanvas(player.canvas)
         love.graphics.clear()
     
         love.graphics.setBackgroundColor(0, 0, 0, 0)
+
         if player.direction == "left" then
             if player.grounded then
                 if player.xVelocity == 0 then
                     player.Spritesheet = player.idleLeftSpritesheet
-                    player.Quad = love.graphics.newQuad(0, 0, 21, 26, 21, 26)
+                    player.Quad = love.graphics.newQuad(player.idleQuadSection, 0, 21, 26, 63, 26)
                 else
                     player.Spritesheet = player.runLeftSpritesheet
                     player.Quad = love.graphics.newQuad(player.runQuadSection, 0, 21, 26, 168, 26)
-
-                    if player.runCounter >= 6 then
-                        player.runQuadSection = player.runQuadSection + 21
-                        player.runCounter = 0
-                    end
-                    if player.runQuadSection >= 168 then
-                        player.runQuadSection = 0
-                        player.runCounter = 0
-                    end
-                    player.runCounter = player.runCounter + 1
                 end
-                player.jumpCounter = 0
-                player.jumpQuadSection = 0
             else
                 player.Spritesheet = player.jumpLeftSpritesheet
                 player.Quad = love.graphics.newQuad(player.jumpQuadSection, 0, 21, 26, 63, 26)
-
-                if player.jumpCounter >= 10 and player.jumpQuadSection < 42 then
-                    player.jumpQuadSection = player.jumpQuadSection + 21
-                end
-                player.jumpCounter = player.jumpCounter + 1
             end
         else
             if player.grounded then
                 if player.xVelocity == 0 then
                     player.Spritesheet = player.idleRightSpritesheet
-                    player.Quad = love.graphics.newQuad(0, 0, 21, 26, 21, 26)
+                    player.Quad = love.graphics.newQuad(player.idleQuadSection, 0, 21, 26, 63, 26)
                 else
                     player.Spritesheet = player.runRightSpritesheet
                     player.Quad = love.graphics.newQuad(player.runQuadSection, 0, 21, 26, 168, 26)
-
-                    if player.runCounter >= 6 then
-                        player.runQuadSection = player.runQuadSection + 21
-                        player.runCounter = 0
-                    end
-                    if player.runQuadSection >= 168 then
-                        player.runQuadSection = 0
-                        player.runCounter = 0
-                    end
-                    player.runCounter = player.runCounter + 1
                 end
-                player.jumpCounter = 0
-                player.jumpQuadSection = 0
             else
                 player.Spritesheet = player.jumpRightSpritesheet
                 player.Quad = love.graphics.newQuad(player.jumpQuadSection, 0, 21, 26, 63, 26)
-
-                if player.jumpCounter >= 10 and player.jumpQuadSection < 42 then
-                    player.jumpQuadSection = player.jumpQuadSection + 21
-                end
-                player.jumpCounter = player.jumpCounter + 1
             end
         end
         love.graphics.draw(player.Spritesheet, player.Quad)

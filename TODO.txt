@@ -1,0 +1,26 @@
+TODO:
+* Variable jump heights
+* Progressing levels
+* Dust
+* Grass animations
+* Ladders
+* Menu
+
+
+
+
+
+
+
+
+IDEAS:
+areas:
+1. grass
+2. sand
+3. cave
+4. ice
+5. water
+6. jungle/ruins
+7. mechanical/robotland
+8. volcano/magma
+9. spooky/corrupted

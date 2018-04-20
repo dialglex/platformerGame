@@ -5,32 +5,127 @@ require("collision")
 function love.load()
 	xWindowSize, yWindowSize = love.window.getDesktopDimensions(1)
 
-	love.window.setMode(xWindowSize, yWindowSize, {display = 1, centered = true}) --fullscreen = true})
+	love.window.setMode(xWindowSize, yWindowSize, {display = 1, centered = true})
+	windowAspectRatio = xWindowSize / yWindowSize
+	love.graphics.setDefaultFilter("nearest", "nearest")
 	love.window.setTitle("Platformer Base")
-	love.mouse.setVisible(false)
+
+	scale = getScale()
+	loadingImage = love.graphics.newImage("images/HUD/loading.png")
+	loadingCanvas = love.graphics.newCanvas(xWindowSize, yWindowSize)
+	love.graphics.setCanvas(loadingCanvas)
+	love.graphics.draw(loadingImage)
+	love.graphics.setCanvas()
+	love.graphics.draw(loadingCanvas, (xWindowSize - (480 * scale)) / 2, (yWindowSize - (270 * scale)) / 2, 0, scale, scale)
+	love.graphics.present()
+
 	love.mouse.setGrabbed(true)
+	love.mouse.setVisible(false)
+
+	gameIconImage = love.graphics.newImage("images/HUD/gameIcon.png")
+	gameIconCanvas = love.graphics.newCanvas(16, 16)
+	love.graphics.setCanvas(gameIconCanvas)
+	love.graphics.draw(gameIconImage)
+	love.graphics.setCanvas()
+	gameIconImageData = gameIconCanvas:newImageData()
+	love.window.setIcon(gameIconImageData)
+
 	--love.graphics.setBackgroundColor(255, 255, 255) -- White
 	--love.graphics.setBackgroundColor(16, 30, 41) -- Black
 	--love.graphics.setBackgroundColor(125, 125, 125) -- Grey
 	love.graphics.setBackgroundColor(146, 244, 255) -- Blue
+	lowResolutionBackground = love.graphics.newImage("images/backgrounds/lowResolutionBackground.png")
 	background = love.graphics.newImage("images/backgrounds/grassland.png")
-	love.graphics.setDefaultFilter("nearest", "nearest")
 	screenCanvas = love.graphics.newCanvas(xWindowSize, yWindowSize)
+	backgroundCanvas = love.graphics.newCanvas(7680, 4320)
 
 	keyPress = {}
 	keyDown = {}
+	hitboxes = {}
 	debug = false
 
-	hitboxes = {}
+	resolution()
+	setupLevel(require("levels/RPG/grassland/introduction3"))
+end
 
-	for i = 1, 4 do
-		if xWindowSize >= 480 * i and yWindowSize >= 270 * i then
+function getScale()
+	for i = 1, 9 do
+		if xWindowSize >= 480 * i then
 			scale = i
 		end
 	end
+	return scale
+end
 
-	chosenMap = require("levels/RPG/grassland/introduction3")
+function resolution()
+	xWindowSize, yWindowSize = love.graphics.getDimensions()
+	if windowAspectRatio == 16 / 9 then
+		if keyPress["1"] then
+			love.window.setMode(1024, 576, {display = 1, centered = true})
+		end
+		if keyPress["2"] then
+			love.window.setMode(1152, 648, {display = 1, centered = true})
+		end
+		if keyPress["3"] then
+			love.window.setMode(1280, 720, {display = 1, centered = true})
+		end
+		if keyPress["4"] then
+			love.window.setMode(1366, 768, {display = 1, centered = true})
+		end
+		if keyPress["5"] then
+			love.window.setMode(1600, 900, {display = 1, centered = true})
+		end
+		if keyPress["6"] then
+			love.window.setMode(1920, 1080, {display = 1, centered = true})
+		end
+		if keyPress["7"] then
+			love.window.setMode(2560, 1440, {display = 1, centered = true})
+		end
+		if keyPress["8"] then
+			love.window.setMode(3840, 2160, {display = 1, centered = true})
+		end
+		if keyPress["9"] then
+			love.window.setMode(7680, 4320, {display = 1, centered = true})
+		end
+	elseif windowAspectRatio == 4 / 3 then
+		if keyPress["1"] then
+			love.window.setMode(640, 480, {display = 1, centered = true})
+		end
+		if keyPress["2"] then
+			love.window.setMode(800, 600, {display = 1, centered = true})
+		end
+		if keyPress["3"] then
+			love.window.setMode(960, 720, {display = 1, centered = true})
+		end
+		if keyPress["4"] then
+			love.window.setMode(1024, 768, {display = 1, centered = true})
+		end
+		if keyPress["5"] then
+			love.window.setMode(1280, 960, {display = 1, centered = true})
+		end
+		if keyPress["6"] then
+			love.window.setMode(1400, 1050, {display = 1, centered = true})
+		end
+		if keyPress["7"] then
+			love.window.setMode(1440, 1080, {display = 1, centered = true})
+		end
+		if keyPress["8"] then
+			love.window.setMode(1600, 1200, {display = 1, centered = true})
+		end
+		if keyPress["9"] then
+			love.window.setMode(1856, 1392, {display = 1, centered = true})
+		end
+	end
 
+	if keyPress["f11"] then
+		local fullscreen = not love.window.getFullscreen()
+		love.window.setFullscreen(fullscreen)
+	end
+
+	print(getScale())
+end
+
+function setupLevel(chosenMap)
 	actors = {}
 	for _, layer in ipairs(chosenMap.layers) do
 		for _, tilesetData in ipairs(chosenMap.tilesets) do
@@ -85,7 +180,21 @@ function love.keyreleased(key, _, _)
 end
 
 function love.update()
-	xWindowSize, yWindowSize = love.graphics.getDimensions()
+	resolution()
+	if scale <= 1 then
+		cursor = love.mouse.newCursor("images/HUD/cursor1.png")
+	elseif scale <= 2 then
+		cursor = love.mouse.newCursor("images/HUD/cursor2.png")
+	elseif scale <= 3 then
+		cursor = love.mouse.newCursor("images/HUD/cursor3.png")
+	elseif scale <= 4 then
+		cursor = love.mouse.newCursor("images/HUD/cursor4.png")
+	end
+	love.mouse.setCursor(cursor)
+
+	if keyPress["escape"] then
+		love.window.close()
+	end
 
 	if keyPress["d"] then
 		debug = not debug
@@ -109,9 +218,14 @@ function debugPrint(string)
 end
 
 function love.draw()
-	love.graphics.setCanvas(screenCanvas)
-	love.graphics.clear()
+	love.graphics.setCanvas(backgroundCanvas)
+	love.graphics.draw(lowResolutionBackground)
+	love.graphics.setCanvas()
+	love.graphics.draw(backgroundCanvas, 0, 0, 0, scale, scale)
 
+	love.graphics.setCanvas(screenCanvas)
+
+	love.graphics.clear()
 	love.graphics.draw(background)
 
 	for _, actor in ipairs(actors) do
