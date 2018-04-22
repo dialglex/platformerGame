@@ -22,6 +22,10 @@ function newPlayer(playerX, playerY)
     player.grounded = true
     player.actor = "player"
 
+    player.jumpAble = true
+    player.jumpAbleDuration = 0.05 * 60
+    player.jumpAbleCounter = 0
+
     player.runCounter = 0
     player.runQuadSection = 0
     player.jumpCounter = 0
@@ -53,9 +57,10 @@ function newPlayer(playerX, playerY)
     function player:act()
         player:checkGrounded()
 		player:physics()
-        if player.grounded then
+        if player.jumpAble then
             player:jump()
-        else
+        end
+        if player.grounded == false then
             player:airPhysics()
         end
         player:xMovement()
@@ -69,8 +74,9 @@ function newPlayer(playerX, playerY)
     end
 
    	function player:jump()
-        if keyPress["space"] and player.grounded then
+        if keyPress["space"] then
             player.grounded = false
+            player.jumpAble = false
             player.y = player.y - 1
             player.yVelocity = - player.jumpAcceleration + player.fallAcceleration
         end
@@ -104,6 +110,10 @@ function newPlayer(playerX, playerY)
                 end
             end
         end
+        if player.grounded then
+            player.jumpAble = true
+        end
+
         player.x = player.x + minXMovement
     end
 
@@ -132,6 +142,15 @@ function newPlayer(playerX, playerY)
 
         if player.yVelocity >= player.yTerminalVelocity then
             player.yVelocity = player.yTerminalVelocity
+        end
+
+        print(player.jumpAbleCounter, player.jumpAbleDuration)
+        if player.jumpAbleCounter <= player.jumpAbleDuration and player.jumpAble then
+            player.jumpAbleCounter = player.jumpAbleCounter + 1
+            print("hi")
+        else
+            player.jumpAble = false
+            player.jumpAbleCounter = 0
         end
 
         player.y = player.y + minYMovement

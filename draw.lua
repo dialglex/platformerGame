@@ -1,6 +1,6 @@
 function getImages()
 	lowResolutionBackground = love.graphics.newImage("images/backgrounds/lowResolutionBackground.png")
-	background = love.graphics.newImage("images/backgrounds/"..chosenMap.properties["background"]..".png")
+	background = love.graphics.newImage(string.sub(chosenMap.properties["background"], 10))
 	screenCanvas = love.graphics.newCanvas(xWindowSize, yWindowSize)
 	backgroundCanvas = love.graphics.newCanvas(7680, 4320)
 end

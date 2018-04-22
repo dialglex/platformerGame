@@ -9,7 +9,14 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextobjectid = 1,
-  properties = {},
+  backgroundcolor = { 66, 202, 253 },
+  properties = {
+    ["background"] = "../../../images/backgrounds/grassland.png",
+    ["bottomMap"] = "",
+    ["leftMap"] = "introduction2.lua",
+    ["rightMap"] = "introduction1.lua",
+    ["topMap"] = "test.lua"
+  },
   tilesets = {
     {
       name = "grass",

@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.1" orientation="orthogonal" renderorder="right-down" width="30" height="17" tilewidth="16" tileheight="16" infinite="0" nextobjectid="1">
+<map version="1.0" tiledversion="1.1.1" orientation="orthogonal" renderorder="right-down" width="30" height="17" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#42cafd" nextobjectid="1">
+ <properties>
+  <property name="background" type="file" value="../../../images/backgrounds/grassland.png"/>
+  <property name="leftMap" type="file" value="introduction2.lua"/>
+  <property name="rightMap" type="file" value="introduction1.lua"/>
+  <property name="topMap" type="file" value="test.lua"/>
+ </properties>
  <tileset firstgid="1" source="../../tiles/grass.tsx"/>
  <tileset firstgid="37" source="../../tiles/grassBg.tsx"/>
  <tileset firstgid="53" source="../../tiles/house.tsx"/>

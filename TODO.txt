@@ -1,6 +1,7 @@
 TODO:
 * Variable jump heights
 * Progressing levels
+* Fading transitions between levels
 * Dust
 * Grass animations
 * Ladders
