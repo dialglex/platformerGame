@@ -1,4 +1,4 @@
-function loading()
+function drawLoadingScreen()
 	loadingImage = love.graphics.newImage("images/HUD/loading.png")
 	loadingCanvas = love.graphics.newCanvas(xWindowSize, yWindowSize)
 	love.graphics.setCanvas(loadingCanvas)
@@ -8,15 +8,20 @@ function loading()
 	love.graphics.present()
 end
 
-function setupLevel(chosenMap)
+function drawScreenTransition()
+
+end
+
+function setupLevel(newMap, playerX, playerY)
 	actors = {}
+	chosenMap = require(newMap)
 	for _, layer in ipairs(chosenMap.layers) do
 		for _, tilesetData in ipairs(chosenMap.tilesets) do
 			local tileset = love.graphics.newImage(string.sub(tilesetData.image, 10))
 			if layer.name == tilesetData.name then
 				for mapX = 0, layer.width - 1 do
 					for mapY = 0, layer.height - 1 do
-						local blockID = layer.data[1 + mapX + mapY*layer.width]
+						local blockID = layer.data[1 + mapX + mapY * layer.width]
 						if blockID ~= 0 then
 							local tileID = blockID - tilesetData.firstgid
 
@@ -26,16 +31,20 @@ function setupLevel(chosenMap)
                 			local blockQuad = love.graphics.newQuad(tileX * tilesetData.tilewidth, tileY * tilesetData.tileheight, tilesetData.tilewidth, tilesetData.tileheight, tilesetData.imagewidth, tilesetData.imageheight)
 
 							if layer.name == "player" then
-                				table.insert(actors, newPlayer(mapX * 16, (mapY * 16) - 8))
+								if playerX == nil and playerY == nil then
+                					table.insert(actors, newPlayer(mapX * 16, (mapY * 16) - 8))
+                				else
+                					table.insert(actors, newPlayer(playerX, playerY))
+                				end
                 			else
                 				local tile = tilesetData.tiles[tileID+1]
                 				if tile.properties["collidable"] then
                 					local tileHitbox = tile.objectGroup.objects[1]
                 					table.insert(actors, newTile(tileX, tileY, tilesetData.tilewidth, tilesetData.tileheight, mapX * 16, mapY * 16,
-                						blockQuad, tileset, tile.properties["collidable"], tileHitbox.x, tileHitbox.y, tileHitbox.width, tileHitbox.height))
+                						blockQuad, tileset, tile.properties["collidable"], tile.properties["background"], tileHitbox.x, tileHitbox.y, tileHitbox.width, tileHitbox.height))
                 				else
                 					table.insert(actors, newTile(tileX, tileY, tilesetData.tilewidth, tilesetData.tileheight, mapX * 16, mapY * 16,
-                						blockQuad, tileset, tile.properties["collidable"]))
+                						blockQuad, tileset, tile.properties["collidable"], tile.properties["background"]))
                 				end
                 			end
 						end

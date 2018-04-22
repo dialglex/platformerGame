@@ -9,7 +9,10 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextobjectid = 1,
-  properties = {},
+  properties = {
+    ["background"] = "../../../images/backgrounds/grassland.png",
+    ["rightMap"] = "levels/RPG/grassland/introduction2"
+  },
   tilesets = {
     {
       name = "grass",
@@ -38,6 +41,7 @@ return {
         {
           id = 0,
           properties = {
+            ["background"] = false,
             ["collidable"] = true
           },
           objectGroup = {
@@ -69,6 +73,7 @@ return {
         {
           id = 1,
           properties = {
+            ["background"] = false,
             ["collidable"] = true
           },
           objectGroup = {
@@ -100,6 +105,7 @@ return {
         {
           id = 2,
           properties = {
+            ["background"] = false,
             ["collidable"] = true
           },
           objectGroup = {
@@ -131,6 +137,7 @@ return {
         {
           id = 3,
           properties = {
+            ["background"] = false,
             ["collidable"] = true
           },
           objectGroup = {
@@ -162,12 +169,14 @@ return {
         {
           id = 4,
           properties = {
+            ["background"] = false,
             ["collidable"] = false
           }
         },
         {
           id = 5,
           properties = {
+            ["background"] = false,
             ["collidable"] = true
           },
           objectGroup = {
@@ -199,6 +208,7 @@ return {
         {
           id = 6,
           properties = {
+            ["background"] = false,
             ["collidable"] = true
           },
           objectGroup = {
@@ -230,6 +240,7 @@ return {
         {
           id = 7,
           properties = {
+            ["background"] = false,
             ["collidable"] = true
           },
           objectGroup = {
@@ -261,6 +272,7 @@ return {
         {
           id = 8,
           properties = {
+            ["background"] = false,
             ["collidable"] = true
           },
           objectGroup = {
@@ -292,6 +304,7 @@ return {
         {
           id = 9,
           properties = {
+            ["background"] = false,
             ["collidable"] = true
           },
           objectGroup = {
@@ -323,12 +336,14 @@ return {
         {
           id = 10,
           properties = {
+            ["background"] = false,
             ["collidable"] = false
           }
         },
         {
           id = 11,
           properties = {
+            ["background"] = false,
             ["collidable"] = true
           },
           objectGroup = {
@@ -360,6 +375,7 @@ return {
         {
           id = 12,
           properties = {
+            ["background"] = false,
             ["collidable"] = true
           },
           objectGroup = {
@@ -391,6 +407,7 @@ return {
         {
           id = 13,
           properties = {
+            ["background"] = false,
             ["collidable"] = true
           },
           objectGroup = {
@@ -422,12 +439,14 @@ return {
         {
           id = 14,
           properties = {
+            ["background"] = false,
             ["collidable"] = false
           }
         },
         {
           id = 15,
           properties = {
+            ["background"] = false,
             ["collidable"] = true
           },
           objectGroup = {
@@ -459,12 +478,14 @@ return {
         {
           id = 16,
           properties = {
+            ["background"] = false,
             ["collidable"] = false
           }
         },
         {
           id = 17,
           properties = {
+            ["background"] = false,
             ["collidable"] = true
           },
           objectGroup = {
@@ -496,6 +517,7 @@ return {
         {
           id = 18,
           properties = {
+            ["background"] = false,
             ["collidable"] = true
           },
           objectGroup = {
@@ -527,6 +549,7 @@ return {
         {
           id = 19,
           properties = {
+            ["background"] = false,
             ["collidable"] = true
           },
           objectGroup = {
@@ -558,6 +581,7 @@ return {
         {
           id = 20,
           properties = {
+            ["background"] = false,
             ["collidable"] = true
           },
           objectGroup = {
@@ -589,6 +613,7 @@ return {
         {
           id = 21,
           properties = {
+            ["background"] = false,
             ["collidable"] = true
           },
           objectGroup = {
@@ -620,6 +645,7 @@ return {
         {
           id = 22,
           properties = {
+            ["background"] = false,
             ["collidable"] = true
           },
           objectGroup = {
@@ -651,6 +677,7 @@ return {
         {
           id = 23,
           properties = {
+            ["background"] = false,
             ["collidable"] = true
           },
           objectGroup = {
@@ -682,30 +709,35 @@ return {
         {
           id = 24,
           properties = {
+            ["background"] = false,
             ["collidable"] = false
           }
         },
         {
           id = 25,
           properties = {
+            ["background"] = false,
             ["collidable"] = false
           }
         },
         {
           id = 26,
           properties = {
+            ["background"] = false,
             ["collidable"] = false
           }
         },
         {
           id = 27,
           properties = {
+            ["background"] = false,
             ["collidable"] = false
           }
         },
         {
           id = 28,
           properties = {
+            ["background"] = false,
             ["collidable"] = true
           },
           objectGroup = {
@@ -737,6 +769,7 @@ return {
         {
           id = 29,
           properties = {
+            ["background"] = false,
             ["collidable"] = true
           },
           objectGroup = {
@@ -768,18 +801,21 @@ return {
         {
           id = 30,
           properties = {
+            ["background"] = false,
             ["collidable"] = false
           }
         },
         {
           id = 31,
           properties = {
+            ["background"] = false,
             ["collidable"] = false
           }
         },
         {
           id = 32,
           properties = {
+            ["background"] = false,
             ["collidable"] = false
           },
           objectGroup = {
@@ -797,18 +833,21 @@ return {
         {
           id = 33,
           properties = {
+            ["background"] = false,
             ["collidable"] = false
           }
         },
         {
           id = 34,
           properties = {
+            ["background"] = false,
             ["collidable"] = false
           }
         },
         {
           id = 35,
           properties = {
+            ["background"] = false,
             ["collidable"] = false
           }
         }
@@ -841,96 +880,112 @@ return {
         {
           id = 0,
           properties = {
+            ["background"] = true,
             ["collidable"] = false
           }
         },
         {
           id = 1,
           properties = {
+            ["background"] = true,
             ["collidable"] = false
           }
         },
         {
           id = 2,
           properties = {
+            ["background"] = true,
             ["collidable"] = false
           }
         },
         {
           id = 3,
           properties = {
+            ["background"] = true,
             ["collidable"] = false
           }
         },
         {
           id = 4,
           properties = {
+            ["background"] = true,
             ["collidable"] = false
           }
         },
         {
           id = 5,
           properties = {
+            ["background"] = true,
             ["collidable"] = false
           }
         },
         {
           id = 6,
           properties = {
+            ["background"] = true,
             ["collidable"] = false
           }
         },
         {
           id = 7,
           properties = {
+            ["background"] = true,
             ["collidable"] = false
           }
         },
         {
           id = 8,
           properties = {
+            ["background"] = true,
             ["collidable"] = false
           }
         },
         {
           id = 9,
           properties = {
+            ["background"] = true,
             ["collidable"] = false
           }
         },
         {
           id = 10,
           properties = {
+            ["background"] = true,
             ["collidable"] = false
           }
         },
         {
           id = 11,
           properties = {
+            ["background"] = true,
             ["collidable"] = false
           }
         },
         {
           id = 12,
           properties = {
+            ["background"] = true,
             ["collidable"] = false
           }
         },
         {
           id = 13,
           properties = {
+            ["background"] = true,
             ["collidable"] = false
           }
         },
         {
           id = 14,
           properties = {
+            ["background"] = true,
             ["collidable"] = false
           }
         },
         {
           id = 15,
           properties = {
+            ["background"] = true,
             ["collidable"] = false
           }
         }
@@ -963,12 +1018,14 @@ return {
         {
           id = 0,
           properties = {
+            ["background"] = true,
             ["collidable"] = false
           }
         },
         {
           id = 1,
           properties = {
+            ["background"] = true,
             ["collidable"] = false
           }
         }
@@ -1015,23 +1072,23 @@ return {
       properties = {},
       encoding = "lua",
       data = {
-        38, 37, 37, 38, 38, 38, 37, 38, 37, 38, 38, 37, 38, 38, 37, 38, 38, 37, 37, 38, 38, 37, 37, 37, 38, 38, 37, 37, 37, 37,
-        37, 38, 37, 38, 37, 38, 38, 37, 37, 37, 38, 38, 37, 37, 37, 37, 38, 37, 37, 37, 38, 38, 37, 38, 37, 37, 38, 38, 38, 38,
-        37, 37, 37, 38, 37, 38, 38, 38, 37, 37, 37, 37, 38, 37, 37, 38, 37, 37, 37, 37, 37, 37, 37, 37, 37, 38, 37, 38, 37, 38,
-        38, 38, 37, 38, 37, 38, 38, 38, 37, 37, 37, 37, 37, 38, 37, 38, 38, 37, 38, 38, 38, 37, 37, 38, 37, 38, 37, 37, 37, 37,
-        37, 38, 37, 37, 37, 37, 37, 37, 38, 37, 38, 38, 37, 38, 38, 37, 38, 38, 37, 38, 37, 38, 37, 38, 37, 37, 37, 38, 37, 37,
-        37, 37, 38, 38, 37, 37, 37, 37, 37, 37, 37, 38, 38, 38, 38, 38, 37, 37, 37, 37, 37, 37, 37, 38, 37, 38, 37, 38, 38, 37,
-        38, 38, 38, 38, 38, 37, 38, 37, 38, 37, 37, 37, 37, 38, 38, 38, 38, 38, 37, 37, 38, 38, 38, 37, 37, 37, 37, 37, 37, 37,
-        38, 37, 37, 37, 37, 37, 37, 38, 41, 43, 37, 37, 37, 37, 38, 37, 37, 37, 37, 37, 38, 37, 38, 38, 38, 38, 38, 37, 37, 38,
-        37, 37, 38, 38, 37, 37, 37, 41, 40, 44, 43, 38, 37, 38, 37, 37, 38, 37, 38, 38, 38, 37, 38, 37, 37, 37, 37, 37, 37, 37,
-        38, 37, 38, 38, 37, 38, 37, 45, 0, 0, 47, 37, 37, 38, 37, 37, 37, 37, 37, 37, 37, 38, 38, 37, 38, 37, 38, 38, 37, 37,
-        38, 38, 38, 37, 38, 38, 37, 49, 50, 50, 51, 38, 37, 37, 38, 37, 37, 38, 37, 37, 38, 37, 38, 38, 38, 37, 37, 37, 37, 38,
-        37, 38, 38, 38, 37, 37, 37, 38, 38, 38, 37, 37, 38, 37, 37, 38, 38, 38, 37, 37, 38, 38, 37, 37, 37, 38, 38, 38, 37, 38,
-        38, 37, 37, 38, 37, 37, 38, 37, 38, 38, 37, 38, 37, 38, 38, 37, 38, 38, 38, 37, 38, 38, 38, 38, 38, 37, 37, 37, 38, 38,
-        37, 38, 38, 38, 37, 38, 37, 37, 38, 37, 38, 38, 37, 38, 37, 37, 37, 37, 38, 37, 37, 38, 38, 37, 37, 37, 38, 37, 38, 37,
-        37, 38, 37, 37, 37, 38, 38, 37, 38, 37, 37, 37, 38, 37, 37, 37, 37, 38, 37, 38, 37, 38, 37, 38, 38, 37, 38, 38, 38, 37,
-        38, 37, 38, 38, 37, 38, 38, 37, 38, 37, 37, 38, 38, 38, 37, 38, 37, 38, 38, 37, 37, 38, 37, 37, 38, 38, 38, 38, 37, 37,
-        37, 37, 37, 37, 38, 38, 38, 37, 37, 37, 38, 38, 37, 37, 38, 37, 37, 37, 38, 37, 38, 38, 37, 37, 38, 38, 37, 37, 37, 37
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 37, 38, 37, 37, 37, 37, 38, 38, 38, 38, 38, 37, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 37, 37, 38, 41, 43, 37, 37, 37, 37, 38, 37, 37, 37, 37, 37, 38, 0, 0, 0, 0, 0, 38, 37, 37, 38,
+        0, 0, 0, 0, 0, 37, 37, 41, 40, 44, 43, 38, 37, 38, 37, 37, 38, 37, 38, 38, 38, 37, 38, 37, 37, 37, 37, 37, 37, 37,
+        0, 0, 0, 0, 0, 38, 37, 45, 0, 0, 47, 37, 37, 38, 37, 37, 37, 37, 37, 37, 37, 38, 38, 37, 38, 37, 38, 38, 37, 37,
+        0, 0, 0, 0, 0, 38, 37, 49, 50, 50, 51, 38, 37, 37, 38, 37, 37, 38, 37, 37, 38, 37, 38, 38, 38, 37, 37, 37, 37, 38,
+        0, 0, 0, 0, 0, 0, 37, 38, 38, 38, 37, 37, 38, 37, 37, 38, 38, 38, 37, 37, 38, 38, 37, 37, 37, 38, 38, 38, 37, 38,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 38, 37, 38, 38, 38, 37, 38, 38, 38, 38, 38, 37, 37, 37, 38, 38,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
       }
     },
     {

@@ -1,5 +1,7 @@
 function newPlayer(playerX, playerY)
     local player = {}
+    player.prevX = playerX
+    player.prevY = playerY
     player.x = playerX
     player.y = playerY
     player.width = 15
@@ -55,6 +57,8 @@ function newPlayer(playerX, playerY)
     end
 
     function player:act()
+        player.prevX = player.x
+        player.prevY = player.y
         player:checkGrounded()
 		player:physics()
         if player.jumpAble then
@@ -65,12 +69,22 @@ function newPlayer(playerX, playerY)
         end
         player:xMovement()
         player:animations()
+        player:levelTransition()
 
         debugPrint("player.x: " .. player.x)
         debugPrint("player.y: " .. player.y)
         debugPrint("player.xVelocity: " .. player.xVelocity)
         debugPrint("player.yVelocity: " .. player.yVelocity)
         debugPrint("player.grounded: " .. tostring(player.grounded))
+    end
+
+    function player:levelTransition()
+        if player.x + player.width <= 0 then
+            setupLevel(chosenMap.properties["leftMap"], 480 - player.width, player)
+        elseif player.x >= 480 then
+            setupLevel(chosenMap.properties["rightMap"], 0, player.prevY)
+        end
+        print(player.x)
     end
 
    	function player:jump()
@@ -144,10 +158,8 @@ function newPlayer(playerX, playerY)
             player.yVelocity = player.yTerminalVelocity
         end
 
-        print(player.jumpAbleCounter, player.jumpAbleDuration)
         if player.jumpAbleCounter <= player.jumpAbleDuration and player.jumpAble then
             player.jumpAbleCounter = player.jumpAbleCounter + 1
-            print("hi")
         else
             player.jumpAble = false
             player.jumpAbleCounter = 0

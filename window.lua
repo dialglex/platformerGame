@@ -30,6 +30,7 @@ function getScale()
 end
 
 function resolution()
+	scale = getScale()
 	xWindowSize, yWindowSize = love.graphics.getDimensions()
 	if windowAspectRatio == 16 / 9 then
 		if keyPress["1"] then

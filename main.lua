@@ -8,29 +8,33 @@ require("draw")
 
 function love.load()
 	windowSetup()
-	loading()
-	chosenMap = require("levels/RPG/grassland/introduction3")
-	getImages()
+	drawLoadingScreen()
 
 	keyPress = {}
 	keyDown = {}
-
 	hitboxes = {}
 	debug = false
 	debugStrings = {"debug"}
 
-	setupLevel(chosenMap)
+	setupLevel("levels/RPG/grassland/introduction1")
+	getImages()
 end
 
 function love.update()
 	windowCheck()
 	resolution()
-	cursorType()
+	--cursorType()
+
+	if not debug then
+		frameStep = false
+	elseif keyPress["f"] then
+		frameStep = true
+	end
 
 	if keyPress["d"] then
 		debug = not debug
 		keyPress = {}
-	elseif not debug or (debug and keyPress["f"]) then
+	elseif not (debug and frameStep and not keyPress["f"]) then
 		gameLogic()
     	keyPress = {}
     end
@@ -52,5 +56,6 @@ function love.draw()
 	setScreenCanvas()
 	drawScreen()
 	drawDebug()
+	drawFPS()
 	drawScreenCanvas()
 end

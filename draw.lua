@@ -1,6 +1,7 @@
 function getImages()
 	lowResolutionBackground = love.graphics.newImage("images/backgrounds/lowResolutionBackground.png")
 	background = love.graphics.newImage(string.sub(chosenMap.properties["background"], 10))
+	textfont = love.graphics.newImageFont("Images/Fonts/TextFont.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!/-+/():;%&`'{}|~$@^_<>") --bugs out with \
 	screenCanvas = love.graphics.newCanvas(xWindowSize, yWindowSize)
 	backgroundCanvas = love.graphics.newCanvas(7680, 4320)
 end
@@ -35,6 +36,13 @@ function drawDebug()
         end
         love.graphics.setColor(255, 255, 255)
     end
+end
+
+function drawFPS()
+	if not debug then
+		love.graphics.setFont(textfont)
+		love.graphics.print("Current FPS: "..tostring(love.timer.getFPS()), 4, 4)
+	end
 end
 
 function setScreenCanvas()
