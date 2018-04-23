@@ -1,7 +1,7 @@
 function getImages()
 	lowResolutionBackground = love.graphics.newImage("images/backgrounds/lowResolutionBackground.png")
 	backgroundImage = love.graphics.newImage(string.sub(chosenMap.properties["background"], 10))
-	textfont = love.graphics.newImageFont("Images/Fonts/TextFont.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!/-+/():;%&`'{}|~$@^_<>") --bugs out with \
+	textfont = love.graphics.newImageFont("images/fonts/textFont.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!/-+/():;%&`'{}|~$@^_<>") --bugs out with \
 	screenCanvas = love.graphics.newCanvas(xWindowSize, yWindowSize)
 	lowResolutionBackgroundCanvas = love.graphics.newCanvas(7680, 4320)
 end
