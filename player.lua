@@ -1,7 +1,7 @@
 function newPlayer(playerX, playerY)
     local player = {}
-    player.prevX = playerX
-    player.prevY = playerY
+    player.previousX = playerX
+    player.previousY = playerY
     player.x = playerX
     player.y = playerY
     player.width = 15
@@ -57,8 +57,8 @@ function newPlayer(playerX, playerY)
     end
 
     function player:act()
-        player.prevX = player.x
-        player.prevY = player.y
+        player.previousX = player.x
+        player.previousY = player.y
         player:checkGrounded()
 		player:physics()
         if player.jumpAble then
@@ -80,11 +80,24 @@ function newPlayer(playerX, playerY)
 
     function player:levelTransition()
         if player.x + player.width <= 0 then
-            setupLevel(chosenMap.properties["leftMap"], 480 - player.width, player)
+            setupLevel(leftMap, player)
+            player.x = 480 - player.width
+            player.y = player.previousY
         elseif player.x >= 480 then
-            setupLevel(chosenMap.properties["rightMap"], 0, player.prevY)
+            setupLevel(rightMap, player)
+            player.x = 0
+            player.y = player.previousY
         end
-        print(player.x)
+
+        if player.y + player.height <= 0 then
+            setupLevel(topMap, player)
+            player.x = player.previousX
+            player.y = 270 - player.height
+        elseif player.y >= 270 then
+            setupLevel(bottomMap, player)
+            player.x = player.previousX
+            player.y = 0
+        end
     end
 
    	function player:jump()

@@ -16,7 +16,7 @@ function love.load()
 	debug = false
 	debugStrings = {"debug"}
 
-	setupLevel("levels/RPG/grassland/introduction1")
+	setupLevel("levels/RPG/grassland/end1")
 	getImages()
 end
 

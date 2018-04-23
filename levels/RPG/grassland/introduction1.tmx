@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" tiledversion="1.1.1" orientation="orthogonal" renderorder="right-down" width="30" height="17" tilewidth="16" tileheight="16" infinite="0" nextobjectid="1">
  <properties>
-  <property name="background" type="file" value="../../../images/backgrounds/grassland.png"/>
+  <property name="background" type="file" value="../../../images/backgrounds/black.png"/>
   <property name="rightMap" value="levels/RPG/grassland/introduction2"/>
  </properties>
  <tileset firstgid="1" source="../../tiles/grass.tsx"/>

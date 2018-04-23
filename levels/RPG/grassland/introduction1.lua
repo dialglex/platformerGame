@@ -10,7 +10,7 @@ return {
   tileheight = 16,
   nextobjectid = 1,
   properties = {
-    ["background"] = "../../../images/backgrounds/grassland.png",
+    ["background"] = "../../../images/backgrounds/black.png",
     ["rightMap"] = "levels/RPG/grassland/introduction2"
   },
   tilesets = {

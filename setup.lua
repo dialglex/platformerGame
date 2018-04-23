@@ -8,11 +8,7 @@ function drawLoadingScreen()
 	love.graphics.present()
 end
 
-function drawScreenTransition()
-
-end
-
-function setupLevel(newMap, playerX, playerY)
+function setupLevel(newMap, oldPlayer)
 	actors = {}
 	chosenMap = require(newMap)
 	for _, layer in ipairs(chosenMap.layers) do
@@ -31,10 +27,10 @@ function setupLevel(newMap, playerX, playerY)
                 			local blockQuad = love.graphics.newQuad(tileX * tilesetData.tilewidth, tileY * tilesetData.tileheight, tilesetData.tilewidth, tilesetData.tileheight, tilesetData.imagewidth, tilesetData.imageheight)
 
 							if layer.name == "player" then
-								if playerX == nil and playerY == nil then
+								if oldPlayer == nil then
                 					table.insert(actors, newPlayer(mapX * 16, (mapY * 16) - 8))
                 				else
-                					table.insert(actors, newPlayer(playerX, playerY))
+                					table.insert(actors, oldPlayer)
                 				end
                 			else
                 				local tile = tilesetData.tiles[tileID+1]
@@ -53,4 +49,9 @@ function setupLevel(newMap, playerX, playerY)
 			end
 		end
 	end
+	backgroundImage = love.graphics.newImage(string.sub(chosenMap.properties["background"], 10))
+	leftMap = chosenMap.properties["leftMap"]
+	rightMap = chosenMap.properties["rightMap"]
+	topMap = chosenMap.properties["topMap"]
+	bottomMap = chosenMap.properties["bottomMap"]
 end
