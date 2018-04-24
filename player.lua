@@ -25,7 +25,7 @@ function newPlayer(playerX, playerY)
     player.actor = "player"
 
     player.jumpAble = true
-    player.jumpAbleDuration = 0.05 * 60
+    player.jumpAbleDuration = 0.03 * 60
     player.jumpAbleCounter = 0
 
     player.runCounter = 0

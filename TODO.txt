@@ -1,4 +1,5 @@
 TODO:
+* Fix x max speed
 * Preloading levels
 * Variable jump heights
 * Dust

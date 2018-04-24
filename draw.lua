@@ -1,24 +1,22 @@
 function getImages()
 	lowResolutionBackground = love.graphics.newImage("images/backgrounds/lowResolutionBackground.png")
-	backgroundImage = love.graphics.newImage(string.sub(chosenMap.properties["background"], 10))
 	textfont = love.graphics.newImageFont("images/fonts/textFont.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!/-+/():;%&`'{}|~$@^_<>") --bugs out with \
 	screenCanvas = love.graphics.newCanvas(xWindowSize, yWindowSize)
 	lowResolutionBackgroundCanvas = love.graphics.newCanvas(7680, 4320)
 end
 
 function drawScreen()
-	love.graphics.setColor(255, 255, 255)
 	love.graphics.draw(backgroundImage)
 
+	love.graphics.draw(backgroundCanvas)
 	for _, actor in ipairs(actors) do
 		actor:draw()
 		love.graphics.setCanvas(screenCanvas)
 		if actor.actor == "player" then
         	love.graphics.draw(actor.canvas, actor:getX() - 3, actor:getY() - 1)
-        else
-        	love.graphics.draw(actor.canvas, actor:getX(), actor:getY())
         end
     end
+    love.graphics.draw(foregroundCanvas)
 end
 
 function drawDebug()

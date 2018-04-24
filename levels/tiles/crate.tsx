@@ -3,6 +3,7 @@
  <image source="../../images/tiles/crate.png" width="32" height="32"/>
  <tile id="0">
   <properties>
+   <property name="background" type="bool" value="false"/>
    <property name="collidable" type="bool" value="true"/>
   </properties>
   <objectgroup draworder="index">
@@ -11,6 +12,7 @@
  </tile>
  <tile id="1">
   <properties>
+   <property name="background" type="bool" value="false"/>
    <property name="collidable" type="bool" value="true"/>
   </properties>
   <objectgroup draworder="index">
@@ -19,6 +21,7 @@
  </tile>
  <tile id="2">
   <properties>
+   <property name="background" type="bool" value="false"/>
    <property name="collidable" type="bool" value="true"/>
   </properties>
   <objectgroup draworder="index">
@@ -27,6 +30,7 @@
  </tile>
  <tile id="3">
   <properties>
+   <property name="background" type="bool" value="false"/>
    <property name="collidable" type="bool" value="true"/>
   </properties>
   <objectgroup draworder="index">

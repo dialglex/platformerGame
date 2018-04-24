@@ -16,6 +16,7 @@ function love.load()
 	debug = false
 	debugStrings = {"debug"}
 
+	grasslandMaps = love.filesystem.getDirectoryItems()
 	setupLevel("levels/RPG/grassland/introduction1")
 	getImages()
 end

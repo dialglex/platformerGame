@@ -36,11 +36,11 @@ function setupLevel(newMap, oldPlayer)
                 				local tile = tilesetData.tiles[tileID+1]
                 				if tile.properties["collidable"] then
                 					local tileHitbox = tile.objectGroup.objects[1]
-                					table.insert(actors, newTile(tileX, tileY, tilesetData.tilewidth, tilesetData.tileheight, mapX * 16, mapY * 16,
-                						blockQuad, tileset, tile.properties["collidable"], tile.properties["background"], tileHitbox.x, tileHitbox.y, tileHitbox.width, tileHitbox.height))
+                					table.insert(actors, newTile(tileX, tileY, tilesetData.tilewidth, tilesetData.tileheight, mapX * 16, mapY * 16, blockQuad,
+                						tileset, tile.properties["collidable"], tile.properties["background"], tileHitbox.x, tileHitbox.y, tileHitbox.width, tileHitbox.height))
                 				else
-                					table.insert(actors, newTile(tileX, tileY, tilesetData.tilewidth, tilesetData.tileheight, mapX * 16, mapY * 16,
-                						blockQuad, tileset, tile.properties["collidable"], tile.properties["background"]))
+                					table.insert(actors, newTile(tileX, tileY, tilesetData.tilewidth, tilesetData.tileheight, mapX * 16, mapY * 16, blockQuad,
+                						tileset, tile.properties["collidable"], tile.properties["background"]))
                 				end
                 			end
 						end
@@ -50,6 +50,20 @@ function setupLevel(newMap, oldPlayer)
 		end
 	end
 	backgroundImage = love.graphics.newImage(string.sub(chosenMap.properties["background"], 10))
+	backgroundCanvas = love.graphics.newCanvas(xWindowSize, yWindowSize)
+	foregroundCanvas = love.graphics.newCanvas(xWindowSize, yWindowSize)
+	for _, actor in ipairs(actors) do
+		actor:draw()
+		if actor.actor == "tile" then
+			if actor.background then
+				love.graphics.setCanvas(backgroundCanvas)
+			else
+				love.graphics.setCanvas(foregroundCanvas)
+			end
+			love.graphics.draw(actor.canvas, actor:getX(), actor:getY())
+			love.graphics.setCanvas()
+        end
+    end
 	leftMap = chosenMap.properties["leftMap"]
 	rightMap = chosenMap.properties["rightMap"]
 	topMap = chosenMap.properties["topMap"]
