@@ -8,8 +8,27 @@ function drawLoadingScreen()
 	love.graphics.present()
 end
 
+function setupCanvases()
+	backgroundCanvas = love.graphics.newCanvas(xWindowSize, yWindowSize)
+	foregroundCanvas = love.graphics.newCanvas(xWindowSize, yWindowSize)
+
+	for _, actor in ipairs(actors) do
+		actor:draw()
+		if actor.actor == "tile" then
+			if actor.background then
+				love.graphics.setCanvas(backgroundCanvas)
+			else
+				love.graphics.setCanvas(foregroundCanvas)
+			end
+			love.graphics.draw(actor.canvas, actor:getX(), actor:getY())
+			love.graphics.setCanvas()
+        end
+    end
+end
+
 function setupLevel(newMap, oldPlayer)
 	actors = {}
+	--chosenMap = newMap
 	chosenMap = require(newMap)
 	for _, layer in ipairs(chosenMap.layers) do
 		for _, tilesetData in ipairs(chosenMap.tilesets) do
@@ -26,21 +45,21 @@ function setupLevel(newMap, oldPlayer)
 
                 			local blockQuad = love.graphics.newQuad(tileX * tilesetData.tilewidth, tileY * tilesetData.tileheight, tilesetData.tilewidth, tilesetData.tileheight, tilesetData.imagewidth, tilesetData.imageheight)
 
-							if layer.name == "player" then
-								if oldPlayer == nil then
+							if oldPlayer == nil then
+								if layer.name == "player" then
                 					table.insert(actors, newPlayer(mapX * 16, (mapY * 16) - 8))
-                				else
-                					table.insert(actors, oldPlayer)
                 				end
-                			else
+                			end
+                			
+                			if layer.name ~= "player" then
                 				local tile = tilesetData.tiles[tileID+1]
                 				if tile.properties["collidable"] then
                 					local tileHitbox = tile.objectGroup.objects[1]
                 					table.insert(actors, newTile(tileX, tileY, tilesetData.tilewidth, tilesetData.tileheight, mapX * 16, mapY * 16, blockQuad,
-                						tileset, tile.properties["collidable"], tile.properties["background"], tileHitbox.x, tileHitbox.y, tileHitbox.width, tileHitbox.height))
+                						tileset, tile.properties["collidable"], tile.properties["background"], tile.properties["ladder"], tile.properties["interactable"], tileHitbox.x, tileHitbox.y, tileHitbox.width, tileHitbox.height))
                 				else
                 					table.insert(actors, newTile(tileX, tileY, tilesetData.tilewidth, tilesetData.tileheight, mapX * 16, mapY * 16, blockQuad,
-                						tileset, tile.properties["collidable"], tile.properties["background"]))
+                						tileset, tile.properties["collidable"], tile.properties["background"], tile.properties["ladder"], tile.properties["interactable"]))
                 				end
                 			end
 						end
@@ -49,23 +68,17 @@ function setupLevel(newMap, oldPlayer)
 			end
 		end
 	end
+
+	if oldPlayer ~= nil then
+	    table.insert(actors, oldPlayer)
+	end
+
 	backgroundImage = love.graphics.newImage(string.sub(chosenMap.properties["background"], 10))
-	backgroundCanvas = love.graphics.newCanvas(xWindowSize, yWindowSize)
-	foregroundCanvas = love.graphics.newCanvas(xWindowSize, yWindowSize)
-	for _, actor in ipairs(actors) do
-		actor:draw()
-		if actor.actor == "tile" then
-			if actor.background then
-				love.graphics.setCanvas(backgroundCanvas)
-			else
-				love.graphics.setCanvas(foregroundCanvas)
-			end
-			love.graphics.draw(actor.canvas, actor:getX(), actor:getY())
-			love.graphics.setCanvas()
-        end
-    end
+	setupCanvases()
+
 	leftMap = chosenMap.properties["leftMap"]
 	rightMap = chosenMap.properties["rightMap"]
 	topMap = chosenMap.properties["topMap"]
 	bottomMap = chosenMap.properties["bottomMap"]
 end
+

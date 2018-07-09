@@ -2,7 +2,7 @@ function windowSetup()
 	xWindowSize, yWindowSize = love.window.getDesktopDimensions(1)
 	scale = getScale()
 
-	love.window.setMode(xWindowSize, yWindowSize, {display = 1, centered = true})
+	love.window.setMode(xWindowSize, yWindowSize, {display = 1, centered = true, resizable = true})
 	windowAspectRatio = xWindowSize / yWindowSize
 	love.graphics.setDefaultFilter("nearest", "nearest")
 
@@ -16,8 +16,8 @@ function windowSetup()
 	gameIconImageData = gameIconCanvas:newImageData()
 	love.window.setIcon(gameIconImageData)
 
-	love.mouse.setGrabbed(true)
-	love.mouse.setVisible(false)
+	love.mouse.setGrabbed(false)
+	love.mouse.setVisible(true)
 end
 
 function getScale()
@@ -35,58 +35,76 @@ function resolution()
 	if windowAspectRatio == 16 / 9 then
 		if keyPress["1"] then
 			love.window.setMode(1024, 576, {display = 1, centered = true})
+			setupCanvases()
 		end
 		if keyPress["2"] then
 			love.window.setMode(1152, 648, {display = 1, centered = true})
+			setupCanvases()
 		end
 		if keyPress["3"] then
 			love.window.setMode(1280, 720, {display = 1, centered = true})
+			setupCanvases()
 		end
 		if keyPress["4"] then
 			love.window.setMode(1366, 768, {display = 1, centered = true})
+			setupCanvases()
 		end
 		if keyPress["5"] then
 			love.window.setMode(1600, 900, {display = 1, centered = true})
+			setupCanvases()
 		end
 		if keyPress["6"] then
 			love.window.setMode(1920, 1080, {display = 1, centered = true})
+			setupCanvases()
 		end
 		if keyPress["7"] then
 			love.window.setMode(2560, 1440, {display = 1, centered = true})
+			setupCanvases()
 		end
 		if keyPress["8"] then
 			love.window.setMode(3840, 2160, {display = 1, centered = true})
+			setupCanvases()
 		end
 		if keyPress["9"] then
 			love.window.setMode(7680, 4320, {display = 1, centered = true})
+			setupCanvases()
 		end
 	elseif windowAspectRatio == 4 / 3 then
 		if keyPress["1"] then
 			love.window.setMode(640, 480, {display = 1, centered = true})
+			setupCanvases()
 		end
 		if keyPress["2"] then
 			love.window.setMode(800, 600, {display = 1, centered = true})
+			setupCanvases()
 		end
 		if keyPress["3"] then
 			love.window.setMode(960, 720, {display = 1, centered = true})
+			setupCanvases()
 		end
 		if keyPress["4"] then
 			love.window.setMode(1024, 768, {display = 1, centered = true})
+			setupCanvases()
 		end
 		if keyPress["5"] then
 			love.window.setMode(1280, 960, {display = 1, centered = true})
+			setupCanvases()
 		end
 		if keyPress["6"] then
 			love.window.setMode(1400, 1050, {display = 1, centered = true})
+			setupCanvases()
 		end
 		if keyPress["7"] then
 			love.window.setMode(1440, 1080, {display = 1, centered = true})
+			setupCanvases()
 		end
 		if keyPress["8"] then
 			love.window.setMode(1600, 1200, {display = 1, centered = true})
+			setupCanvases()
 		end
 		if keyPress["9"] then
 			love.window.setMode(1856, 1392, {display = 1, centered = true})
+			setupCanvases()
 		end
 	end
 

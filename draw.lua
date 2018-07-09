@@ -5,13 +5,18 @@ function getImages()
 	lowResolutionBackgroundCanvas = love.graphics.newCanvas(7680, 4320)
 end
 
+local function stencil()
+   love.graphics.rectangle("fill", 100, 100, 1000, 1000)
+end
 function drawScreen()
 	love.graphics.draw(backgroundImage)
 
+	--love.graphics.stencil(stencil, "replace", 1)
+	--love.graphics.setStencilTest("greater", 0)
 	love.graphics.draw(backgroundCanvas)
 	for _, actor in ipairs(actors) do
 		actor:draw()
-		love.graphics.setCanvas(screenCanvas)
+		love.graphics.setCanvas(screenCanvas)--, stencil = true)
 		if actor.actor == "player" then
         	love.graphics.draw(actor.canvas, actor:getX() - 3, actor:getY() - 1)
         end

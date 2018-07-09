@@ -3,11 +3,13 @@
  <image source="../../images/tiles/house.png" width="144" height="132"/>
  <tile id="0">
   <properties>
+   <property name="background" type="bool" value="true"/>
    <property name="collidable" type="bool" value="false"/>
   </properties>
  </tile>
  <tile id="1">
   <properties>
+   <property name="background" type="bool" value="true"/>
    <property name="collidable" type="bool" value="false"/>
   </properties>
  </tile>

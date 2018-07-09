@@ -1,4 +1,4 @@
-function newTile(tileX, tileY, tileWidth, tileHeight, mapX, mapY, tileQuad, tileset, tileCollidable, tileBackground, hitboxX, hitboxY, hitboxWidth, hitboxHeight)
+function newTile(tileX, tileY, tileWidth, tileHeight, mapX, mapY, tileQuad, tileset, tileCollidable, tileBackground, tileLadder, tileInteractable, hitboxX, hitboxY, hitboxWidth, hitboxHeight)
 	local tile = {}
 	tile.x = mapX
 	tile.y = mapY - (tileHeight - 16)
@@ -6,6 +6,8 @@ function newTile(tileX, tileY, tileWidth, tileHeight, mapX, mapY, tileQuad, tile
 	tile.height = tileHeight
 	tile.collidable = tileCollidable
 	tile.background = tileBackground
+	tile.ladder = tileLadder
+	tile.interactable = tileInteractable
 	tile.quad = tileQuad
 	tile.actor = "tile"
 

@@ -1,29 +1,10 @@
 TODO:
-* Fix x max speed
-* Preloading levels
-* Variable jump heights
 * Dust
-* Grass animations
-* Ladders
+* Armor
+* Animated tiles
+* Animated grass
+* Preloading levels
+* Interactable talking NPCs
 * Menu
-
-
-
-
-
-
-
-
-
-
-IDEAS:
-areas:
-1. grass
-2. sand
-3. cave
-4. ice
-5. water
-6. jungle/ruins
-7. mechanical/robotland
-8. volcano/magma
-9. spooky/corrupted
+* Ladders
+* More levels

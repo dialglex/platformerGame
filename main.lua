@@ -5,6 +5,7 @@ require("window")
 require("input")
 require("setup")
 require("draw")
+require("require")
 
 function love.load()
 	windowSetup()
@@ -16,7 +17,8 @@ function love.load()
 	debug = false
 	debugStrings = {"debug"}
 
-	grasslandMaps = love.filesystem.getDirectoryItems()
+	luaLevels = require.tree('levels/RPG')
+	--setupLevel(luaLevels.grassland.introduction1)
 	setupLevel("levels/RPG/grassland/introduction1")
 	getImages()
 end

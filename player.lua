@@ -14,16 +14,20 @@ function newPlayer(playerX, playerY)
 
     player.xVelocity = 0
     player.yVelocity = 0
+    player.previousYVelocity = 0
     player.xAcceleration = 0.5
     player.xDeceleration = 0.15
-    player.xTerminalVelocity = 1.65
-    player.jumpAcceleration = 6
+    player.xTerminalVelocity = 1.80
+    player.jumpAcceleration = 4.25
     player.fallAcceleration = 0.225
     player.yTerminalVelocity = 8
     player.directon = "right"
     player.grounded = true
+    player.onLadder = false
     player.actor = "player"
 
+    player.jumpHoldDuration = 0.15 * 60
+    player.jumpHoldCounter = 0
     player.jumpAble = true
     player.jumpAbleDuration = 0.03 * 60
     player.jumpAbleCounter = 0
@@ -44,7 +48,8 @@ function newPlayer(playerX, playerY)
 
     player.dustLeftSpritesheet = love.graphics.newImage("images/player/playerDustLeftSpritesheet.png")
     player.dustRightSpritesheet = love.graphics.newImage("images/player/playerDustRightSpritesheet.png")
-    player.dustJumpSpritesheet = love.graphics.newImage("images/player/playerDustJumpSpritesheet.png")
+    player.playerDustJumpSpritesheet = love.graphics.newImage("images/player/playerDustJumpSpritesheet.png")
+    player.spritesheet = love.graphics.newImage("images/player/playerDustJumpSpritesheet.png")
 
 	player.canvas = love.graphics.newCanvas(21, 26)
 
@@ -60,14 +65,17 @@ function newPlayer(playerX, playerY)
         player.previousX = player.x
         player.previousY = player.y
         player:checkGrounded()
-		player:physics()
+        player:ladder()
         if player.jumpAble then
             player:jump()
         end
-        if player.grounded == false then
-            player:airPhysics()
+        if player.onLadder == false then
+            player:physics()
+            player:xMovement()
+            if player.grounded == false then
+                player:airPhysics()
+            end
         end
-        player:xMovement()
         player:animations()
         player:levelTransition()
 
@@ -76,6 +84,33 @@ function newPlayer(playerX, playerY)
         debugPrint("player.xVelocity: " .. player.xVelocity)
         debugPrint("player.yVelocity: " .. player.yVelocity)
         debugPrint("player.grounded: " .. tostring(player.grounded))
+    end
+
+    function player:ladder()
+        if keyPress["up"] then
+            if player.onLadder == false then
+                player.onLadder = true
+                print("on")
+            end
+        end
+
+        if true then
+            if keyPress["space"] or keyPress["left"] or keyPress["right"] then
+                if player.onLadder then
+                    player.onLadder = false
+                    player.jumpAble = true
+                    player.yVelocity = 0
+                    print("off")
+                end
+            end
+            if player.onLadder then
+                if keyDown["up"] then
+                    player.y = player.y - 2
+                elseif keyDown["down"] then
+                    player.y = player.y + 2
+                end
+            end
+        end
     end
 
     function player:levelTransition()
@@ -103,15 +138,15 @@ function newPlayer(playerX, playerY)
    	function player:jump()
         if keyPress["space"] then
             player.grounded = false
-            player.jumpAble = false
             player.y = player.y - 1
-            player.yVelocity = - player.jumpAcceleration + player.fallAcceleration
+            player.yVelocity = - player.jumpAcceleration
         end
     end
 
     function player:checkGrounded()
         if checkCollision(player:getX(), player:getY() + player.height, player.width, 1) then
             player.grounded = true
+            player.jumpHoldCounter = 0
             player.yVelocity = 0
         else
             player.grounded = false
@@ -145,6 +180,7 @@ function newPlayer(playerX, playerY)
     end
 
     function player:airPhysics()
+        player.previousYVelocity = player.yVelocity
         player.yVelocity = player.yVelocity + player.fallAcceleration
 
         local minYMovement = player.yVelocity
@@ -178,6 +214,11 @@ function newPlayer(playerX, playerY)
             player.jumpAbleCounter = 0
         end
 
+        player.jumpHoldCounter = player.jumpHoldCounter + 1
+        if keyDown["space"] and player.jumpHoldCounter <= player.jumpHoldDuration then
+            player.yVelocity = player.previousYVelocity
+        end
+
         player.y = player.y + minYMovement
     end
 
@@ -185,11 +226,15 @@ function newPlayer(playerX, playerY)
         if love.keyboard.isDown("left") then
             if player.xVelocity > - player.xTerminalVelocity then
                 player.xVelocity = player.xVelocity - player.xAcceleration
+            else
+                player.xVelocity = - player.xTerminalVelocity
             end
             player.direction = "left"
         elseif love.keyboard.isDown("right") then
             if player.xVelocity < player.xTerminalVelocity then
                 player.xVelocity = player.xVelocity + player.xAcceleration
+            else
+                player.xVelocity = player.xTerminalVelocity
             end
             player.direction = "right" 	 
         else
