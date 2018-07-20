@@ -5,6 +5,7 @@ require("window")
 require("input")
 require("setup")
 require("draw")
+require("dust")
 require("require")
 
 function love.load()
@@ -21,12 +22,12 @@ function love.load()
 	--setupLevel(luaLevels.grassland.introduction1)
 	setupLevel("levels/RPG/grassland/introduction1")
 	getImages()
+	cursorType()
 end
 
 function love.update()
 	windowCheck()
 	resolution()
-	--cursorType()
 
 	if not debug then
 		frameStep = false
@@ -50,8 +51,8 @@ end
 function gameLogic()
 	hitboxes = {}
 	debugStrings = {"debug"}
-	for _, actor in ipairs(actors) do
-		actor:act()
+	for index, actor in ipairs(actors) do
+		actor:act(index)
 	end
 end
 

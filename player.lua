@@ -21,10 +21,18 @@ function newPlayer(playerX, playerY)
     player.jumpAcceleration = 4.25
     player.fallAcceleration = 0.225
     player.yTerminalVelocity = 8
+    player.transitioning = false
     player.directon = "right"
     player.grounded = true
+    player.oldGrounded = true
+    player.runDust = false
     player.onLadder = false
     player.actor = "player"
+    player.tileAbove = ""
+    player.tileBelow = ""
+    player.tileLeft = ""
+    player.tileRight = ""
+
 
     player.jumpHoldDuration = 0.15 * 60
     player.jumpHoldCounter = 0
@@ -46,11 +54,6 @@ function newPlayer(playerX, playerY)
     player.jumpLeftSpritesheet = love.graphics.newImage("images/player/playerJumpLeftSpritesheet.png")
     player.jumpRightSpritesheet = love.graphics.newImage("images/player/playerJumpRightSpritesheet.png")
 
-    player.dustLeftSpritesheet = love.graphics.newImage("images/player/playerDustLeftSpritesheet.png")
-    player.dustRightSpritesheet = love.graphics.newImage("images/player/playerDustRightSpritesheet.png")
-    player.playerDustJumpSpritesheet = love.graphics.newImage("images/player/playerDustJumpSpritesheet.png")
-    player.spritesheet = love.graphics.newImage("images/player/playerDustJumpSpritesheet.png")
-
 	player.canvas = love.graphics.newCanvas(21, 26)
 
     function player:getX()
@@ -61,7 +64,7 @@ function newPlayer(playerX, playerY)
         return math.floor(player.y + 0.5)
     end
 
-    function player:act()
+    function player:act(index)
         player.previousX = player.x
         player.previousY = player.y
         player:checkGrounded()
@@ -77,6 +80,7 @@ function newPlayer(playerX, playerY)
             end
         end
         player:animations()
+        player:dust()
         player:levelTransition()
 
         debugPrint("player.x: " .. player.x)
@@ -84,6 +88,10 @@ function newPlayer(playerX, playerY)
         debugPrint("player.xVelocity: " .. player.xVelocity)
         debugPrint("player.yVelocity: " .. player.yVelocity)
         debugPrint("player.grounded: " .. tostring(player.grounded))
+        debugPrint("player.oldGrounded: " .. tostring(player.oldGrounded))
+        debugPrint("player.transitioning: " .. tostring(player.transitioning))
+        debugPrint("player.jumpAble: " .. tostring(player.jumpAble))
+        debugPrint("player.runDust: " .. tostring(player.runDust))
     end
 
     function player:ladder()
@@ -138,12 +146,15 @@ function newPlayer(playerX, playerY)
    	function player:jump()
         if keyPress["space"] then
             player.grounded = false
+            player.jumpAble = false
             player.y = player.y - 1
             player.yVelocity = - player.jumpAcceleration
         end
     end
 
     function player:checkGrounded()
+        player.transitioning = false
+        player.oldGrounded = player.grounded
         if checkCollision(player:getX(), player:getY() + player.height, player.width, 1) then
             player.grounded = true
             player.jumpHoldCounter = 0
@@ -172,6 +183,21 @@ function newPlayer(playerX, playerY)
                 end
             end
         end
+
+        for _, actor in ipairs(getCollidingActors(player:getX() - 16, player:getY(), 16, player.height)) do
+            player.tileLeft = actor.name
+        end
+
+        for _, actor in ipairs(getCollidingActors(player:getX() + player.width, player:getY(), 16, player.height)) do
+            player.tileRight = actor.name
+        end
+        for _, actor in ipairs(getCollidingActors(player:getX(), player:getY() + player.height, player.width, 16)) do
+            player.tileBelow = actor.name
+        end
+        for _, actor in ipairs(getCollidingActors(player:getX(), player:getY() - 16, player.width, 16)) do
+            player.tileAbove = actor.name
+        end
+
         if player.grounded then
             player.jumpAble = true
         end
@@ -253,21 +279,29 @@ function newPlayer(playerX, playerY)
     end
 
     function player:animations()
+        player.runDust = false
+        if player.xVelocity == 0 then
+            player.runQuadSection = 0
+        end
         if player.grounded then
             if player.xVelocity == 0 then
                 if player.idleCounter >= 15 then
                     player.idleQuadSection = player.idleQuadSection + 21
                     player.idleCounter = 0
                 end
-                if player.idleQuadSection >= 63 then
+                if player.idleQuadSection >= 84 then
                     player.idleQuadSection = 0
                     player.idleCounter = 0
                 end
                 player.idleCounter = player.idleCounter + 1
             else
                 if player.runCounter >= 6 then
+                    if player.runQuadSection == 0 or player.runQuadSection == 84 then
+                        player.runDust = true
+                    end
                     player.runQuadSection = player.runQuadSection + 21
                     player.runCounter = 0
+                    
                 end
                 if player.runQuadSection >= 168 then
                     player.runQuadSection = 0
@@ -296,7 +330,7 @@ function newPlayer(playerX, playerY)
             if player.grounded then
                 if player.xVelocity == 0 then
                     player.Spritesheet = player.idleLeftSpritesheet
-                    player.Quad = love.graphics.newQuad(player.idleQuadSection, 0, 21, 26, 63, 26)
+                    player.Quad = love.graphics.newQuad(player.idleQuadSection, 0, 21, 26, 84, 26)
                 else
                     player.Spritesheet = player.runLeftSpritesheet
                     player.Quad = love.graphics.newQuad(player.runQuadSection, 0, 21, 26, 168, 26)
@@ -309,7 +343,7 @@ function newPlayer(playerX, playerY)
             if player.grounded then
                 if player.xVelocity == 0 then
                     player.Spritesheet = player.idleRightSpritesheet
-                    player.Quad = love.graphics.newQuad(player.idleQuadSection, 0, 21, 26, 63, 26)
+                    player.Quad = love.graphics.newQuad(player.idleQuadSection, 0, 21, 26, 84, 26)
                 else
                     player.Spritesheet = player.runRightSpritesheet
                     player.Quad = love.graphics.newQuad(player.runQuadSection, 0, 21, 26, 168, 26)
@@ -320,6 +354,24 @@ function newPlayer(playerX, playerY)
             end
         end
         love.graphics.draw(player.Spritesheet, player.Quad)
+    end
+
+    function player:dust()
+
+        if player.xVelocity ~= 0 and player.grounded and player.runDust then
+            table.insert(actors, newDust(player.x, player.y, "run", player.direction, player.tileBelow))
+        end
+        if player.oldGrounded ~= player.grounded then
+            if player.jumpAble == false or player.oldGrounded == false then
+                if player.oldGrounded then
+                    table.insert(actors, newDust(player.x, player.previousY, "jump", player.direction, player.tileBelow))
+                else
+                    table.insert(actors, newDust(player.x, player.y, "land", player.direction, player.tileBelow))
+                end
+            end
+            player.transitioning = true
+        end
+        player.oldGrounded = player.grounded
     end
 
     return player

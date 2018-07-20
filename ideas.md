@@ -24,6 +24,7 @@
 * spirit
 * mech
 * corrupt
+* bug
 
 ## monsters:
 * basic

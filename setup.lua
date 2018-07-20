@@ -55,10 +55,10 @@ function setupLevel(newMap, oldPlayer)
                 				local tile = tilesetData.tiles[tileID+1]
                 				if tile.properties["collidable"] then
                 					local tileHitbox = tile.objectGroup.objects[1]
-                					table.insert(actors, newTile(tileX, tileY, tilesetData.tilewidth, tilesetData.tileheight, mapX * 16, mapY * 16, blockQuad,
+                					table.insert(actors, newTile(tilesetData.name, tileX, tileY, tilesetData.tilewidth, tilesetData.tileheight, mapX * 16, mapY * 16, blockQuad,
                 						tileset, tile.properties["collidable"], tile.properties["background"], tile.properties["ladder"], tile.properties["interactable"], tileHitbox.x, tileHitbox.y, tileHitbox.width, tileHitbox.height))
                 				else
-                					table.insert(actors, newTile(tileX, tileY, tilesetData.tilewidth, tilesetData.tileheight, mapX * 16, mapY * 16, blockQuad,
+                					table.insert(actors, newTile(tilesetData.name, tileX, tileY, tilesetData.tilewidth, tilesetData.tileheight, mapX * 16, mapY * 16, blockQuad,
                 						tileset, tile.properties["collidable"], tile.properties["background"], tile.properties["ladder"], tile.properties["interactable"]))
                 				end
                 			end

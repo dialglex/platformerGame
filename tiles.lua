@@ -1,5 +1,6 @@
-function newTile(tileX, tileY, tileWidth, tileHeight, mapX, mapY, tileQuad, tileset, tileCollidable, tileBackground, tileLadder, tileInteractable, hitboxX, hitboxY, hitboxWidth, hitboxHeight)
+function newTile(tileName, tileX, tileY, tileWidth, tileHeight, mapX, mapY, tileQuad, tileset, tileCollidable, tileBackground, tileLadder, tileInteractable, hitboxX, hitboxY, hitboxWidth, hitboxHeight)
 	local tile = {}
+	tile.name = tileName
 	tile.x = mapX
 	tile.y = mapY - (tileHeight - 16)
 	tile.width = tileWidth
@@ -21,7 +22,7 @@ function newTile(tileX, tileY, tileWidth, tileHeight, mapX, mapY, tileQuad, tile
 	tile.spritesheet = tileset
 	tile.canvas = love.graphics.newCanvas(tile.width, tile.height)
 
-	function tile:act() end
+	function tile:act(index) end
 
     function tile:getX()
         return math.floor(tile.x + 0.5)

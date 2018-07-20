@@ -9,3 +9,4 @@
 * Menu
 * Ladders
 * More levels
+* optimization
