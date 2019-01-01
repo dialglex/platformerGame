@@ -1,14 +1,15 @@
 function windowSetup()
 	xWindowSize, yWindowSize = love.window.getDesktopDimensions(1)
-	scale = getScale()
 
 	love.window.setMode(xWindowSize, yWindowSize, {display = 1, centered = true, resizable = true})
 	windowAspectRatio = xWindowSize / yWindowSize
+	scale = getScale()
+
 	love.graphics.setDefaultFilter("nearest", "nearest")
 
 	love.window.setTitle("Platformer Base")
 
-	gameIconImage = love.graphics.newImage("images/HUD/gameIcon.png")
+	gameIconImage = love.graphics.newImage("images/ui/gameIcon.png")
 	gameIconCanvas = love.graphics.newCanvas(16, 16)
 	love.graphics.setCanvas(gameIconCanvas)
 	love.graphics.draw(gameIconImage)
@@ -17,7 +18,7 @@ function windowSetup()
 	love.window.setIcon(gameIconImageData)
 
 	love.mouse.setGrabbed(false)
-	love.mouse.setVisible(true)
+	love.mouse.setVisible(false)
 end
 
 function getScale()
@@ -29,82 +30,76 @@ function getScale()
 	return scale
 end
 
-function resolution()
+function resizeWindow(x, y)
+	love.window.setMode(x, y, {display = 1, centered = true})
+	--love.window.setMode(x, y, {display = 1, centered = true, resizable = true})
+	xWindowSize, yWindowSize = x, y
+	canvasLayers = setupCanvases(actors)
+	backgroundCanvas = canvasLayers[1]
+	foregroundCanvas = canvasLayers[2]
+	
 	scale = getScale()
-	xWindowSize, yWindowSize = love.graphics.getDimensions()
-	if windowAspectRatio == 16 / 9 then
+	getFonts()
+	cursorType()
+end
+
+function resolution()
+	roundedWindowAspectRatio = math.floor(windowAspectRatio*10)
+	if roundedWindowAspectRatio == 17 then -- 16/9
 		if keyPress["1"] then
-			love.window.setMode(1024, 576, {display = 1, centered = true})
-			setupCanvases()
+			resizeWindow(1024, 576)
 		end
 		if keyPress["2"] then
-			love.window.setMode(1152, 648, {display = 1, centered = true})
-			setupCanvases()
+			resizeWindow(1152, 648)
 		end
 		if keyPress["3"] then
-			love.window.setMode(1280, 720, {display = 1, centered = true})
-			setupCanvases()
+			resizeWindow(1280, 720)
 		end
 		if keyPress["4"] then
-			love.window.setMode(1366, 768, {display = 1, centered = true})
-			setupCanvases()
+			resizeWindow(1366, 768)
 		end
 		if keyPress["5"] then
-			love.window.setMode(1600, 900, {display = 1, centered = true})
-			setupCanvases()
+			resizeWindow(1600, 900)
 		end
 		if keyPress["6"] then
-			love.window.setMode(1920, 1080, {display = 1, centered = true})
-			setupCanvases()
+			resizeWindow(1920, 1080)
 		end
 		if keyPress["7"] then
-			love.window.setMode(2560, 1440, {display = 1, centered = true})
-			setupCanvases()
+			resizeWindow(2560, 1440)
 		end
 		if keyPress["8"] then
-			love.window.setMode(3840, 2160, {display = 1, centered = true})
-			setupCanvases()
+			resizeWindow(3840, 2160)
 		end
 		if keyPress["9"] then
-			love.window.setMode(7680, 4320, {display = 1, centered = true})
-			setupCanvases()
+			resizeWindow(7680, 4320)
 		end
-	elseif windowAspectRatio == 4 / 3 then
+	elseif roundedWindowAspectRatio == 13 then -- 4/3
 		if keyPress["1"] then
-			love.window.setMode(640, 480, {display = 1, centered = true})
-			setupCanvases()
+			resizeWindow(640, 480)
 		end
 		if keyPress["2"] then
-			love.window.setMode(800, 600, {display = 1, centered = true})
-			setupCanvases()
+			resizeWindow(800, 600)
 		end
 		if keyPress["3"] then
-			love.window.setMode(960, 720, {display = 1, centered = true})
-			setupCanvases()
+			resizeWindow(960, 720)
 		end
 		if keyPress["4"] then
-			love.window.setMode(1024, 768, {display = 1, centered = true})
-			setupCanvases()
+			resizeWindow(1024, 768)
 		end
 		if keyPress["5"] then
-			love.window.setMode(1280, 960, {display = 1, centered = true})
-			setupCanvases()
+			resizeWindow(1280, 960)
 		end
 		if keyPress["6"] then
-			love.window.setMode(1400, 1050, {display = 1, centered = true})
-			setupCanvases()
+			resizeWindow(1400, 1050)
 		end
 		if keyPress["7"] then
-			love.window.setMode(1440, 1080, {display = 1, centered = true})
-			setupCanvases()
+			resizeWindow(1440, 1080)
 		end
 		if keyPress["8"] then
-			love.window.setMode(1600, 1200, {display = 1, centered = true})
-			setupCanvases()
+			resizeWindow(1600, 1200)
 		end
 		if keyPress["9"] then
-			love.window.setMode(1856, 1392, {display = 1, centered = true})
-			setupCanvases()
+			resizeWindow(1856, 1392)
 		end
 	end
 
@@ -112,10 +107,16 @@ function resolution()
 		local fullscreen = not love.window.getFullscreen()
 		love.window.setFullscreen(fullscreen)
 	end
+
+	if xWindowSize ~= love.graphics.getWidth() or yWindowSize ~= love.graphics.getHeight() then
+		xWindowSize, yWindowSize = love.graphics.getDimensions()
+		scale = getScale()
+		getImages()
+	end
 end
 
 function windowCheck()
-	if keyPress["escape"] then
-		love.window.close()
-	end
+	-- if pressInputs.close then
+	-- 	love.event.quit()
+	-- end
 end

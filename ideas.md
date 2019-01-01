@@ -1,7 +1,8 @@
 # ideas
 
 ## areas
-1. grass (grass, earth, rock, air)
+
+<!-- 1. grass (grass, earth, rock, air)
 2. sand (fire, earth, spirit)
 3. cave (rock, shadow, earth, corrupted)
 4. ice (ice, water, air)
@@ -9,7 +10,13 @@
 6. jungle/ruins (grass, water, spirit, earth)
 7. mechanical/robotland (mech, lightning, corrupted)
 8. volcano/magma (fire, earth, rock)
-9. spooky/corrupted (shadow, spirit, corrupted)
+9. spooky/corrupted (shadow, spirit, corrupted) -->
+
+1. Grassland - Grass/pond
+2. Desert - sand/ruins
+3. Cavern - Cave/ice
+4. Factory - Mechanical/toxic
+5. Graveyard - Corrupted/spooky
 
 ## types:
 * grass

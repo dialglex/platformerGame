@@ -6,8 +6,8 @@ end
 
 function checkCollision(x, y, width, height)
     table.insert(hitboxes, {x, y, width, height})
-    for _, actor in ipairs(actors) do
-        if actor.collidable then
+    for _, actor in ipairs(tiles) do
+        if actor.collidable or actor.platform and player.yVelocity >= 0 and downInputs.down ~= true then
             if AABB(x, y, width, height, actor.x + actor.hitboxX, actor.y + actor.hitboxY, actor.hitboxWidth, actor.hitboxHeight) and actor.actor ~= "player" then
                 return true
             end
@@ -16,15 +16,45 @@ function checkCollision(x, y, width, height)
     return false
 end
 
-function getCollidingActors(x, y, width, height)
-    collides = {}
-    table.insert(hitboxes, {x, y, width, height})
-    for _, actor in ipairs(actors) do
-        if actor.collidable then
+function getCollidingActors(x, y, width, height, collidable, platform, drawHitboxes, checkTiles, checkNpcs, checkObjects, checkItems)
+    local collides = {}
+    if drawHitboxes then
+        table.insert(hitboxes, {x, y, width, height})
+    end
+
+    if checkTiles then
+        for _, actor in ipairs(tiles) do
+            if actor.collidable and collidable or actor.platform and platform then
+                if AABB(x, y, width, height, actor.x + actor.hitboxX, actor.y + actor.hitboxY, actor.hitboxWidth, actor.hitboxHeight) and actor.actor ~= "player" then
+                    table.insert(collides, actor)
+                end
+            end
+        end
+    end
+
+    if checkNpcs then
+        for _, actor in ipairs(npcs) do
             if AABB(x, y, width, height, actor.x + actor.hitboxX, actor.y + actor.hitboxY, actor.hitboxWidth, actor.hitboxHeight) and actor.actor ~= "player" then
                 table.insert(collides, actor)
             end
         end
     end
+
+    if checkObjects then
+        for _, actor in ipairs(objects) do
+            if AABB(x, y, width, height, actor.x + actor.hitboxX, actor.y + actor.hitboxY, actor.hitboxWidth, actor.hitboxHeight) and actor.actor ~= "player" then
+                table.insert(collides, actor)
+            end
+        end
+    end
+
+    if checkItems then
+        for _, actor in ipairs(items) do
+            if AABB(x, y, width, height, actor.x + actor.hitboxX, actor.y + actor.hitboxY, actor.hitboxWidth, actor.hitboxHeight) and actor.actor ~= "player" then
+                table.insert(collides, actor)
+            end
+        end
+    end
+
     return collides
 end

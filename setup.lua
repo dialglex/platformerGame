@@ -1,5 +1,5 @@
 function drawLoadingScreen()
-	loadingImage = love.graphics.newImage("images/HUD/loading.png")
+	loadingImage = love.graphics.newImage("images/ui/loading.png")
 	loadingCanvas = love.graphics.newCanvas(xWindowSize, yWindowSize)
 	love.graphics.setCanvas(loadingCanvas)
 	love.graphics.draw(loadingImage)
@@ -8,28 +8,36 @@ function drawLoadingScreen()
 	love.graphics.present()
 end
 
-function setupCanvases()
-	backgroundCanvas = love.graphics.newCanvas(xWindowSize, yWindowSize)
-	foregroundCanvas = love.graphics.newCanvas(xWindowSize, yWindowSize)
+function setupCanvases(drawActors)
+	local backgroundCanvas = love.graphics.newCanvas(xWindowSize, yWindowSize)
+	local foregroundCanvas = love.graphics.newCanvas(xWindowSize, yWindowSize)
 
-	for _, actor in ipairs(actors) do
-		actor:draw()
-		if actor.actor == "tile" then
-			if actor.background then
-				love.graphics.setCanvas(backgroundCanvas)
-			else
-				love.graphics.setCanvas(foregroundCanvas)
+	if drawActors ~= nil then
+		for _, actor in ipairs(drawActors) do
+			if actor.actor == "tile" then
+				if actor.background ~= nil then
+					actor:draw()
+					if actor.background then
+						love.graphics.setCanvas(backgroundCanvas)
+					else
+						love.graphics.setCanvas(foregroundCanvas)
+					end
+					love.graphics.draw(actor.canvas, actor:getX(), actor:getY())
+					love.graphics.setCanvas()
+				end
 			end
-			love.graphics.draw(actor.canvas, actor:getX(), actor:getY())
-			love.graphics.setCanvas()
-        end
-    end
+	    end
+	end
+	love.graphics.setColor(1, 1, 1, 1)
+
+    return {backgroundCanvas, foregroundCanvas}
 end
 
-function setupLevel(newMap, oldPlayer)
-	actors = {}
-	--chosenMap = newMap
-	chosenMap = require(newMap)
+function loadMap(newMap, oldPlayer, file)
+	local actors = {}
+	local npcSpawns = {}
+
+	local chosenMap = newMap
 	for _, layer in ipairs(chosenMap.layers) do
 		for _, tilesetData in ipairs(chosenMap.tilesets) do
 			local tileset = love.graphics.newImage(string.sub(tilesetData.image, 10))
@@ -50,35 +58,78 @@ function setupLevel(newMap, oldPlayer)
                 					table.insert(actors, newPlayer(mapX * 16, (mapY * 16) - 8))
                 				end
                 			end
-                			
-                			if layer.name ~= "player" then
-                				local tile = tilesetData.tiles[tileID+1]
-                				if tile.properties["collidable"] then
-                					local tileHitbox = tile.objectGroup.objects[1]
-                					table.insert(actors, newTile(tilesetData.name, tileX, tileY, tilesetData.tilewidth, tilesetData.tileheight, mapX * 16, mapY * 16, blockQuad,
-                						tileset, tile.properties["collidable"], tile.properties["background"], tile.properties["ladder"], tile.properties["interactable"], tileHitbox.x, tileHitbox.y, tileHitbox.width, tileHitbox.height))
-                				else
-                					table.insert(actors, newTile(tilesetData.name, tileX, tileY, tilesetData.tilewidth, tilesetData.tileheight, mapX * 16, mapY * 16, blockQuad,
-                						tileset, tile.properties["collidable"], tile.properties["background"], tile.properties["ladder"], tile.properties["interactable"]))
-                				end
+
+                			local tile = tilesetData.tiles[tileID+1]
+                			if layer.name ~= "player" and layer.name ~= "objects" then
+                				if tile.properties["active"] == nil or tile.properties["active"] then
+									active = true
+								else
+									active = false
+								end
+
+	                			if tile.properties["npc"] then
+	                				local npcStats = getNpcStats(tilesetData.name)
+	                				local actor, ai, sprite, animationSpeed, animationFrames, width, height, damage, hp, knockbackStrength, knockbackResistance, xAcceleration, xTerminalVelocity, enemy, xp, boss, projectile = unpack(npcStats)
+	                				table.insert(npcSpawns, newNpc(tilesetData.name, width, height, mapX * 16, mapY * 16, sprite, enemy, ai, xAcceleration, xTerminalVelocity, animationSpeed, animationFrames, hp, knockbackStrength, knockbackResistance, damage, xp, boss, projectile))
+	                			else
+	                				if tile.properties["collidable"] then
+	                					local tileHitbox = tile.objectGroup.objects[1]
+	                					table.insert(actors, newTile(tilesetData.name, tilesetData.tilewidth, tilesetData.tileheight, mapX * 16, mapY * 16, blockQuad,
+	                						tileset, tile.properties["collidable"], tile.properties["background"], tile.properties["platform"], active, tileHitbox.x, tileHitbox.y, tileHitbox.width, tileHitbox.height))         					
+	                				else
+	                					table.insert(actors, newTile(tilesetData.name, tilesetData.tilewidth, tilesetData.tileheight, mapX * 16, mapY * 16, blockQuad,
+	                						tileset, tile.properties["collidable"], tile.properties["background"], tile.properties["platform"], active))
+	                				end
+	                			end
                 			end
-						end
-					end
+                		end
+                	end
+                end
+            end
+        end
+        if layer.name == "objects" then
+			for _, object in ipairs(layer.objects) do
+				if object.properties["active"] == nil or object.properties["active"] then
+					active = true
+				else
+					active = false
 				end
-			end
-		end
+				table.insert(actors, newObject(object.x, object.y, object.width, object.height, object.properties["type"], object.properties["data"], active))
+           	end
+        end
 	end
 
 	if oldPlayer ~= nil then
 	    table.insert(actors, oldPlayer)
 	end
 
-	backgroundImage = love.graphics.newImage(string.sub(chosenMap.properties["background"], 10))
-	setupCanvases()
+	local map = {}
+	map.actors = actors
+	map.npcSpawns = npcSpawns
+	
+	map.backgroundImage = love.graphics.newImage(string.sub(chosenMap.properties["background"], 10))
 
-	leftMap = chosenMap.properties["leftMap"]
-	rightMap = chosenMap.properties["rightMap"]
-	topMap = chosenMap.properties["topMap"]
-	bottomMap = chosenMap.properties["bottomMap"]
+	map.topLeft = chosenMap.properties["topLeft"]
+	map.topMiddle = chosenMap.properties["topMiddle"]
+	map.topRight = chosenMap.properties["topRight"]
+
+	map.bottomLeft = chosenMap.properties["bottomLeft"]
+	map.bottomMiddle = chosenMap.properties["bottomMiddle"]
+	map.bottomRight = chosenMap.properties["bottomRight"]
+
+	map.leftTop = chosenMap.properties["leftTop"]
+	map.leftMiddle = chosenMap.properties["leftMiddle"]
+	map.leftBottom = chosenMap.properties["leftBottom"]
+
+	map.rightTop = chosenMap.properties["rightTop"]
+	map.rightMiddle = chosenMap.properties["rightMiddle"]
+	map.rightBottom = chosenMap.properties["rightBottom"]
+
+	canvasLayers = setupCanvases(map.actors)
+	map.backgroundCanvas = canvasLayers[1]
+	map.foregroundCanvas = canvasLayers[2]
+	map.currentMapDirectory = file
+
+	return map
 end
 

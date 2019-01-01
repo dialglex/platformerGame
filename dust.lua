@@ -5,7 +5,6 @@ function newDust(playerX, playerY, playerAction, playerDirection, playerTileBelo
     dust.action = playerAction
     dust.direction = playerDirection
     dust.tileBelow = playerTileBelow
-    print(dust.tileBelow)
     dust.counter = 0
     dust.quadSection = 0
     dust.actor = "dust"
@@ -16,29 +15,35 @@ function newDust(playerX, playerY, playerAction, playerDirection, playerTileBelo
                 dust.spritesheet = love.graphics.newImage("images/dust/player/playerDustLeavesSpritesheet.png")
                 dust.frames = 24
                 dust.speed = 3
+                runGrassSound:play()
             elseif dust.tileBelow == "ice" then
                 dust.spritesheet = love.graphics.newImage("images/dust/player/playerDustSnowSpritesheet.png")
                 dust.frames = 8
                 dust.speed = 2
+                runGrassSound:play()
             else
                 dust.spritesheet = love.graphics.newImage("images/dust/player/playerDustRunLeftSpritesheet.png")
                 dust.x = dust.x + 15
                 dust.frames = 3
                 dust.speed = 3
+                runNeutralSound:play()
             end
         else
             if dust.tileBelow == "grass" then
                 dust.spritesheet = love.graphics.newImage("images/dust/player/playerDustLeavesSpritesheet.png")
                 dust.frames = 24
                 dust.speed = 3
+                runGrassSound:play()
             elseif dust.tileBelow == "ice" then
                 dust.spritesheet = love.graphics.newImage("images/dust/player/playerDustSnowSpritesheet.png")
                 dust.frames = 8
                 dust.speed = 2
+                runGrassSound:play()
             else
                 dust.spritesheet = love.graphics.newImage("images/dust/player/playerDustRunRightSpritesheet.png")
                 dust.frames = 3
                 dust.speed = 3
+                runNeutralSound:play()
             end
         end
     elseif dust.action == "jump" then
@@ -47,15 +52,18 @@ function newDust(playerX, playerY, playerAction, playerDirection, playerTileBelo
             dust.frames = 24
             dust.speed = 3
             dust.y = dust.y - 4
+            jumpNeutralSound:play()
         elseif dust.tileBelow == "ice" then
             dust.spritesheet = love.graphics.newImage("images/dust/player/playerDustSnowSpritesheet.png")
             dust.frames = 8
             dust.speed = 2
             dust.y = dust.y - 2
+            jumpNeutralSound:play()
         else
             dust.spritesheet = love.graphics.newImage("images/dust/player/playerDustJumpSpritesheet.png")
             dust.frames = 3
             dust.speed = 3
+            jumpNeutralSound:play()
         end
     elseif dust.action == "land" then
         if dust.tileBelow == "grass" then
@@ -63,15 +71,18 @@ function newDust(playerX, playerY, playerAction, playerDirection, playerTileBelo
             dust.frames = 24
             dust.speed = 3
             dust.y = dust.y - 7
+            landGrassSound:play()
         elseif dust.tileBelow == "ice" then
             dust.spritesheet = love.graphics.newImage("images/dust/player/playerDustSnowSpritesheet.png")
             dust.frames = 8
             dust.speed = 2
             dust.y = dust.y - 4
+            landGrassSound:play()
         else
             dust.spritesheet = love.graphics.newImage("images/dust/player/playerDustLandSpritesheet.png")
             dust.frames = 8
             dust.speed = 2
+            landNeutralSound:play()
         end
     end
 
@@ -80,6 +91,7 @@ function newDust(playerX, playerY, playerAction, playerDirection, playerTileBelo
 	dust.canvas = love.graphics.newCanvas(dust.width, dust.height)
 
 	function dust:act(index)
+        dust.index = index
         if dust.counter >= dust.speed then
             dust.quadSection = dust.quadSection + dust.width
             dust.counter = 0
