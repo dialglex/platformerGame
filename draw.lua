@@ -74,38 +74,135 @@ function convertColor(canvas, r1, g1, b1, a1, image)
 	end
 
     love.graphics.setCanvas()
-    local pixels = {}
     local imageData = canvas:newImageData()
-    for x = 1, imageData:getWidth() do
-        for y = 1, imageData:getHeight() do
-            -- Pixel coordinates range from 0 to image width - 1 / height - 1.
-            r2, g2, b2, a2 = imageData:getPixel(x-1, y-1)
-            if a2 > 0 then
-				table.insert(pixels, "X")
-                imageData:setPixel(x-1, y-1, r1, g1, b1, a1)
-            else
-            	table.insert(pixels, "O")
-            end
-        end
-    end
+    local width = imageData:getWidth()
+    local height = imageData:getHeight()
+    local string = ""
 
-    for _, e in ipairs(pixels) do
-    	print(e)
-    end
+    for y1 = 1, height do
+	    for x1 = 1, width do
+	    	local pixel = {}
+	    	pixel.x = x1 - 1
+	    	pixel.y = y1 - 1
+
+            r2, g2, b2, a2 = imageData:getPixel(pixel.x, pixel.y)
+            if a2 > 0 then
+				string = string.."X"
+                imageData:setPixel(pixel.x, pixel.y, r1, g1, b1, a1)
+            else
+            	string = string.." "
+            end
+		end
+		string = string.."\n"
+	end
+
+    -- print(string)
 
     love.graphics.setCanvas(canvas)
     return love.graphics.newImage(imageData)
 end
 
 function giveOutline(image, color)
-	r, g, b, a = unpack(color)
-	local colorImage = convertColor(nil, r, g, b, a, image)
+	r1, g1, b1, a1 = unpack(color)
+	local colorImage = convertColor(nil, r1, g1, b1, a1, image)
 	local canvas = love.graphics.newCanvas(image:getWidth()+2, image:getHeight()+2)
+
+    local imageDataCanvas = love.graphics.newCanvas(image:getWidth() + 2, image:getHeight() + 2)
+	love.graphics.setCanvas(imageDataCanvas)
+	love.graphics.draw(image, 1, 1)
+    love.graphics.setCanvas()
+    local oldImageData = imageDataCanvas:newImageData()
+    local width = oldImageData:getWidth()
+    local height = oldImageData:getHeight()
+    local newImageData = love.image.newImageData(width, height)
+    local pixels = {}
+
     love.graphics.setCanvas(canvas)
-    love.graphics.draw(colorImage, 1, 1+1)
+	love.graphics.draw(colorImage, 1, 1+1)
     love.graphics.draw(colorImage, 1, 1-1)
     love.graphics.draw(colorImage, 1+1, 1)
     love.graphics.draw(colorImage, 1-1, 1)
+
+
+    for y1 = 1, height do
+	    for x1 = 1, width do
+	    	local pixel = {}
+	    	pixel.x = x1 - 1
+	    	pixel.y = y1 - 1
+		    for y2 = 1, height do
+			    for x2 = 1, width do
+			    	_, _, _, a2 = oldImageData:getPixel(pixel.x, pixel.y)
+			    	if a2 == 0 then
+				    	if x2 - 1 == pixel.x + 1 and y2 - 1 == pixel.y + 1 then
+				    		_, _, _, a3 = oldImageData:getPixel(pixel.x + 1, pixel.y + 1)
+				    		if a3 > 0 then
+				    			_, _, _, aRight = oldImageData:getPixel(pixel.x + 2, pixel.y + 1)
+				    			_, _, _, aDown = oldImageData:getPixel(pixel.x + 1, pixel.y + 2)
+				    			if aRight > 0 and aDown > 0 then
+				    				_, _, _, aLeft = oldImageData:getPixel(pixel.x + 1, pixel.y)
+				    				_, _, _, aRight = oldImageData:getPixel(pixel.x + 2, pixel.y)
+				    				_, _, _, aUp = oldImageData:getPixel(pixel.x, pixel.y + 1)
+				    				_, _, _, aDown = oldImageData:getPixel(pixel.x, pixel.y + 2)
+				    				if aLeft == 0 and aRight == 0 and aUp == 0 and aDown == 0 then
+							    		newImageData:setPixel(pixel.x, pixel.y, r1, g1, b1, a1)
+							    	end
+				    			end
+					    	end
+				    	elseif x2 - 1 == pixel.x - 1 and y2 - 1 == pixel.y - 1 then
+				    		_, _, _, a3 = oldImageData:getPixel(pixel.x - 1, pixel.y - 1)
+				    		if a3 > 0 then
+				    			_, _, _, aLeft = oldImageData:getPixel(pixel.x - 2, pixel.y - 1)
+				    			_, _, _, aUp = oldImageData:getPixel(pixel.x - 1, pixel.y - 2)
+				    			if aLeft > 0 and aUp > 0 then
+				    				_, _, _, aRight = oldImageData:getPixel(pixel.x - 1, pixel.y)
+				    				_, _, _, aLeft = oldImageData:getPixel(pixel.x - 2, pixel.y)
+				    				_, _, _, aDown = oldImageData:getPixel(pixel.x, pixel.y - 1)
+				    				_, _, _, aUp = oldImageData:getPixel(pixel.x, pixel.y - 2)
+				    				if aLeft == 0 and aRight == 0 and aUp == 0 and aDown == 0 then
+							    		newImageData:setPixel(pixel.x, pixel.y, r1, g1, b1, a1)
+							    	end
+						    	end
+					    	end
+				    	elseif x2 - 1 == pixel.x - 1 and y2 - 1 == pixel.y + 1 then
+				    		_, _, _, a3 = oldImageData:getPixel(pixel.x - 1, pixel.y + 1)
+				    		if a3 > 0 then
+					    		_, _, _, aLeft = oldImageData:getPixel(pixel.x - 2, pixel.y + 1)
+				    			_, _, _, aDown = oldImageData:getPixel(pixel.x - 1, pixel.y + 2)
+				    			if aLeft > 0 and aDown > 0 then
+				    				_, _, _, aRight = oldImageData:getPixel(pixel.x - 1, pixel.y)
+				    				_, _, _, aLeft = oldImageData:getPixel(pixel.x - 2, pixel.y)
+				    				_, _, _, aUp = oldImageData:getPixel(pixel.x, pixel.y + 1)
+				    				_, _, _, aDown = oldImageData:getPixel(pixel.x, pixel.y + 2)
+				    				if aLeft == 0 and aRight == 0 and aUp == 0 and aDown == 0 then
+							    		newImageData:setPixel(pixel.x, pixel.y, r1, g1, b1, a1)
+							    	end
+								end
+					    	end
+				    	elseif x2 - 1 == pixel.x + 1 and y2 - 1 == pixel.y - 1 then
+				    		_, _, _, a3 = oldImageData:getPixel(pixel.x + 1, pixel.y - 1)
+				    		if a3 > 0 then
+					    		_, _, _, aRight = oldImageData:getPixel(pixel.x + 2, pixel.y - 1)
+				    			_, _, _, aUp = oldImageData:getPixel(pixel.x + 1, pixel.y - 2)
+				    			if aRight > 0 and aUp > 0 then
+				    				_, _, _, aLeft = oldImageData:getPixel(pixel.x + 1, pixel.y)
+				    				_, _, _, aRight = oldImageData:getPixel(pixel.x + 2, pixel.y)
+				    				_, _, _, aDown = oldImageData:getPixel(pixel.x, pixel.y - 1)
+				    				_, _, _, aUp = oldImageData:getPixel(pixel.x, pixel.y - 2)
+				    				if aLeft == 0 and aRight == 0 and aUp == 0 and aDown == 0 then
+							    		newImageData:setPixel(pixel.x, pixel.y, r1, g1, b1, a1)
+							    	end
+								end
+					    	end
+				    	end
+				    end
+		            -- Pixel coordinates range from 0 to image width - 1 / height - 1.
+		        end
+		    end
+		end
+	end
+
+	local corners = love.graphics.newImage(newImageData)
+	love.graphics.draw(corners)
     love.graphics.draw(image, 1, 1)
     love.graphics.setCanvas()
 
@@ -274,10 +371,6 @@ function drawScreen()
  	for _, actor in ipairs(uis) do
  		love.graphics.draw(actor.canvas, actor:getX(), actor:getY())
  	end
- 	
- 	local canvas = giveOutline(love.graphics.newImage("images/ui/square.png"), {1, 1, 1, 1})
-	love.graphics.setCanvas(screenCanvas)
- 	love.graphics.draw(canvas)
 
 	if player.isDead() then
 		wrapWidth, wrapText = winOutlineFont:getWrap("YOU DIED", 10000)
@@ -397,7 +490,7 @@ function drawFPS()
 	love.graphics.setCanvas(screenCanvas)
 	if not debug then
 		love.graphics.setFont(textFont)
-		love.graphics.print("Current FPS: "..tostring(love.timer.getFPS()), 4, 4)
+		-- love.graphics.print("Current FPS: "..tostring(love.timer.getFPS()), 4, 4)
 	end
 	love.graphics.setCanvas()
 end
@@ -415,8 +508,8 @@ end
 
 function drawScreenCanvas()
 	love.graphics.setCanvas()
-	love.graphics.draw(screenCanvas, (xWindowSize - (480 * scale)) / 2, (yWindowSize - (270 * scale)) / 2, 0, scale, scale)
-    love.graphics.draw(hdCanvas, (xWindowSize - 480 * scale) / 2, (yWindowSize - 270 * scale) / 2)
-    love.graphics.draw(textCanvas, (xWindowSize - 480 * scale) / 2, (yWindowSize - 270 * scale) / 2)
-    love.graphics.draw(transitionCanvas, (xWindowSize - (480 * scale)) / 2, (yWindowSize - (270 * scale)) / 2, 0, scale, scale)
+	love.graphics.draw(screenCanvas, math.floor((xWindowSize - (480 * scale)) / 2), math.floor((yWindowSize - (270 * scale)) / 2), 0, scale, scale)
+    love.graphics.draw(hdCanvas, math.floor((xWindowSize - 480 * scale) / 2), math.floor((yWindowSize - 270 * scale) / 2))
+    love.graphics.draw(textCanvas, math.floor((xWindowSize - 480 * scale) / 2), math.floor((yWindowSize - 270 * scale) / 2))
+    love.graphics.draw(transitionCanvas, math.floor((xWindowSize - (480 * scale)) / 2), math.floor((yWindowSize - (270 * scale)) / 2), 0, scale, scale)
 end

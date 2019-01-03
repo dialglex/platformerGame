@@ -48,6 +48,7 @@ function love.load()
 	backgroundCanvas = currentMap.backgroundCanvas
 	foregroundCanvas = currentMap.foregroundCanvas
 	currentMapDirectory = currentMap.currentMapDirectory
+	levelName = "Grassland"
 
 	topLeft = currentMap.topLeft
     topMiddle = currentMap.topMiddle
@@ -225,7 +226,7 @@ end
 function deepTableClone(original)
     local originalType = type(orig)
     local copy
-    if originalType == 'table' then
+    if originalType == "table" then
         copy = {}
         for originalKey, originalValue in next, original, nil do
             copy[deepTableClone(originalKey)] = deepTableClone(originalValue)

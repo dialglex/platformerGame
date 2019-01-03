@@ -15,7 +15,7 @@ function newItem(itemName, mapX, mapY, itemType, sprite, width, height)
 	item.type = itemType
 
 	item.sprite = sprite
-	item.spriteCanvas = giveOutline(item.sprite, {1, 1, 1, 1})
+	item.spriteCanvas = giveOutline(item.sprite, {0.973, 0.973, 0.973})
 	item.canvas = love.graphics.newCanvas(item.width+2, item.height+2)
 
 	function item:act(index)

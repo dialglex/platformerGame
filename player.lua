@@ -135,7 +135,9 @@ function newPlayer(playerX, playerY)
 
     function player:openInventory()
         if pressInputs.close then
-            table.insert(actors, newUi("inventory"))
+            local _, _, sprite1 = unpack(getWeaponStats(player.equippedWeapon1))
+            local _, _, sprite2 = unpack(getWeaponStats(player.equippedWeapon2))
+            table.insert(actors, newUi("inventory", sprite1, sprite2))
         end
     end
 
