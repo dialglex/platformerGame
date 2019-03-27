@@ -421,14 +421,20 @@
  <tile id="56">
   <properties>
    <property name="background" type="bool" value="false"/>
-   <property name="collidable" type="bool" value="false"/>
+   <property name="collidable" type="bool" value="true"/>
   </properties>
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="14"/>
+  </objectgroup>
  </tile>
  <tile id="57">
   <properties>
    <property name="background" type="bool" value="false"/>
-   <property name="collidable" type="bool" value="false"/>
+   <property name="collidable" type="bool" value="true"/>
   </properties>
+  <objectgroup draworder="index">
+   <object id="2" x="0" y="0" width="16" height="14"/>
+  </objectgroup>
  </tile>
  <tile id="58">
   <properties>

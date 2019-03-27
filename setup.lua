@@ -14,7 +14,7 @@ function setupCanvases(drawActors)
 
 	if drawActors ~= nil then
 		for _, actor in ipairs(drawActors) do
-			if actor.actor == "tile" then
+			if actor.actor == "tile" and actor.name ~= "teleporter" and actor.name ~= "chest" then
 				if actor.background ~= nil then
 					actor:draw()
 					if actor.background then
@@ -26,11 +26,11 @@ function setupCanvases(drawActors)
 					love.graphics.setCanvas()
 				end
 			end
-	    end
+		end
 	end
 	love.graphics.setColor(1, 1, 1, 1)
 
-    return {backgroundCanvas, foregroundCanvas}
+	return {backgroundCanvas, foregroundCanvas}
 end
 
 function loadMap(newMap, oldPlayer, file)
@@ -51,43 +51,66 @@ function loadMap(newMap, oldPlayer, file)
 							local tileX = tileID % (tilesetData.imagewidth / tilesetData.tilewidth)
 							local tileY = math.floor(tileID / (tilesetData.imageheight / tilesetData.tileheight))
 
-                			local blockQuad = love.graphics.newQuad(tileX * tilesetData.tilewidth, tileY * tilesetData.tileheight, tilesetData.tilewidth, tilesetData.tileheight, tilesetData.imagewidth, tilesetData.imageheight)
+							local blockQuad = love.graphics.newQuad(tileX * tilesetData.tilewidth, tileY * tilesetData.tileheight, tilesetData.tilewidth,
+								tilesetData.tileheight, tilesetData.imagewidth, tilesetData.imageheight)
 
 							if oldPlayer == nil then
 								if layer.name == "player" then
-                					table.insert(actors, newPlayer(mapX * 16, (mapY * 16) - 8))
-                				end
-                			end
+									table.insert(actors, newPlayer(mapX*16, (mapY*16) - 8))
+								end
+							end
 
-                			local tile = tilesetData.tiles[tileID+1]
-                			if layer.name ~= "player" and layer.name ~= "objects" then
-                				if tile.properties["active"] == nil or tile.properties["active"] then
+							local tile = tilesetData.tiles[tileID+1]
+							if layer.name ~= "player" and layer.name ~= "objects" then
+								if tile.properties["active"] == nil or tile.properties["active"] then
 									active = true
 								else
 									active = false
 								end
 
-	                			if tile.properties["npc"] then
-	                				local npcStats = getNpcStats(tilesetData.name)
-	                				local actor, ai, sprite, animationSpeed, animationFrames, width, height, damage, hp, knockbackStrength, knockbackResistance, xAcceleration, xTerminalVelocity, enemy, xp, boss, projectile = unpack(npcStats)
-	                				table.insert(npcSpawns, newNpc(tilesetData.name, width, height, mapX * 16, mapY * 16, sprite, enemy, ai, xAcceleration, xTerminalVelocity, animationSpeed, animationFrames, hp, knockbackStrength, knockbackResistance, damage, xp, boss, projectile))
-	                			else
-	                				if tile.properties["collidable"] then
-	                					local tileHitbox = tile.objectGroup.objects[1]
-	                					table.insert(actors, newTile(tilesetData.name, tilesetData.tilewidth, tilesetData.tileheight, mapX * 16, mapY * 16, blockQuad,
-	                						tileset, tile.properties["collidable"], tile.properties["background"], tile.properties["platform"], active, tileHitbox.x, tileHitbox.y, tileHitbox.width, tileHitbox.height))         					
-	                				else
-	                					table.insert(actors, newTile(tilesetData.name, tilesetData.tilewidth, tilesetData.tileheight, mapX * 16, mapY * 16, blockQuad,
-	                						tileset, tile.properties["collidable"], tile.properties["background"], tile.properties["platform"], active))
-	                				end
-	                			end
-                			end
-                		end
-                	end
-                end
-            end
-        end
-        if layer.name == "objects" then
+								if tile.properties["item"] then
+									if shopItemType == "weapon" then
+										local itemType, sprite, width, height, randomItemName = unpack(getItemStats("weaponShopItem"))
+										table.insert(actors, newItem("weaponShopItem", mapX*16, mapY*16, itemType, sprite, width, height, randomItemName))
+									elseif shopItemType == "accessory" then
+										local itemType, sprite, width, height, randomItemName = unpack(getItemStats("accessoryShopItem"))
+										table.insert(actors, newItem("accessoryShopItem", mapX*16, mapY*16, itemType, sprite, width, height, randomItemName))
+									end
+								elseif tile.properties["npc"] then
+									local name, ai, spritesheet, animationSpeed, animationFrames, width, height, attackAnimationFrames, attackXOffset,
+										attackYOffset, attackHitFrames, attackCooldownLength, attackDistance, damage, hp, knockback, knockbackResistance,
+										screenShakeAmount, screenShakeLength, screenFreezeLength, xAcceleration, xTerminalVelocity, enemy, money, boss,
+										projectile, background = unpack(getNpcStats(tilesetData.name))
+									if tile.properties["xOffset"] == nil or tile.properties["yOffset"] == nil then
+										table.insert(npcSpawns, newNpc(name, ai, mapX*16, mapY*16, spritesheet, animationSpeed, animationFrames, width, height,
+											attackAnimationFrames, attackXOffset, attackYOffset, attackHitFrames, attackCooldownLength, attackDistance,
+											damage, hp, knockback, knockbackResistance, screenShakeAmount, screenShakeLength, screenFreezeLength, xAcceleration,
+											xTerminalVelocity, enemy, money, boss, projectile, background))
+									else
+										table.insert(npcSpawns, newNpc(name, ai, mapX*16 + tile.properties["xOffset"], mapY*16 + tile.properties["yOffset"],
+											spritesheet, animationSpeed, animationFrames, width, height, attackAnimationFrames, attackXOffset, attackYOffset,
+											attackHitFrames, attackCooldownLength, attackDistance, damage, hp, knockback, knockbackResistance, screenShakeAmount,
+											screenShakeLength, screenFreezeLength, xAcceleration, xTerminalVelocity, enemy, money, boss, projectile, background))
+									end
+								else
+									if tile.properties["collidable"] then
+										local tileHitbox = tile.objectGroup.objects[1]
+										table.insert(actors, newTile(tilesetData.name, tilesetData.tilewidth, tilesetData.tileheight, mapX*16, mapY*16,
+											blockQuad, tileset, tile.properties["collidable"], tile.properties["background"], tile.properties["platform"],
+											active, tileHitbox.x, tileHitbox.y, tileHitbox.width, tileHitbox.height))         					
+									else
+										table.insert(actors, newTile(tilesetData.name, tilesetData.tilewidth, tilesetData.tileheight, mapX*16, mapY*16,
+											blockQuad, tileset, tile.properties["collidable"], tile.properties["background"], tile.properties["platform"],
+											active))
+									end
+								end
+							end
+						end
+					end
+				end
+			end
+		end
+		if layer.name == "objects" then
 			for _, object in ipairs(layer.objects) do
 				if object.properties["active"] == nil or object.properties["active"] then
 					active = true
@@ -95,12 +118,12 @@ function loadMap(newMap, oldPlayer, file)
 					active = false
 				end
 				table.insert(actors, newObject(object.x, object.y, object.width, object.height, object.properties["type"], object.properties["data"], active))
-           	end
-        end
+			end
+		end
 	end
 
 	if oldPlayer ~= nil then
-	    table.insert(actors, oldPlayer)
+		table.insert(actors, oldPlayer)
 	end
 
 	local map = {}
@@ -108,6 +131,7 @@ function loadMap(newMap, oldPlayer, file)
 	map.npcSpawns = npcSpawns
 	
 	map.backgroundImage = love.graphics.newImage(string.sub(chosenMap.properties["background"], 10))
+	map.explored = false
 
 	map.topLeft = chosenMap.properties["topLeft"]
 	map.topMiddle = chosenMap.properties["topMiddle"]

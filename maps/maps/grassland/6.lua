@@ -1,13 +1,14 @@
 return {
-  version = "1.1",
+  version = "1.2",
   luaversion = "5.1",
-  tiledversion = "1.1.2",
+  tiledversion = "1.2.1",
   orientation = "orthogonal",
   renderorder = "right-down",
   width = 30,
   height = 17,
   tilewidth = 16,
   tileheight = 16,
+  nextlayerid = 8,
   nextobjectid = 17,
   properties = {
     ["background"] = "../../../images/backgrounds/grassland.png",
@@ -33,6 +34,7 @@ return {
       tileheight = 16,
       spacing = 0,
       margin = 0,
+      columns = 8,
       image = "../../../images/tiles/grass.png",
       imagewidth = 128,
       imageheight = 128,
@@ -1182,6 +1184,7 @@ return {
       tileheight = 16,
       spacing = 0,
       margin = 0,
+      columns = 3,
       image = "../../../images/tiles/ladder.png",
       imagewidth = 48,
       imageheight = 48,
@@ -1271,6 +1274,7 @@ return {
       tileheight = 16,
       spacing = 0,
       margin = 0,
+      columns = 2,
       image = "../../../images/tiles/grassBg.png",
       imagewidth = 32,
       imageheight = 32,
@@ -1325,6 +1329,7 @@ return {
       tileheight = 14,
       spacing = 0,
       margin = 0,
+      columns = 9,
       image = "../../../images/npcs/enemy/moonfly/moonflySpritesheet.png",
       imagewidth = 180,
       imageheight = 14,
@@ -1392,6 +1397,7 @@ return {
       tileheight = 13,
       spacing = 0,
       margin = 0,
+      columns = 6,
       image = "../../../images/npcs/enemy/blueSlime/blueSlimeWalkRightSpritesheet.png",
       imagewidth = 108,
       imageheight = 13,
@@ -1450,6 +1456,7 @@ return {
       tileheight = 22,
       spacing = 0,
       margin = 0,
+      columns = 1,
       image = "../../../images/tiles/teleporter/teleporterOff.png",
       imagewidth = 32,
       imageheight = 22,
@@ -1480,6 +1487,7 @@ return {
   layers = {
     {
       type = "tilelayer",
+      id = 1,
       name = "grass",
       x = 0,
       y = 0,
@@ -1513,6 +1521,7 @@ return {
     },
     {
       type = "tilelayer",
+      id = 2,
       name = "grassBg",
       x = 0,
       y = 0,
@@ -1546,6 +1555,7 @@ return {
     },
     {
       type = "tilelayer",
+      id = 3,
       name = "blueSlime",
       x = 0,
       y = 0,
@@ -1579,6 +1589,7 @@ return {
     },
     {
       type = "tilelayer",
+      id = 4,
       name = "teleporter",
       x = 0,
       y = 0,
@@ -1612,6 +1623,7 @@ return {
     },
     {
       type = "tilelayer",
+      id = 5,
       name = "ladder",
       x = 0,
       y = 0,
@@ -1645,6 +1657,7 @@ return {
     },
     {
       type = "tilelayer",
+      id = 6,
       name = "moonfly",
       x = 0,
       y = 0,
@@ -1678,6 +1691,7 @@ return {
     },
     {
       type = "objectgroup",
+      id = 7,
       name = "objects",
       visible = true,
       opacity = 1,

@@ -1,5 +1,6 @@
 # TODO
 
-* Animated tiles
-* Animated grass
-* Menu
+* MORE LEVELS
+* MORE ENEMIES
+* MORE WEAPONS
+* MORE ACCESSORIES

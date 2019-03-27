@@ -8,7 +8,7 @@ return {
   height = 17,
   tilewidth = 16,
   tileheight = 16,
-  nextobjectid = 1,
+  nextobjectid = 2,
   properties = {
     ["background"] = "../../../images/backgrounds/black.png"
   },
@@ -1224,7 +1224,7 @@ return {
       tileheight = 22,
       spacing = 0,
       margin = 0,
-      image = "../../../images/tiles/teleporter.png",
+      image = "../../../images/tiles/teleporter/teleporterOff.png",
       imagewidth = 32,
       imageheight = 22,
       tileoffset = {
@@ -1472,6 +1472,34 @@ return {
         37, 38, 14, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 15, 34, 35,
         49, 29, 38, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 34, 27, 50,
         36, 49, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 50, 36
+      }
+    },
+    {
+      type = "objectgroup",
+      name = "objects",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      draworder = "topdown",
+      properties = {},
+      objects = {
+        {
+          id = 1,
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 240,
+          y = 202,
+          width = 32,
+          height = 22,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["active"] = false,
+            ["type"] = "teleporter"
+          }
+        }
       }
     }
   }

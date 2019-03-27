@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.2" orientation="orthogonal" renderorder="right-down" width="30" height="17" tilewidth="16" tileheight="16" infinite="0" nextobjectid="7">
+<map version="1.0" tiledversion="1.1.2" orientation="orthogonal" renderorder="right-down" width="30" height="17" tilewidth="16" tileheight="16" infinite="0" nextobjectid="10">
  <properties>
   <property name="background" type="file" value="../../../images/backgrounds/grassland.png"/>
   <property name="bottomLeft" type="bool" value="true"/>
@@ -21,6 +21,10 @@
  <tileset firstgid="91" source="../../tiles/tiles/grassBg.tsx"/>
  <tileset firstgid="95" source="../../tiles/tiles/sign.tsx"/>
  <tileset firstgid="99" source="../../tiles/tiles/teleporter.tsx"/>
+ <tileset firstgid="100" source="../../tiles/tiles/chest.tsx"/>
+ <tileset firstgid="101" source="../../tiles/tiles/house.tsx"/>
+ <tileset firstgid="105" source="../../tiles/tiles/wood.tsx"/>
+ <tileset firstgid="154" source="../../tiles/npcs/enemy/downPlant.tsx"/>
  <layer name="grassBg" width="30" height="17">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,

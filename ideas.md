@@ -34,6 +34,9 @@
 * bug
 
 ## monsters:
+AI: monsters that run away when on low hp
+AI: monsters that become more aggressive when on low hp
+
 * basic
 	+ pillow monster (evolves into pillow fort)
 * grass
@@ -81,6 +84,7 @@
 
 ## random things:
 * choosing your eye color will cause other things to change such as the color of teleporter lasers
+* sound cues for the duration of invincibility
 
 ## sprites:
 * 2 main shades per color in a sprite (not including outlines or antialiasing, outlines can be used as a shade as well)

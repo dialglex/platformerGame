@@ -24,14 +24,16 @@ function newObject(objectX, objectY, objectWidth, objectHeight, objectType, obje
 			object.nearCounter = object.nearCounter - 0.1
 		end
 
-		if blocked and noEnemies then
-			object.active = true
-		elseif object.type == "teleporter" then
-			object.active = false
+		if object.type == "teleporter" then
+			if blocked or (bossLevel and enemyCounter == 0) then
+				object.active = true
+			else
+				object.active = false
+			end
 		end
 	end
 
 	function object:draw() end
 
-    return object
+	return object
 end

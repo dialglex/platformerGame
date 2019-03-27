@@ -1,7 +1,6 @@
 function windowSetup()
 	xWindowSize, yWindowSize = love.window.getDesktopDimensions(1)
-
-	love.window.setMode(xWindowSize, yWindowSize, {display = 1, centered = true, resizable = true})
+	love.window.setMode(xWindowSize, yWindowSize, {fullscreen = fullscreenOn, vsync = vSyncOn, centered = true})
 	windowAspectRatio = xWindowSize / yWindowSize
 	scale = getScale()
 
@@ -31,8 +30,7 @@ function getScale()
 end
 
 function resizeWindow(x, y)
-	love.window.setMode(x, y, {display = 1, centered = true})
-	--love.window.setMode(x, y, {display = 1, centered = true, resizable = true})
+	love.window.setMode(xWindowSize, yWindowSize, {fullscreen = fullscreenOn, vsync = vSyncOn, centered = true})
 	xWindowSize, yWindowSize = x, y
 	canvasLayers = setupCanvases(actors)
 	backgroundCanvas = canvasLayers[1]
