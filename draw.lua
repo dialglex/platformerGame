@@ -25,6 +25,7 @@ function getImages()
 	screenCanvas = love.graphics.newCanvas(512, 302)
 	maskedScreenCanvas = love.graphics.newCanvas(512, 302)
 	backgroundImageCanvas = love.graphics.newCanvas(512, 302)
+	debugCanvas = love.graphics.newCanvas(512, 302)
 	textCanvas = love.graphics.newCanvas(1920, 1080)
 	transitionCanvas = love.graphics.newCanvas(480, 270)
 	getFonts()
@@ -258,36 +259,35 @@ function giveOutline(image, color)
 	return canvas
 end
 
-function drawProgressBar(bar, actor, progressionBarWidth, progressionBarHeight, progressionBarOffset, progressionBarOpacity, onActor, progressionBarX, progressionBarY)
-	if bar == "health" then
-		local xOffset = 0
-		local yOffset = 0
-		if actor.attacking then
-			xOffset = -actor.attackXOffset
-			yOffset = -actor.attackYOffset
+function drawProgressBar(actor, progressBarWidth, progressBarHeight, progressBarOffset, progressBarOpacity, progressBarColor)
+	local xOffset = 0
+	local yOffset = 0
+	if actor.attacking then
+		xOffset = -actor.attackXOffset
+		yOffset = -actor.attackYOffset
+	end
+	if actor.hp > 0 then
+		--black border
+		love.graphics.setColor(0, 0, 0, progressBarOpacity)
+		love.graphics.rectangle("fill", actor.x + actor.width/2 - progressBarWidth/2 - 1 + xOffset, actor.y - progressBarOffset - 1,
+			progressBarWidth + 2, progressBarHeight + 2)
+		--color inside
+		-- love.graphics.setColor(1-actor.hp/actor.maxHp, actor.hp/actor.maxHp - 0.1, 0, progressBarOpacity)
+		if progressBarColor == "green" then
+			love.graphics.setColor(0.231, 0.741, 0.388, progressBarOpacity)
+		elseif progressBarColor == "red" then
+			love.graphics.setColor(0.718, 0.255, 0.333, progressBarOpacity)
 		end
-		if onActor and actor.hp > 0 then
-			--black border
-			love.graphics.setColor(0, 0, 0, progressionBarOpacity)
-			love.graphics.rectangle("fill", actor.x + actor.width/2 - progressionBarWidth/2 - 1 + xOffset, actor.y - progressionBarOffset - 1,
-				progressionBarWidth + 2, progressionBarHeight + 2)
-			--color inside
-			love.graphics.setColor(1-actor.hp/actor.maxHp, actor.hp/actor.maxHp - 0.1, 0, progressionBarOpacity)
-			love.graphics.rectangle("fill", actor.x + actor.width/2 - progressionBarWidth/2 + xOffset, actor.y - progressionBarOffset,
-				actor.hp/actor.maxHp*progressionBarWidth, progressionBarHeight)
-		elseif onActor == false then
-			--black border
-			love.graphics.setColor(0, 0, 0, progressionBarOpacity)
-			love.graphics.rectangle("fill", progressionBarX, progressionBarY, progressionBarWidth, progressionBarHeight, 3, 3)
-			if actor.hp > 0 then
-				--color inside
-				love.graphics.setColor(1-actor.hp/actor.maxHp, actor.hp/actor.maxHp, 0, progressionBarOpacity)
-				love.graphics.rectangle("fill", progressionBarX+1*2, progressionBarY+1*2, actor.hp/actor.maxHp*progressionBarWidth-2*2, progressionBarHeight-2*2, 3, 3)
-			end
-			--color highlight
-			love.graphics.setColor(1, 1, 0.5+(actor.hp/actor.maxHp)*0.35, progressionBarOpacity*(actor.hp/actor.maxHp))
-			love.graphics.rectangle("fill", progressionBarX+1*2, progressionBarY+4, (progressionBarWidth)*actor.hp/actor.maxHp - 2*2, (progressionBarHeight-2*2)/3)
+		love.graphics.rectangle("fill", actor.x + actor.width/2 - progressBarWidth/2 + xOffset, actor.y - progressBarOffset,
+			actor.hp/actor.maxHp*progressBarWidth, progressBarHeight)
+
+		if progressBarColor == "green" then
+			love.graphics.setColor(0.545, 0.894, 0.435, progressBarOpacity)
+		elseif progressBarColor == "red" then
+			love.graphics.setColor(0.910, 0.365, 0.329, progressBarOpacity)
 		end
+		love.graphics.rectangle("fill", actor.x + actor.width/2 - progressBarWidth/2 + xOffset, actor.y - progressBarOffset + 1,
+			actor.hp/actor.maxHp*progressBarWidth, progressBarHeight - 3)
 	end
 	love.graphics.setColor(1, 1, 1, 1)
 end
@@ -355,9 +355,6 @@ function drawScreen()
 	end
 	love.graphics.setColor(1, 1, 1)
 
-	for _, actor in ipairs(weapons) do
-		love.graphics.draw(actor.canvas, actor:getX(), actor:getY())
-	end
 
 	for _, actor in ipairs(items) do
 		love.graphics.draw(actor.canvas, actor:getX(), actor:getY())
@@ -365,6 +362,10 @@ function drawScreen()
 
 	love.graphics.draw(player.canvas, player:getX() - 3, player:getY() - 2)
 
+	for _, actor in ipairs(weapons) do
+		love.graphics.draw(actor.canvas, actor:getX(), actor:getY())
+	end
+	
 	for _, actor in ipairs(dusts) do
 		love.graphics.draw(actor.canvas, actor:getX(), actor:getY())
 	end
@@ -381,12 +382,10 @@ function drawScreen()
 		if actor.background == false then
 			love.graphics.draw(actor.canvas, actor:getX(), actor:getY())
 		end
+		drawProgressBar(actor, 20 + 0.05*actor.maxHp, 5, 5, actor.healthBarOpacity, "red")
 	end
-
-	for _, actor in ipairs(npcs) do
-		drawProgressBar("health", actor, 20 + 0.05*actor.maxHp, 5, 5, actor.healthBarOpacity, true)
-	end
-	drawProgressBar("health", player, 20 + 0.05*player.hp, 5, -player.height-1, 1, true)
+	
+	drawProgressBar(player, 20 + 0.05*player.hp, 5, -player.height-1, 1, "green")
 
 	for _, actor in ipairs(items) do
 		if actor.type == "shop" and uiFrozen == false then
@@ -413,14 +412,14 @@ function drawScreen()
 					drawBar(knockback/5)
 
 					barX = (actor.x + actor.width/2) - emptyBar:getWidth()/2 + (5 + 12)/2
-					barY = textY - emptyBar:getHeight() - 2
+					barY = textY - emptyBar:getHeight() - 4
 					love.graphics.setCanvas(screenCanvas)
 
 					love.graphics.setColor(0.063, 0.118, 0.161, actor.nearCounter / 2)
 					if emptyBar:getWidth() > wrapWidth then
-						love.graphics.rectangle("fill", barX - 4 - 5 - 12, textY - 28 - emptyBar:getHeight() - 5, emptyBar:getWidth() + 5 + 12 + 7, 28 + emptyBar:getHeight() + textHeight + 5, 3)
+						love.graphics.rectangle("fill", barX - 4 - 5 - 12, textY - 28 - emptyBar:getHeight() - 7, emptyBar:getWidth() + 5 + 12 + 7, 28 + emptyBar:getHeight() + textHeight + 7, 3)
 					else
-						love.graphics.rectangle("fill", textX - 4, textY - 28 - emptyBar:getHeight() - 5, wrapWidth + 7, 28 + emptyBar:getHeight() + textHeight + 5, 3)
+						love.graphics.rectangle("fill", textX - 4, textY - 28 - emptyBar:getHeight() - 7, wrapWidth + 7, 28 + emptyBar:getHeight() + textHeight + 7, 3)
 					end
 					love.graphics.setColor(0.973, 0.973, 0.973, actor.nearCounter)
 					love.graphics.printf(camelToTitle(actor.randomName), textX, textY, wrapWidth, "center")
@@ -533,10 +532,11 @@ end
 
 function drawDebug()
 	--draw tile hitboxes
-	love.graphics.setCanvas(screenCanvas)
+	love.graphics.setCanvas(debugCanvas)
+	love.graphics.clear()
 	for _, actor in ipairs(tiles) do
 		if debug and actor.collidable then
-			love.graphics.setColor(0, 0, 1, 0.8)
+			love.graphics.setColor(0, 0, 1, 0.6)
 			love.graphics.rectangle("fill", actor.hitboxX + actor.x, actor.hitboxY + actor.y, actor.hitboxWidth, actor.hitboxHeight)
 		elseif debug then
 			love.graphics.setColor(1, 0, 1, 0.1)
@@ -548,10 +548,11 @@ function drawDebug()
 	if debug then
 		for _, hitbox in ipairs(hitboxes) do
 			x, y, w, h = unpack(hitbox)
-			love.graphics.setColor(1, 0, 0, 0.6)
+			love.graphics.setColor(0.15, 0.75, 0.3, 0.6)
 			love.graphics.rectangle("fill", x, y, w, h)
 		end
-		love.graphics.setColor(0, 1, 0, 0.6)
+
+		love.graphics.setColor(1, 0, 0, 0.3)
 		love.graphics.rectangle("fill", player.x, player.y, player.width, player.height)
 		love.graphics.setColor(1, 1, 1, 1)
 		love.graphics.setColor(1, 1, 1)
@@ -686,8 +687,8 @@ function drawScreenCanvas()
 	love.graphics.setCanvas()
 
 	love.graphics.draw(maskedScreenCanvas, math.floor((xWindowSize - (480*scale))/2), math.floor((yWindowSize - (270*scale))/2), 0, scale, scale)
-	-- love.graphics.draw(backgroundImageCanvas, math.floor((xWindowSize - (480*scale))/2), math.floor((yWindowSize - (270*scale))/2), 0, scale, scale)
 	love.graphics.draw(textCanvas, math.floor((xWindowSize - 480*scale)/2), math.floor((yWindowSize - 270*scale)/2))
 	love.graphics.draw(transitionCanvas, math.floor((xWindowSize - (480*scale))/2), math.floor((yWindowSize - (270*scale))/2), 0, scale, scale)
 	love.graphics.draw(screenBorderCanvas, math.floor((xWindowSize - (480*scale))/2 - 7*scale), math.floor((yWindowSize - (270*scale))/2 - 7*scale), 0, scale, scale)
+	love.graphics.draw(debugCanvas, math.floor((xWindowSize - (480*scale))/2) - 16*scale, math.floor((yWindowSize - (270*scale))/2) - 16*scale, 0, scale, scale)
 end

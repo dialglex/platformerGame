@@ -1,6 +1,6 @@
  function newWeapon(index, weaponName, weaponType, x, y, iconSprite, startupSprite, slash1Sprite, slash2Sprite, endSprite, width, height, damage, knockback, startupLag, slashDuration, endLag, duration, screenShakeAmount, screenShakeLength, screenFreezeLength, xOffset, yOffset, directionLocked, movementReduction, pierce, projectile, shootDirection)
 	local weapon = {}
-
+	
 	weapon.index = index
 	
 	weapon.damage = damage
@@ -44,23 +44,21 @@
 		weapon.sprite5 = love.graphics.newImage("images/weapons/bows/"..weapon.name.."/"..weapon.name.."5.png")
 		weapon.currentSprite = weapon.sprite1
 	elseif weapon.type == "bow" then
-		weapon.sprite1 = love.graphics.newImage("images/weapons/bows/"..weapon.name.."/"..weapon.name.."1.png")
-		weapon.sprite2 = love.graphics.newImage("images/weapons/bows/"..weapon.name.."/"..weapon.name.."2.png")
-		weapon.sprite3 = love.graphics.newImage("images/weapons/bows/"..weapon.name.."/"..weapon.name.."3.png")
+		weapon.upSprite = love.graphics.newImage("images/weapons/bows/"..weapon.name.."/"..weapon.name.."Up.png")
+		weapon.sideSprite = love.graphics.newImage("images/weapons/bows/"..weapon.name.."/"..weapon.name.."Side.png")
 		if weapon.shootDirection == "up" or weapon.shootDirection == "down" then
-			weapon.width = weapon.sprite1:getWidth()
-			weapon.height = weapon.sprite1:getHeight()
+			weapon.width = weapon.upSprite:getWidth() / 4
+			weapon.height = weapon.sideSprite:getHeight()
 			weapon.canvas = love.graphics.newCanvas(weapon.width, weapon.height)
-		elseif weapon.shootDirection == "upLeft" or weapon.shootDirection == "upRight" or weapon.shootDirection == "downLeft" or weapon.shootDirection == "downRight" then
-			weapon.width = weapon.sprite2:getWidth()
-			weapon.height = weapon.sprite2:getHeight()
-			weapon.canvas = love.graphics.newCanvas(weapon.width, weapon.height)
+		-- elseif weapon.shootDirection == "upLeft" or weapon.shootDirection == "upRight" or weapon.shootDirection == "downLeft" or weapon.shootDirection == "downRight" then
+		-- 	weapon.width = weapon.sprite2:getWidth() / 4
+		-- 	weapon.height = weapon.sprite2:getHeight()
+		-- 	weapon.canvas = love.graphics.newCanvas(weapon.width, weapon.height)
 		elseif weapon.shootDirection == "left" or weapon.shootDirection == "right" then
-			weapon.width = weapon.sprite3:getWidth()
-			weapon.height = weapon.sprite3:getHeight()
+			weapon.width = weapon.sideSprite:getWidth() / 4
+			weapon.height = weapon.sideSprite:getHeight()
 			weapon.canvas = love.graphics.newCanvas(weapon.width, weapon.height)
 		end
-		debugPrint(weapon.shootDirection)
 	end
 	weapon.x = x
 	weapon.y = y
@@ -76,46 +74,33 @@
 		end
 	end
 	
+	weapon.xAcceleration = 0
+	weapon.yAcceleration = 0.2
+	local radius = 6
 	if weapon.shootDirection == "left" then
-		weapon.xVelocity = -6
-		weapon.xAcceleration = 0.05
-		weapon.yVelocity = -1
-		weapon.yAcceleration = 0.15
+		weapon.xVelocity = -math.sqrt(radius^2 - 1.5^2)
+		weapon.yVelocity = -1.5
 	elseif weapon.shootDirection == "right" then
-		weapon.xVelocity = 6
-		weapon.xAcceleration = -0.05
-		weapon.yVelocity = -1
-		weapon.yAcceleration = 0.15
+		weapon.xVelocity = math.sqrt(radius^2 - 1.5^2)
+		weapon.yVelocity = -1.5
 	elseif weapon.shootDirection == "up" then
 		weapon.xVelocity = 0
-		weapon.xAcceleration = 0
-		weapon.yVelocity = -6
-		weapon.yAcceleration = 0.2
+		weapon.yVelocity = -radius
 	elseif weapon.shootDirection == "down" then
 		weapon.xVelocity = 0
-		weapon.xAcceleration = 0
-		weapon.yVelocity = 6
-		weapon.yAcceleration = 0.1
+		weapon.yVelocity = radius
 	elseif weapon.shootDirection == "upLeft" then
-		weapon.xVelocity = -5
-		weapon.xAcceleration = 0.05
-		weapon.yVelocity = -5
-		weapon.yAcceleration = 0.2
+		weapon.xVelocity = -radius / math.sqrt(2) 
+		weapon.yVelocity = -radius / math.sqrt(2)
 	elseif weapon.shootDirection == "upRight" then
-		weapon.xVelocity = 5
-		weapon.xAcceleration = -0.05
-		weapon.yVelocity = -5
-		weapon.yAcceleration = 0.2
+		weapon.xVelocity = radius / math.sqrt(2)
+		weapon.yVelocity = -radius / math.sqrt(2)
 	elseif weapon.shootDirection == "downLeft" then
-		weapon.xVelocity = -5
-		weapon.xAcceleration = 0.05
-		weapon.yVelocity = 5
-		weapon.yAcceleration = 0.1
+		weapon.xVelocity = -radius / math.sqrt(2)
+		weapon.yVelocity = radius / math.sqrt(2)
 	elseif weapon.shootDirection == "downRight" then
-		weapon.xVelocity = 5
-		weapon.xAcceleration = -0.05
-		weapon.yVelocity = 5
-		weapon.yAcceleration = 0.1
+		weapon.xVelocity = radius / math.sqrt(2)
+		weapon.yVelocity = radius / math.sqrt(2)
 	end
 
 	weapon.frozen = false
@@ -156,7 +141,7 @@
 
 	function weapon:collision()
 		if weapon.type == "projectile" then
-			for _, actor in ipairs(getCollidingActors(weapon.x + weapon.width/4, weapon.y + weapon.height/4, weapon.width/2, weapon.height/2, true, false, true, true, false, false)) do
+			for _, actor in ipairs(getCollidingActors(weapon.x + weapon.width/2 - weapon.width/16, weapon.y + weapon.height/2 - weapon.height/16, weapon.width/8, weapon.height/8, true, false, true, true, false, false, false, false, false, 1)) do
 				weapon.frozen = true
 				weapon.frozenCounter = -1
 				if shakeLength < weapon.screenShakeLength/6 then
@@ -171,7 +156,7 @@
 	end
 
 	function weapon:effects()
-		if weapon.durationCounter == (weapon.slashDuration + weapon.startupLag) and weapon.type == "bow" then
+		if weapon.durationCounter == weapon.startupLag and weapon.type == "bow" then
 			local weaponName, weaponType, iconSprite, startupSprite, slash1Sprite, slash2Sprite, endSprite, width, height, damage, knockback, startupLag,
 				slashDuration, endLag, screenShakeAmount, screenShakeLength, screenFreezeLength, xOffset, yOffset, directionLocked, movementReduction, pierce, projectile = unpack(getWeaponStats(weapon.projectile))
 
@@ -195,8 +180,8 @@
 
 			local width = sprite:getWidth()
 			local height = sprite:getHeight()
-			local x = weapon.x + weapon.width/2 - width/2
-			local y = weapon.y + weapon.height/2 - height/2
+			local x = player.x + player.width/2 - width/2
+			local y = player.y + player.height/2 - height/2
 
 			table.insert(actors, newWeapon(actors[getTableLength(actors)+1], weaponName, weaponType, x, y, iconSprite, startupSprite, slash1Sprite, slash2Sprite, endSprite, width, 
 				height, damage, knockback, startupLag, slashDuration, endLag, duration, screenShakeAmount, screenShakeLength, screenFreezeLength, 
@@ -280,25 +265,37 @@
 			weapon.x = player.x + player.width/2 - weapon.width/2
 			weapon.y = player.y + player.height/2 - weapon.height/2
 			if weapon.shootDirection == "up" then
-				weapon.y = weapon.y + weapon.yOffset*5
-			elseif weapon.shootDirection == "upLeft" then
-				weapon.x = weapon.x - weapon.xOffset*2
-				weapon.y = weapon.y + weapon.yOffset*2
-			elseif weapon.shootDirection == "upRight" then
-				weapon.x = weapon.x + weapon.xOffset*2
-				weapon.y = weapon.y + weapon.yOffset*2
+				weapon.y = weapon.y - weapon.yOffset
+				if player.direction == "left" then
+					weapon.x = weapon.x - 1
+				else
+					weapon.x = weapon.x + 1
+				end
+			-- elseif weapon.shootDirection == "upLeft" then
+			-- 	weapon.x = weapon.x - weapon.xOffset*1.5
+			-- 	weapon.y = weapon.y + weapon.yOffset*1.5
+			-- elseif weapon.shootDirection == "upRight" then
+			-- 	weapon.x = weapon.x + weapon.xOffset*1.5
+			-- 	weapon.y = weapon.y + weapon.yOffset*1.5
 			elseif weapon.shootDirection == "left" then
-				weapon.x = weapon.x - weapon.xOffset*4
+				weapon.x = weapon.x - weapon.xOffset
+				weapon.y = weapon.y - 1
 			elseif weapon.shootDirection == "right" then
-				weapon.x = weapon.x + weapon.xOffset*4
-			elseif weapon.shootDirection == "downLeft" then
-				weapon.x = weapon.x - weapon.xOffset*2
-				weapon.y = weapon.y - weapon.yOffset*2
-			elseif weapon.shootDirection == "downRight" then
-				weapon.x = weapon.x + weapon.xOffset*2
-				weapon.y = weapon.y - weapon.yOffset*2
+				weapon.x = weapon.x + weapon.xOffset
+				weapon.y = weapon.y - 1
+			-- elseif weapon.shootDirection == "downLeft" then
+			-- 	weapon.x = weapon.x - weapon.xOffset*1.5
+			-- 	weapon.y = weapon.y - weapon.yOffset*1.5
+			-- elseif weapon.shootDirection == "downRight" then
+			-- 	weapon.x = weapon.x + weapon.xOffset*1.5
+			-- 	weapon.y = weapon.y - weapon.yOffset*1.5
 			elseif weapon.shootDirection == "down" then
-				weapon.y = weapon.y - weapon.yOffset*4
+				weapon.y = weapon.y + weapon.yOffset
+				if player.direction == "left" then
+					weapon.x = weapon.x - 1
+				else
+					weapon.x = weapon.x + 1
+				end
 			end
 		elseif weapon.type == "projectile" then
 			weapon.xVelocity = weapon.xVelocity + weapon.xAcceleration
@@ -317,13 +314,59 @@
 	function weapon:hitCollision()
 		love.graphics.setCanvas()
 		local imageData = weapon.canvas:newImageData()
+		-- local blockedPixels = {}
+		-- for x = 1, imageData:getWidth() do
+		-- 	for y = 1, imageData:getHeight() do
+		-- 		-- pixel coordinates range from 0 to image width - 1 / height - 1.
+		-- 		red, green, blue, alpha = imageData:getPixel(x-1, y-1)
+		-- 		if alpha > 0 then
+		-- 			for _, actor in ipairs(getCollidingActors(weapon:getX() + x-1, weapon:getY() + y-1, 1, 1, true, false, false, true)) do
+		-- 				if actor.y + actor.hitboxY + actor.hitboxHeight <= player.y then
+		-- 					table.insert(blockedPixels, {x, y, "up"})
+		-- 				end
+		-- 				if actor.y + actor.hitboxY >= player.y + player.height then
+		-- 					table.insert(blockedPixels, {x, y, "down"})
+		-- 				end
+		-- 				if actor.x + actor.hitboxX + actor.hitboxWidth <= player.x then
+		-- 					table.insert(blockedPixels, {x, y, "left"})
+		-- 				end
+		-- 				if actor.x + actor.hitboxX >= player.x + player.width then
+		-- 					table.insert(blockedPixels, {x, y, "right"})
+		-- 				end
+		-- 			end
+		-- 		end
+		-- 	end
+		-- end
+
 		for x = 1, imageData:getWidth() do
 			for y = 1, imageData:getHeight() do
-				-- Pixel coordinates range from 0 to image width - 1 / height - 1.
+				-- pixel coordinates range from 0 to image width - 1 / height - 1.
 				red, green, blue, alpha = imageData:getPixel(x-1, y-1)
 				if alpha > 0 then
-					for _, actor in ipairs(getCollidingActors(weapon:getX() + x-1, weapon:getY() + y-1, 1, 1, false, false, true, false, true, false)) do
-						if actor.enemy and actor.projectile == false then
+					-- local blocked = false
+					-- for _, pixel in ipairs(blockedPixels) do
+					-- 	if pixel[3] == "above" then
+					-- 		if pixel[1] == x and y <= pixel[2] then
+					-- 			blocked = true
+					-- 		end
+					-- 	elseif pixel[3] == "below" then
+					-- 		if pixel[1] == x and y >= pixel[2] then
+					-- 			blocked = true
+					-- 		end
+					-- 	elseif pixel[3] == "left" then
+					-- 		if pixel[2] == y and x <= pixel[1] then
+					-- 			blocked = true
+					-- 		end
+					-- 	elseif pixel[3] == "right" then
+					-- 		if pixel[2] == y and x >= pixel[1] then
+					-- 			blocked = true
+					-- 		end
+					-- 	end
+					-- end
+
+					-- if blocked == false then
+					for _, actor in ipairs(getCollidingActors(weapon:getX() + x-1, weapon:getY() + y-1, 1, 1, false, false, true, false, true, false, false, false, true)) do
+						if actor.enemy and actor.projectile == false or (actor.ai == "diving" and actor.stuck == false and actor.diving == false and actor.attacking == false) then
 							if isInTable(actor.uuid, weapon.enemiesHit) == false then
 								if weapon.damage > 0 then
 									actor.hp = actor.hp - weapon.damage
@@ -407,24 +450,43 @@
 				end
 			end
 		elseif weapon.type == "bow" then
-			if weapon.shootDirection == "up" then
-				love.graphics.draw(weapon.sprite1)
-			elseif weapon.shootDirection == "upLeft" then
-				love.graphics.draw(weapon.sprite2, 0, 0, 0, -1, 1, weapon.width)
-			elseif weapon.shootDirection == "upRight" then
-				love.graphics.draw(weapon.sprite2)
-			elseif weapon.shootDirection == "left" then
-				love.graphics.draw(weapon.sprite3, 0, 0, 0, -1, 1, weapon.width)
-			elseif weapon.shootDirection == "right" then
-				love.graphics.draw(weapon.sprite3, 0, 0, 0, 1, -1, 0, weapon.height)
-			elseif weapon.shootDirection == "downLeft" then
-				love.graphics.draw(weapon.sprite2, 0, 0, 0, -1, -1, weapon.width, weapon.height)
-			elseif weapon.shootDirection == "downRight" then
-				love.graphics.draw(weapon.sprite2, 0, 0, 0, 1, -1, 0, weapon.height)
-			elseif weapon.shootDirection == "down" then
-				love.graphics.draw(weapon.sprite1, 0, 0, 0, 1, -1, 0, weapon.height)
+			local bowFrame
+			local quad
+			if weapon.durationCounter <= weapon.startupLag then
+				bowFrame = 0
+			elseif weapon.durationCounter <= weapon.startupLag + weapon.slashDuration + weapon.endLag*1/4 then
+				bowFrame = 1
+			elseif weapon.durationCounter <= weapon.startupLag + weapon.slashDuration + weapon.endLag*2/4 then
+				bowFrame = 2
+			else
+				bowFrame = 3
 			end
 
+			if weapon.shootDirection == "up" or weapon.shootDirection == "down" then
+				quad = love.graphics.newQuad(bowFrame*21, 0, 21, 22, 84, 22)
+			-- elseif weapon.shootDirection == "upLeft" or weapon.shootDirection == "upRight" or weapon.shootDirection == "downLeft" or weapon.shootDirection == "downRight" then
+			-- 	quad = love.graphics.newQuad(bowFrame*18, 0, 18, 18, 72, 18)
+			elseif weapon.shootDirection == "left" or weapon.shootDirection == "right" then
+				quad = love.graphics.newQuad(bowFrame*22, 0, 22, 21, 88, 21)
+			end
+			
+			if weapon.shootDirection == "up" then
+				love.graphics.draw(weapon.upSprite, quad)
+			-- elseif weapon.shootDirection == "upLeft" then
+			-- 	love.graphics.draw(weapon.sprite2, quad, 0, 0, 0, -1, 1, weapon.width)
+			-- elseif weapon.shootDirection == "upRight" then
+			-- 	love.graphics.draw(weapon.sprite2, quad)
+			elseif weapon.shootDirection == "left" then
+				love.graphics.draw(weapon.sideSprite, quad, 0, 0, 0, -1, 1, weapon.width)
+			elseif weapon.shootDirection == "right" then
+				love.graphics.draw(weapon.sideSprite, quad)
+			-- elseif weapon.shootDirection == "downLeft" then
+			-- 	love.graphics.draw(weapon.sprite2, quad, 0, 0, 0, -1, -1, weapon.width, weapon.height)
+			-- elseif weapon.shootDirection == "downRight" then
+			-- 	love.graphics.draw(weapon.sprite2, quad, 0, 0, 0, 1, -1, 0, weapon.height)
+			elseif weapon.shootDirection == "down" then
+				love.graphics.draw(weapon.upSprite, quad, 0, 0, 0, 1, -1, 0, weapon.height)
+			end
 		else
 			if weapon.xVelocity > 0 then
 				xScale = 1

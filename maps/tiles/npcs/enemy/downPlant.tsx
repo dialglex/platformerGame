@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset name="downPlant" tilewidth="32" tileheight="21" tilecount="6" columns="6">
+<tileset version="1.2" tiledversion="1.2.3" name="downPlant" tilewidth="32" tileheight="21" tilecount="6" columns="6">
  <image source="../../../../images/npcs/enemy/plant/downPlantIdleSpritesheet.png" width="192" height="21"/>
  <tile id="0">
   <properties>

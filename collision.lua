@@ -16,7 +16,10 @@ function checkCollision(x, y, width, height)
 	return false
 end
 
-function getCollidingActors(x, y, width, height, collidable, platform, drawHitboxes, checkTiles, checkNpcs, checkObjects, checkItems, checkPlayer)
+function getCollidingActors(x, y, width, height, collidable, platform, drawHitboxes, checkTiles, checkNpcs, checkObjects, checkItems, checkPlayer, largeHitboxes, sizeReduction)
+	if sizeReduction == nil then
+		sizeReduction = 0
+	end
 	local collides = {}
 	if drawHitboxes then
 		table.insert(hitboxes, {x, y, width, height})
@@ -24,9 +27,15 @@ function getCollidingActors(x, y, width, height, collidable, platform, drawHitbo
 
 	if checkTiles then
 		for _, actor in ipairs(tiles) do
-			if actor.collidable and collidable or actor.platform and platform then
-				if AABB(x, y, width, height, actor.x + actor.hitboxX, actor.y + actor.hitboxY, actor.hitboxWidth, actor.hitboxHeight) then
-					table.insert(collides, actor)
+			if actor.collidable and collidable or actor.platform and platform or actor.background and collidable == false then
+				if largeHitboxes then
+					if AABB(x, y, width, height, actor.x, actor.y, actor.width, actor.height) then
+						table.insert(collides, actor)
+					end
+				else
+					if AABB(x, y, width, height, actor.x + actor.hitboxX + sizeReduction, actor.y + actor.hitboxY + sizeReduction, actor.hitboxWidth - sizeReduction*2, actor.hitboxHeight - sizeReduction*2) then
+						table.insert(collides, actor)
+					end
 				end
 			end
 		end

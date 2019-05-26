@@ -26,8 +26,7 @@ function love.load()
 	if randomNumber == 1 then
 		shopItemType = "weapon"
 	else
-		-- shopItemType = "accessory"
-		shopItemType = "weapon"
+		shopItemType = "accessory"
 	end
 
 	local mainDirectory = "maps/maps"
@@ -73,7 +72,7 @@ function love.load()
 
 	levelName = "grassland"
 	currentMap = allMaps["maps/maps/grassland/1"]
-
+	
 	actors = currentMap.actors
 	table.insert(actors, newUi("menu"))
 
@@ -146,6 +145,10 @@ function love.load()
 	shakeType = ""
 	purple = 0
 	newPurple = 0
+	stickX = 0
+	stickY = 0
+	oldStickX = 0
+	oldStickY = 0
 
 	getImages()
 	getAudio()
@@ -174,7 +177,6 @@ function love.update(dt)
 		buttonPress = {}
 	else
 		getActors(actors)
-		hitboxes = {}
 		for index, actor in ipairs(actors) do
 			if actor.actor == "ui" then
 				actor:act(index)
@@ -186,11 +188,10 @@ function love.update(dt)
 	end
 	
 	updateVolume()
-	mute()
 	if pressInputs.restart then
-		mainMusic:stop()
-		menuMusic:stop()
-		bossMusic:stop()
+		for i, music in ipairs(musicList) do
+			music:stop()
+		end
 		actors = {}
 		love.load()
 	end
@@ -244,9 +245,9 @@ function getActors(actors)
 end
 
 function love.draw()
+	drawDebug()
 	setScreenCanvas()
 	drawScreen()
-	drawDebug()
 	drawFPS()
 	drawScreenCanvas()
 end

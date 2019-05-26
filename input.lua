@@ -105,7 +105,6 @@ function getPressInputs()
 
 		inputs.restart = keyPress["r"]
 		inputs.pause = keyPress["p"]
-		inputs.mute = keyPress["m"]
 		
 		inputs.ability = keyPress["q"]
 		inputs.debug = keyPress["d"]
@@ -132,7 +131,6 @@ function getPressInputs()
 
 			inputs.restart = keyPress["r"]
 			inputs.pause = keyPress["p"]
-			inputs.mute = keyPress["m"]
 
 			inputs.ability = keyPress["q"]
 			inputs.debug = keyPress["d"]
@@ -177,7 +175,6 @@ function getDownInputs()
 
 		inputs.restart = keyDown["r"]
 		inputs.pause = keyDown["p"]
-		inputs.mute = keyDown["m"]
 		
 		inputs.ability = keyDown["q"]
 		inputs.debug = keyDown["d"]
@@ -201,7 +198,6 @@ function getDownInputs()
 
 			inputs.restart = keyDown["r"]
 			inputs.pause = keyDown["p"]
-			inputs.mute = keyDown["m"]
 
 			inputs.ability = keyDown["q"]
 			inputs.debug = keyDown["d"]

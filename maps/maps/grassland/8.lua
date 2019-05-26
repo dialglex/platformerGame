@@ -1,13 +1,14 @@
 return {
-  version = "1.1",
+  version = "1.2",
   luaversion = "5.1",
-  tiledversion = "1.1.2",
+  tiledversion = "1.2.3",
   orientation = "orthogonal",
   renderorder = "right-down",
   width = 32,
   height = 19,
   tilewidth = 16,
   tileheight = 16,
+  nextlayerid = 2,
   nextobjectid = 1,
   properties = {
     ["background"] = "../../../images/backgrounds/grassland.png",
@@ -33,6 +34,7 @@ return {
       tileheight = 16,
       spacing = 0,
       margin = 0,
+      columns = 8,
       image = "../../../images/tiles/grass.png",
       imagewidth = 128,
       imageheight = 128,
@@ -1228,6 +1230,7 @@ return {
   layers = {
     {
       type = "tilelayer",
+      id = 1,
       name = "grass",
       x = 0,
       y = 0,

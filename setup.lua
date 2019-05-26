@@ -34,6 +34,8 @@ function setupCanvases(drawActors)
 end
 
 function loadMap(newMap, oldPlayer, file)
+	shopItemNumber = 0
+	alternateShopItem = false
 	local actors = {}
 	local npcSpawns = {}
 
@@ -69,13 +71,24 @@ function loadMap(newMap, oldPlayer, file)
 								end
 
 								if tile.properties["item"] then
-									if shopItemType == "weapon" then
+									local shopItem = ""
+									local randomNumber = math.random(3)
+									if shopItemNumber == 1 and randomNumber <= shopItemNumber and alternateShopItem == false then
+										if shopItemType == "weapon" then
+											shopItem = "accessory"
+										else
+											shopItem = "weapon"
+										end
+										alternateShopItem = true
+									end
+									if shopItem == "weapon" or (shopItem == "" and shopItemType == "weapon") then
 										local itemType, sprite, width, height, randomItemName = unpack(getItemStats("weaponShopItem"))
 										table.insert(actors, newItem("weaponShopItem", mapX*16, mapY*16, itemType, sprite, width, height, randomItemName))
-									elseif shopItemType == "accessory" then
+									else
 										local itemType, sprite, width, height, randomItemName = unpack(getItemStats("accessoryShopItem"))
 										table.insert(actors, newItem("accessoryShopItem", mapX*16, mapY*16, itemType, sprite, width, height, randomItemName))
 									end
+									shopItemNumber = shopItemNumber + 1
 								elseif tile.properties["npc"] then
 									local name, ai, spritesheet, animationSpeed, animationFrames, width, height, attackAnimationFrames, attackXOffset,
 										attackYOffset, attackHitFrames, attackCooldownLength, attackDistance, damage, hp, knockback, knockbackResistance,

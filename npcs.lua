@@ -45,6 +45,7 @@ function newNpc(npcName, npcAi, x, y, spritesheet, animationSpeed, animationFram
 	npc.hitLength = 0
 	npc.grounded = false
 	npc.remove = false
+	npc.counter = 0
 
 	npc.damage = damage
 	npc.hp = hp
@@ -76,26 +77,41 @@ function newNpc(npcName, npcAi, x, y, spritesheet, animationSpeed, animationFram
 	npc.frame = 0
 	npc.frameCounter = 0
 	npc.baseSpritesheet = spritesheet
-	if npc.ai == "walking" then
-		npc.walkRightSpritesheet = npc.baseSpritesheet
-		npc.walkLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/"..npc.name.."/"..npc.name.."WalkLeftSpritesheet.png")
+
+	if npc.ai == "walking" or npc.ai == "mushroomMonster" then
+		npc.moveRightSpritesheet = npc.baseSpritesheet
+		npc.moveLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/"..npc.name.."/"..npc.name.."MoveLeftSpritesheet.png")
 		npc.attackRightSpritesheet = love.graphics.newImage("images/npcs/enemy/"..npc.name.."/"..npc.name.."AttackRightSpritesheet.png")
 		npc.attackLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/"..npc.name.."/"..npc.name.."AttackLeftSpritesheet.png")
 		npc.attackWidth = npc.attackRightSpritesheet:getWidth() / npc.attackAnimationFrames
 		npc.attackHeight = npc.attackRightSpritesheet:getHeight()
-	elseif npc.ai == "flying" then
-		npc.flyingSpritesheet = npc.baseSpritesheet
-		npc.attackWidth = 1
-		npc.attackHeight = 1
+	elseif npc.ai == "diving" then
+		npc.moveRightSpritesheet = npc.baseSpritesheet
+		npc.moveLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/"..npc.name.."/"..npc.name.."MoveLeftSpritesheet.png")
+		npc.attackRightSpritesheet = love.graphics.newImage("images/npcs/enemy/"..npc.name.."/"..npc.name.."AttackRightSpritesheet.png")
+		npc.attackLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/"..npc.name.."/"..npc.name.."AttackLeftSpritesheet.png")
+		npc.diveRightSpritesheet = love.graphics.newImage("images/npcs/enemy/"..npc.name.."/"..npc.name.."DiveRightSpritesheet.png")
+		npc.diveLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/"..npc.name.."/"..npc.name.."DiveLeftSpritesheet.png")
+		npc.stuckRightSpritesheet = love.graphics.newImage("images/npcs/enemy/"..npc.name.."/"..npc.name.."StuckRightSpritesheet.png")
+		npc.stuckLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/"..npc.name.."/"..npc.name.."StuckLeftSpritesheet.png")
+		npc.attackWidth = npc.attackRightSpritesheet:getWidth() / npc.attackAnimationFrames
+		npc.attackHeight = npc.attackRightSpritesheet:getHeight()
 	elseif npc.ai == "shootTurret" then
 		npc.idleSpritesheet = npc.baseSpritesheet
 		npc.attackSpritesheet = love.graphics.newImage("images/npcs/enemy/plant/"..npc.name.."AttackSpritesheet.png")
 		npc.attackWidth = npc.attackSpritesheet:getWidth() / npc.attackAnimationFrames
 		npc.attackHeight = npc.attackSpritesheet:getHeight()
-	elseif npc.ai == "projectile" then
+	elseif npc.ai == "smiley" then
 		npc.attackWidth = 1
 		npc.attackHeight = 1
-	elseif npc.ai == "boss" then
+	elseif npc.ai == "treeMonster" then
+		npc.moveRightSpritesheet = npc.baseSpritesheet
+		npc.moveLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/"..npc.name.."/"..npc.name.."MoveLeftSpritesheet.png")
+		npc.attackRightSpritesheet = love.graphics.newImage("images/npcs/enemy/"..npc.name.."/"..npc.name.."MoveRightSpritesheet.png")
+		npc.attackLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/"..npc.name.."/"..npc.name.."MoveLeftSpritesheet.png")
+		npc.attackWidth = 1
+		npc.attackHeight = 1
+	elseif npc.ai == "projectile" or npc.ai == "cloud" then
 		npc.attackWidth = 1
 		npc.attackHeight = 1
 	end
@@ -107,15 +123,19 @@ function newNpc(npcName, npcAi, x, y, spritesheet, animationSpeed, animationFram
 	npc.attackYOffset = attackYOffset
 	npc.attackHitFrames = attackHitFrames
 	npc.attackDistance = attackDistance
+	npc.diving = false
+	npc.stuck = false
 
-	npc.walkCounter = 0
-	npc.walkQuadSection = 0
+	npc.moveCounter = 0
+	npc.moveQuadSection = 0
 	npc.idleCounter = 0
 	npc.idleQuadSection = 0
-	npc.jumpCounter = 0
-	npc.jumpQuadSection = 0
 	npc.attackCounter = 0
 	npc.attackQuadSection = 0
+	npc.diveCounter = 0
+	npc.diveQuadSection = 0
+	npc.stuckCounter = 0
+	npc.stuckQuadSection = 0
 
 	npc.xPlayerDistance = 0
 	npc.yPlayerDistance = 0
@@ -130,35 +150,56 @@ function newNpc(npcName, npcAi, x, y, spritesheet, animationSpeed, animationFram
 		npc.direction = "right"
 	end
 
+	npc.diveWidth = 18
+	npc.diveHeight = 15
+	npc.stuckWidth = 18
+	npc.stuckHeight = 13
+
 	npc.canvas = love.graphics.newCanvas(npc.width, npc.height)
 	npc.movementCanvas = love.graphics.newCanvas(npc.width, npc.height)
 	npc.attackCanvas = love.graphics.newCanvas(npc.attackWidth, npc.attackHeight)
+	npc.diveCanvas = love.graphics.newCanvas(npc.diveWidth, npc.diveHeight)
+	npc.stuckCanvas = love.graphics.newCanvas(npc.stuckWidth, npc.stuckHeight)
 
 	function npc:act(index)
 		npc.index = index
 		if npc.frozen == false and chestOpening == false then
 			npc:combatLogic(index)
 			npc:movement()
-			if npc.ai == "flying" then
-				npc:physics()
+			if npc.ai == "diving" then
+				npc:divingAi()
 				npc:flyingAi()
+				if npc.diving == false and npc.stuck == false then
+					npc:physics()
+				end
 			elseif npc.ai == "walking" then
 				npc:checkGrounded()
 				npc:physics()
 				npc:airPhysics()
 				npc:walkingAi()
+			elseif npc.ai == "mushroomMonster" then
+				npc:checkGrounded()
+				npc:physics()
+				npc:airPhysics()
+				npc:walkingAi()
+				npc:mushroomMonsterAi()
 			elseif npc.ai == "shootTurret" then
 				npc:shootTurretAi()
 			elseif npc.ai == "sine" then
 				npc:airPhysics()
 				npc:physics()
 				npc:sineAi()
-			elseif npc.ai == "boss" then
+			elseif npc.ai == "smiley" then
 				npc:airPhysics()
 				npc:physics()
-				npc:bossAi()
+				npc:smileyAi()
+			elseif npc.ai == "treeMonster" then
+				npc:physics()
+				npc:walkingAi()
 			elseif npc.ai == "projectile" then
 				npc:projectileAi()
+			elseif npc.ai == "cloud" then
+				npc:cloudAi()
 			end
 			npc:animation()
 		else
@@ -212,6 +253,7 @@ function newNpc(npcName, npcAi, x, y, spritesheet, animationSpeed, animationFram
 
 		npc.previousXVelocity = npc.xVelocity
 		local minXMovement = npc.xVelocity
+
 		if minXMovement < 0 then
 			--collision to the left
 			if npc.attacking then
@@ -300,13 +342,13 @@ function newNpc(npcName, npcAi, x, y, spritesheet, animationSpeed, animationFram
 	end
 
 	function npc:walkingAi()
-		for _, actor in ipairs(getCollidingActors(npc:getX() - 8, npc:getY(), 8, npc.height, true, false, false, true, false, false)) do
+		for _, actor in ipairs(getCollidingActors(npc:getX() - 4, npc:getY(), 4, npc.height, true, false, false, true, false, false)) do
 			if actor.collidable then
 				npc.tileLeft = actor.name
 			end
 		end
 
-		for _, actor in ipairs(getCollidingActors(npc:getX() + npc.width, npc:getY(), 8, npc.height, true, false, false, true, false, false)) do
+		for _, actor in ipairs(getCollidingActors(npc:getX() + npc.width, npc:getY(), 4, npc.height, true, false, false, true, false, false)) do
 			if actor.collidable then
 				npc.tileRight = actor.name
 			end
@@ -320,35 +362,24 @@ function newNpc(npcName, npcAi, x, y, spritesheet, animationSpeed, animationFram
 			npc.playerRight = true
 		end
 
-		for _, actor in ipairs(getCollidingActors(npc:getX() - 8, npc:getY() + npc.height, 8, 1, true, true, false, true, false, false)) do
+		for _, actor in ipairs(getCollidingActors(npc:getX() - 4, npc:getY() + npc.height, 4, 1, true, true, false, true, false, false)) do
 			if actor.collidable or actor.platform then
 				npc.tileBottomLeft = actor.name
 			end
 		end
 
-		for _, actor in ipairs(getCollidingActors(npc:getX() + npc.width, npc:getY() + npc.height, 8, 1, true, true, false, true, false, false)) do
+		for _, actor in ipairs(getCollidingActors(npc:getX() + npc.width, npc:getY() + npc.height, 4, 1, true, true, false, true, false, false)) do
 			if actor.collidable or actor.platform then
 				npc.tileBottomRight = actor.name
 			end
 		end
 
-		if npc.x >= 480-npc.width-8 or npc.tileRight ~= "" then
+		if npc.x >= 480-npc.width-8 or npc.tileRight ~= "" or (npc.direction == "right" and npc.tileBottomRight == "") then
 			npc.direction = "left"
-		elseif npc.x <= npc.width-8 or npc.tileLeft ~= "" then
+		elseif npc.x <= npc.width-8 or npc.tileLeft ~= "" or (npc.direction == "left" and npc.tileBottomLeft == "") then
 			npc.direction = "right"
 		end
-
-		if npc.direction == "right" and npc.tileBottomRight == "" then
-			npc.direction = "left"
-		elseif npc.direction == "left" and npc.tileBottomLeft == "" then
-			npc.direction = "right"
-		end
-
-		if npc.xVelocity > 0 then
-			npc.looking = "right"
-		elseif npc.xVelocity < 0 then
-			npc.looking = "left"
-		end
+		npc.looking = npc.direction
 
 		if ((npc.playerLeft and npc.looking == "left") or (npc.playerRight and npc.looking == "right")) and npc.attackCooldown == 0 and npc.attacking == false then
 			npc.attacking = true
@@ -371,11 +402,17 @@ function newNpc(npcName, npcAi, x, y, spritesheet, animationSpeed, animationFram
 			npc.accelerating = true
 		end
 
-		if (npc.playerLeft and npc.looking == "left") == false and (npc.playerRight and npc.looking == "right") == false and npc.attacking == false then
+		local canMove = false
+		if npc.ai == "mushroomMonster" then
+			canMove = (npc.moveQuadSection/npc.width == 0 or npc.moveQuadSection/npc.width == 1)
+		else
+			canMove = true
+		end
+		if (npc.playerLeft and npc.looking == "left") == false and (npc.playerRight and npc.looking == "right") == false and npc.attacking == false and canMove then
 			if npc.direction == "left" then
 				if npc.xVelocity > -npc.xTerminalVelocity then
 					npc.xVelocity = npc.xVelocity - npc.xAcceleration
-				end
+				end 
 			else
 				if npc.xVelocity < npc.xTerminalVelocity then
 					npc.xVelocity = npc.xVelocity + npc.xAcceleration
@@ -397,6 +434,32 @@ function newNpc(npcName, npcAi, x, y, spritesheet, animationSpeed, animationFram
 
 		if npc.yVelocity > -npc.yTerminalVelocity and npc.grounded == false then
 			npc.yVelocity = npc.yVelocity + npc.yAcceleration
+		end
+	end
+
+	function npc:mushroomMonsterAi()
+		if npc.attacking then
+			if isInTable(npc.attackQuadSection/npc.attackWidth, npc.attackHitFrames) and npc.projectileShot == false then
+				local name, ai, spritesheet, animationSpeed, animationFrames, width, height, attackAnimationFrames, attackXOffset,
+					attackYOffset, attackHitFrames, attackCooldownLength, attackDistance, damage, hp, knockback, knockbackResistance,
+					screenShakeAmount, screenShakeLength, screenFreezeLength, xAcceleration, xTerminalVelocity, enemy, money, boss,
+					projectile, background = unpack(getNpcStats("poisonCloud"))
+
+				table.insert(actors, newNpc(name, ai, npc.x + npc.attackWidth/2 - width/2, npc.y + npc.attackHeight/2 - height/2, spritesheet, animationSpeed, animationFrames, width, height,
+					attackAnimationFrames, attackXOffset, attackYOffset, attackHitFrames, attackCooldownLength, attackDistance,	damage,
+					hp, knockback, knockbackResistance, screenShakeAmount, screenShakeLength, screenFreezeLength, xAcceleration,
+					xTerminalVelocity, enemy, money, boss, projectile, background, 0, 0))
+				npc.projectileShot = true
+			end
+		else
+			npc.projectileShot = false
+		end
+	end
+
+	function npc:cloudAi()
+		npc.counter = npc.counter + 1
+		if npc.counter == 120 then
+			npc.remove = true
 		end
 	end
 
@@ -452,6 +515,28 @@ function newNpc(npcName, npcAi, x, y, spritesheet, animationSpeed, animationFram
 		end
 	end
 
+	function npc:divingAi()
+		if player.x + player.width/2 > npc.x and player.x + player.width/2 < npc.x + npc.attackWidth and player.y > npc.y and npc.attackCooldown == 0 and npc.attacking == false then
+			npc.attacking = true
+		end
+
+		if npc.diving then
+			for _, actor in ipairs(getCollidingActors(npc:getX(), npc:getY(), npc.width, npc.height, true, false, false, true, false, false)) do
+				npc.y = actor.y - 10
+				npc.stuck = true
+				npc.diving = false
+			end
+
+			if npc.stuck == false then
+				npc.xVelocity = 0
+				npc.yVelocity = npc.yVelocity + 0.1
+				npc.y = npc.y + npc.yVelocity
+			end
+		else
+			npc.yVelocity = 0
+		end
+	end
+
 	function npc:flyingAi()
 		for _, actor in ipairs(getCollidingActors(npc:getX() - 8, npc:getY()-2, 8, npc.height+2*2, true, false, false, true, false, false)) do
 			if actor.collidable then
@@ -465,13 +550,22 @@ function newNpc(npcName, npcAi, x, y, spritesheet, animationSpeed, animationFram
 			end
 		end
 
-		if npc.x >= 480-npc.width-8 or npc.tileRight ~= "" then
+		if npc.x >= 480 - npc.width - 12 or npc.tileRight ~= "" then
 			npc.direction = "left"
-		elseif npc.x <= npc.width-8 or npc.tileLeft ~= "" then
+		elseif npc.x <= npc.width - 12 or npc.tileLeft ~= "" then
 			npc.direction = "right"
 		end
+		npc.looking = npc.direction
 
-		if npc.direction == "left" then
+		if npc.attacking or npc.diving or npc.stuck then
+			if npc.xVelocity > npc.xAcceleration then
+				npc.xVelocity = npc.xVelocity - npc.xAcceleration
+			elseif npc.xVelocity < -npc.xAcceleration then
+				npc.xVelocity = npc.xVelocity + npc.xAcceleration
+			else
+				npc.xVelocity = 0
+			end
+		elseif npc.direction == "left" then
 			if npc.xVelocity > -npc.xTerminalVelocity then
 				npc.xVelocity = npc.xVelocity - npc.xAcceleration
 			end
@@ -493,7 +587,7 @@ function newNpc(npcName, npcAi, x, y, spritesheet, animationSpeed, animationFram
 		npc.yVelocity = math.sin(npc.sineRadians)*1.5
 	end
 
-	function npc:bossAi()
+	function npc:smileyAi()
 		if npc.hp/npc.maxHp > 2/3 then
 			npc.yVelocity = 0
 			npc.xTerminalVelocity = 1.75
@@ -556,7 +650,8 @@ function newNpc(npcName, npcAi, x, y, spritesheet, animationSpeed, animationFram
 				npc.healthBarOpacity = 1 - (npc.lastHitTimer - npc.healthBarDuration)/npc.healthBarFadeDuration
 			end
 		end
-		if npc.ai == "flying" or npc.ai == "projectile" then
+
+		if npc.ai == "projectile" then
 			if npc.frameCounter >= npc.animationSpeed then
 				npc.frame = npc.frame + 1
 				npc.frameCounter = 0
@@ -595,7 +690,7 @@ function newNpc(npcName, npcAi, x, y, spritesheet, animationSpeed, animationFram
 				end
 				npc.idleCounter = npc.idleCounter + 1
 			end
-		elseif npc.ai == "walking" then
+		elseif npc.ai == "walking" or npc.ai == "treeMonster" or npc.ai == "mushroomMonster" or npc.ai == "diving" then
 			if npc.attacking then
 				if npc.attackCounter >= npc.attackAnimationSpeed then
 					npc.attackQuadSection = npc.attackQuadSection + npc.attackWidth
@@ -604,22 +699,49 @@ function newNpc(npcName, npcAi, x, y, spritesheet, animationSpeed, animationFram
 				if npc.attackQuadSection >= npc.attackWidth*npc.attackAnimationFrames then
 					npc.attackQuadSection = 0
 					npc.attackCounter = 0
-					npc.attacking = false
 					npc.attackCooldown = npc.attackCooldownLength
 					npc.x = npc.x - npc.attackXOffset
 					npc.y = npc.y - npc.attackYOffset
+					npc.attacking = false
+					if npc.ai == "diving" then
+						npc.diving = true
+					end
 				end
 				npc.attackCounter = npc.attackCounter + 1
+
+				if npc.ai == "diving" then
+					if npc.diveCounter >= npc.animationSpeed then
+						npc.diveQuadSection = npc.diveQuadSection + 18
+						npc.diveCounter = 0
+					end
+					if npc.diveQuadSection >= 18*2 then
+						npc.diveQuadSection = 0
+						npc.diveCounter = 0
+					end
+					npc.diveCounter = npc.diveCounter + 1
+				end
 			else
-				if npc.walkCounter >= npc.animationSpeed then
-					npc.walkQuadSection = npc.walkQuadSection + npc.width
-					npc.walkCounter = 0
+				if npc.moveCounter >= npc.animationSpeed then
+					npc.moveQuadSection = npc.moveQuadSection + npc.width
+					npc.moveCounter = 0
 				end
-				if npc.walkQuadSection >= npc.width*npc.animationFrames then
-					npc.walkQuadSection = 0
-					npc.walkCounter = 0
+				if npc.moveQuadSection >= npc.width*npc.animationFrames then
+					npc.moveQuadSection = 0
+					npc.moveCounter = 0
 				end
-				npc.walkCounter = npc.walkCounter + 1
+				npc.moveCounter = npc.moveCounter + 1
+
+				if npc.stuck then
+					if npc.stuckCounter >= npc.animationSpeed then
+						npc.stuckQuadSection = npc.stuckQuadSection + 18
+						npc.stuckCounter = 0
+					end
+					if npc.stuckQuadSection >= 18*2 then
+						npc.stuckQuadSection = 0
+						npc.stuckCounter = 0
+					end
+					npc.stuckCounter = npc.stuckCounter + 1
+				end
 			end
 		end
 	end
@@ -633,7 +755,11 @@ function newNpc(npcName, npcAi, x, y, spritesheet, animationSpeed, animationFram
 	end
 
 	function npc:draw()
-		if npc.attacking then
+		if npc.diving then
+			npc.canvas = npc.diveCanvas
+		elseif npc.stuck then
+			npc.canvas = npc.stuckCanvas
+		elseif npc.attacking then
 			npc.canvas = npc.attackCanvas
 		else
 			npc.canvas = npc.movementCanvas
@@ -642,13 +768,10 @@ function newNpc(npcName, npcAi, x, y, spritesheet, animationSpeed, animationFram
 		love.graphics.clear()
 		love.graphics.setBackgroundColor(0, 0, 0, 0)
 
-		if npc.ai == "sine" or npc.ai == "boss" or npc.ai == "projectile" then
+		if npc.ai == "sine" or npc.ai == "smiley" or npc.ai == "projectile" or npc.ai == "cloud" then
 			npc.spritesheet = npc.baseSpritesheet
 			npc.quad = npc.frameQuad
-		elseif npc.ai == "flying" then
-			npc.spritesheet = npc.flyingSpritesheet
-			npc.quad = npc.frameQuad
-		elseif npc.ai == "walking" then
+		elseif npc.ai == "walking" or npc.ai == "treeMonster" or npc.ai == "mushroomMonster" or npc.ai == "diving" then
 			if npc.attacking then
 				if npc.attackDirection == "left" then
 					npc.spritesheet = npc.attackLeftSpritesheet
@@ -657,13 +780,41 @@ function newNpc(npcName, npcAi, x, y, spritesheet, animationSpeed, animationFram
 					npc.spritesheet = npc.attackRightSpritesheet
 					npc.quad = love.graphics.newQuad(npc.attackQuadSection, 0, npc.attackWidth, npc.attackHeight, npc.attackWidth*npc.attackAnimationFrames, npc.attackHeight)
 				end
+
+				if npc.ai == "diving" then
+					if npc.looking == "left" then
+						npc.spritesheet = npc.attackLeftSpritesheet
+						npc.quad = love.graphics.newQuad(npc.attackQuadSection, 0, npc.attackWidth, npc.attackHeight, npc.attackWidth*npc.attackAnimationFrames, npc.attackHeight)
+					else
+						npc.spritesheet = npc.attackRightSpritesheet
+						npc.quad = love.graphics.newQuad(npc.attackQuadSection, 0, npc.attackWidth, npc.attackHeight, npc.attackWidth*npc.attackAnimationFrames, npc.attackHeight)
+					end
+				end
 			else
 				if npc.looking == "left" then
-					npc.spritesheet = npc.walkLeftSpritesheet
-					npc.quad = love.graphics.newQuad(npc.walkQuadSection, 0, npc.width, npc.height, npc.width*npc.animationFrames, npc.height)
+					npc.spritesheet = npc.moveLeftSpritesheet
+					npc.quad = love.graphics.newQuad(npc.moveQuadSection, 0, npc.width, npc.height, npc.width*npc.animationFrames, npc.height)
 				else
-					npc.spritesheet = npc.walkRightSpritesheet
-					npc.quad = love.graphics.newQuad(npc.walkQuadSection, 0, npc.width, npc.height, npc.width*npc.animationFrames, npc.height)
+					npc.spritesheet = npc.moveRightSpritesheet
+					npc.quad = love.graphics.newQuad(npc.moveQuadSection, 0, npc.width, npc.height, npc.width*npc.animationFrames, npc.height)
+				end
+
+				if npc.diving then
+					if npc.looking == "left" then
+						npc.spritesheet = npc.diveLeftSpritesheet
+						npc.quad = love.graphics.newQuad(npc.diveQuadSection, 0, npc.diveWidth, npc.diveHeight, npc.diveWidth*2, npc.diveHeight)
+					else
+						npc.spritesheet = npc.diveRightSpritesheet
+						npc.quad = love.graphics.newQuad(npc.diveQuadSection, 0, npc.diveWidth, npc.diveHeight, npc.diveWidth*2, npc.diveHeight)
+					end
+				elseif npc.stuck then
+					if npc.looking == "left" then
+						npc.spritesheet = npc.stuckLeftSpritesheet
+						npc.quad = love.graphics.newQuad(npc.stuckQuadSection, 0, npc.stuckWidth, npc.stuckHeight, npc.stuckWidth*2, npc.stuckHeight)
+					else
+						npc.spritesheet = npc.stuckRightSpritesheet
+						npc.quad = love.graphics.newQuad(npc.stuckQuadSection, 0, npc.stuckWidth, npc.stuckHeight, npc.stuckWidth*2, npc.stuckHeight)
+					end
 				end
 			end
 		elseif npc.ai == "shootTurret" then

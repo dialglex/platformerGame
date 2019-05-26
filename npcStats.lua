@@ -1,12 +1,70 @@
 function getNpcStats(npc)
 	local stats = {}
 
-	if npc == "moonfly" then
+	if npc == "acorn" then
 		name = npc
-		ai = "flying"
-		spritesheet = love.graphics.newImage("images/npcs/enemy/moonfly/moonflySpritesheet.png")
+		ai = "walking"
+		spritesheet = love.graphics.newImage("images/npcs/enemy/acorn/acornMoveRightSpritesheet.png")
 		animationSpeed = 5 -- lower is faster
-		animationFrames = 9
+		animationFrames = 6
+		width = spritesheet:getWidth() / animationFrames
+		height = spritesheet:getHeight()
+		attackAnimationFrames = 11
+		attackXOffset = -5
+		attackYOffset = 0
+		attackHitFrames = {3}
+		attackCooldownLength = 20
+		attackDistance = 4
+		damage = 25
+		hp = 90
+		knockbackStrength = 2.5
+		knockbackResistance = 1.5
+		screenShakeAmount = 8
+		screenShakeLength = 6
+		screenFreezeLength = 4
+		xAcceleration = 0.05
+		xTerminalVelocity = 0.75
+		enemy = true
+		money = 20
+		boss = false
+		projectile = false
+		background = true
+	end
+
+	if npc == "mushroomMonster" then
+		name = npc
+		ai = "mushroomMonster"
+		spritesheet = love.graphics.newImage("images/npcs/enemy/mushroomMonster/mushroomMonsterMoveRightSpritesheet.png")
+		animationSpeed = 7 -- lower is faster
+		animationFrames = 5
+		width = spritesheet:getWidth() / animationFrames
+		height = spritesheet:getHeight()
+		attackAnimationFrames = 10
+		attackXOffset = 0
+		attackYOffset = 0
+		attackHitFrames = {6}
+		attackCooldownLength = 50
+		attackDistance = 2
+		damage = 0
+		hp = 60
+		knockbackStrength = 2.5
+		knockbackResistance = 1.5
+		screenShakeAmount = 8
+		screenShakeLength = 6
+		screenFreezeLength = 4
+		xAcceleration = 0.05
+		xTerminalVelocity = 0.75
+		enemy = true
+		money = 20
+		boss = false
+		projectile = false
+		background = true
+	elseif npc == "poisonCloud" then
+		name = npc
+		ai = "cloud"
+		spritesheet = love.graphics.newImage("images/npcs/enemy/mushroomMonster/poisonCloud.png")
+		animationSpeed = 7 -- lower is faster
+		animationFrames = 1
 		width = spritesheet:getWidth() / animationFrames
 		height = spritesheet:getHeight()
 		attackAnimationFrames = 1
@@ -15,14 +73,44 @@ function getNpcStats(npc)
 		attackHitFrames = {}
 		attackCooldownLength = 1
 		attackDistance = 1
-		damage = 1
-		hp = 50
+		damage = 0.5
+		hp = 1
+		knockbackStrength = 0
+		knockbackResistance = 1
+		screenShakeAmount = 1
+		screenShakeLength = 1
+		screenFreezeLength = 0
+		xAcceleration = 0
+		xTerminalVelocity = 0
+		enemy = true
+		money = 0
+		boss = false
+		projectile = true
+		background = false
+	end
+
+	if npc == "moonfly" then
+		name = npc
+		ai = "diving"
+		spritesheet = love.graphics.newImage("images/npcs/enemy/moonfly/moonflyMoveRightSpritesheet.png")
+		animationSpeed = 5 -- lower is faster
+		animationFrames = 3
+		width = spritesheet:getWidth() / animationFrames
+		height = spritesheet:getHeight()
+		attackAnimationFrames = 5
+		attackXOffset = 0
+		attackYOffset = 0
+		attackHitFrames = {0, 1}
+		attackCooldownLength = 1
+		attackDistance = 1
+		damage = 25
+		hp = 40
 		knockbackStrength = 5
 		knockbackResistance = 1
 		screenShakeAmount = 0
 		screenShakeLength = 0
 		screenFreezeLength = 0
-		xAcceleration = 0.035
+		xAcceleration = 0.05
 		xTerminalVelocity = 1
 		enemy = true
 		money = 10
@@ -46,7 +134,7 @@ function getNpcStats(npc)
 		attackCooldownLength = 0
 		attackDistance = 0
 		damage = 0
-		hp = 100
+		hp = 90
 		knockbackStrength = 0
 		knockbackResistance = 0
 		screenShakeAmount = 0
@@ -74,7 +162,7 @@ function getNpcStats(npc)
 		attackCooldownLength = 0
 		attackDistance = 0
 		damage = 0
-		hp = 100
+		hp = 90
 		knockbackStrength = 0
 		knockbackResistance = 0
 		screenShakeAmount = 0
@@ -102,7 +190,7 @@ function getNpcStats(npc)
 		attackHitFrames = {}
 		attackCooldownLength = 1
 		attackDistance = 1
-		damage = 1
+		damage = 20
 		hp = 1
 		knockbackStrength = 1
 		knockbackResistance = 1
@@ -118,37 +206,35 @@ function getNpcStats(npc)
 		background = true
 	end
 
-	if npc == "blueSlime" then
+	if npc == "treeMonster" then
 		name = npc
-		ai = "walking"
-		spritesheet = love.graphics.newImage("images/npcs/enemy/blueSlime/blueSlimeWalkRightSpritesheet.png")
+		ai = "treeMonster"
+		spritesheet = love.graphics.newImage("images/npcs/enemy/treeMonster/treeMonsterMoveRightSpritesheet.png")
 		animationSpeed = 5 -- lower is faster
-		animationFrames = 6
+		animationFrames = 1
 		width = spritesheet:getWidth() / animationFrames
 		height = spritesheet:getHeight()
-		attackAnimationFrames = 9
-		attackXOffset = -6
+		attackAnimationFrames = 1
+		attackXOffset = 0
 		attackYOffset = 0
-		attackHitFrames = {5}
-		attackCooldownLength = 30
-		attackDistance = 8
-		damage = 1
-		hp = 100
-		knockbackStrength = 2.5
-		knockbackResistance = 1
-		screenShakeAmount = 8
-		screenShakeLength = 6
-		screenFreezeLength = 4
-		xAcceleration = 0.05
-		xTerminalVelocity = 0.75
+		attackHitFrames = {}
+		attackCooldownLength = 1
+		attackDistance = 1
+		damage = 25
+		hp = 250
+		knockbackStrength = 5
+		knockbackResistance = 10
+		screenShakeAmount = 10
+		screenShakeLength = 7
+		screenFreezeLength = 6
+		xAcceleration = 0.035
+		xTerminalVelocity = 0.5
 		enemy = true
-		money = 20
-		boss = false
+		money = 100
+		boss = true
 		projectile = false
 		background = true
 	end
-
-
 
 	if npc == "smiley" then
 		name = npc
@@ -164,7 +250,7 @@ function getNpcStats(npc)
 		attackHitFrames = {}
 		attackCooldownLength = 1
 		attackDistance = 1
-		damage = 1
+		damage = 25
 		hp = 250
 		knockbackStrength = 5
 		knockbackResistance = 10

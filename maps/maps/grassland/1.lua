@@ -1,28 +1,29 @@
 return {
-  version = "1.1",
+  version = "1.2",
   luaversion = "5.1",
-  tiledversion = "1.1.2",
+  tiledversion = "1.2.3",
   orientation = "orthogonal",
   renderorder = "right-down",
-  width = 30,
-  height = 17,
+  width = 32,
+  height = 19,
   tilewidth = 16,
   tileheight = 16,
-  nextobjectid = 10,
+  nextlayerid = 4,
+  nextobjectid = 1,
   properties = {
     ["background"] = "../../../images/backgrounds/grassland.png",
     ["bottomLeft"] = true,
-    ["bottomMiddle"] = false,
+    ["bottomMiddle"] = true,
     ["bottomRight"] = true,
     ["leftBottom"] = true,
-    ["leftMiddle"] = false,
+    ["leftMiddle"] = true,
     ["leftTop"] = true,
     ["rightBottom"] = true,
-    ["rightMiddle"] = false,
+    ["rightMiddle"] = true,
     ["rightTop"] = true,
-    ["topLeft"] = false,
+    ["topLeft"] = true,
     ["topMiddle"] = true,
-    ["topRight"] = false
+    ["topRight"] = true
   },
   tilesets = {
     {
@@ -33,6 +34,7 @@ return {
       tileheight = 16,
       spacing = 0,
       margin = 0,
+      columns = 8,
       image = "../../../images/tiles/grass.png",
       imagewidth = 128,
       imageheight = 128,
@@ -105,7 +107,7 @@ return {
                 x = 2,
                 y = 0,
                 width = 14,
-                height = 14,
+                height = 16,
                 rotation = 0,
                 visible = true,
                 properties = {}
@@ -137,7 +139,7 @@ return {
                 x = 0,
                 y = 0,
                 width = 16,
-                height = 14,
+                height = 16,
                 rotation = 0,
                 visible = true,
                 properties = {}
@@ -169,7 +171,7 @@ return {
                 x = 0,
                 y = 0,
                 width = 14,
-                height = 14,
+                height = 16,
                 rotation = 0,
                 visible = true,
                 properties = {}
@@ -417,7 +419,7 @@ return {
                 x = 0,
                 y = 0,
                 width = 16,
-                height = 14,
+                height = 16,
                 rotation = 0,
                 visible = true,
                 properties = {}
@@ -591,7 +593,7 @@ return {
                 x = 2,
                 y = 0,
                 width = 12,
-                height = 14,
+                height = 16,
                 rotation = 0,
                 visible = true,
                 properties = {}
@@ -651,7 +653,7 @@ return {
                 x = 2,
                 y = 0,
                 width = 14,
-                height = 14,
+                height = 16,
                 rotation = 0,
                 visible = true,
                 properties = {}
@@ -683,7 +685,7 @@ return {
                 x = 0,
                 y = 0,
                 width = 14,
-                height = 14,
+                height = 16,
                 rotation = 0,
                 visible = true,
                 properties = {}
@@ -816,31 +818,6 @@ return {
           properties = {
             ["background"] = false,
             ["collidable"] = false
-          },
-          objectGroup = {
-            type = "objectgroup",
-            name = "",
-            visible = true,
-            opacity = 1,
-            offsetx = 0,
-            offsety = 0,
-            draworder = "index",
-            properties = {},
-            objects = {
-              {
-                id = 1,
-                name = "",
-                type = "",
-                shape = "rectangle",
-                x = 2,
-                y = -8.88178e-16,
-                width = 14,
-                height = 15,
-                rotation = 0,
-                visible = true,
-                properties = {}
-              }
-            }
           }
         },
         {
@@ -933,6 +910,31 @@ return {
           properties = {
             ["background"] = false,
             ["collidable"] = false
+          },
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            offsetx = 0,
+            offsety = 0,
+            draworder = "index",
+            properties = {},
+            objects = {
+              {
+                id = 1,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = 0,
+                y = 0,
+                width = 14,
+                height = 16,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
           }
         },
         {
@@ -973,7 +975,7 @@ return {
                 x = 2,
                 y = 0,
                 width = 14,
-                height = 14,
+                height = 16,
                 rotation = 0,
                 visible = true,
                 properties = {}
@@ -1005,7 +1007,7 @@ return {
                 x = 0,
                 y = 0,
                 width = 16,
-                height = 14,
+                height = 16,
                 rotation = 0,
                 visible = true,
                 properties = {}
@@ -1037,7 +1039,7 @@ return {
                 x = 0,
                 y = 0,
                 width = 14,
-                height = 14,
+                height = 16,
                 rotation = 0,
                 visible = true,
                 properties = {}
@@ -1114,6 +1116,31 @@ return {
           properties = {
             ["background"] = false,
             ["collidable"] = false
+          },
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            offsetx = 0,
+            offsety = 0,
+            draworder = "index",
+            properties = {},
+            objects = {
+              {
+                id = 1,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = 2,
+                y = 0,
+                width = 14,
+                height = 16,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
           }
         },
         {
@@ -1140,7 +1167,7 @@ return {
                 x = 0,
                 y = 0,
                 width = 16,
-                height = 14,
+                height = 16,
                 rotation = 0,
                 visible = true,
                 properties = {}
@@ -1172,7 +1199,7 @@ return {
                 x = 0,
                 y = 0,
                 width = 16,
-                height = 14,
+                height = 16,
                 rotation = 0,
                 visible = true,
                 properties = {}
@@ -1225,551 +1252,14 @@ return {
       }
     },
     {
-      name = "corruption",
-      firstgid = 65,
-      filename = "../../tiles/tiles/corruption.tsx",
-      tilewidth = 16,
-      tileheight = 16,
-      spacing = 0,
-      margin = 0,
-      image = "../../../images/tiles/corruption.png",
-      imagewidth = 80,
-      imageheight = 80,
-      tileoffset = {
-        x = 0,
-        y = 0
-      },
-      grid = {
-        orientation = "orthogonal",
-        width = 16,
-        height = 16
-      },
-      properties = {},
-      terrains = {},
-      tilecount = 25,
-      tiles = {
-        {
-          id = 0,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = true
-          },
-          objectGroup = {
-            type = "objectgroup",
-            name = "",
-            visible = true,
-            opacity = 1,
-            offsetx = 0,
-            offsety = 0,
-            draworder = "index",
-            properties = {},
-            objects = {
-              {
-                id = 1,
-                name = "",
-                type = "",
-                shape = "rectangle",
-                x = 2,
-                y = 2,
-                width = 12,
-                height = 12,
-                rotation = 0,
-                visible = true,
-                properties = {}
-              }
-            }
-          }
-        },
-        {
-          id = 1,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = true
-          },
-          objectGroup = {
-            type = "objectgroup",
-            name = "",
-            visible = true,
-            opacity = 1,
-            offsetx = 0,
-            offsety = 0,
-            draworder = "index",
-            properties = {},
-            objects = {
-              {
-                id = 1,
-                name = "",
-                type = "",
-                shape = "rectangle",
-                x = 2,
-                y = 2,
-                width = 14,
-                height = 12,
-                rotation = 0,
-                visible = true,
-                properties = {}
-              }
-            }
-          }
-        },
-        {
-          id = 2,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = true
-          },
-          objectGroup = {
-            type = "objectgroup",
-            name = "",
-            visible = true,
-            opacity = 1,
-            offsetx = 0,
-            offsety = 0,
-            draworder = "index",
-            properties = {},
-            objects = {
-              {
-                id = 1,
-                name = "",
-                type = "",
-                shape = "rectangle",
-                x = 0,
-                y = 2,
-                width = 16,
-                height = 12,
-                rotation = 0,
-                visible = true,
-                properties = {}
-              }
-            }
-          }
-        },
-        {
-          id = 3,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = true
-          },
-          objectGroup = {
-            type = "objectgroup",
-            name = "",
-            visible = true,
-            opacity = 1,
-            offsetx = 0,
-            offsety = 0,
-            draworder = "index",
-            properties = {},
-            objects = {
-              {
-                id = 1,
-                name = "",
-                type = "",
-                shape = "rectangle",
-                x = 0,
-                y = 2,
-                width = 14,
-                height = 12,
-                rotation = 0,
-                visible = true,
-                properties = {}
-              }
-            }
-          }
-        },
-        {
-          id = 4,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = true
-          },
-          objectGroup = {
-            type = "objectgroup",
-            name = "",
-            visible = true,
-            opacity = 1,
-            offsetx = 0,
-            offsety = 0,
-            draworder = "index",
-            properties = {},
-            objects = {
-              {
-                id = 1,
-                name = "",
-                type = "",
-                shape = "rectangle",
-                x = 2,
-                y = 2,
-                width = 12,
-                height = 14,
-                rotation = 0,
-                visible = true,
-                properties = {}
-              }
-            }
-          }
-        },
-        {
-          id = 5,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = true
-          },
-          objectGroup = {
-            type = "objectgroup",
-            name = "",
-            visible = true,
-            opacity = 1,
-            offsetx = 0,
-            offsety = 0,
-            draworder = "index",
-            properties = {},
-            objects = {
-              {
-                id = 1,
-                name = "",
-                type = "",
-                shape = "rectangle",
-                x = 2,
-                y = 2,
-                width = 14,
-                height = 14,
-                rotation = 0,
-                visible = true,
-                properties = {}
-              }
-            }
-          }
-        },
-        {
-          id = 6,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = true
-          },
-          objectGroup = {
-            type = "objectgroup",
-            name = "",
-            visible = true,
-            opacity = 1,
-            offsetx = 0,
-            offsety = 0,
-            draworder = "index",
-            properties = {},
-            objects = {
-              {
-                id = 1,
-                name = "",
-                type = "",
-                shape = "rectangle",
-                x = 0,
-                y = 2,
-                width = 16,
-                height = 14,
-                rotation = 0,
-                visible = true,
-                properties = {}
-              }
-            }
-          }
-        },
-        {
-          id = 7,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = true
-          },
-          objectGroup = {
-            type = "objectgroup",
-            name = "",
-            visible = true,
-            opacity = 1,
-            offsetx = 0,
-            offsety = 0,
-            draworder = "index",
-            properties = {},
-            objects = {
-              {
-                id = 1,
-                name = "",
-                type = "",
-                shape = "rectangle",
-                x = 0,
-                y = 2,
-                width = 14,
-                height = 14,
-                rotation = 0,
-                visible = true,
-                properties = {}
-              }
-            }
-          }
-        },
-        {
-          id = 8,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = true
-          },
-          objectGroup = {
-            type = "objectgroup",
-            name = "",
-            visible = true,
-            opacity = 1,
-            offsetx = 0,
-            offsety = 0,
-            draworder = "index",
-            properties = {},
-            objects = {
-              {
-                id = 1,
-                name = "",
-                type = "",
-                shape = "rectangle",
-                x = 2,
-                y = 0,
-                width = 12,
-                height = 16,
-                rotation = 0,
-                visible = true,
-                properties = {}
-              }
-            }
-          }
-        },
-        {
-          id = 9,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = true
-          },
-          objectGroup = {
-            type = "objectgroup",
-            name = "",
-            visible = true,
-            opacity = 1,
-            offsetx = 0,
-            offsety = 0,
-            draworder = "index",
-            properties = {},
-            objects = {
-              {
-                id = 1,
-                name = "",
-                type = "",
-                shape = "rectangle",
-                x = 2,
-                y = 0,
-                width = 14,
-                height = 16,
-                rotation = 0,
-                visible = true,
-                properties = {}
-              }
-            }
-          }
-        },
-        {
-          id = 10,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 11,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = true
-          },
-          objectGroup = {
-            type = "objectgroup",
-            name = "",
-            visible = true,
-            opacity = 1,
-            offsetx = 0,
-            offsety = 0,
-            draworder = "index",
-            properties = {},
-            objects = {
-              {
-                id = 1,
-                name = "",
-                type = "",
-                shape = "rectangle",
-                x = 0,
-                y = 0,
-                width = 14,
-                height = 16,
-                rotation = 0,
-                visible = true,
-                properties = {}
-              }
-            }
-          }
-        },
-        {
-          id = 12,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = true
-          },
-          objectGroup = {
-            type = "objectgroup",
-            name = "",
-            visible = true,
-            opacity = 1,
-            offsetx = 0,
-            offsety = 0,
-            draworder = "index",
-            properties = {},
-            objects = {
-              {
-                id = 1,
-                name = "",
-                type = "",
-                shape = "rectangle",
-                x = 2,
-                y = -8.88178e-16,
-                width = 12,
-                height = 14,
-                rotation = 0,
-                visible = true,
-                properties = {}
-              }
-            }
-          }
-        },
-        {
-          id = 13,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = true
-          },
-          objectGroup = {
-            type = "objectgroup",
-            name = "",
-            visible = true,
-            opacity = 1,
-            offsetx = 0,
-            offsety = 0,
-            draworder = "index",
-            properties = {},
-            objects = {
-              {
-                id = 1,
-                name = "",
-                type = "",
-                shape = "rectangle",
-                x = 2,
-                y = 0,
-                width = 14,
-                height = 14,
-                rotation = 0,
-                visible = true,
-                properties = {}
-              }
-            }
-          }
-        },
-        {
-          id = 14,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = true
-          },
-          objectGroup = {
-            type = "objectgroup",
-            name = "",
-            visible = true,
-            opacity = 1,
-            offsetx = 0,
-            offsety = 0,
-            draworder = "index",
-            properties = {},
-            objects = {
-              {
-                id = 1,
-                name = "",
-                type = "",
-                shape = "rectangle",
-                x = -1.77636e-15,
-                y = 0,
-                width = 16,
-                height = 14,
-                rotation = 0,
-                visible = true,
-                properties = {}
-              }
-            }
-          }
-        },
-        {
-          id = 15,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = true
-          },
-          objectGroup = {
-            type = "objectgroup",
-            name = "",
-            visible = true,
-            opacity = 1,
-            offsetx = 0,
-            offsety = 0,
-            draworder = "index",
-            properties = {},
-            objects = {
-              {
-                id = 1,
-                name = "",
-                type = "",
-                shape = "rectangle",
-                x = -8.88178e-16,
-                y = 0,
-                width = 14,
-                height = 14,
-                rotation = 0,
-                visible = true,
-                properties = {}
-              }
-            }
-          }
-        }
-      }
-    },
-    {
-      name = "player",
-      firstgid = 90,
-      filename = "../../tiles/player/player.tsx",
-      tilewidth = 15,
-      tileheight = 24,
-      spacing = 0,
-      margin = 0,
-      image = "../../../images/player/player.png",
-      imagewidth = 15,
-      imageheight = 24,
-      tileoffset = {
-        x = 0,
-        y = 0
-      },
-      grid = {
-        orientation = "orthogonal",
-        width = 16,
-        height = 24
-      },
-      properties = {},
-      terrains = {},
-      tilecount = 1,
-      tiles = {}
-    },
-    {
       name = "grassBg",
-      firstgid = 91,
+      firstgid = 65,
       filename = "../../tiles/tiles/grassBg.tsx",
       tilewidth = 16,
       tileheight = 16,
       spacing = 0,
       margin = 0,
+      columns = 2,
       image = "../../../images/tiles/grassBg.png",
       imagewidth = 32,
       imageheight = 32,
@@ -1817,191 +1307,17 @@ return {
       }
     },
     {
-      name = "sign",
-      firstgid = 95,
-      filename = "../../tiles/tiles/sign.tsx",
-      tilewidth = 24,
+      name = "player",
+      firstgid = 69,
+      filename = "../../tiles/player/player.tsx",
+      tilewidth = 15,
       tileheight = 24,
       spacing = 0,
       margin = 0,
-      image = "../../../images/tiles/sign.png",
-      imagewidth = 48,
-      imageheight = 48,
-      tileoffset = {
-        x = 0,
-        y = 0
-      },
-      grid = {
-        orientation = "orthogonal",
-        width = 24,
-        height = 24
-      },
-      properties = {},
-      terrains = {},
-      tilecount = 4,
-      tiles = {
-        {
-          id = 0,
-          properties = {
-            ["background"] = true,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 1,
-          properties = {
-            ["background"] = true,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 2,
-          properties = {
-            ["background"] = true,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 3,
-          properties = {
-            ["background"] = true,
-            ["collidable"] = false
-          }
-        }
-      }
-    },
-    {
-      name = "teleporter",
-      firstgid = 99,
-      filename = "../../tiles/tiles/teleporter.tsx",
-      tilewidth = 32,
-      tileheight = 22,
-      spacing = 0,
-      margin = 0,
-      image = "../../../images/tiles/teleporter/teleporterOff.png",
-      imagewidth = 32,
-      imageheight = 22,
-      tileoffset = {
-        x = 0,
-        y = 0
-      },
-      grid = {
-        orientation = "orthogonal",
-        width = 32,
-        height = 22
-      },
-      properties = {},
-      terrains = {},
-      tilecount = 1,
-      tiles = {
-        {
-          id = 0,
-          properties = {
-            ["active"] = false,
-            ["background"] = true,
-            ["collidable"] = false
-          }
-        }
-      }
-    },
-    {
-      name = "chest",
-      firstgid = 100,
-      filename = "../../tiles/tiles/chest.tsx",
-      tilewidth = 32,
-      tileheight = 31,
-      spacing = 0,
-      margin = 0,
-      image = "../../../images/tiles/chest/chest.png",
-      imagewidth = 32,
-      imageheight = 31,
-      tileoffset = {
-        x = 0,
-        y = 0
-      },
-      grid = {
-        orientation = "orthogonal",
-        width = 32,
-        height = 31
-      },
-      properties = {},
-      terrains = {},
-      tilecount = 1,
-      tiles = {
-        {
-          id = 0,
-          properties = {
-            ["background"] = true,
-            ["collidable"] = false
-          }
-        }
-      }
-    },
-    {
-      name = "house",
-      firstgid = 101,
-      filename = "../../tiles/tiles/house.tsx",
-      tilewidth = 80,
-      tileheight = 64,
-      spacing = 0,
-      margin = 0,
-      image = "../../../images/tiles/house.png",
-      imagewidth = 160,
-      imageheight = 128,
-      tileoffset = {
-        x = 0,
-        y = 0
-      },
-      grid = {
-        orientation = "orthogonal",
-        width = 80,
-        height = 64
-      },
-      properties = {},
-      terrains = {},
-      tilecount = 4,
-      tiles = {
-        {
-          id = 0,
-          properties = {
-            ["background"] = true,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 1,
-          properties = {
-            ["background"] = true,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 2,
-          properties = {
-            ["background"] = true,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 3,
-          properties = {
-            ["background"] = true,
-            ["collidable"] = false
-          }
-        }
-      }
-    },
-    {
-      name = "wood",
-      firstgid = 105,
-      filename = "../../tiles/tiles/wood.tsx",
-      tilewidth = 16,
-      tileheight = 16,
-      spacing = 0,
-      margin = 0,
-      image = "../../../images/tiles/wood.png",
-      imagewidth = 112,
-      imageheight = 112,
+      columns = 1,
+      image = "../../../images/player/player.png",
+      imagewidth = 15,
+      imageheight = 24,
       tileoffset = {
         x = 0,
         y = 0
@@ -2009,851 +1325,23 @@ return {
       grid = {
         orientation = "orthogonal",
         width = 16,
-        height = 16
+        height = 24
       },
       properties = {},
       terrains = {},
-      tilecount = 49,
-      tiles = {
-        {
-          id = 0,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = true
-          },
-          objectGroup = {
-            type = "objectgroup",
-            name = "",
-            visible = true,
-            opacity = 1,
-            offsetx = 0,
-            offsety = 0,
-            draworder = "index",
-            properties = {},
-            objects = {
-              {
-                id = 1,
-                name = "",
-                type = "",
-                shape = "rectangle",
-                x = 0,
-                y = 0,
-                width = 16,
-                height = 16,
-                rotation = 0,
-                visible = true,
-                properties = {}
-              }
-            }
-          }
-        },
-        {
-          id = 1,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = true
-          },
-          objectGroup = {
-            type = "objectgroup",
-            name = "",
-            visible = true,
-            opacity = 1,
-            offsetx = 0,
-            offsety = 0,
-            draworder = "index",
-            properties = {},
-            objects = {
-              {
-                id = 1,
-                name = "",
-                type = "",
-                shape = "rectangle",
-                x = 0,
-                y = 0,
-                width = 16,
-                height = 16,
-                rotation = 0,
-                visible = true,
-                properties = {}
-              }
-            }
-          }
-        },
-        {
-          id = 2,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = true
-          },
-          objectGroup = {
-            type = "objectgroup",
-            name = "",
-            visible = true,
-            opacity = 1,
-            offsetx = 0,
-            offsety = 0,
-            draworder = "index",
-            properties = {},
-            objects = {
-              {
-                id = 1,
-                name = "",
-                type = "",
-                shape = "rectangle",
-                x = 0,
-                y = 0,
-                width = 16,
-                height = 16,
-                rotation = 0,
-                visible = true,
-                properties = {}
-              }
-            }
-          }
-        },
-        {
-          id = 3,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = true
-          },
-          objectGroup = {
-            type = "objectgroup",
-            name = "",
-            visible = true,
-            opacity = 1,
-            offsetx = 0,
-            offsety = 0,
-            draworder = "index",
-            properties = {},
-            objects = {
-              {
-                id = 1,
-                name = "",
-                type = "",
-                shape = "rectangle",
-                x = 0,
-                y = 0,
-                width = 16,
-                height = 16,
-                rotation = 0,
-                visible = true,
-                properties = {}
-              }
-            }
-          }
-        },
-        {
-          id = 4,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 5,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 6,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 7,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = true
-          },
-          objectGroup = {
-            type = "objectgroup",
-            name = "",
-            visible = true,
-            opacity = 1,
-            offsetx = 0,
-            offsety = 0,
-            draworder = "index",
-            properties = {},
-            objects = {
-              {
-                id = 1,
-                name = "",
-                type = "",
-                shape = "rectangle",
-                x = 0,
-                y = 0,
-                width = 16,
-                height = 16,
-                rotation = 0,
-                visible = true,
-                properties = {}
-              }
-            }
-          }
-        },
-        {
-          id = 8,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 9,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = true
-          },
-          objectGroup = {
-            type = "objectgroup",
-            name = "",
-            visible = true,
-            opacity = 1,
-            offsetx = 0,
-            offsety = 0,
-            draworder = "index",
-            properties = {},
-            objects = {
-              {
-                id = 1,
-                name = "",
-                type = "",
-                shape = "rectangle",
-                x = 0,
-                y = 0,
-                width = 16,
-                height = 16,
-                rotation = 0,
-                visible = true,
-                properties = {}
-              }
-            }
-          }
-        },
-        {
-          id = 10,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = true
-          },
-          objectGroup = {
-            type = "objectgroup",
-            name = "",
-            visible = true,
-            opacity = 1,
-            offsetx = 0,
-            offsety = 0,
-            draworder = "index",
-            properties = {},
-            objects = {
-              {
-                id = 1,
-                name = "",
-                type = "",
-                shape = "rectangle",
-                x = 0,
-                y = 0,
-                width = 16,
-                height = 16,
-                rotation = 0,
-                visible = true,
-                properties = {}
-              }
-            }
-          }
-        },
-        {
-          id = 11,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = true
-          },
-          objectGroup = {
-            type = "objectgroup",
-            name = "",
-            visible = true,
-            opacity = 1,
-            offsetx = 0,
-            offsety = 0,
-            draworder = "index",
-            properties = {},
-            objects = {
-              {
-                id = 1,
-                name = "",
-                type = "",
-                shape = "rectangle",
-                x = 0,
-                y = 0,
-                width = 16,
-                height = 16,
-                rotation = 0,
-                visible = true,
-                properties = {}
-              }
-            }
-          }
-        },
-        {
-          id = 12,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 13,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 14,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = true
-          },
-          objectGroup = {
-            type = "objectgroup",
-            name = "",
-            visible = true,
-            opacity = 1,
-            offsetx = 0,
-            offsety = 0,
-            draworder = "index",
-            properties = {},
-            objects = {
-              {
-                id = 1,
-                name = "",
-                type = "",
-                shape = "rectangle",
-                x = 0,
-                y = 0,
-                width = 16,
-                height = 16,
-                rotation = 0,
-                visible = true,
-                properties = {}
-              }
-            }
-          }
-        },
-        {
-          id = 15,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 16,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = true
-          },
-          objectGroup = {
-            type = "objectgroup",
-            name = "",
-            visible = true,
-            opacity = 1,
-            offsetx = 0,
-            offsety = 0,
-            draworder = "index",
-            properties = {},
-            objects = {
-              {
-                id = 1,
-                name = "",
-                type = "",
-                shape = "rectangle",
-                x = 0,
-                y = 0,
-                width = 16,
-                height = 16,
-                rotation = 0,
-                visible = true,
-                properties = {}
-              }
-            }
-          }
-        },
-        {
-          id = 17,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 18,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = true
-          },
-          objectGroup = {
-            type = "objectgroup",
-            name = "",
-            visible = true,
-            opacity = 1,
-            offsetx = 0,
-            offsety = 0,
-            draworder = "index",
-            properties = {},
-            objects = {
-              {
-                id = 1,
-                name = "",
-                type = "",
-                shape = "rectangle",
-                x = 0,
-                y = 0,
-                width = 16,
-                height = 16,
-                rotation = 0,
-                visible = true,
-                properties = {}
-              }
-            }
-          }
-        },
-        {
-          id = 19,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 20,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 21,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = true
-          },
-          objectGroup = {
-            type = "objectgroup",
-            name = "",
-            visible = true,
-            opacity = 1,
-            offsetx = 0,
-            offsety = 0,
-            draworder = "index",
-            properties = {},
-            objects = {
-              {
-                id = 1,
-                name = "",
-                type = "",
-                shape = "rectangle",
-                x = 0,
-                y = 0,
-                width = 16,
-                height = 16,
-                rotation = 0,
-                visible = true,
-                properties = {}
-              }
-            }
-          }
-        },
-        {
-          id = 22,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 23,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 24,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 25,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 26,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 27,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 28,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = true
-          },
-          objectGroup = {
-            type = "objectgroup",
-            name = "",
-            visible = true,
-            opacity = 1,
-            offsetx = 0,
-            offsety = 0,
-            draworder = "index",
-            properties = {},
-            objects = {
-              {
-                id = 1,
-                name = "",
-                type = "",
-                shape = "rectangle",
-                x = 0,
-                y = 0,
-                width = 16,
-                height = 16,
-                rotation = 0,
-                visible = true,
-                properties = {}
-              }
-            }
-          }
-        },
-        {
-          id = 29,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 30,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 31,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 32,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 33,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 34,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = true
-          },
-          objectGroup = {
-            type = "objectgroup",
-            name = "",
-            visible = true,
-            opacity = 1,
-            offsetx = 0,
-            offsety = 0,
-            draworder = "index",
-            properties = {},
-            objects = {
-              {
-                id = 1,
-                name = "",
-                type = "",
-                shape = "rectangle",
-                x = 0,
-                y = 0,
-                width = 16,
-                height = 16,
-                rotation = 0,
-                visible = true,
-                properties = {}
-              }
-            }
-          }
-        },
-        {
-          id = 35,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 36,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 37,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 38,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 39,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 40,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 41,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 42,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 43,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 44,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = true
-          },
-          objectGroup = {
-            type = "objectgroup",
-            name = "",
-            visible = true,
-            opacity = 1,
-            offsetx = 0,
-            offsety = 0,
-            draworder = "index",
-            properties = {},
-            objects = {
-              {
-                id = 1,
-                name = "",
-                type = "",
-                shape = "rectangle",
-                x = 0,
-                y = 0,
-                width = 16,
-                height = 16,
-                rotation = 0,
-                visible = true,
-                properties = {}
-              }
-            }
-          }
-        },
-        {
-          id = 45,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = true
-          },
-          objectGroup = {
-            type = "objectgroup",
-            name = "",
-            visible = true,
-            opacity = 1,
-            offsetx = 0,
-            offsety = 0,
-            draworder = "index",
-            properties = {},
-            objects = {
-              {
-                id = 1,
-                name = "",
-                type = "",
-                shape = "rectangle",
-                x = 0,
-                y = 0,
-                width = 16,
-                height = 16,
-                rotation = 0,
-                visible = true,
-                properties = {}
-              }
-            }
-          }
-        },
-        {
-          id = 46,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = true
-          },
-          objectGroup = {
-            type = "objectgroup",
-            name = "",
-            visible = true,
-            opacity = 1,
-            offsetx = 0,
-            offsety = 0,
-            draworder = "index",
-            properties = {},
-            objects = {
-              {
-                id = 1,
-                name = "",
-                type = "",
-                shape = "rectangle",
-                x = 0,
-                y = 0,
-                width = 16,
-                height = 16,
-                rotation = 0,
-                visible = true,
-                properties = {}
-              }
-            }
-          }
-        },
-        {
-          id = 47,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 48,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = false
-          }
-        }
-      }
-    },
-    {
-      name = "downPlant",
-      firstgid = 154,
-      filename = "../../tiles/npcs/enemy/downPlant.tsx",
-      tilewidth = 32,
-      tileheight = 21,
-      spacing = 0,
-      margin = 0,
-      image = "../../../images/npcs/enemy/plant/downPlantIdleSpritesheet.png",
-      imagewidth = 192,
-      imageheight = 21,
-      tileoffset = {
-        x = 0,
-        y = 0
-      },
-      grid = {
-        orientation = "orthogonal",
-        width = 32,
-        height = 21
-      },
-      properties = {},
-      terrains = {},
-      tilecount = 6,
-      tiles = {
-        {
-          id = 0,
-          properties = {
-            ["npc"] = true,
-            ["xOffset"] = 0,
-            ["yOffset"] = 0
-          },
-          animation = {
-            {
-              tileid = 0,
-              duration = 100
-            },
-            {
-              tileid = 1,
-              duration = 100
-            },
-            {
-              tileid = 2,
-              duration = 100
-            },
-            {
-              tileid = 3,
-              duration = 100
-            },
-            {
-              tileid = 4,
-              duration = 100
-            },
-            {
-              tileid = 5,
-              duration = 100
-            }
-          }
-        }
-      }
+      tilecount = 1,
+      tiles = {}
     }
   },
   layers = {
     {
       type = "tilelayer",
+      id = 2,
       name = "grassBg",
       x = 0,
       y = 0,
-      width = 30,
-      height = 17,
+      width = 32,
+      height = 19,
       visible = true,
       opacity = 1,
       offsetx = 0,
@@ -2861,65 +1349,35 @@ return {
       properties = {},
       encoding = "lua",
       data = {
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 93, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 94, 0, 0, 0, 0, 0,
-        94, 0, 0, 0, 0, 93, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 94, 0, 0, 0, 93,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 94, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 93, 0,
-        0, 0, 94, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 93, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 93, 91, 94, 0, 0, 0, 0, 93, 91, 91, 91, 91, 91, 91, 94, 0, 0, 0, 0, 93, 91, 94, 0, 0, 0, 0,
-        0, 0, 0, 93, 0, 0, 0, 0, 0, 0, 93, 0, 0, 0, 0, 0, 0, 0, 0, 94, 0, 0, 0, 0, 0, 0, 94, 0, 0, 0,
-        0, 0, 93, 0, 0, 0, 0, 0, 0, 93, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 94, 0, 0, 0, 0, 0, 0, 94, 0, 0,
-        91, 91, 0, 0, 0, 0, 0, 0, 93, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 94, 0, 0, 0, 0, 0, 0, 91, 91,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 67, 65, 65, 68, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        65, 65, 68, 0, 0, 0, 0, 67, 65, 65, 65, 68, 0, 0, 0, 0, 0, 0, 0, 0, 67, 65, 65, 65, 68, 0, 0, 0, 0, 67, 65, 65,
+        0, 0, 0, 0, 0, 0, 67, 0, 0, 0, 0, 0, 68, 0, 0, 0, 0, 0, 0, 67, 0, 0, 0, 0, 0, 68, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        65, 65, 65, 65, 65, 68, 0, 0, 0, 0, 0, 0, 67, 65, 65, 65, 65, 65, 65, 68, 0, 0, 0, 0, 0, 0, 67, 65, 65, 65, 65, 65,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 66, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 66, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        65, 68, 0, 0, 0, 66, 0, 0, 0, 0, 68, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 67, 0, 0, 0, 0, 66, 0, 0, 0, 67, 65,
+        0, 0, 65, 65, 65, 0, 0, 0, 0, 0, 0, 65, 65, 68, 0, 0, 0, 0, 67, 65, 65, 0, 0, 0, 0, 0, 0, 65, 65, 65, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
       }
     },
     {
       type = "tilelayer",
-      name = "sign",
-      x = 0,
-      y = 0,
-      width = 30,
-      height = 17,
-      visible = true,
-      opacity = 1,
-      offsetx = 0,
-      offsety = 0,
-      properties = {},
-      encoding = "lua",
-      data = {
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 96, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-      }
-    },
-    {
-      type = "tilelayer",
+      id = 3,
       name = "player",
       x = 0,
       y = 0,
-      width = 30,
-      height = 17,
+      width = 32,
+      height = 19,
       visible = true,
       opacity = 1,
       offsetx = 0,
@@ -2927,32 +1385,35 @@ return {
       properties = {},
       encoding = "lua",
       data = {
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 90, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 69, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
       }
     },
     {
       type = "tilelayer",
+      id = 1,
       name = "grass",
       x = 0,
       y = 0,
-      width = 30,
-      height = 17,
+      width = 32,
+      height = 19,
       visible = true,
       opacity = 1,
       offsetx = 0,
@@ -2960,51 +1421,25 @@ return {
       properties = {},
       encoding = "lua",
       data = {
-        20, 6, 52, 52, 52, 52, 52, 7, 20, 20, 20, 6, 53, 0, 0, 0, 0, 51, 7, 20, 20, 20, 6, 52, 52, 52, 52, 52, 7, 20,
-        52, 53, 0, 0, 0, 0, 0, 51, 52, 52, 52, 53, 0, 0, 0, 0, 0, 0, 51, 52, 52, 52, 53, 0, 0, 0, 0, 0, 51, 52,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 16, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 24, 0, 0, 0, 0, 0,
-        24, 0, 0, 0, 0, 16, 11, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 13, 24, 0, 0, 0, 16,
-        13, 0, 0, 0, 0, 2, 58, 52, 52, 52, 7, 20, 20, 20, 20, 20, 20, 20, 20, 6, 52, 52, 52, 52, 57, 4, 0, 0, 0, 11,
-        21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 51, 52, 20, 20, 20, 20, 20, 6, 52, 53, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19,
-        21, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 51, 52, 52, 52, 52, 53, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 19,
-        14, 13, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 11, 15,
-        6, 57, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 58, 7,
-        21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19,
-        53, 0, 0, 0, 16, 8, 24, 0, 0, 0, 0, 16, 8, 8, 8, 8, 8, 8, 24, 0, 0, 0, 0, 16, 8, 24, 0, 0, 0, 51,
-        0, 0, 0, 16, 11, 46, 4, 0, 0, 0, 16, 11, 12, 12, 12, 12, 12, 12, 13, 24, 0, 0, 0, 2, 47, 13, 24, 0, 0, 0,
-        0, 0, 16, 11, 62, 53, 0, 0, 0, 16, 11, 15, 20, 20, 20, 20, 20, 20, 14, 13, 24, 0, 0, 0, 51, 61, 13, 24, 0, 0,
-        8, 8, 11, 15, 21, 0, 0, 0, 16, 11, 15, 34, 27, 28, 28, 28, 28, 29, 38, 14, 13, 24, 0, 0, 0, 19, 14, 13, 8, 8,
-        12, 12, 15, 20, 21, 0, 0, 0, 11, 15, 34, 27, 50, 36, 36, 36, 36, 49, 29, 38, 14, 13, 0, 0, 0, 19, 20, 14, 12, 12,
-        20, 20, 20, 20, 21, 0, 0, 0, 19, 34, 27, 50, 36, 36, 36, 36, 36, 36, 49, 29, 38, 21, 0, 0, 0, 19, 20, 20, 20, 20
-      }
-    },
-    {
-      type = "objectgroup",
-      name = "objects",
-      visible = true,
-      opacity = 1,
-      offsetx = 0,
-      offsety = 0,
-      draworder = "topdown",
-      properties = {},
-      objects = {
-        {
-          id = 1,
-          name = "",
-          type = "",
-          shape = "rectangle",
-          x = 272,
-          y = 168,
-          width = 24,
-          height = 13,
-          rotation = 0,
-          visible = true,
-          properties = {
-            ["data"] = "Press spacebar to jump.",
-            ["type"] = "sign"
-          }
-        }
+        20, 20, 20, 20, 20, 21, 0, 0, 0, 19, 20, 20, 20, 21, 0, 0, 0, 0, 19, 20, 20, 20, 21, 0, 0, 0, 19, 20, 20, 20, 20, 20,
+        20, 20, 20, 20, 6, 53, 0, 0, 0, 51, 7, 6, 52, 53, 0, 0, 0, 0, 51, 52, 7, 6, 53, 0, 0, 0, 51, 52, 52, 52, 7, 20,
+        52, 52, 52, 52, 53, 0, 0, 0, 0, 0, 51, 53, 0, 0, 0, 0, 0, 0, 0, 0, 51, 53, 0, 0, 0, 0, 0, 0, 0, 0, 51, 52,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 8, 8, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 47, 46, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        8, 8, 24, 0, 0, 0, 0, 16, 8, 8, 8, 24, 0, 0, 0, 51, 53, 0, 0, 0, 16, 8, 8, 8, 24, 0, 0, 0, 0, 16, 8, 8,
+        12, 46, 4, 0, 0, 0, 16, 11, 12, 12, 12, 13, 24, 0, 0, 0, 0, 0, 0, 16, 11, 12, 12, 12, 13, 24, 0, 0, 0, 2, 47, 12,
+        52, 53, 0, 0, 0, 0, 2, 58, 52, 52, 52, 57, 4, 0, 0, 0, 0, 0, 0, 2, 58, 52, 52, 52, 57, 4, 0, 0, 0, 0, 51, 52,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        8, 8, 8, 8, 8, 24, 0, 0, 0, 0, 0, 0, 16, 8, 8, 8, 8, 8, 8, 24, 0, 0, 0, 0, 0, 0, 16, 8, 8, 8, 8, 8,
+        12, 12, 12, 12, 46, 4, 0, 0, 0, 0, 0, 0, 11, 12, 12, 12, 12, 12, 12, 13, 0, 0, 0, 0, 0, 0, 2, 47, 12, 12, 12, 12,
+        52, 52, 52, 52, 53, 0, 0, 0, 0, 0, 0, 0, 51, 7, 20, 20, 20, 20, 6, 53, 0, 0, 0, 0, 0, 0, 0, 51, 52, 52, 52, 52,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 51, 52, 52, 52, 52, 53, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        8, 24, 0, 0, 0, 32, 0, 0, 0, 9, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 9, 0, 0, 0, 32, 0, 0, 0, 16, 8,
+        12, 13, 8, 8, 8, 9, 0, 0, 0, 22, 13, 8, 8, 24, 0, 0, 0, 0, 16, 8, 8, 11, 23, 0, 0, 0, 9, 8, 8, 8, 11, 12,
+        20, 14, 12, 12, 12, 23, 0, 0, 0, 19, 14, 12, 12, 13, 0, 0, 0, 0, 11, 12, 12, 15, 21, 0, 0, 0, 22, 12, 12, 12, 15, 20,
+        20, 20, 20, 20, 20, 21, 0, 0, 0, 19, 20, 20, 20, 21, 0, 0, 0, 0, 19, 20, 20, 20, 21, 0, 0, 0, 19, 20, 20, 20, 20, 20
       }
     }
   }

@@ -25,13 +25,13 @@ function newPlayer(playerX, playerY)
 
 	player.baseXAcceleration = 0.5
 	player.baseXDeceleration = 0.3
-	player.baseXTerminalVelocity = 2.6
+	player.baseXTerminalVelocity = 2.4
 	player.baseJumpAcceleration = 3.9
 	player.baseFallAcceleration = 0.25
 	player.baseYTerminalVelocity = 8
 
-	player.jumps = 3
-	player.jumpsLeft = jumps
+	player.jumps = 5
+	player.jumpsLeft = player.jumps
 	player.jumpHoldDuration = 0.175 * 60
 	player.jumpHoldCounter = 0
 	player.jumpAble = true
@@ -60,15 +60,13 @@ function newPlayer(playerX, playerY)
 	player.invincible = false
 	player.invincibilityLength = 60
 	player.invincibilityCounter = 0
-	player.hp = 3
+	player.hp = 100
 	player.maxHp = player.hp
 	player.knockbackRestistance = 1
 	player.weaponOut = false
-	player.equippedWeapon1 = "demonBroadsword"
+	player.equippedWeapon1 = "woodenSword"
 	player.equippedWeapon2 = "woodenBow"
 	player.accessories = {}--, "coolHat"}
-
-	player.level = 1
 	player.money = 0
 
 	player.runCounter = 0
@@ -79,6 +77,9 @@ function newPlayer(playerX, playerY)
 	player.idleQuadSection = 0
 	player.climbCounter = 0
 	player.climbQuadSection = 0
+	player.landing = false
+	player.landCounter = 0
+	player.landQuadSection = 0
 
 	player.idleLeftSpritesheet = love.graphics.newImage("images/player/playerIdleLeftSpritesheet.png")
 	player.idleRightSpritesheet = love.graphics.newImage("images/player/playerIdleRightSpritesheet.png")
@@ -86,11 +87,21 @@ function newPlayer(playerX, playerY)
 	player.runRightSpritesheet = love.graphics.newImage("images/player/playerRunRightSpritesheet.png")
 	player.jumpLeftSpritesheet = love.graphics.newImage("images/player/playerJumpLeftSpritesheet.png")
 	player.jumpRightSpritesheet = love.graphics.newImage("images/player/playerJumpRightSpritesheet.png")
+	player.landLeftSpritesheet = love.graphics.newImage("images/player/playerLandLeftSpritesheet.png")
+	player.landRightSpritesheet = love.graphics.newImage("images/player/playerLandRightSpritesheet.png")
+	player.runLandLeftSpritesheet = love.graphics.newImage("images/player/playerRunLandLeftSpritesheet.png")
+	player.runLandRightSpritesheet = love.graphics.newImage("images/player/playerRunLandRightSpritesheet.png")
 	player.climbSpritesheet = love.graphics.newImage("images/player/playerClimbSpritesheet.png")
 	player.deadLeftSpritesheet = love.graphics.newImage("images/player/playerDeadLeftSpritesheet.png")
 	player.deadRightSpritesheet = love.graphics.newImage("images/player/playerDeadRightSpritesheet.png")
 	player.attackLeftSpritesheet = love.graphics.newImage("images/player/playerAttackLeftSpritesheet.png")
 	player.attackRightSpritesheet = love.graphics.newImage("images/player/playerAttackRightSpritesheet.png")
+	player.bowLeftSpritesheet = love.graphics.newImage("images/player/playerBowLeftSpritesheet.png")
+	player.bowRightSpritesheet = love.graphics.newImage("images/player/playerBowRightSpritesheet.png")
+	player.bowUpLeftSpritesheet = love.graphics.newImage("images/player/playerBowUpLeftSpritesheet.png")
+	player.bowUpRightSpritesheet = love.graphics.newImage("images/player/playerBowUpRightSpritesheet.png")
+	player.bowDownLeftSpritesheet = love.graphics.newImage("images/player/playerBowDownLeftSpritesheet.png")
+	player.bowDownRightSpritesheet = love.graphics.newImage("images/player/playerBowDownRightSpritesheet.png")
 
 	player.canvas = love.graphics.newCanvas(21, 26)
 
@@ -135,6 +146,24 @@ function newPlayer(playerX, playerY)
 			player:animations()
 			player:dust()
 		elseif player.frozen then
+			if fadeIn == false and player.mapToEnter ~= nil then
+				player:newMap(player.mapToEnter)
+				for _, actor in ipairs(actors) do
+					if actor.type == "door" then
+						player.y = actor.y + 18
+						player.yVelocity = 0
+						-- if mapNumber == 2 or mapNumber == 4 then
+						-- 	player.y = actor.y + 18
+						-- elseif mapNumber == 3 then
+						-- 	player.y = actor.y -- make this work for shop doors
+						-- end
+					end
+				end
+				player.mapToEnter = nil
+				player.frozen = false
+				player.frozenCounter = 0
+			end
+
 			if player.frozenCounter > 0 then
 				player.frozenCounter = player.frozenCounter - 1
 			elseif player.frozenCounter == 0 then
@@ -149,7 +178,6 @@ function newPlayer(playerX, playerY)
 		debugPrint("player.jumps: " .. player.jumps)
 		debugPrint("player.jumpsLeft: " .. player.jumpsLeft)
 		
-		debugPrint("Player level: "..player.level)
 		debugPrint("spawnRate: "..spawnRate)
 		debugPrint("mapNumber: "..mapNumber)
 	end
@@ -232,17 +260,21 @@ function newPlayer(playerX, playerY)
 			end
 
 			if downInputs.down and downInputs.left then
-				shootDirection = "downLeft"
+				-- shootDirection = "downLeft"
+				shootDirection = "down"
 			elseif downInputs.down and downInputs.right then
-				shootDirection = "downRight"
+				-- shootDirection = "downRight"
+				shootDirection = "down"
 			elseif downInputs.down then
 				shootDirection = "down"
 			end
 
 			if downInputs.up and downInputs.left then
-				shootDirection = "upLeft"
+				-- shootDirection = "upLeft"
+				shootDirection = "up"
 			elseif downInputs.up and downInputs.right then
-				shootDirection = "upRight"
+				-- shootDirection = "upRight"
+				shootDirection = "up"
 			elseif downInputs.up then
 				shootDirection = "up"
 			end
@@ -318,6 +350,7 @@ function newPlayer(playerX, playerY)
 				if lastInputType == "gamepad" then
 					pressInputs.interact = false
 				end
+				player.jumpsLeft = player.jumps
 				player.onLadder = false
 				player.jumpAble = true
 				player.yVelocity = 0
@@ -349,7 +382,7 @@ function newPlayer(playerX, playerY)
 		end
 	end
 
-	function player:newPlayer(map)
+	function player:newMap(map)
 		currentMap = allMaps[map]
 		actors = currentMap.actors
 
@@ -359,29 +392,21 @@ function newPlayer(playerX, playerY)
 				playerExists = true
 			end
 		end
-		-- very low - 0.5
-		-- low - 1
-		-- low-medium - 1.5
-		-- medium - 2
-		-- medium-high - 2.5
-		-- high = 3
-		-- very high - 3.5
-		--                                          shop
-		-- level pacing: start -> 1(2) -> 2(0.5) -> 3(1) -> 4(1.5) -> 5(2) -> 6(2.5) -> boss
-		--                               cave1(1.5)       cave2(2.5)
-		
-		if mapNumber == 1 then
+
+		if mapNumber == 0 then -- starting map
+			spawnRate = 0
+		elseif mapNumber == 1 then
+			spawnRate = 30
+		elseif mapNumber == 2 then -- cave
 			spawnRate = 50
-		elseif mapNumber == 2 then
-			spawnRate = 25
-		elseif mapNumber == 3 then
-			spawnRate = 35
-		elseif mapNumber == 4 then
-			spawnRate = 50
+		elseif mapNumber == 3 then -- shop
+			spawnRate = 40
+		elseif mapNumber == 4 then -- cave
+			spawnRate = 60
 		elseif mapNumber == 5 then
-			spawnRate = 75
-		else
-			spawnRate = 100
+			spawnRate = 70
+		elseif mapNumber == 6 then
+			spawnRate = 80
 		end
 
 		if indoor then
@@ -520,9 +545,11 @@ function newPlayer(playerX, playerY)
 
 		if levelName == "grassland" then
 			if mapNumber == 2 or mapNumber == 4 then
-				mapsToCheck = {unpack(allGrasslandCaveMaps)}
+				-- mapsToCheck = {unpack(allGrasslandCaveMaps)}
+				mapsToCheck = {unpack(allGrasslandOverworldMaps)}
 			elseif mapNumber == 3 then
-				mapsToCheck = {unpack(allGrasslandShopMaps)}
+				-- mapsToCheck = {unpack(allGrasslandShopMaps)}
+				mapsToCheck = {unpack(allGrasslandOverworldMaps)}
 			else
 				mapsToCheck = {unpack(allGrasslandOverworldMaps)}
 			end
@@ -550,7 +577,7 @@ function newPlayer(playerX, playerY)
 				suitableMap = true
 			end
 		end
-		player:newPlayer(randomMap)
+		player:newMap(randomMap)
 
 		local image = love.graphics.newImage("images/tiles/corruption.png")
 		if blockTopLeft and currentMap.topLeft then
@@ -717,6 +744,7 @@ function newPlayer(playerX, playerY)
 			player.jumpHoldCounter = 0
 			player.yVelocity = - player.jumpAcceleration * (player.jumpsLeft + (1 - player.jumpsLeft/player.jumps))/player.jumps
 			player.jumpsLeft = player.jumpsLeft - 1
+
 			if player.jumpsLeft <= 0 then
 				player.jumpAble = false
 			end
@@ -728,6 +756,16 @@ function newPlayer(playerX, playerY)
 		player.transitioning = false
 		player.oldGrounded = player.grounded
 		if checkCollision(player:getX(), player:getY() + player.height, player.width, 1) then
+			if player.grounded == false then
+				if player.yVelocity > 2 then
+					player.landQuadSection = 0
+				elseif player.yVelocity > 1 then
+					player.landQuadSection = 21
+				else
+					player.landQuadSection = 42
+				end
+				player.landing = true
+			end
 			player.grounded = true
 			player.yVelocity = 0
 		else
@@ -787,12 +825,12 @@ function newPlayer(playerX, playerY)
 			for _, actor in ipairs(getCollidingActors(player:getX(), player:getY(), player.width, player.height, false, false, true, false, true, true, true)) do
 				if actor.actor == "item" then
 					actor.near = true
-					if actor.type == "heart" then
-						if player.hp < player.maxHp then
-							actor.remove = true
-							player.hp = player.hp + 1
-						end
-					elseif actor.type == "shop" then
+					-- if actor.type == "heart" then
+					-- 	if player.hp < player.maxHp then
+					-- 		actor.remove = true
+					-- 		player.hp = player.hp + 1
+					-- 	end
+					if actor.type == "shop" then
 						if pressInputs.interact and player.money > (10 + mapNumber*3) then
 							if actor.name == "weaponShopItem" then
 								local weaponName, _, iconSprite = unpack(getWeaponStats(actor.randomName))
@@ -810,18 +848,20 @@ function newPlayer(playerX, playerY)
 						if pressInputs.interact and player.onLadder == false and player.offLadderFirstFrame == false then
 							interactSound:play()
 							player.x = actor.x
+							player.xVelocity = 0
+							player.jumpLeft = player.jumps
 							player.onLadder = true
 						end
 						player.offLadderFirstFrame = false
 					elseif actor.type == "door" then
 						if pressInputs.interact then
-							if indoor then
-								indoor = false
-							else
-								indoor = true
-							end
+							transitioningScreen = true
+							player.frozen = true
+							player.frozenCounter = -1
+							player.mapToEnter = actor.data
+							
+							indoor = not indoor
 							interactSound:play()
-							player:newPlayer(actor.data)
 							break
 						end
 					elseif actor.type == "chest" then
@@ -846,7 +886,7 @@ function newPlayer(playerX, playerY)
 								bossLevel = false
 								mapNumber = 0
 								spawnRate = 0
-								player:newPlayer("maps/maps/"..levelName.."/1")
+								player:newMap("maps/maps/"..levelName.."/1")
 							else
 								bossLevel = true
 								blockTopLeft = false
@@ -861,7 +901,7 @@ function newPlayer(playerX, playerY)
 								blockRightTop = false
 								blockRightMiddle = false
 								blockRightBottom = false
-								player:newPlayer("maps/maps/"..levelName.."/boss")
+								player:newMap("maps/maps/"..levelName.."/boss")
 							end
 							
 							for _, actor in ipairs(actors) do
@@ -888,7 +928,9 @@ function newPlayer(playerX, playerY)
 			player.jumpAble = true
 		end
 
-		player.x = player.x + minXMovement
+		if player.onLadder == false then
+			player.x = player.x + minXMovement
+		end
 	end
 
 	function player:airPhysics()
@@ -979,13 +1021,13 @@ function newPlayer(playerX, playerY)
 	function player:hitCollision()
 		love.graphics.setCanvas()
 		for _, actor in ipairs(npcs) do
-			if (isInTable(actor.attackQuadSection/actor.attackWidth, actor.attackHitFrames) and actor.attacking) or actor.projectile then
+			if (isInTable(actor.attackQuadSection/actor.attackWidth, actor.attackHitFrames) and ((actor.attacking and actor.ai ~= "diving") or actor.diving)) or actor.projectile then
 				imageData = actor.canvas:newImageData()
 				for x = 1, imageData:getWidth() do
 					for y = 1, imageData:getHeight() do
 						-- Pixel coordinates range from 0 to image width - 1 / height - 1.
 						red, green, blue, alpha = imageData:getPixel(x-1, y-1)
-						if alpha > 0 then
+						if red == 248/255 and green == 248/255 and blue == 248/255 then
 							for _, _ in ipairs(getCollidingActors(actor:getX() + x-1, actor:getY() + y-1, 1, 1, false, false, false, false, false, false, false, true)) do
 								if player.invincible == false and (actor.damage > 0 or actor.knockbackStrength > 0) then
 									player.hp = player.hp - actor.damage
@@ -993,18 +1035,20 @@ function newPlayer(playerX, playerY)
 									player.knockbackDx = math.cos(player.knockbackAngle)
 									player.knockbackDy = math.sin(player.knockbackAngle)
 									if player:isDead() == false then
-										if actor.damage > 0 then
+										if actor.damage > 0 and actor.ai ~= "cloud" then
 											player.invincible = true
 										end
 										player.invincibilityCounter = player.invincibilityLength
-										player.xVelocity = player.knockbackDx*actor.knockbackStrength
-										if player.yVelocity < 0 then
-											player.yVelocity = player.knockbackDy*actor.knockbackStrength
-										else
-											player.yVelocity = player.knockbackDy*actor.knockbackStrength/2
-										end
-										if shakeLength < actor.screenShakeLength then
-											shakeLength = actor.screenShakeLength
+										if actor.knockbackStrength > 0 then
+											player.xVelocity = player.knockbackDx*actor.knockbackStrength
+											if player.yVelocity < 0 then
+												player.yVelocity = player.knockbackDy*actor.knockbackStrength
+											else
+												player.yVelocity = player.knockbackDy*actor.knockbackStrength/2
+											end
+											if shakeLength < actor.screenShakeLength then
+												shakeLength = actor.screenShakeLength
+											end
 										end
 										maxShakeLength = shakeLength
 										shakeAmount = shakeAmount + actor.screenShakeAmount
@@ -1019,11 +1063,13 @@ function newPlayer(playerX, playerY)
 										actor.hit = true
 										actor.hitLength = actor.hitLength + actor.screenFreezeLength
 									else
-										player.xVelocity = player.knockbackDx*actor.knockbackStrength*1.5
-										if player.yVelocity < 0 then
-											player.yVelocity = player.knockbackDy*actor.knockbackStrength*1.5
-										else
-											player.yVelocity = player.knockbackDy*actor.knockbackStrength*1.5/2
+										if actor.knockbackStrength > 0 then
+											player.xVelocity = player.knockbackDx*actor.knockbackStrength*1.5
+											if player.yVelocity < 0 then
+												player.yVelocity = player.knockbackDy*actor.knockbackStrength*1.5
+											else
+												player.yVelocity = player.knockbackDy*actor.knockbackStrength*1.5/2
+											end
 										end
 										player.xTerminalVelocity = player.xTerminalVelocity + actor.knockbackStrength / 10
 										if shakeLength < actor.screenShakeLength*1.5 then
@@ -1071,7 +1117,28 @@ function newPlayer(playerX, playerY)
 				player.climbCounter = player.climbCounter + 1
 			end
 		elseif player.grounded then
+			if player.landing then
+				if (player.landCounter >= 4 and player.xVelocity == 0) or (player.landCounter >= 6 and player.xVelocity ~= 0) then
+					player.landQuadSection = player.landQuadSection + 21
+					player.landCounter = 0
+				end
+				if player.landQuadSection >= 63 then
+					player.landQuadSection = 0
+					player.landCounter = 0
+					player.landing = false
+
+					player.idleQuadSection = 0
+					player.idleCounter = 0
+					player.runQuadSection = 63
+					player.runCounter = 0
+				end
+				player.landCounter = player.landCounter + 1
+			end
+
 			if player.xVelocity == 0 then
+				player.runQuadSection = 0
+				player.runCounter = 0
+
 				if player.idleCounter >= 15 then
 					player.idleQuadSection = player.idleQuadSection + 21
 					player.idleCounter = 0
@@ -1082,6 +1149,9 @@ function newPlayer(playerX, playerY)
 				end
 				player.idleCounter = player.idleCounter + 1
 			else
+				player.idleQuadSection = 0
+				player.idleCounter = 0
+				
 				if player.runCounter >= 6 then
 					if player.runQuadSection == 0 or player.runQuadSection == 84 then
 						player.runDust = true
@@ -1096,7 +1166,15 @@ function newPlayer(playerX, playerY)
 				player.runCounter = player.runCounter + 1
 			end
 			player.jumpQuadSection = 0
-		else            
+		else
+			player.idleQuadSection = 0
+			player.idleCounter = 0
+			player.runQuadSection = 0
+			player.runCounter = 0
+			player.landQuadSection = 0
+			player.landCounter = 0
+			player.landing = false
+					
 			if player.yVelocity < -3 then
 				player.jumpQuadSection = 0
 			elseif player.yVelocity < -2 then
@@ -1143,27 +1221,63 @@ function newPlayer(playerX, playerY)
 			player.spritesheet = player.climbSpritesheet
 			player.quad = love.graphics.newQuad(player.climbQuadSection, 0, 21, 26, 84, 26)
 		elseif player.weaponOut then
-			if player.currentWeapon.direction == "left" then
-				player.spritesheet = player.attackLeftSpritesheet
-			else
-				player.spritesheet = player.attackRightSpritesheet
-			end
+			if player.currentWeapon.type == "sword" then
+				if player.currentWeapon.direction == "left" then
+					player.spritesheet = player.attackLeftSpritesheet
+				else
+					player.spritesheet = player.attackRightSpritesheet
+				end
 
-			if player.currentWeapon.state == "startup" then
-				player.quad = love.graphics.newQuad(0, 0, 21, 26, 63, 26)
-			elseif player.currentWeapon.state == "slash" then
-				player.quad = love.graphics.newQuad(21, 0, 21, 26, 63, 26)
-			else
-				player.quad = love.graphics.newQuad(42, 0, 21, 26, 63, 26)
+				if player.currentWeapon.state == "startup" then
+					player.quad = love.graphics.newQuad(0, 0, 21, 26, 63, 26)
+				elseif player.currentWeapon.state == "slash" then
+					player.quad = love.graphics.newQuad(21, 0, 21, 26, 63, 26)
+				else
+					player.quad = love.graphics.newQuad(42, 0, 21, 26, 63, 26)
+				end
+			elseif player.currentWeapon.type == "bow" then
+				if player.currentWeapon.direction == "left" then
+					if player.currentWeapon.shootDirection == "up" then
+						player.spritesheet = player.bowUpLeftSpritesheet
+					elseif player.currentWeapon.shootDirection == "down" then
+						player.spritesheet = player.bowDownLeftSpritesheet
+					else
+						player.spritesheet = player.bowLeftSpritesheet
+					end
+				else
+					if player.currentWeapon.shootDirection == "up" then
+						player.spritesheet = player.bowUpRightSpritesheet
+						elseif player.currentWeapon.shootDirection == "down" then
+						player.spritesheet = player.bowDownRightSpritesheet
+					else
+						player.spritesheet = player.bowRightSpritesheet
+					end
+				end
+
+				if player.currentWeapon.state == "end" then
+					player.quad = love.graphics.newQuad(21, 0, 21, 26, 42, 26)
+				else
+					player.quad = love.graphics.newQuad(0, 0, 21, 26, 42, 26)
+				end
 			end
 		elseif player.direction == "left" then
 			if player.grounded then
 				if player.xVelocity == 0 then
-					player.spritesheet = player.idleLeftSpritesheet
-					player.quad = love.graphics.newQuad(player.idleQuadSection, 0, 21, 26, 84, 26)
+					if player.landing then
+						player.spritesheet = player.landLeftSpritesheet
+						player.quad = love.graphics.newQuad(player.landQuadSection, 0, 21, 26, 63, 26)
+					else
+						player.spritesheet = player.idleLeftSpritesheet
+						player.quad = love.graphics.newQuad(player.idleQuadSection, 0, 21, 26, 84, 26)
+					end
 				else
-					player.spritesheet = player.runLeftSpritesheet
-					player.quad = love.graphics.newQuad(player.runQuadSection, 0, 21, 26, 168, 26)
+					if player.landing then
+						player.spritesheet = player.runLandLeftSpritesheet
+						player.quad = love.graphics.newQuad(player.landQuadSection, 0, 21, 26, 63, 26)
+					else
+						player.spritesheet = player.runLeftSpritesheet
+						player.quad = love.graphics.newQuad(player.runQuadSection, 0, 21, 26, 168, 26)
+					end
 				end
 			else
 				player.spritesheet = player.jumpLeftSpritesheet
@@ -1176,11 +1290,21 @@ function newPlayer(playerX, playerY)
 		else
 			if player.grounded then
 				if player.xVelocity == 0 then
-					player.spritesheet = player.idleRightSpritesheet
-					player.quad = love.graphics.newQuad(player.idleQuadSection, 0, 21, 26, 84, 26)
+					if player.landing then
+						player.spritesheet = player.landRightSpritesheet
+						player.quad = love.graphics.newQuad(player.landQuadSection, 0, 21, 26, 63, 26)
+					else
+						player.spritesheet = player.idleRightSpritesheet
+						player.quad = love.graphics.newQuad(player.idleQuadSection, 0, 21, 26, 84, 26)
+					end
 				else
-					player.spritesheet = player.runRightSpritesheet
-					player.quad = love.graphics.newQuad(player.runQuadSection, 0, 21, 26, 168, 26)
+					if player.landing then
+						player.spritesheet = player.runLandRightSpritesheet
+						player.quad = love.graphics.newQuad(player.landQuadSection, 0, 21, 26, 63, 26)
+					else
+						player.spritesheet = player.runRightSpritesheet
+						player.quad = love.graphics.newQuad(player.runQuadSection, 0, 21, 26, 168, 26)
+					end
 				end
 			else
 				player.spritesheet = player.jumpRightSpritesheet
