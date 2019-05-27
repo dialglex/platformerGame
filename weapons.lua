@@ -50,10 +50,6 @@
 			weapon.width = weapon.upSprite:getWidth() / 4
 			weapon.height = weapon.sideSprite:getHeight()
 			weapon.canvas = love.graphics.newCanvas(weapon.width, weapon.height)
-		-- elseif weapon.shootDirection == "upLeft" or weapon.shootDirection == "upRight" or weapon.shootDirection == "downLeft" or weapon.shootDirection == "downRight" then
-		-- 	weapon.width = weapon.sprite2:getWidth() / 4
-		-- 	weapon.height = weapon.sprite2:getHeight()
-		-- 	weapon.canvas = love.graphics.newCanvas(weapon.width, weapon.height)
 		elseif weapon.shootDirection == "left" or weapon.shootDirection == "right" then
 			weapon.width = weapon.sideSprite:getWidth() / 4
 			weapon.height = weapon.sideSprite:getHeight()
@@ -89,18 +85,6 @@
 	elseif weapon.shootDirection == "down" then
 		weapon.xVelocity = 0
 		weapon.yVelocity = radius
-	elseif weapon.shootDirection == "upLeft" then
-		weapon.xVelocity = -radius / math.sqrt(2) 
-		weapon.yVelocity = -radius / math.sqrt(2)
-	elseif weapon.shootDirection == "upRight" then
-		weapon.xVelocity = radius / math.sqrt(2)
-		weapon.yVelocity = -radius / math.sqrt(2)
-	elseif weapon.shootDirection == "downLeft" then
-		weapon.xVelocity = -radius / math.sqrt(2)
-		weapon.yVelocity = radius / math.sqrt(2)
-	elseif weapon.shootDirection == "downRight" then
-		weapon.xVelocity = radius / math.sqrt(2)
-		weapon.yVelocity = radius / math.sqrt(2)
 	end
 
 	weapon.frozen = false
@@ -162,18 +146,10 @@
 
 			if weapon.shootDirection == "up" then
 				sprite = love.graphics.newImage("images/weapons/bows/"..weaponName.."/"..weaponName.."1.png")
-			elseif weapon.shootDirection == "upLeft" then
-				sprite = love.graphics.newImage("images/weapons/bows/"..weaponName.."/"..weaponName.."3.png")
-			elseif weapon.shootDirection == "upRight" then
-				sprite = love.graphics.newImage("images/weapons/bows/"..weaponName.."/"..weaponName.."3.png")
 			elseif weapon.shootDirection == "left" then
 				sprite = love.graphics.newImage("images/weapons/bows/"..weaponName.."/"..weaponName.."5.png")
 			elseif weapon.shootDirection == "right" then
 				sprite = love.graphics.newImage("images/weapons/bows/"..weaponName.."/"..weaponName.."5.png")
-			elseif weapon.shootDirection == "downLeft" then
-				sprite = love.graphics.newImage("images/weapons/bows/"..weaponName.."/"..weaponName.."3.png")
-			elseif weapon.shootDirection == "downRight" then
-				sprite = love.graphics.newImage("images/weapons/bows/"..weaponName.."/"..weaponName.."3.png")
 			elseif weapon.shootDirection == "down" then
 				sprite = love.graphics.newImage("images/weapons/bows/"..weaponName.."/"..weaponName.."1.png")
 			end
@@ -271,24 +247,12 @@
 				else
 					weapon.x = weapon.x + 1
 				end
-			-- elseif weapon.shootDirection == "upLeft" then
-			-- 	weapon.x = weapon.x - weapon.xOffset*1.5
-			-- 	weapon.y = weapon.y + weapon.yOffset*1.5
-			-- elseif weapon.shootDirection == "upRight" then
-			-- 	weapon.x = weapon.x + weapon.xOffset*1.5
-			-- 	weapon.y = weapon.y + weapon.yOffset*1.5
 			elseif weapon.shootDirection == "left" then
 				weapon.x = weapon.x - weapon.xOffset
 				weapon.y = weapon.y - 1
 			elseif weapon.shootDirection == "right" then
 				weapon.x = weapon.x + weapon.xOffset
 				weapon.y = weapon.y - 1
-			-- elseif weapon.shootDirection == "downLeft" then
-			-- 	weapon.x = weapon.x - weapon.xOffset*1.5
-			-- 	weapon.y = weapon.y - weapon.yOffset*1.5
-			-- elseif weapon.shootDirection == "downRight" then
-			-- 	weapon.x = weapon.x + weapon.xOffset*1.5
-			-- 	weapon.y = weapon.y - weapon.yOffset*1.5
 			elseif weapon.shootDirection == "down" then
 				weapon.y = weapon.y + weapon.yOffset
 				if player.direction == "left" then
@@ -302,6 +266,25 @@
 			weapon.yVelocity = weapon.yVelocity + weapon.yAcceleration
 			weapon.x = weapon.x + weapon.xVelocity
 			weapon.y = weapon.y + weapon.yVelocity
+			for _, actor in ipairs(getCollidingActors(weapon.x + weapon.width/2 - 50/2, weapon.y + weapon.height/2 - 50/2, 50, 50, false, false, true, false, true)) do
+				local currentAngle = math.atan2(weapon.yVelocity, weapon.xVelocity)
+				local newAngle = math.atan2((actor.y + actor.height/2) - (weapon.y + weapon.height/2), (actor.x + actor.width/2) - (weapon.x + weapon.width/2))
+				local dx = math.cos(newAngle)
+				local dy = math.sin(newAngle)
+				-- if current weapon trajectory is similar to trajectory of weapon needed to hit enemy
+				if newAngle > currentAngle - 0.7 and newAngle < currentAngle + 0.7 then
+					weapon.xVelocity = weapon.xVelocity + dx
+					weapon.yVelocity = weapon.yVelocity + dy
+					debugPrint("YEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEET")
+				end
+			end
+
+			local velocity = math.sqrt(weapon.xVelocity^2 + weapon.yVelocity^2)
+			if (velocity > 6) then
+				local fraction = 6/velocity
+				weapon.xVelocity = weapon.xVelocity*fraction
+				weapon.yVelocity = weapon.yVelocity*fraction
+			end
 		end
 	end
 
@@ -464,26 +447,16 @@
 
 			if weapon.shootDirection == "up" or weapon.shootDirection == "down" then
 				quad = love.graphics.newQuad(bowFrame*21, 0, 21, 22, 84, 22)
-			-- elseif weapon.shootDirection == "upLeft" or weapon.shootDirection == "upRight" or weapon.shootDirection == "downLeft" or weapon.shootDirection == "downRight" then
-			-- 	quad = love.graphics.newQuad(bowFrame*18, 0, 18, 18, 72, 18)
 			elseif weapon.shootDirection == "left" or weapon.shootDirection == "right" then
 				quad = love.graphics.newQuad(bowFrame*22, 0, 22, 21, 88, 21)
 			end
 			
 			if weapon.shootDirection == "up" then
 				love.graphics.draw(weapon.upSprite, quad)
-			-- elseif weapon.shootDirection == "upLeft" then
-			-- 	love.graphics.draw(weapon.sprite2, quad, 0, 0, 0, -1, 1, weapon.width)
-			-- elseif weapon.shootDirection == "upRight" then
-			-- 	love.graphics.draw(weapon.sprite2, quad)
 			elseif weapon.shootDirection == "left" then
 				love.graphics.draw(weapon.sideSprite, quad, 0, 0, 0, -1, 1, weapon.width)
 			elseif weapon.shootDirection == "right" then
 				love.graphics.draw(weapon.sideSprite, quad)
-			-- elseif weapon.shootDirection == "downLeft" then
-			-- 	love.graphics.draw(weapon.sprite2, quad, 0, 0, 0, -1, -1, weapon.width, weapon.height)
-			-- elseif weapon.shootDirection == "downRight" then
-			-- 	love.graphics.draw(weapon.sprite2, quad, 0, 0, 0, 1, -1, 0, weapon.height)
 			elseif weapon.shootDirection == "down" then
 				love.graphics.draw(weapon.upSprite, quad, 0, 0, 0, 1, -1, 0, weapon.height)
 			end

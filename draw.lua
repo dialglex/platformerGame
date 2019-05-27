@@ -20,7 +20,7 @@ function getImages()
 
 	lowResolutionBackground = love.graphics.newImage("images/backgrounds/lowResolutionBackground.png")
 	screenBorder = love.graphics.newImage("images/backgrounds/border.png")
-	lowResolutionBackgroundCanvas = love.graphics.newCanvas(7680, 4320) -- make this better when I can be bothered.
+	lowResolutionBackgroundCanvas = love.graphics.newCanvas(7680, 4320)
 	screenBorderCanvas = love.graphics.newCanvas(screenBorder:getWidth(), screenBorder:getHeight())
 	screenCanvas = love.graphics.newCanvas(512, 302)
 	maskedScreenCanvas = love.graphics.newCanvas(512, 302)
