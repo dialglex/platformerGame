@@ -188,13 +188,6 @@ function love.update(dt)
 	end
 	
 	updateVolume()
-	if pressInputs.restart then
-		for i, music in ipairs(musicList) do
-			music:stop()
-		end
-		actors = {}
-		love.load()
-	end
 end
 
 function debugPrint(string)

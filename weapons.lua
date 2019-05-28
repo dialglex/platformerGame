@@ -266,24 +266,27 @@
 			weapon.yVelocity = weapon.yVelocity + weapon.yAcceleration
 			weapon.x = weapon.x + weapon.xVelocity
 			weapon.y = weapon.y + weapon.yVelocity
-			for _, actor in ipairs(getCollidingActors(weapon.x + weapon.width/2 - 50/2, weapon.y + weapon.height/2 - 50/2, 50, 50, false, false, true, false, true)) do
-				local currentAngle = math.atan2(weapon.yVelocity, weapon.xVelocity)
-				local newAngle = math.atan2((actor.y + actor.height/2) - (weapon.y + weapon.height/2), (actor.x + actor.width/2) - (weapon.x + weapon.width/2))
-				local dx = math.cos(newAngle)
-				local dy = math.sin(newAngle)
-				-- if current weapon trajectory is similar to trajectory of weapon needed to hit enemy
-				if newAngle > currentAngle - 0.7 and newAngle < currentAngle + 0.7 then
-					weapon.xVelocity = weapon.xVelocity + dx
-					weapon.yVelocity = weapon.yVelocity + dy
-					debugPrint("YEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEET")
-				end
-			end
-
 			local velocity = math.sqrt(weapon.xVelocity^2 + weapon.yVelocity^2)
 			if (velocity > 6) then
 				local fraction = 6/velocity
 				weapon.xVelocity = weapon.xVelocity*fraction
 				weapon.yVelocity = weapon.yVelocity*fraction
+			end
+			local absoluteVelocity = math.sqrt(velocity^2)
+			if absoluteVelocity > 3 then
+				for _, actor in ipairs(getCollidingActors(weapon.x + weapon.width/2 - 75/2, weapon.y + weapon.height/2 - 75/2, 75, 75, false, false, true, false, true)) do
+					if actor.ai ~= "projectile" then
+						local currentAngle = math.atan2(weapon.yVelocity, weapon.xVelocity)
+						local newAngle = math.atan2((actor.y + actor.height/2) - (weapon.y + weapon.height/2), (actor.x + actor.width/2) - (weapon.x + weapon.width/2))
+						local dx = math.cos(newAngle)
+						local dy = math.sin(newAngle)
+						-- if current weapon trajectory is similar to trajectory of weapon needed to hit enemy
+						if newAngle > currentAngle - 0.5 and newAngle < currentAngle + 0.5 then
+							weapon.xVelocity = weapon.xVelocity + absoluteVelocity/6*dx
+							weapon.yVelocity = weapon.yVelocity + absoluteVelocity/6*dy
+						end
+					end
+				end
 			end
 		end
 	end

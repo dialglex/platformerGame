@@ -470,10 +470,12 @@ function newNpc(npcName, npcAi, x, y, spritesheet, animationSpeed, animationFram
 
 		if npc.name == "upPlant" then
 			if player.x + player.width/2 > npc.x and player.x + player.width/2 < npc.x + npc.attackWidth and player.y < npc.y and npc.attackCooldown == 0 and npc.attacking == false then
-				npc.attacking = true
-				npc.projectileShot = false
-				npc.x = npc.x + npc.attackXOffset
-				npc.y = npc.y + npc.attackYOffset
+				if checkCollision(npc.x, npc.y, width, height) then
+					npc.attacking = true
+					npc.projectileShot = false
+					npc.x = npc.x + npc.attackXOffset
+					npc.y = npc.y + npc.attackYOffset
+				end
 			end
 
 			if npc.attacking then
