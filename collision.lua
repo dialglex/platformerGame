@@ -4,11 +4,11 @@ function AABB(x1, y1, width1, height1, x2, y2, width2, height2)
 	return xCheck and yCheck
 end
 
-function checkCollision(x, y, width, height)
+function checkCollision(x, y, width, height, platform)
 	table.insert(hitboxes, {x, y, width, height})
 	for _, actor in ipairs(tiles) do
-		if actor.collidable or actor.platform and player.yVelocity >= 0 and downInputs.down ~= true then
-			if AABB(x, y, width, height, actor.x + actor.hitboxX, actor.y + actor.hitboxY, actor.hitboxWidth, actor.hitboxHeight) and actor.actor ~= "player" then
+		if actor.collidable or platform and actor.platform and player.yVelocity >= 0 and downInputs.down ~= true then
+			if AABB(x, y, width, height, actor.x + actor.hitboxX, actor.y + actor.hitboxY, actor.hitboxWidth, actor.hitboxHeight) then
 				return true
 			end
 		end

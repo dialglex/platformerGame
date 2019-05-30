@@ -213,14 +213,14 @@ function newNpc(npcName, npcAi, x, y, spritesheet, animationSpeed, animationFram
 
 	function npc:checkGrounded()
 		if npc.attacking then
-			if checkCollision(npc:getX() - npc.attackXOffset, npc:getY() - npc.attackYOffset + npc.height, npc.width, 1) then
+			if checkCollision(npc:getX() - npc.attackXOffset, npc:getY() - npc.attackYOffset + npc.height, npc.width, 1, true) then
 				npc.grounded = true
 				npc.yVelocity = 0
 			else
 				npc.grounded = false
 			end
 		else
-			if checkCollision(npc:getX(), npc:getY() + npc.height, npc.width, 1) then
+			if checkCollision(npc:getX(), npc:getY() + npc.height, npc.width, 1, true) then
 				npc.grounded = true
 				npc.yVelocity = 0
 			else
@@ -469,8 +469,10 @@ function newNpc(npcName, npcAi, x, y, spritesheet, animationSpeed, animationFram
 		end
 
 		if npc.name == "upPlant" then
+			-- if centre of player is to the right of the left of the npc AND centre of player is to the left of the right of the npc
 			if player.x + player.width/2 > npc.x and player.x + player.width/2 < npc.x + npc.attackWidth and player.y < npc.y and npc.attackCooldown == 0 and npc.attacking == false then
-				if checkCollision(npc.x, npc.y, width, height) then
+				if checkCollision(npc.x, player.y + player.height, npc.attackWidth, npc.y - player.y - player.height, false) == false then
+					debugPrint("NO WALL")
 					npc.attacking = true
 					npc.projectileShot = false
 					npc.x = npc.x + npc.attackXOffset
@@ -494,10 +496,12 @@ function newNpc(npcName, npcAi, x, y, spritesheet, animationSpeed, animationFram
 			end
 		elseif npc.name == "downPlant" then
 			if player.x + player.width/2 > npc.x and player.x + player.width/2 < npc.x + npc.attackWidth and player.y > npc.y and npc.attackCooldown == 0 and npc.attacking == false then
-				npc.attacking = true
-				npc.projectileShot = false
-				npc.x = npc.x + npc.attackXOffset
-				npc.y = npc.y + npc.attackYOffset
+				if checkCollision(npc.x, npc.y + npc.height, npc.attackWidth, player.y - npc.y - npc.height, false) == false then
+					npc.attacking = true
+					npc.projectileShot = false
+					npc.x = npc.x + npc.attackXOffset
+					npc.y = npc.y + npc.attackYOffset
+				end
 			end
 
 			if npc.attacking then
@@ -519,7 +523,9 @@ function newNpc(npcName, npcAi, x, y, spritesheet, animationSpeed, animationFram
 
 	function npc:divingAi()
 		if player.x + player.width/2 > npc.x and player.x + player.width/2 < npc.x + npc.attackWidth and player.y > npc.y and npc.attackCooldown == 0 and npc.attacking == false then
-			npc.attacking = true
+			if checkCollision(npc.x, npc.y + npc.height, npc.attackWidth, player.y - npc.y - npc.height, false) == false then
+				npc.attacking = true
+			end
 		end
 
 		if npc.diving then

@@ -755,7 +755,7 @@ function newPlayer(playerX, playerY)
 	function player:checkGrounded()
 		player.transitioning = false
 		player.oldGrounded = player.grounded
-		if checkCollision(player:getX(), player:getY() + player.height, player.width, 1) then
+		if checkCollision(player:getX(), player:getY() + player.height, player.width, 1, true) then
 			if player.grounded == false then
 				if player.yVelocity > 2 then
 					player.landQuadSection = 0
