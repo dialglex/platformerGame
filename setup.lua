@@ -72,7 +72,7 @@ function loadMap(newMap, oldPlayer, file)
 								if tile.properties["item"] then
 									local shopItem = ""
 									local randomNumber = math.random(3)
-									if shopItemNumber == 1 and randomNumber <= shopItemNumber and alternateShopItem == false then
+									if randomNumber <= shopItemNumber and alternateShopItem == false then
 										if shopItemType == "weapon" then
 											shopItem = "accessory"
 										else

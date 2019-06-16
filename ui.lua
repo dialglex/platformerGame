@@ -242,16 +242,6 @@ function newUi(name, data1, data2)
 					ui.weapon1Selected = false
 				end
 
-				if pressInputs.attack1 then
-					menuConfirmSound:play()
-					player.equippedWeapon1 = ui.newWeaponName
-					ui.remove = true
-				elseif pressInputs.attack2 then
-					menuConfirmSound:play()
-					player.equippedWeapon2 = ui.newWeaponName
-					ui.remove = true
-				end
-
 				if pressInputs.confirm then
 					if ui.weapon1Selected then
 						menuConfirmSound:play()
