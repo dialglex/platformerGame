@@ -1,28 +1,29 @@
 return {
-  version = "1.1",
+  version = "1.2",
   luaversion = "5.1",
-  tiledversion = "1.1.2",
+  tiledversion = "1.2.4",
   orientation = "orthogonal",
   renderorder = "right-down",
   width = 32,
   height = 19,
   tilewidth = 16,
   tileheight = 16,
-  nextobjectid = 3,
+  nextlayerid = 11,
+  nextobjectid = 1,
   properties = {
     ["background"] = "../../../images/backgrounds/grassland.png",
     ["bottomLeft"] = true,
-    ["bottomMiddle"] = true,
-    ["bottomRight"] = false,
-    ["leftBottom"] = true,
-    ["leftMiddle"] = false,
-    ["leftTop"] = true,
-    ["rightBottom"] = true,
-    ["rightMiddle"] = false,
+    ["bottomMiddle"] = false,
+    ["bottomRight"] = true,
+    ["leftBottom"] = false,
+    ["leftMiddle"] = true,
+    ["leftTop"] = false,
+    ["rightBottom"] = false,
+    ["rightMiddle"] = true,
     ["rightTop"] = true,
     ["topLeft"] = false,
     ["topMiddle"] = true,
-    ["topRight"] = true
+    ["topRight"] = false
   },
   tilesets = {
     {
@@ -33,6 +34,7 @@ return {
       tileheight = 16,
       spacing = 0,
       margin = 0,
+      columns = 8,
       image = "../../../images/tiles/grass.png",
       imagewidth = 128,
       imageheight = 128,
@@ -1250,24 +1252,179 @@ return {
       }
     },
     {
-      name = "upPlant",
+      name = "woodenPlatform",
       firstgid = 65,
-      filename = "../../tiles/npcs/enemy/upPlant.tsx",
-      tilewidth = 32,
-      tileheight = 21,
+      filename = "../../tiles/tiles/woodenPlatform.tsx",
+      tilewidth = 16,
+      tileheight = 16,
       spacing = 0,
       margin = 0,
-      image = "../../../images/npcs/enemy/plant/upPlantIdleSpritesheet.png",
-      imagewidth = 192,
-      imageheight = 21,
+      columns = 3,
+      image = "../../../images/tiles/woodenPlatform.png",
+      imagewidth = 48,
+      imageheight = 48,
       tileoffset = {
         x = 0,
         y = 0
       },
       grid = {
         orientation = "orthogonal",
-        width = 32,
-        height = 21
+        width = 16,
+        height = 16
+      },
+      properties = {},
+      terrains = {},
+      tilecount = 9,
+      tiles = {
+        {
+          id = 0,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false,
+            ["platform"] = true
+          }
+        },
+        {
+          id = 1,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false,
+            ["platform"] = true
+          }
+        },
+        {
+          id = 2,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false,
+            ["platform"] = true
+          }
+        },
+        {
+          id = 3,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false,
+            ["platform"] = false
+          }
+        },
+        {
+          id = 4,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false,
+            ["platform"] = true
+          }
+        },
+        {
+          id = 5,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false,
+            ["platform"] = false
+          }
+        },
+        {
+          id = 6,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false,
+            ["platform"] = true
+          }
+        },
+        {
+          id = 7,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false,
+            ["platform"] = true
+          }
+        },
+        {
+          id = 8,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false,
+            ["platform"] = true
+          }
+        }
+      }
+    },
+    {
+      name = "grassBg",
+      firstgid = 74,
+      filename = "../../tiles/tiles/grassBg.tsx",
+      tilewidth = 16,
+      tileheight = 16,
+      spacing = 0,
+      margin = 0,
+      columns = 2,
+      image = "../../../images/tiles/grassBg.png",
+      imagewidth = 32,
+      imageheight = 32,
+      tileoffset = {
+        x = 0,
+        y = 0
+      },
+      grid = {
+        orientation = "orthogonal",
+        width = 16,
+        height = 16
+      },
+      properties = {},
+      terrains = {},
+      tilecount = 4,
+      tiles = {
+        {
+          id = 0,
+          properties = {
+            ["background"] = true,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 1,
+          properties = {
+            ["background"] = true,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 2,
+          properties = {
+            ["background"] = true,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 3,
+          properties = {
+            ["background"] = true,
+            ["collidable"] = false
+          }
+        }
+      }
+    },
+    {
+      name = "acorn",
+      firstgid = 78,
+      filename = "../../tiles/npcs/enemy/acorn.tsx",
+      tilewidth = 26,
+      tileheight = 25,
+      spacing = 0,
+      margin = 0,
+      columns = 6,
+      image = "../../../images/npcs/enemy/acorn/acornMoveRightSpritesheet.png",
+      imagewidth = 156,
+      imageheight = 25,
+      tileoffset = {
+        x = 0,
+        y = 0
+      },
+      grid = {
+        orientation = "orthogonal",
+        width = 26,
+        height = 25
       },
       properties = {},
       terrains = {},
@@ -1276,9 +1433,7 @@ return {
         {
           id = 0,
           properties = {
-            ["npc"] = true,
-            ["xOffset"] = 0,
-            ["yOffset"] = 5
+            ["npc"] = true
           },
           animation = {
             {
@@ -1310,13 +1465,69 @@ return {
       }
     },
     {
+      name = "mushroomMonster",
+      firstgid = 84,
+      filename = "../../tiles/npcs/enemy/mushroomMonster.tsx",
+      tilewidth = 27,
+      tileheight = 23,
+      spacing = 0,
+      margin = 0,
+      columns = 5,
+      image = "../../../images/npcs/enemy/mushroomMonster/mushroomMonsterMoveRightSpritesheet.png",
+      imagewidth = 135,
+      imageheight = 23,
+      tileoffset = {
+        x = 0,
+        y = 0
+      },
+      grid = {
+        orientation = "orthogonal",
+        width = 27,
+        height = 23
+      },
+      properties = {},
+      terrains = {},
+      tilecount = 5,
+      tiles = {
+        {
+          id = 0,
+          properties = {
+            ["npc"] = true
+          },
+          animation = {
+            {
+              tileid = 0,
+              duration = 100
+            },
+            {
+              tileid = 1,
+              duration = 100
+            },
+            {
+              tileid = 2,
+              duration = 100
+            },
+            {
+              tileid = 3,
+              duration = 100
+            },
+            {
+              tileid = 4,
+              duration = 100
+            }
+          }
+        }
+      }
+    },
+    {
       name = "downPlant",
-      firstgid = 71,
+      firstgid = 89,
       filename = "../../tiles/npcs/enemy/downPlant.tsx",
       tilewidth = 32,
       tileheight = 21,
       spacing = 0,
       margin = 0,
+      columns = 6,
       image = "../../../images/npcs/enemy/plant/downPlantIdleSpritesheet.png",
       imagewidth = 192,
       imageheight = 21,
@@ -1370,45 +1581,75 @@ return {
       }
     },
     {
-      name = "treeMonster",
-      firstgid = 77,
-      filename = "../../tiles/npcs/enemy/treeMonster.tsx",
-      tilewidth = 80,
-      tileheight = 56,
+      name = "upPlant",
+      firstgid = 95,
+      filename = "../../tiles/npcs/enemy/upPlant.tsx",
+      tilewidth = 32,
+      tileheight = 21,
       spacing = 0,
       margin = 0,
-      image = "../../../images/npcs/enemy/treeMonster/treeMonsterIdleRightSpritesheet.png",
-      imagewidth = 80,
-      imageheight = 56,
+      columns = 6,
+      image = "../../../images/npcs/enemy/plant/upPlantIdleSpritesheet.png",
+      imagewidth = 192,
+      imageheight = 21,
       tileoffset = {
         x = 0,
         y = 0
       },
       grid = {
         orientation = "orthogonal",
-        width = 80,
-        height = 56
+        width = 32,
+        height = 21
       },
       properties = {},
       terrains = {},
-      tilecount = 1,
+      tilecount = 6,
       tiles = {
         {
           id = 0,
           properties = {
-            ["npc"] = true
+            ["npc"] = true,
+            ["xOffset"] = 0,
+            ["yOffset"] = 5
+          },
+          animation = {
+            {
+              tileid = 0,
+              duration = 100
+            },
+            {
+              tileid = 1,
+              duration = 100
+            },
+            {
+              tileid = 2,
+              duration = 100
+            },
+            {
+              tileid = 3,
+              duration = 100
+            },
+            {
+              tileid = 4,
+              duration = 100
+            },
+            {
+              tileid = 5,
+              duration = 100
+            }
           }
         }
       }
     },
     {
       name = "moonfly",
-      firstgid = 78,
+      firstgid = 101,
       filename = "../../tiles/npcs/enemy/moonfly.tsx",
       tilewidth = 18,
       tileheight = 14,
       spacing = 0,
       margin = 0,
+      columns = 3,
       image = "../../../images/npcs/enemy/moonfly/moonflyMoveRightSpritesheet.png",
       imagewidth = 54,
       imageheight = 14,
@@ -1448,406 +1689,14 @@ return {
       }
     },
     {
-      name = "grassBg",
-      firstgid = 81,
-      filename = "../../tiles/tiles/grassBg.tsx",
-      tilewidth = 16,
-      tileheight = 16,
-      spacing = 0,
-      margin = 0,
-      image = "../../../images/tiles/grassBg.png",
-      imagewidth = 32,
-      imageheight = 32,
-      tileoffset = {
-        x = 0,
-        y = 0
-      },
-      grid = {
-        orientation = "orthogonal",
-        width = 16,
-        height = 16
-      },
-      properties = {},
-      terrains = {},
-      tilecount = 4,
-      tiles = {
-        {
-          id = 0,
-          properties = {
-            ["background"] = true,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 1,
-          properties = {
-            ["background"] = true,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 2,
-          properties = {
-            ["background"] = true,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 3,
-          properties = {
-            ["background"] = true,
-            ["collidable"] = false
-          }
-        }
-      }
-    },
-    {
-      name = "ladder",
-      firstgid = 85,
-      filename = "../../tiles/tiles/ladder.tsx",
-      tilewidth = 16,
-      tileheight = 16,
-      spacing = 0,
-      margin = 0,
-      image = "../../../images/tiles/ladder.png",
-      imagewidth = 48,
-      imageheight = 48,
-      tileoffset = {
-        x = 0,
-        y = 0
-      },
-      grid = {
-        orientation = "orthogonal",
-        width = 16,
-        height = 16
-      },
-      properties = {},
-      terrains = {},
-      tilecount = 9,
-      tiles = {
-        {
-          id = 0,
-          properties = {
-            ["background"] = true,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 1,
-          properties = {
-            ["background"] = true,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 2,
-          properties = {
-            ["background"] = true,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 3,
-          properties = {
-            ["background"] = true,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 4,
-          properties = {
-            ["background"] = true,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 5,
-          properties = {
-            ["background"] = true,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 6,
-          properties = {
-            ["background"] = true,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 7,
-          properties = {
-            ["background"] = true,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 8,
-          properties = {
-            ["background"] = true,
-            ["collidable"] = false
-          }
-        }
-      }
-    },
-    {
-      name = "acorn",
-      firstgid = 94,
-      filename = "../../tiles/npcs/enemy/acorn.tsx",
-      tilewidth = 26,
-      tileheight = 25,
-      spacing = 0,
-      margin = 0,
-      image = "../../../images/npcs/enemy/acorn/acornMoveRightSpritesheet.png",
-      imagewidth = 156,
-      imageheight = 25,
-      tileoffset = {
-        x = 0,
-        y = 0
-      },
-      grid = {
-        orientation = "orthogonal",
-        width = 26,
-        height = 25
-      },
-      properties = {},
-      terrains = {},
-      tilecount = 6,
-      tiles = {
-        {
-          id = 0,
-          properties = {
-            ["npc"] = true
-          },
-          animation = {
-            {
-              tileid = 0,
-              duration = 100
-            },
-            {
-              tileid = 1,
-              duration = 100
-            },
-            {
-              tileid = 2,
-              duration = 100
-            },
-            {
-              tileid = 3,
-              duration = 100
-            },
-            {
-              tileid = 4,
-              duration = 100
-            },
-            {
-              tileid = 5,
-              duration = 100
-            }
-          }
-        }
-      }
-    },
-    {
-      name = "mushroomMonster",
-      firstgid = 100,
-      filename = "../../tiles/npcs/enemy/mushroomMonster.tsx",
-      tilewidth = 27,
-      tileheight = 23,
-      spacing = 0,
-      margin = 0,
-      image = "../../../images/npcs/enemy/mushroomMonster/mushroomMonsterMoveRightSpritesheet.png",
-      imagewidth = 135,
-      imageheight = 23,
-      tileoffset = {
-        x = 0,
-        y = 0
-      },
-      grid = {
-        orientation = "orthogonal",
-        width = 27,
-        height = 23
-      },
-      properties = {},
-      terrains = {},
-      tilecount = 5,
-      tiles = {
-        {
-          id = 0,
-          properties = {
-            ["npc"] = true
-          },
-          animation = {
-            {
-              tileid = 0,
-              duration = 100
-            },
-            {
-              tileid = 1,
-              duration = 100
-            },
-            {
-              tileid = 2,
-              duration = 100
-            },
-            {
-              tileid = 3,
-              duration = 100
-            },
-            {
-              tileid = 4,
-              duration = 100
-            }
-          }
-        }
-      }
-    },
-    {
-      name = "rock",
-      firstgid = 105,
-      filename = "../../tiles/tiles/rock.tsx",
-      tilewidth = 16,
-      tileheight = 16,
-      spacing = 0,
-      margin = 0,
-      image = "../../../images/tiles/rock.png",
-      imagewidth = 64,
-      imageheight = 64,
-      tileoffset = {
-        x = 0,
-        y = 0
-      },
-      grid = {
-        orientation = "orthogonal",
-        width = 16,
-        height = 16
-      },
-      properties = {},
-      terrains = {},
-      tilecount = 16,
-      tiles = {
-        {
-          id = 0,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 1,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 2,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 3,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 4,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 5,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 6,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 7,
-          properties = {
-            ["background"] = false,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 8,
-          properties = {
-            ["background"] = true,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 9,
-          properties = {
-            ["background"] = true,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 10,
-          properties = {
-            ["background"] = true,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 11,
-          properties = {
-            ["background"] = true,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 12,
-          properties = {
-            ["background"] = true,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 13,
-          properties = {
-            ["background"] = true,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 14,
-          properties = {
-            ["background"] = true,
-            ["collidable"] = false
-          }
-        },
-        {
-          id = 15,
-          properties = {
-            ["background"] = true,
-            ["collidable"] = false
-          }
-        }
-      }
-    },
-    {
       name = "mushroom",
-      firstgid = 121,
+      firstgid = 104,
       filename = "../../tiles/tiles/mushroom.tsx",
       tilewidth = 16,
       tileheight = 16,
       spacing = 0,
       margin = 0,
+      columns = 4,
       image = "../../../images/tiles/mushroom.png",
       imagewidth = 64,
       imageheight = 64,
@@ -1977,11 +1826,151 @@ return {
           }
         }
       }
+    },
+    {
+      name = "rock",
+      firstgid = 120,
+      filename = "../../tiles/tiles/rock.tsx",
+      tilewidth = 16,
+      tileheight = 16,
+      spacing = 0,
+      margin = 0,
+      columns = 4,
+      image = "../../../images/tiles/rock.png",
+      imagewidth = 64,
+      imageheight = 64,
+      tileoffset = {
+        x = 0,
+        y = 0
+      },
+      grid = {
+        orientation = "orthogonal",
+        width = 16,
+        height = 16
+      },
+      properties = {},
+      terrains = {},
+      tilecount = 16,
+      tiles = {
+        {
+          id = 0,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 1,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 2,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 3,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 4,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 5,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 6,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 7,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 8,
+          properties = {
+            ["background"] = true,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 9,
+          properties = {
+            ["background"] = true,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 10,
+          properties = {
+            ["background"] = true,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 11,
+          properties = {
+            ["background"] = true,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 12,
+          properties = {
+            ["background"] = true,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 13,
+          properties = {
+            ["background"] = true,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 14,
+          properties = {
+            ["background"] = true,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 15,
+          properties = {
+            ["background"] = true,
+            ["collidable"] = false
+          }
+        }
+      }
     }
   },
   layers = {
     {
       type = "tilelayer",
+      id = 3,
       name = "grassBg",
       x = 0,
       y = 0,
@@ -1997,27 +1986,28 @@ return {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 77, 0, 0, 76, 0, 0, 0, 0, 76, 77, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 83, 81, 81, 84, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        81, 81, 81, 81, 84, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 83, 81, 81, 81, 81, 81,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 83, 81, 81, 84, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 83, 81, 81, 81, 81, 84, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 83, 81, 81, 81, 84, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 83, 81, 81, 81, 81, 81, 0, 0,
+        0, 0, 0, 0, 0, 0, 76, 77, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 76, 74, 74, 74, 74, 74,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 76, 74, 74, 74, 77, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 77, 0, 0, 76, 0, 0, 0, 0, 0, 77, 0, 0, 76, 74, 0, 0, 74, 74, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 83, 81, 84, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 83, 84, 0, 0, 0, 0, 0, 83, 84, 0, 0, 0, 0, 0, 83, 0, 0, 0, 84, 0, 0, 0, 83, 84, 0, 0, 0, 0,
-        0, 0, 0, 83, 0, 0, 0, 0, 0, 0, 83, 0, 0, 84, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 83, 0, 0, 84, 0, 0, 0,
-        81, 81, 81, 0, 0, 0, 0, 0, 0, 83, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 81, 81, 0, 0, 0, 0, 81, 81, 81,
+        74, 74, 77, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 76, 74,
+        0, 0, 0, 77, 0, 0, 0, 0, 0, 0, 76, 74, 77, 0, 0, 0, 0, 0, 0, 76, 74, 74, 74, 77, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 76, 77, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 76, 0, 0, 77, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 74, 74, 74, 77, 0, 0, 0, 76, 74, 74, 74, 74, 0, 0, 0, 0, 74, 74, 74, 74, 77, 0, 0, 0, 76, 74, 74, 74, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
       }
     },
     {
       type = "tilelayer",
-      name = "ladder",
+      id = 9,
+      name = "rock",
       x = 0,
       y = 0,
       width = 32,
@@ -2031,27 +2021,64 @@ return {
       data = {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 85, 0, 0, 0, 0, 0, 0, 0, 0, 85, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 88, 0, 0, 0, 0, 0, 0, 0, 0, 88, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 91, 0, 0, 0, 0, 0, 0, 0, 0, 88, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 88, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 88, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 88, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 88, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 91, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 129, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 134, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 130, 125, 0, 0, 123,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 131, 0, 120, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 125, 0, 0, 0, 129, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        130, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 126, 122,
+        0, 0, 0, 127, 0, 0, 0, 0, 0, 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 0, 0, 134, 0, 130, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 132, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 130, 123, 0, 134, 0, 0, 0, 0, 0, 135, 0, 123, 0, 0, 0, 0, 121, 126, 133, 0, 0, 0, 0, 0, 0, 0, 135, 132, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
       }
     },
     {
       type = "tilelayer",
+      id = 10,
+      name = "mushroom",
+      x = 0,
+      y = 0,
+      width = 32,
+      height = 19,
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      properties = {},
+      encoding = "lua",
+      data = {
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 105, 0, 0, 104, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 105, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 104, 105, 0, 107, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 107, 106, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 104, 0, 0, 0, 0, 0, 105, 0, 0, 0, 0, 0, 0, 108, 111, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 105, 106, 0, 0, 0, 0, 0, 0, 0, 0, 0, 110, 109, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 111, 0, 0, 110, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 110, 108, 111, 0, 0, 0, 0, 0, 0, 0, 109, 108, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 104, 0, 105, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+      }
+    },
+    {
+      type = "tilelayer",
+      id = 4,
       name = "acorn",
       x = 0,
       y = 0,
@@ -2069,16 +2096,52 @@ return {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 94, 0, 94, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 94, 0, 0, 0, 94, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 94, 0, 0, 94, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 94, 0, 0, 0, 94, 0, 0, 0,
+        0, 0, 0, 0, 78, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 78, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 78, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 78, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 94, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 94, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 78, 0, 0, 0, 0, 78, 0, 0, 0, 78, 0, 0, 0, 0, 0, 0, 78, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 78, 0, 0, 0, 0, 0, 0, 0, 0, 0, 78, 0, 0, 0, 0, 0, 78, 0, 0, 0, 0, 0, 0, 0, 0, 0, 78, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+      }
+    },
+    {
+      type = "tilelayer",
+      id = 5,
+      name = "mushroomMonster",
+      x = 0,
+      y = 0,
+      width = 32,
+      height = 19,
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      properties = {},
+      encoding = "lua",
+      data = {
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 84, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 84, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 84, 0, 0, 0, 0, 0, 0, 84, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 84, 0, 0, 0, 0, 0, 0, 0, 0, 0, 84, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 84, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -2087,6 +2150,43 @@ return {
     },
     {
       type = "tilelayer",
+      id = 6,
+      name = "downPlant",
+      x = 0,
+      y = 0,
+      width = 32,
+      height = 19,
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      properties = {},
+      encoding = "lua",
+      data = {
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 89, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 89, 0, 0, 0, 89, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 89, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 89, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 89, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 89, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+      }
+    },
+    {
+      type = "tilelayer",
+      id = 7,
       name = "upPlant",
       x = 0,
       y = 0,
@@ -2106,6 +2206,7 @@ return {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 95, 0, 0, 0, 95, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -2114,84 +2215,14 @@ return {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-      }
-    },
-    {
-      type = "tilelayer",
-      name = "downPlant",
-      x = 0,
-      y = 0,
-      width = 32,
-      height = 19,
-      visible = true,
-      opacity = 1,
-      offsetx = 0,
-      offsety = 0,
-      properties = {},
-      encoding = "lua",
-      data = {
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 71, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 71, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 95, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
       }
     },
     {
       type = "tilelayer",
-      name = "mushroomMonster",
-      x = 0,
-      y = 0,
-      width = 32,
-      height = 19,
-      visible = true,
-      opacity = 1,
-      offsetx = 0,
-      offsety = 0,
-      properties = {},
-      encoding = "lua",
-      data = {
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-      }
-    },
-    {
-      type = "tilelayer",
+      id = 8,
       name = "moonfly",
       x = 0,
       y = 0,
@@ -2207,17 +2238,17 @@ return {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 101, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 78, 0, 0, 0, 0, 78, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 101, 0, 0, 0, 101, 0, 0, 0, 101, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 78, 0, 0, 0, 0, 0, 0, 0, 78, 0, 0, 0, 0, 0, 0, 0, 78, 0, 0, 78, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 101, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -2227,7 +2258,8 @@ return {
     },
     {
       type = "tilelayer",
-      name = "mushroom",
+      id = 1,
+      name = "woodenPlatform",
       x = 0,
       y = 0,
       width = 32,
@@ -2243,18 +2275,18 @@ return {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 124, 121, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 68, 65, 67, 70, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 125, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 68, 65, 67, 70, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 122, 121, 123, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 123, 0, 121, 124, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 68, 65, 67, 70, 0, 0, 0, 0, 0, 68, 65, 67, 70, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 122, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 124, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 127, 126, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 68, 65, 67, 70, 0, 68, 65, 67, 70, 68, 65, 67, 70, 0, 0, 0, 68, 65, 67, 70, 0, 0, 0, 0, 0,
+        0, 0, 0, 68, 65, 67, 70, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 68, 65, 67, 70, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
@@ -2262,41 +2294,7 @@ return {
     },
     {
       type = "tilelayer",
-      name = "rock",
-      x = 0,
-      y = 0,
-      width = 32,
-      height = 19,
-      visible = true,
-      opacity = 1,
-      offsetx = 0,
-      offsety = 0,
-      properties = {},
-      encoding = "lua",
-      data = {
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 108, 0, 119, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 111, 105, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 107, 110, 114, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 114, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 117, 0, 0, 108, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 107, 0, 114, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 119, 106, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 105, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 115, 0, 0, 0, 0, 0, 0, 117, 119, 0, 0, 0, 0, 0, 0, 0, 0, 0, 119, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 119, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 112, 0, 0, 0, 0, 0, 0,
-        0, 0, 106, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 116, 112, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-      }
-    },
-    {
-      type = "tilelayer",
+      id = 2,
       name = "grass",
       x = 0,
       y = 0,
@@ -2309,67 +2307,25 @@ return {
       properties = {},
       encoding = "lua",
       data = {
-        20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 21, 0, 0, 0, 0, 19, 20, 20, 20, 21, 0, 0, 0, 19, 20, 20, 20, 20, 20,
-        20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 6, 53, 0, 0, 0, 0, 19, 20, 20, 20, 21, 0, 0, 0, 19, 20, 20, 20, 20, 20,
-        52, 52, 52, 52, 52, 52, 52, 7, 20, 20, 20, 6, 53, 0, 0, 0, 0, 0, 51, 7, 20, 20, 21, 0, 0, 0, 51, 7, 6, 52, 52, 52,
-        0, 0, 0, 0, 0, 0, 0, 51, 7, 20, 6, 53, 0, 0, 0, 0, 0, 0, 0, 51, 7, 6, 53, 0, 0, 0, 0, 51, 53, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 51, 52, 53, 0, 0, 16, 8, 8, 24, 0, 0, 0, 51, 53, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        8, 8, 8, 8, 24, 0, 0, 0, 0, 0, 0, 0, 0, 2, 47, 46, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 8, 8, 8, 8, 8,
-        12, 12, 12, 46, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 51, 53, 0, 0, 0, 16, 8, 8, 24, 0, 0, 0, 2, 47, 12, 12, 12, 12,
-        20, 20, 6, 53, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 47, 46, 4, 0, 0, 0, 0, 51, 52, 52, 7, 20,
-        20, 6, 53, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 8, 8, 8, 8, 24, 0, 0, 51, 53, 0, 0, 0, 0, 0, 0, 0, 0, 19, 20,
-        20, 21, 0, 0, 0, 16, 8, 8, 8, 24, 0, 0, 2, 47, 12, 12, 12, 13, 0, 0, 0, 0, 0, 0, 16, 8, 8, 8, 8, 8, 19, 20,
-        20, 21, 0, 0, 0, 2, 47, 12, 46, 4, 0, 0, 0, 51, 7, 20, 6, 53, 0, 0, 0, 0, 0, 0, 2, 47, 12, 12, 12, 12, 15, 20,
-        20, 21, 0, 0, 0, 0, 51, 52, 53, 0, 0, 0, 0, 0, 51, 52, 53, 0, 0, 0, 0, 0, 0, 0, 0, 51, 52, 52, 52, 52, 7, 20,
-        52, 53, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 8, 24, 0, 0, 0, 0, 0, 0, 0, 0, 51, 52,
-        0, 0, 0, 0, 16, 24, 0, 0, 0, 0, 0, 16, 24, 0, 0, 0, 0, 0, 16, 11, 12, 13, 24, 0, 0, 0, 16, 24, 0, 0, 0, 0,
-        0, 0, 0, 16, 11, 13, 0, 0, 0, 0, 16, 11, 13, 24, 0, 0, 0, 0, 11, 15, 20, 14, 13, 0, 0, 16, 11, 13, 24, 0, 0, 0,
-        8, 8, 8, 11, 15, 21, 0, 0, 0, 16, 11, 15, 14, 13, 0, 0, 0, 0, 19, 20, 20, 20, 21, 8, 8, 11, 15, 14, 13, 8, 8, 8,
-        12, 12, 12, 15, 20, 21, 0, 0, 0, 11, 15, 20, 20, 21, 0, 0, 0, 0, 19, 20, 20, 20, 14, 12, 12, 15, 20, 20, 14, 12, 12, 12,
-        20, 20, 20, 20, 20, 21, 0, 0, 0, 19, 20, 20, 20, 21, 0, 0, 0, 0, 19, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
-        20, 20, 20, 20, 20, 21, 0, 0, 0, 19, 20, 20, 20, 21, 0, 0, 0, 0, 19, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20
-      }
-    },
-    {
-      type = "objectgroup",
-      name = "objects",
-      visible = true,
-      opacity = 1,
-      offsetx = 0,
-      offsety = 0,
-      draworder = "topdown",
-      properties = {},
-      objects = {
-        {
-          id = 1,
-          name = "",
-          type = "",
-          shape = "rectangle",
-          x = 384,
-          y = 32,
-          width = 16,
-          height = 128,
-          rotation = 0,
-          visible = true,
-          properties = {
-            ["type"] = "ladder"
-          }
-        },
-        {
-          id = 2,
-          name = "",
-          type = "",
-          shape = "rectangle",
-          x = 240,
-          y = 32,
-          width = 16,
-          height = 48,
-          rotation = 0,
-          visible = true,
-          properties = {
-            ["type"] = "ladder"
-          }
-        }
+        20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 21, 0, 0, 0, 0, 19, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
+        20, 20, 20, 20, 20, 20, 20, 20, 6, 52, 52, 7, 20, 21, 0, 0, 0, 0, 19, 6, 52, 52, 52, 52, 52, 52, 7, 6, 52, 52, 7, 20,
+        20, 20, 20, 6, 52, 52, 7, 6, 53, 0, 0, 51, 7, 21, 0, 0, 0, 0, 19, 21, 0, 0, 0, 0, 0, 0, 19, 21, 0, 0, 51, 52,
+        20, 20, 20, 21, 0, 0, 51, 53, 0, 0, 0, 0, 19, 21, 24, 0, 0, 16, 19, 21, 0, 0, 16, 24, 0, 0, 51, 53, 0, 0, 0, 0,
+        20, 20, 20, 21, 0, 0, 0, 0, 0, 0, 0, 0, 51, 57, 4, 0, 0, 2, 58, 53, 0, 0, 11, 13, 0, 0, 0, 0, 0, 0, 0, 0,
+        20, 20, 20, 21, 0, 0, 16, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19, 21, 0, 0, 16, 8, 8, 8, 8, 8,
+        20, 20, 6, 53, 0, 0, 11, 13, 0, 0, 0, 0, 16, 8, 8, 8, 24, 0, 0, 0, 0, 0, 19, 21, 0, 0, 11, 12, 12, 12, 12, 12,
+        52, 52, 53, 0, 0, 0, 19, 21, 24, 0, 0, 16, 11, 12, 12, 12, 13, 24, 0, 0, 16, 8, 19, 21, 8, 8, 19, 6, 52, 52, 52, 52,
+        0, 0, 0, 0, 0, 0, 19, 59, 4, 0, 0, 2, 58, 52, 52, 7, 59, 4, 0, 0, 2, 47, 15, 14, 12, 12, 15, 21, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 19, 21, 0, 0, 0, 0, 0, 0, 0, 19, 21, 0, 0, 0, 0, 51, 52, 52, 52, 52, 7, 21, 0, 0, 0, 0,
+        8, 8, 24, 0, 0, 0, 19, 21, 0, 0, 0, 0, 0, 0, 0, 19, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19, 21, 0, 0, 16, 8,
+        12, 12, 13, 24, 0, 0, 19, 21, 0, 0, 16, 8, 24, 0, 0, 19, 21, 0, 0, 16, 8, 8, 8, 24, 0, 0, 19, 21, 0, 0, 11, 12,
+        20, 20, 14, 13, 0, 0, 56, 53, 0, 0, 11, 12, 13, 0, 0, 51, 53, 0, 0, 11, 12, 12, 12, 13, 0, 0, 51, 48, 0, 0, 19, 20,
+        20, 6, 52, 53, 0, 0, 25, 0, 0, 0, 51, 52, 53, 0, 0, 0, 0, 0, 0, 51, 7, 20, 6, 53, 0, 0, 0, 25, 0, 0, 19, 20,
+        20, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 24, 0, 0, 0, 51, 52, 53, 0, 0, 0, 0, 0, 0, 0, 19, 20,
+        20, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 11, 13, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19, 20,
+        20, 21, 8, 8, 8, 24, 0, 0, 0, 16, 8, 8, 8, 8, 11, 15, 14, 13, 8, 8, 8, 8, 24, 0, 0, 0, 16, 8, 8, 8, 19, 20,
+        20, 14, 12, 12, 12, 13, 0, 0, 0, 11, 12, 12, 12, 12, 15, 20, 20, 14, 12, 12, 12, 12, 13, 0, 0, 0, 11, 12, 12, 12, 15, 20,
+        20, 20, 20, 20, 20, 21, 0, 0, 0, 19, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 21, 0, 0, 0, 19, 20, 20, 20, 20, 20
       }
     }
   }

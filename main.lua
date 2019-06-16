@@ -1,4 +1,5 @@
 saveData = require("saveData")
+profile = require("profile")
 function love.load()
 	math.randomseed(os.time())	     
 
@@ -46,7 +47,7 @@ function love.load()
 		for _, map in ipairs(mapEntities) do
 			mapDirectory = (folderDirectory.."/"..map)
 			if string.sub(mapDirectory, -3) == "lua" then
-				requireMap = require(string.gsub(mapDirectory, ".lua", "", 1))
+				local requireMap = require(string.gsub(mapDirectory, ".lua", "", 1))
 				allMaps[string.gsub(mapDirectory, ".lua", "", 1)] = loadMap(requireMap, nil, mapDirectory)
 				if string.match(string.gsub(mapDirectory, ".lua", "", 1), "maps/maps/grassland") then
 					if string.find(mapDirectory, "containsCave") then
@@ -217,10 +218,6 @@ function getActors(actors)
 	for _, actor in ipairs(actors) do
 		if actor.actor == "tile" then
 			table.insert(tiles, actor)
-			if actor.name == "teleporter" or actor.name == "chest" then
-				actor:draw()
-				love.graphics.setCanvas()
-			end
 		elseif actor.actor == "npc" then
 			table.insert(npcs, actor)
 		elseif actor.actor == "object" then

@@ -47,7 +47,6 @@ function newTile(tileName, tileWidth, tileHeight, x, y, tileQuad, tileset, tileC
 	end
 
 	tile.spritesheet = tileset
-	tile.canvas = love.graphics.newCanvas(tile.width, tile.height)
 
 	function tile:act(index)
 		tile.index = index
@@ -115,23 +114,6 @@ function newTile(tileName, tileWidth, tileHeight, x, y, tileQuad, tileset, tileC
 
 	function tile:getY()
 		return math.floor(tile.y + 0.5)
-	end
-
-	function tile:draw()
-		if (tile.active or bossLevel and tile.name == "teleporter") or tile.name ~= "teleporter" then
-			love.graphics.setCanvas(tile.canvas)
-			love.graphics.clear()
-
-			love.graphics.setBackgroundColor(0, 0, 0, 0)
-
-			if tile.name == "teleporter" or tile.name == "chest" then
-				love.graphics.draw(tile.spritesheet)
-			else
-				love.graphics.draw(tile.spritesheet, tile.quad)
-			end
-
-			love.graphics.setColor(1, 1, 1, 1)
-		end
 	end
 
 	return tile

@@ -1,7 +1,7 @@
 return {
   version = "1.2",
   luaversion = "5.1",
-  tiledversion = "1.2.3",
+  tiledversion = "1.2.4",
   orientation = "orthogonal",
   renderorder = "right-down",
   width = 32,
@@ -1336,7 +1336,7 @@ return {
   layers = {
     {
       type = "tilelayer",
-      id = 2,
+      id = 1,
       name = "grassBg",
       x = 0,
       y = 0,
@@ -1372,7 +1372,7 @@ return {
     },
     {
       type = "tilelayer",
-      id = 3,
+      id = 2,
       name = "player",
       x = 0,
       y = 0,
@@ -1408,7 +1408,7 @@ return {
     },
     {
       type = "tilelayer",
-      id = 1,
+      id = 3,
       name = "grass",
       x = 0,
       y = 0,

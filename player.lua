@@ -150,13 +150,12 @@ function newPlayer(playerX, playerY)
 				player:newMap(player.mapToEnter)
 				for _, actor in ipairs(actors) do
 					if actor.type == "door" then
-						player.y = actor.y + 18
 						player.yVelocity = 0
-						-- if mapNumber == 2 or mapNumber == 4 then
-						-- 	player.y = actor.y + 18
-						-- elseif mapNumber == 3 then
-						-- 	player.y = actor.y -- make this work for shop doors
-						-- end
+						if mapNumber == 2 or mapNumber == 4 then
+							player.y = actor.y + 17
+						elseif mapNumber == 3 then
+							player.y = actor.y + 2
+						end
 					end
 				end
 				player.mapToEnter = nil
@@ -239,7 +238,7 @@ function newPlayer(playerX, playerY)
 			player.invincible = false
 		end
 
-		if (pressInputs.attack1 or pressInputs.attack2) and player.weaponOut == false and player:isDead() == false then
+		if (pressInputs.attack1 or pressInputs.attack2) and player.weaponOut == false and player:isDead() == false and player.onLadder == false then
 			if pressInputs.attack1 then
 				player.attackWeapon = player.equippedWeapon1
 			else
@@ -260,20 +259,16 @@ function newPlayer(playerX, playerY)
 			end
 
 			if downInputs.down and downInputs.left then
-				-- shootDirection = "downLeft"
 				shootDirection = "down"
 			elseif downInputs.down and downInputs.right then
-				-- shootDirection = "downRight"
 				shootDirection = "down"
 			elseif downInputs.down then
 				shootDirection = "down"
 			end
 
 			if downInputs.up and downInputs.left then
-				-- shootDirection = "upLeft"
 				shootDirection = "up"
 			elseif downInputs.up and downInputs.right then
-				-- shootDirection = "upRight"
 				shootDirection = "up"
 			elseif downInputs.up then
 				shootDirection = "up"
@@ -382,41 +377,38 @@ function newPlayer(playerX, playerY)
 		end
 	end
 
-	function player:newMap(map)
+	function player:newMap(map, door)
 		currentMap = allMaps[map]
 		actors = currentMap.actors
-
-		playerExists = false
-		for _, actor in ipairs(actors) do
-			if actor.actor == "player" then
-				playerExists = true
-			end
-		end
 
 		if mapNumber == 0 then -- starting map
 			spawnRate = 0
 		elseif mapNumber == 1 then
-			spawnRate = 30
+			spawnRate = 25
 		elseif mapNumber == 2 then -- cave
-			spawnRate = 50
+			spawnRate = 30 -- 55 in cave
 		elseif mapNumber == 3 then -- shop
 			spawnRate = 40
 		elseif mapNumber == 4 then -- cave
-			spawnRate = 60
+			spawnRate = 45 -- 70 in cave
 		elseif mapNumber == 5 then
-			spawnRate = 70
+			spawnRate = 55
 		elseif mapNumber == 6 then
-			spawnRate = 80
+			spawnRate = 60
 		end
 
 		if indoor then
 			spawnRate = spawnRate + 25
 		end
 
+		if isInTable(player, actors) == false then
+			table.insert(actors, player)
+		end
+
 		if currentMap.explored == false then
 			for i, npcSpawn in ipairs(currentMap.npcSpawns) do
 				local randomNumber = math.random(0, 100)
-				npcSpawnClone = deepTableClone(npcSpawn)
+				local npcSpawnClone = deepTableClone(npcSpawn)
 				if randomNumber < spawnRate and npcSpawnClone.boss == false then
 					npcExists = false
 					for i, actor in ipairs(actors) do
@@ -436,9 +428,6 @@ function newPlayer(playerX, playerY)
 			currentMap.explored = true
 		end
 
-		if playerExists == false then
-			table.insert(actors, player)
-		end
 		player:resetWeapon()
 
 		backgroundImage = currentMap.backgroundImage
@@ -459,10 +448,12 @@ function newPlayer(playerX, playerY)
 		rightMiddle = currentMap.rightMiddle
 		rightBottom = currentMap.rightBottom
 
-		backgroundCanvas, foregroundCanvas = unpack(setupCanvases(actors))
+		if door ~= false then
+			backgroundCanvas, foregroundCanvas = unpack(setupCanvases(actors))
+		end
 	end
 
-	function isSuitableMap()
+	function isSuitableMap(randomMap)
 		if (string.gsub(currentMapDirectory, ".lua", "", 1)) == randomMap then
 			return false
 		end
@@ -542,14 +533,13 @@ function newPlayer(playerX, playerY)
 	function player:findRandomMap()
 		table.insert(mapsUsed, (string.gsub(currentMapDirectory, ".lua", "", 1)))
 		mapNumber = mapNumber + 1
+		local mapsToCheck = {}
 
 		if levelName == "grassland" then
 			if mapNumber == 2 or mapNumber == 4 then
-				-- mapsToCheck = {unpack(allGrasslandCaveMaps)}
-				mapsToCheck = {unpack(allGrasslandOverworldMaps)}
+				mapsToCheck = {unpack(allGrasslandCaveMaps)}
 			elseif mapNumber == 3 then
-				-- mapsToCheck = {unpack(allGrasslandShopMaps)}
-				mapsToCheck = {unpack(allGrasslandOverworldMaps)}
+				mapsToCheck = {unpack(allGrasslandShopMaps)}
 			else
 				mapsToCheck = {unpack(allGrasslandOverworldMaps)}
 			end
@@ -564,20 +554,20 @@ function newPlayer(playerX, playerY)
 		end
 
 		local randomNumber = math.random(1, getTableLength(mapsToCheck))
-		randomMap = mapsToCheck[randomNumber]
+		local randomMap = mapsToCheck[randomNumber]
 
 		local suitableMap = false
-		suitableMap = isSuitableMap()
+		suitableMap = isSuitableMap(randomMap)
 
 		while suitableMap == false do
 			local randomNumber = math.random(1, getTableLength(mapsToCheck))
 			randomMap = mapsToCheck[randomNumber]
 
-			if isSuitableMap() then
+			if isSuitableMap(randomMap) then
 				suitableMap = true
 			end
 		end
-		player:newMap(randomMap)
+		player:newMap(randomMap, false)
 
 		local image = love.graphics.newImage("images/tiles/corruption.png")
 		if blockTopLeft and currentMap.topLeft then
@@ -678,6 +668,7 @@ function newPlayer(playerX, playerY)
 			table.insert(actors, newTile("corruption", 16, 16, 30*16, 15*16, quad, image, true, true, false, true, 0, 0, 16, 16))
 			table.insert(actors, newTile("corruption", 16, 16, 30*16, 16*16, quad, image, true, true, false, true, 0, 0, 16, 16))
 		end
+
 		backgroundCanvas, foregroundCanvas = unpack(setupCanvases(actors))
 	end
 
@@ -825,11 +816,6 @@ function newPlayer(playerX, playerY)
 			for _, actor in ipairs(getCollidingActors(player:getX(), player:getY(), player.width, player.height, false, false, true, false, true, true, true)) do
 				if actor.actor == "item" then
 					actor.near = true
-					-- if actor.type == "heart" then
-					-- 	if player.hp < player.maxHp then
-					-- 		actor.remove = true
-					-- 		player.hp = player.hp + 1
-					-- 	end
 					if actor.type == "shop" then
 						if pressInputs.interact and player.money > (10 + mapNumber*3) then
 							if actor.name == "weaponShopItem" then
@@ -854,7 +840,7 @@ function newPlayer(playerX, playerY)
 						end
 						player.offLadderFirstFrame = false
 					elseif actor.type == "door" then
-						if pressInputs.interact then
+						if pressInputs.interact and transitioningScreen == false then
 							transitioningScreen = true
 							player.frozen = true
 							player.frozenCounter = -1

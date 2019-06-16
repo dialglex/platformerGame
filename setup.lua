@@ -16,13 +16,12 @@ function setupCanvases(drawActors)
 		for _, actor in ipairs(drawActors) do
 			if actor.actor == "tile" and actor.name ~= "teleporter" and actor.name ~= "chest" then
 				if actor.background ~= nil then
-					actor:draw()
 					if actor.background then
 						love.graphics.setCanvas(backgroundCanvas)
 					else
 						love.graphics.setCanvas(foregroundCanvas)
 					end
-					love.graphics.draw(actor.canvas, actor:getX(), actor:getY())
+					love.graphics.draw(actor.spritesheet, actor.quad, actor.x, actor.y)
 					love.graphics.setCanvas()
 				end
 			end
@@ -42,8 +41,8 @@ function loadMap(newMap, oldPlayer, file)
 	local chosenMap = newMap
 	for _, layer in ipairs(chosenMap.layers) do
 		for _, tilesetData in ipairs(chosenMap.tilesets) do
-			local tileset = love.graphics.newImage(string.sub(tilesetData.image, 10))
 			if layer.name == tilesetData.name then
+				local tileset = love.graphics.newImage(string.sub(tilesetData.image, 10))
 				for mapX = 0, layer.width - 1 do
 					for mapY = 0, layer.height - 1 do
 						local blockID = layer.data[1 + mapX + mapY * layer.width]
@@ -110,7 +109,7 @@ function loadMap(newMap, oldPlayer, file)
 										local tileHitbox = tile.objectGroup.objects[1]
 										table.insert(actors, newTile(tilesetData.name, tilesetData.tilewidth, tilesetData.tileheight, mapX*16, mapY*16,
 											blockQuad, tileset, tile.properties["collidable"], tile.properties["background"], tile.properties["platform"],
-											active, tileHitbox.x, tileHitbox.y, tileHitbox.width, tileHitbox.height))         					
+											active, tileHitbox.x, tileHitbox.y, tileHitbox.width, tileHitbox.height))
 									else
 										table.insert(actors, newTile(tilesetData.name, tilesetData.tilewidth, tilesetData.tileheight, mapX*16, mapY*16,
 											blockQuad, tileset, tile.properties["collidable"], tile.properties["background"], tile.properties["platform"],

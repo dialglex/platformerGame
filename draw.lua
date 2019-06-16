@@ -325,12 +325,12 @@ function drawScreen()
 	for _, actor in ipairs(tiles) do
 		if actor.name == "teleporter" then
 			if actor.active or bossLevel then
-				love.graphics.draw(actor.canvas, actor:getX(), actor:getY())
+				love.graphics.draw(actor.spritesheet, actor:getX(), actor:getY())
 			end
 		elseif actor.name == "chest" then
-			love.graphics.draw(actor.canvas, actor:getX(), actor:getY())
+			love.graphics.draw(actor.spritesheet, actor:getX(), actor:getY())
 		end
-	end	
+	end
 
 	for _, actor in ipairs(objects) do
 		if actor.nearCounter > 0.1 and actor.active then

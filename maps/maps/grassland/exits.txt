@@ -1,0 +1,12 @@
+bottomleft - 5
+bottomMiddle - 4
+bottomRight - 4
+leftBottom - 4
+leftMiddle - 3
+leftTop - 4
+rightBottom - 5
+rightMiddle - 3
+rightTop - 4
+topLeft - 4
+topMiddle - 4
+topRight - 4

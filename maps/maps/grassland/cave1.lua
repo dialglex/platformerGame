@@ -1,14 +1,13 @@
 return {
-  version = "1.2",
+  version = "1.1",
   luaversion = "5.1",
-  tiledversion = "1.2.3",
+  tiledversion = "1.1.2",
   orientation = "orthogonal",
   renderorder = "right-down",
   width = 32,
   height = 19,
   tilewidth = 16,
   tileheight = 16,
-  nextlayerid = 16,
   nextobjectid = 3,
   properties = {
     ["background"] = "../../../images/backgrounds/grassland.png",
@@ -34,7 +33,6 @@ return {
       tileheight = 16,
       spacing = 0,
       margin = 0,
-      columns = 8,
       image = "../../../images/tiles/grass.png",
       imagewidth = 128,
       imageheight = 128,
@@ -1259,7 +1257,6 @@ return {
       tileheight = 16,
       spacing = 0,
       margin = 0,
-      columns = 3,
       image = "../../../images/tiles/woodenPlatform.png",
       imagewidth = 48,
       imageheight = 48,
@@ -1358,10 +1355,9 @@ return {
       tileheight = 16,
       spacing = 0,
       margin = 0,
-      columns = 8,
       image = "../../../images/tiles/dirtBg.png",
-      imagewidth = 128,
-      imageheight = 128,
+      imagewidth = 192,
+      imageheight = 192,
       tileoffset = {
         x = 0,
         y = 0
@@ -1373,7 +1369,7 @@ return {
       },
       properties = {},
       terrains = {},
-      tilecount = 64,
+      tilecount = 144,
       tiles = {
         {
           id = 0,
@@ -1827,13 +1823,12 @@ return {
     },
     {
       name = "grassBg",
-      firstgid = 138,
+      firstgid = 218,
       filename = "../../tiles/tiles/grassBg.tsx",
       tilewidth = 16,
       tileheight = 16,
       spacing = 0,
       margin = 0,
-      columns = 2,
       image = "../../../images/tiles/grassBg.png",
       imagewidth = 32,
       imageheight = 32,
@@ -1882,13 +1877,12 @@ return {
     },
     {
       name = "chest",
-      firstgid = 142,
+      firstgid = 222,
       filename = "../../tiles/tiles/chest.tsx",
       tilewidth = 32,
       tileheight = 31,
       spacing = 0,
       margin = 0,
-      columns = 1,
       image = "../../../images/tiles/chest/chest.png",
       imagewidth = 32,
       imageheight = 31,
@@ -1916,13 +1910,12 @@ return {
     },
     {
       name = "acorn",
-      firstgid = 143,
+      firstgid = 223,
       filename = "../../tiles/npcs/enemy/acorn.tsx",
       tilewidth = 26,
       tileheight = 25,
       spacing = 0,
       margin = 0,
-      columns = 6,
       image = "../../../images/npcs/enemy/acorn/acornMoveRightSpritesheet.png",
       imagewidth = 156,
       imageheight = 25,
@@ -1975,13 +1968,12 @@ return {
     },
     {
       name = "moonfly",
-      firstgid = 149,
+      firstgid = 229,
       filename = "../../tiles/npcs/enemy/moonfly.tsx",
       tilewidth = 18,
       tileheight = 14,
       spacing = 0,
       margin = 0,
-      columns = 3,
       image = "../../../images/npcs/enemy/moonfly/moonflyMoveRightSpritesheet.png",
       imagewidth = 54,
       imageheight = 14,
@@ -2022,13 +2014,12 @@ return {
     },
     {
       name = "mushroomMonster",
-      firstgid = 152,
+      firstgid = 232,
       filename = "../../tiles/npcs/enemy/mushroomMonster.tsx",
       tilewidth = 27,
       tileheight = 23,
       spacing = 0,
       margin = 0,
-      columns = 5,
       image = "../../../images/npcs/enemy/mushroomMonster/mushroomMonsterMoveRightSpritesheet.png",
       imagewidth = 135,
       imageheight = 23,
@@ -2077,13 +2068,12 @@ return {
     },
     {
       name = "upPlant",
-      firstgid = 157,
+      firstgid = 237,
       filename = "../../tiles/npcs/enemy/upPlant.tsx",
       tilewidth = 32,
       tileheight = 21,
       spacing = 0,
       margin = 0,
-      columns = 6,
       image = "../../../images/npcs/enemy/plant/upPlantIdleSpritesheet.png",
       imagewidth = 192,
       imageheight = 21,
@@ -2138,13 +2128,12 @@ return {
     },
     {
       name = "downPlant",
-      firstgid = 163,
+      firstgid = 243,
       filename = "../../tiles/npcs/enemy/downPlant.tsx",
       tilewidth = 32,
       tileheight = 21,
       spacing = 0,
       margin = 0,
-      columns = 6,
       image = "../../../images/npcs/enemy/plant/downPlantIdleSpritesheet.png",
       imagewidth = 192,
       imageheight = 21,
@@ -2199,13 +2188,12 @@ return {
     },
     {
       name = "rock",
-      firstgid = 169,
+      firstgid = 249,
       filename = "../../tiles/tiles/rock.tsx",
       tilewidth = 16,
       tileheight = 16,
       spacing = 0,
       margin = 0,
-      columns = 4,
       image = "../../../images/tiles/rock.png",
       imagewidth = 64,
       imageheight = 64,
@@ -2338,13 +2326,12 @@ return {
     },
     {
       name = "crate",
-      firstgid = 185,
+      firstgid = 265,
       filename = "../../tiles/tiles/crate.tsx",
       tilewidth = 16,
       tileheight = 16,
       spacing = 0,
       margin = 0,
-      columns = 2,
       image = "../../../images/tiles/crate.png",
       imagewidth = 32,
       imageheight = 32,
@@ -2468,13 +2455,12 @@ return {
     },
     {
       name = "mushroom",
-      firstgid = 189,
+      firstgid = 269,
       filename = "../../tiles/tiles/mushroom.tsx",
       tilewidth = 16,
       tileheight = 16,
       spacing = 0,
       margin = 0,
-      columns = 4,
       image = "../../../images/tiles/mushroom.png",
       imagewidth = 64,
       imageheight = 64,
@@ -2607,13 +2593,12 @@ return {
     },
     {
       name = "sign",
-      firstgid = 205,
+      firstgid = 285,
       filename = "../../tiles/tiles/sign.tsx",
       tilewidth = 24,
       tileheight = 24,
       spacing = 0,
       margin = 0,
-      columns = 3,
       image = "../../../images/tiles/sign.png",
       imagewidth = 72,
       imageheight = 72,
@@ -2694,12 +2679,839 @@ return {
           }
         }
       }
+    },
+    {
+      name = "wood",
+      firstgid = 294,
+      filename = "../../tiles/tiles/wood.tsx",
+      tilewidth = 16,
+      tileheight = 16,
+      spacing = 0,
+      margin = 0,
+      image = "../../../images/tiles/wood.png",
+      imagewidth = 112,
+      imageheight = 112,
+      tileoffset = {
+        x = 0,
+        y = 0
+      },
+      grid = {
+        orientation = "orthogonal",
+        width = 16,
+        height = 16
+      },
+      properties = {},
+      terrains = {},
+      tilecount = 49,
+      tiles = {
+        {
+          id = 0,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = true
+          },
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            offsetx = 0,
+            offsety = 0,
+            draworder = "index",
+            properties = {},
+            objects = {
+              {
+                id = 1,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = 0,
+                y = 0,
+                width = 16,
+                height = 16,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
+          }
+        },
+        {
+          id = 1,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = true
+          },
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            offsetx = 0,
+            offsety = 0,
+            draworder = "index",
+            properties = {},
+            objects = {
+              {
+                id = 1,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = 0,
+                y = 0,
+                width = 16,
+                height = 16,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
+          }
+        },
+        {
+          id = 2,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = true
+          },
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            offsetx = 0,
+            offsety = 0,
+            draworder = "index",
+            properties = {},
+            objects = {
+              {
+                id = 1,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = 0,
+                y = 0,
+                width = 16,
+                height = 16,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
+          }
+        },
+        {
+          id = 3,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = true
+          },
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            offsetx = 0,
+            offsety = 0,
+            draworder = "index",
+            properties = {},
+            objects = {
+              {
+                id = 1,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = 0,
+                y = 0,
+                width = 16,
+                height = 16,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
+          }
+        },
+        {
+          id = 4,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 5,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 6,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 7,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = true
+          },
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            offsetx = 0,
+            offsety = 0,
+            draworder = "index",
+            properties = {},
+            objects = {
+              {
+                id = 1,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = 0,
+                y = 0,
+                width = 16,
+                height = 16,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
+          }
+        },
+        {
+          id = 8,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 9,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = true
+          },
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            offsetx = 0,
+            offsety = 0,
+            draworder = "index",
+            properties = {},
+            objects = {
+              {
+                id = 1,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = 0,
+                y = 0,
+                width = 16,
+                height = 16,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
+          }
+        },
+        {
+          id = 10,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = true
+          },
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            offsetx = 0,
+            offsety = 0,
+            draworder = "index",
+            properties = {},
+            objects = {
+              {
+                id = 1,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = 0,
+                y = 0,
+                width = 16,
+                height = 16,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
+          }
+        },
+        {
+          id = 11,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = true
+          },
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            offsetx = 0,
+            offsety = 0,
+            draworder = "index",
+            properties = {},
+            objects = {
+              {
+                id = 1,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = 0,
+                y = 0,
+                width = 16,
+                height = 16,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
+          }
+        },
+        {
+          id = 12,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 13,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 14,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = true
+          },
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            offsetx = 0,
+            offsety = 0,
+            draworder = "index",
+            properties = {},
+            objects = {
+              {
+                id = 1,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = 0,
+                y = 0,
+                width = 16,
+                height = 16,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
+          }
+        },
+        {
+          id = 15,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 16,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = true
+          },
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            offsetx = 0,
+            offsety = 0,
+            draworder = "index",
+            properties = {},
+            objects = {
+              {
+                id = 1,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = 0,
+                y = 0,
+                width = 16,
+                height = 16,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
+          }
+        },
+        {
+          id = 17,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 18,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = true
+          },
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            offsetx = 0,
+            offsety = 0,
+            draworder = "index",
+            properties = {},
+            objects = {
+              {
+                id = 1,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = 0,
+                y = 0,
+                width = 16,
+                height = 16,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
+          }
+        },
+        {
+          id = 19,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 20,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 21,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = true
+          },
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            offsetx = 0,
+            offsety = 0,
+            draworder = "index",
+            properties = {},
+            objects = {
+              {
+                id = 1,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = 0,
+                y = 0,
+                width = 16,
+                height = 16,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
+          }
+        },
+        {
+          id = 22,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 23,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 24,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 25,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 26,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 27,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 28,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = true
+          },
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            offsetx = 0,
+            offsety = 0,
+            draworder = "index",
+            properties = {},
+            objects = {
+              {
+                id = 1,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = 0,
+                y = 0,
+                width = 16,
+                height = 16,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
+          }
+        },
+        {
+          id = 29,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 30,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 31,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 32,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 33,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 34,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = true
+          },
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            offsetx = 0,
+            offsety = 0,
+            draworder = "index",
+            properties = {},
+            objects = {
+              {
+                id = 1,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = 0,
+                y = 0,
+                width = 16,
+                height = 16,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
+          }
+        },
+        {
+          id = 35,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 36,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 37,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 38,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 39,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 40,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 41,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 42,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 43,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 44,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = true
+          },
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            offsetx = 0,
+            offsety = 0,
+            draworder = "index",
+            properties = {},
+            objects = {
+              {
+                id = 1,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = 0,
+                y = 0,
+                width = 16,
+                height = 16,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
+          }
+        },
+        {
+          id = 45,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = true
+          },
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            offsetx = 0,
+            offsety = 0,
+            draworder = "index",
+            properties = {},
+            objects = {
+              {
+                id = 1,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = 0,
+                y = 0,
+                width = 16,
+                height = 16,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
+          }
+        },
+        {
+          id = 46,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = true
+          },
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            offsetx = 0,
+            offsety = 0,
+            draworder = "index",
+            properties = {},
+            objects = {
+              {
+                id = 1,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = 0,
+                y = 0,
+                width = 16,
+                height = 16,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
+          }
+        },
+        {
+          id = 47,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false
+          }
+        },
+        {
+          id = 48,
+          properties = {
+            ["background"] = false,
+            ["collidable"] = false
+          }
+        }
+      }
+    },
+    {
+      name = "shopItem",
+      firstgid = 343,
+      filename = "../../tiles/tiles/shopItem.tsx",
+      tilewidth = 33,
+      tileheight = 33,
+      spacing = 0,
+      margin = 0,
+      image = "../../../images/items/shopItem.png",
+      imagewidth = 33,
+      imageheight = 33,
+      tileoffset = {
+        x = 0,
+        y = 0
+      },
+      grid = {
+        orientation = "orthogonal",
+        width = 33,
+        height = 33
+      },
+      properties = {},
+      terrains = {},
+      tilecount = 1,
+      tiles = {
+        {
+          id = 0,
+          properties = {
+            ["background"] = true,
+            ["collidable"] = false,
+            ["item"] = true
+          }
+        }
+      }
     }
   },
   layers = {
     {
       type = "tilelayer",
-      id = 1,
       name = "dirtBg",
       x = 0,
       y = 0,
@@ -2712,30 +3524,29 @@ return {
       properties = {},
       encoding = "lua",
       data = {
-        83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83,
-        83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83,
-        83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83,
-        83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 78, 99, 79, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83,
-        83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 85, 94, 82, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83,
-        83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 86, 75, 87, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83,
-        83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83,
-        83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83,
-        83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83,
-        83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83,
-        83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83,
-        83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83,
-        83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83,
-        83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83,
-        83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83,
-        83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83,
-        83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83,
-        83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83,
-        83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83, 83
+        87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87,
+        87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87,
+        87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87,
+        87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 79, 80, 81, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87,
+        87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 91, 92, 93, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87,
+        87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 103, 104, 105, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87,
+        87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87,
+        87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87,
+        87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87,
+        87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87,
+        87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87,
+        87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87,
+        87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87,
+        87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87,
+        87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87,
+        87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87,
+        87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87,
+        87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87,
+        87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87, 87
       }
     },
     {
       type = "tilelayer",
-      id = 2,
       name = "grassBg",
       x = 0,
       y = 0,
@@ -2752,26 +3563,25 @@ return {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 141, 0, 0, 0, 139, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 138, 138, 138, 141, 0, 0, 0, 140, 138, 0, 0, 0, 138, 138, 138, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 221, 0, 0, 0, 219, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 218, 218, 218, 221, 0, 0, 0, 220, 218, 0, 0, 0, 218, 218, 218, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 140, 141, 0, 0, 0, 0, 140, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 138, 138, 138, 138, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 140, 138, 138, 0, 0, 0, 0, 0,
-        0, 0, 141, 0, 0, 140, 141, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 138, 138, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 140, 138, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 141, 0, 0, 0, 140, 138, 138, 138, 138, 138, 138, 138, 138, 138, 138, 138, 138, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 138, 138, 138, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 220, 221, 0, 0, 0, 0, 220, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 218, 218, 218, 218, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 220, 218, 218, 0, 0, 0, 0, 0,
+        0, 0, 221, 0, 0, 220, 221, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 218, 218, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 220, 218, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 221, 0, 0, 0, 220, 218, 218, 218, 218, 218, 218, 218, 218, 218, 218, 218, 218, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 218, 218, 218, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
       }
     },
     {
       type = "tilelayer",
-      id = 13,
       name = "crate",
       x = 0,
       y = 0,
@@ -2788,16 +3598,16 @@ return {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 187, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 187, 0, 0, 0, 0, 0, 0, 187, 187, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 267, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 267, 0, 0, 0, 0, 0, 0, 267, 267, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 187, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 187, 187, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 267, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 267, 267, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -2807,7 +3617,6 @@ return {
     },
     {
       type = "tilelayer",
-      id = 3,
       name = "chest",
       x = 0,
       y = 0,
@@ -2825,7 +3634,7 @@ return {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 142, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 222, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -2843,7 +3652,6 @@ return {
     },
     {
       type = "tilelayer",
-      id = 15,
       name = "sign",
       x = 0,
       y = 0,
@@ -2861,7 +3669,7 @@ return {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 209, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 289, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -2870,8 +3678,8 @@ return {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 206, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 208, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 286, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 288, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
@@ -2879,7 +3687,6 @@ return {
     },
     {
       type = "tilelayer",
-      id = 12,
       name = "rock",
       x = 0,
       y = 0,
@@ -2896,26 +3703,25 @@ return {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 173, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 173, 172, 0, 0, 0, 0, 0, 169, 0, 0, 0, 0, 170, 173, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 253, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 253, 252, 0, 0, 0, 0, 0, 249, 0, 0, 0, 0, 250, 253, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 173, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 169, 0, 0, 172, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 175, 182, 171, 0, 0, 0, 0, 0,
-        0, 0, 173, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 171, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 176, 169, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 169, 0, 0, 0, 0, 176, 172, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 171, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 253, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 249, 0, 0, 252, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 262, 251, 0, 0, 0, 0, 0,
+        0, 0, 253, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 251, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 256, 249, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 249, 0, 0, 0, 0, 256, 252, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 251, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
       }
     },
     {
       type = "tilelayer",
-      id = 14,
       name = "mushroom",
       x = 0,
       y = 0,
@@ -2932,26 +3738,25 @@ return {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 189, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 190, 189, 0, 0, 0, 0, 190, 189, 0, 0, 0, 0, 190, 191, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 269, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 270, 269, 0, 0, 0, 0, 270, 269, 0, 0, 0, 0, 270, 271, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 193, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 195, 194, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 193, 0, 194, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 192, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 190, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 194, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 196, 0, 0, 0, 0, 0, 0, 0, 0, 194, 0, 195, 0, 0, 0, 0, 193, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 193, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 273, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 275, 274, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 273, 0, 274, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 272, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 270, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 274, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 276, 0, 0, 0, 0, 0, 0, 0, 0, 274, 0, 275, 0, 0, 0, 0, 273, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 273, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
       }
     },
     {
       type = "tilelayer",
-      id = 4,
       name = "woodenPlatform",
       x = 0,
       y = 0,
@@ -2987,7 +3792,6 @@ return {
     },
     {
       type = "tilelayer",
-      id = 5,
       name = "grass",
       x = 0,
       y = 0,
@@ -3037,7 +3841,6 @@ return {
     },
     {
       type = "tilelayer",
-      id = 6,
       name = "acorn",
       x = 0,
       y = 0,
@@ -3060,12 +3863,12 @@ return {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 223, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 223, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 223, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 223, 0, 0, 0, 0, 0, 0, 223, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
@@ -3073,7 +3876,6 @@ return {
     },
     {
       type = "tilelayer",
-      id = 7,
       name = "moonfly",
       x = 0,
       y = 0,
@@ -3088,15 +3890,15 @@ return {
       data = {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 149, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 229, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 229, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 149, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 229, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 229, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -3109,7 +3911,6 @@ return {
     },
     {
       type = "tilelayer",
-      id = 8,
       name = "mushroomMonster",
       x = 0,
       y = 0,
@@ -3129,23 +3930,22 @@ return {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 152, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 232, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 152, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 232, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 152, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 232, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 232, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
       }
     },
     {
       type = "tilelayer",
-      id = 9,
       name = "upPlant",
       x = 0,
       y = 0,
@@ -3169,19 +3969,18 @@ return {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 157, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 237, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 157, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 157, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 237, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 237, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
       }
     },
     {
       type = "tilelayer",
-      id = 10,
       name = "downPlant",
       x = 0,
       y = 0,
@@ -3202,7 +4001,7 @@ return {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 163, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 243, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -3217,7 +4016,6 @@ return {
     },
     {
       type = "objectgroup",
-      id = 11,
       name = "objects",
       visible = true,
       opacity = 1,
@@ -3231,10 +4029,10 @@ return {
           name = "",
           type = "",
           shape = "rectangle",
-          x = 182,
-          y = 54,
-          width = 36,
-          height = 36,
+          x = 183,
+          y = 55,
+          width = 34,
+          height = 34,
           rotation = 0,
           visible = true,
           properties = {
