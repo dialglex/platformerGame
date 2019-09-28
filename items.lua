@@ -16,10 +16,10 @@ function newItem(itemName, mapX, mapY, itemType, sprite, width, height, randomIt
 	item.actor = "item"
 	item.type = itemType
 
-	item.basePrice = 10
-	item.priceMin = item.basePrice-(0.2*item.basePrice)
-	item.priceMax = item.basePrice+(0.2*item.basePrice)
-	item.basePrice = math.floor(math.random(100*item.priceMin, 100*item.priceMax)/100 + 0.5)
+	local basePrice = 100
+	local priceMin = basePrice-(0.2*basePrice)
+	local priceMax = basePrice+(0.2*basePrice)
+	item.basePrice = math.floor(math.random(priceMin, priceMax) + 0.5)
 
 	if item.type == "shop" then
 		item.randomName = randomItemName
@@ -30,7 +30,17 @@ function newItem(itemName, mapX, mapY, itemType, sprite, width, height, randomIt
 	item.canvas = love.graphics.newCanvas(item.width+2, item.height+2)
 
 	function item:act(index)
-		item.price = math.floor(item.basePrice*(mapNumber*0.2) + 0.5)
+		if levelName == "grassland" then
+			item.price = math.floor(item.basePrice*1 + 0.5)
+		elseif levelName == "desert" then
+			item.price = math.floor(item.basePrice*1.25 + 0.5)
+		elseif levelName == "slime" then
+			item.price = math.floor(item.basePrice*1.5 + 0.5)
+		elseif levelName == "magma" then
+			item.price = math.floor(item.basePrice*1.75 + 0.5)
+		elseif levelName == "corruption" then
+			item.price = math.floor(item.basePrice*2 + 0.5)
+		end
 
 		if item.near and item.nearCounter < 0.9 then
 			item.nearCounter = item.nearCounter + 0.1

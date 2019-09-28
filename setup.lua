@@ -33,8 +33,8 @@ function setupCanvases(drawActors)
 end
 
 function loadMap(newMap, oldPlayer, file)
-	shopItemNumber = 0
-	alternateShopItem = false
+	local shopItemNumber = 0
+	local alternateShopItem = false
 	local actors = {}
 	local npcSpawns = {}
 
@@ -71,38 +71,36 @@ function loadMap(newMap, oldPlayer, file)
 
 								if tile.properties["item"] then
 									local shopItem = ""
-									local randomNumber = math.random(3)
-									if randomNumber <= shopItemNumber and alternateShopItem == false then
+									local randomNumber = math.random(2) -- 1 or 2
+									if randomNumber <= shopItemNumber and alternateShopItem == false then -- 0% 1st time, 50% second time, 100% third time
 										if shopItemType == "weapon" then
 											shopItem = "accessory"
 										else
 											shopItem = "weapon"
 										end
 										alternateShopItem = true
-									end
-									if shopItem == "weapon" or (shopItem == "" and shopItemType == "weapon") then
-										local itemType, sprite, width, height, randomItemName = unpack(getItemStats("weaponShopItem"))
-										table.insert(actors, newItem("weaponShopItem", mapX*16, mapY*16, itemType, sprite, width, height, randomItemName))
 									else
-										local itemType, sprite, width, height, randomItemName = unpack(getItemStats("accessoryShopItem"))
-										table.insert(actors, newItem("accessoryShopItem", mapX*16, mapY*16, itemType, sprite, width, height, randomItemName))
+										if shopItemType == "weapon" then
+											shopItem = "weapon"
+										else
+											shopItem = "accessory"
+										end
+									end
+
+									if shopItem == "weapon" then
+										local item = getItemStats("weaponShopItem")
+										table.insert(actors, newItem("weaponShopItem", mapX*16, mapY*16, item.itemType, item.iconSprite, item.width, item.height, item.randomItemName))
+									else
+										local item = getItemStats("accessoryShopItem")
+										table.insert(actors, newItem("accessoryShopItem", mapX*16, mapY*16, item.itemType, item.iconSprite, item.width, item.height, item.randomItemName))
 									end
 									shopItemNumber = shopItemNumber + 1
 								elseif tile.properties["npc"] then
-									local name, ai, spritesheet, animationSpeed, animationFrames, width, height, attackAnimationFrames, attackXOffset,
-										attackYOffset, attackHitFrames, attackCooldownLength, attackDistance, damage, hp, knockback, knockbackResistance,
-										screenShakeAmount, screenShakeLength, screenFreezeLength, xAcceleration, xTerminalVelocity, enemy, money, boss,
-										projectile, background = unpack(getNpcStats(tilesetData.name))
+									local stats = getNpcStats(tilesetData.name)
 									if tile.properties["xOffset"] == nil or tile.properties["yOffset"] == nil then
-										table.insert(npcSpawns, newNpc(name, ai, mapX*16, mapY*16, spritesheet, animationSpeed, animationFrames, width, height,
-											attackAnimationFrames, attackXOffset, attackYOffset, attackHitFrames, attackCooldownLength, attackDistance,
-											damage, hp, knockback, knockbackResistance, screenShakeAmount, screenShakeLength, screenFreezeLength, xAcceleration,
-											xTerminalVelocity, enemy, money, boss, projectile, background))
+										table.insert(npcSpawns, newNpc(mapX*16, mapY*16, 0, 0, stats))
 									else
-										table.insert(npcSpawns, newNpc(name, ai, mapX*16 + tile.properties["xOffset"], mapY*16 + tile.properties["yOffset"],
-											spritesheet, animationSpeed, animationFrames, width, height, attackAnimationFrames, attackXOffset, attackYOffset,
-											attackHitFrames, attackCooldownLength, attackDistance, damage, hp, knockback, knockbackResistance, screenShakeAmount,
-											screenShakeLength, screenFreezeLength, xAcceleration, xTerminalVelocity, enemy, money, boss, projectile, background))
+										table.insert(npcSpawns, newNpc(mapX*16 + tile.properties["xOffset"], mapY*16 + tile.properties["yOffset"], 0, 0, stats))
 									end
 								else
 									if tile.properties["collidable"] then

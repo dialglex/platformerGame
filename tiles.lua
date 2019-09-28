@@ -30,23 +30,8 @@ function newTile(tileName, tileWidth, tileHeight, x, y, tileQuad, tileset, tileC
 
 	tile.animationCounter = 0
 	tile.spritesheetNumber = 1
-
-	if tile.name == "chest" then
-		if secondChestType == nil then
-			local randomNumber = math.random(2)
-			if randomNumber == 1 then
-				tile.chestType = "weapon"
-				secondChestType = "accessory"
-			else
-				tile.chestType = "accessory"
-				secondChestType = "weapon"
-			end
-		else
-			tile.chestType = secondChestType
-		end
-	end
-
 	tile.spritesheet = tileset
+	tile.counter = 0
 
 	function tile:act(index)
 		tile.index = index
@@ -78,19 +63,44 @@ function newTile(tileName, tileWidth, tileHeight, x, y, tileQuad, tileset, tileC
 			end
 		end
 
+
 		if tile.name == "chest" then
+			if mapNumber == 2 then
+				tile.chestType = firstChestType
+			else
+				tile.chestType = secondChestType
+			end
+
 			if currentMap.chestOpened then
-				if tile.spritesheetNumber < 26 then
+				if tile.spritesheetNumber < 27 then
 					chestOpening = true
 					tile.animationCounter = tile.animationCounter + 1
 					if tile.animationCounter > 2 then
 						tile.spritesheetNumber = tile.spritesheetNumber + 1
 						tile.animationCounter = 0
-						if tile.spritesheetNumber == 26 then
+						if tile.spritesheetNumber == 16 then
+							if shakeLength < 2 then
+								shakeLength = 2
+							end
+							maxShakeLength = shakeLength
+							if shakeAmount < 3 then
+								shakeAmount = 3
+							end
+							maxShakeAmount = shakeAmount
+						elseif tile.spritesheetNumber == 20 then
+							if shakeLength < 1 then
+								shakeLength = 1
+							end
+							maxShakeLength = shakeLength
+							if shakeAmount < 1 then
+								shakeAmount = 1
+							end
+							maxShakeAmount = shakeAmount
+						elseif tile.spritesheetNumber == 25 then
 							if tile.chestType == "weapon" then
 								local randomWeapon = getRandomElement(returnWeaponList())
-								local weaponName, _, iconSprite = unpack(getWeaponStats(randomWeapon))
-								table.insert(actors, newUi("newWeapon", weaponName, iconSprite))
+								local weapon = getWeaponStats(randomWeapon)
+								table.insert(actors, newUi("newWeapon", weapon.name, weapon.iconSprite))
 							else
 								local randomAccessory = getRandomElement(returnAccessoryList())
 								table.insert(player.accessories, randomAccessory)
@@ -104,8 +114,13 @@ function newTile(tileName, tileWidth, tileHeight, x, y, tileQuad, tileset, tileC
 				end
 			else
 				tile.spritesheet = love.graphics.newImage("images/tiles/chest/"..tile.chestType.."ChestClosed.png")
+				if tile.counter == 60 then
+					table.insert(actors, newDust(tile.x + math.random(0 + 6, tile.width - 6), tile.y + math.random(20 + 4, tile.height - 4), "sparkles"))
+					tile.counter = 0
+				end
 			end
 		end
+		tile.counter = tile.counter + 1
 	end
 
 	function tile:getX()

@@ -1,29 +1,29 @@
 function getItemStats(item)
-	local stats = {}
-
 	if item == "weaponShopItem" then
-		itemType = "shop"
-		local randomWeapon = getRandomElement(returnWeaponList())
-		local weaponName, _, iconSprite = unpack(getWeaponStats(randomWeapon))
-		sprite = iconSprite
-		width = sprite:getWidth()
-		height = sprite:getHeight()
-		randomItemName = weaponName
+		local random = getRandomElement(returnWeaponList())
+		local weapon = getWeaponStats(random)
+		local sprite = weapon.iconSprite
+		return {
+			itemType = "shop",
+			randomAccessory = accessory,
+			accessoryName = "weapon",
+			iconSprite = sprite,
+			width = sprite:getWidth(),
+			height = sprite:getHeight(),
+			randomItemName = random
+		}
 	elseif item == "accessoryShopItem" then
-		itemType = "shop"
-		local randomAccessory = getRandomElement(returnAccessoryList())
-		local accessoryName, iconSprite, iconCanvas = unpack(getAccessoryStats(randomAccessory))
-		sprite = iconSprite
-		width = sprite:getWidth()
-		height = sprite:getHeight()
-		randomItemName = accessoryName
+		local random = getRandomElement(returnAccessoryList())
+		local accessory = getAccessoryStats(random)
+		local sprite = accessory.iconSprite
+		return {
+			itemType = "shop",
+			randomAccessory = accessory,
+			accessoryName = "accessory",
+			iconSprite = sprite,
+			width = sprite:getWidth(),
+			height = sprite:getHeight(),
+			randomItemName = random
+		}
 	end
-
-	table.insert(stats, itemType)
-	table.insert(stats, sprite)
-	table.insert(stats, width)
-	table.insert(stats, height)
-	table.insert(stats, randomItemName)
-
-	return stats
 end

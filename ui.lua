@@ -54,16 +54,16 @@ function newUi(name, data1, data2)
 		ui.weapon2SpeedBarCanvas = love.graphics.newCanvas(ui.emptyBar:getWidth(), ui.emptyBar:getHeight())
 		ui.weapon2KnockbackBarCanvas = love.graphics.newCanvas(ui.emptyBar:getWidth(), ui.emptyBar:getHeight())
 
-		local _, _, weaponSprite1 = unpack(getWeaponStats(player.equippedWeapon1))
-		local _, _, weaponSprite2 = unpack(getWeaponStats(player.equippedWeapon2))
-		ui.weaponSprite1Canvas = giveOutline(weaponSprite1, {0.973, 0.973, 0.973})
-		ui.weaponSprite2Canvas = giveOutline(weaponSprite2, {0.973, 0.973, 0.973})
+		local weapon1 = getWeaponStats(player.equippedWeapon1)
+		local weapon2 = getWeaponStats(player.equippedWeapon2)
+		ui.weaponSprite1Canvas = giveOutline(weapon1.iconSprite, {0.973, 0.973, 0.973})
+		ui.weaponSprite2Canvas = giveOutline(weapon2.iconSprite, {0.973, 0.973, 0.973})
 
 		ui.accessoryCanvases = {}
 		ui.accessoryCount = 0
 		for i, accessory in ipairs(player.accessories) do
-			local _, accessoryImage = unpack(getAccessoryStats(accessory))
-			local accessoryCanvas = giveOutline(accessoryImage, {0.973, 0.973, 0.973})
+			local stats = getAccessoryStats(accessory)
+			local accessoryCanvas = giveOutline(stats.iconSprite, {0.973, 0.973, 0.973})
 			table.insert(ui.accessoryCanvases, accessoryCanvas)
 			ui.accessoryCount = ui.accessoryCount + 1
 		end
@@ -78,10 +78,10 @@ function newUi(name, data1, data2)
 		ui.spriteLeft = love.graphics.newImage("images/ui/newWeapon/newWeaponLeft.png")
 		ui.spriteRight = love.graphics.newImage("images/ui/newWeapon/newWeaponRight.png")
 
-		local _, _, weaponSprite1 = unpack(getWeaponStats(player.equippedWeapon1))
-		local _, _, weaponSprite2 = unpack(getWeaponStats(player.equippedWeapon2))
-		ui.weaponSprite1Canvas = giveOutline(weaponSprite1, {0.973, 0.973, 0.973})
-		ui.weaponSprite2Canvas = giveOutline(weaponSprite2, {0.973, 0.973, 0.973})
+		local weapon1 = getWeaponStats(player.equippedWeapon1)
+		local weapon2 = getWeaponStats(player.equippedWeapon2)
+		ui.weaponSprite1Canvas = giveOutline(weapon1.iconSprite, {0.973, 0.973, 0.973})
+		ui.weaponSprite2Canvas = giveOutline(weapon2.iconSprite, {0.973, 0.973, 0.973})
 
 		ui.emptyBar = love.graphics.newImage("images/ui/newWeapon/emptyBar.png")
 		ui.barOutline = love.graphics.newImage("images/ui/newWeapon/barOutline.png")
@@ -461,7 +461,7 @@ function newUi(name, data1, data2)
 		love.graphics.draw(ui.emptyBar, 0, 0)
 
 		if number2 == nil then
-			if number1*ui.emptyBar:getWidth() < ui.emptyBar:getWidth()*1/3 then
+			if number1*ui.emptyBar:getWidth() < ui.emptyBar:getWidth()*1/3 then -- number1 is nil
 				love.graphics.draw(ui.redBar, number1*ui.emptyBar:getWidth() - ui.emptyBar:getWidth(), 0)
 				if number1*ui.emptyBar:getWidth() > 5 then
 					love.graphics.draw(ui.redBarAA, 2, 2)
@@ -552,32 +552,30 @@ function newUi(name, data1, data2)
 
 			love.graphics.draw(ui.sprite)
 		elseif ui.name == "inventory" then
-			local name1, type1, _, _, _, _, _, width1, height1, damage1, knockback1, startupLag1,
-				slashDuration1, endLag1, _, _, _, movementReduction1, pierce1 = unpack(getWeaponStats(player.equippedWeapon1))
-			local name2, type2, _, _, _, _, _, width2, height2, damage2, knockback2, startupLag2,
-				slashDuration2, endLag2, _, _, _, movementReduction2, pierce2 = unpack(getWeaponStats(player.equippedWeapon2))
-			local speed1 = 60 - (startupLag1 + slashDuration1 + endLag1)
-			local speed2 = 60 - (startupLag2 + slashDuration2 + endLag2)
+			local weapon1 = getWeaponStats(player.equippedWeapon1)
+			local weapon2 = getWeaponStats(player.equippedWeapon2)
+			local speed1 = 60 - (weapon1.startupLag + weapon1.slashDuration + weapon1.endLag)
+			local speed2 = 60 - (weapon2.startupLag + weapon2.slashDuration + weapon2.endLag)
 
 			love.graphics.setCanvas(ui.weapon1DamageBarCanvas)
 			love.graphics.clear()
-			ui:drawBar(damage1/100)
+			ui:drawBar(weapon1.damage/100)
 			love.graphics.setCanvas(ui.weapon1SpeedBarCanvas)
 			love.graphics.clear()
 			ui:drawBar(speed1/60)
 			love.graphics.setCanvas(ui.weapon1KnockbackBarCanvas)
 			love.graphics.clear()
-			ui:drawBar(knockback1/5)
+			ui:drawBar(weapon1.knockback/4)
 
 			love.graphics.setCanvas(ui.weapon2DamageBarCanvas)
 			love.graphics.clear()
-			ui:drawBar(damage2/100)
+			ui:drawBar(weapon2.damage/100)
 			love.graphics.setCanvas(ui.weapon2SpeedBarCanvas)
 			love.graphics.clear()
 			ui:drawBar(speed2/60)
 			love.graphics.setCanvas(ui.weapon2KnockbackBarCanvas)
 			love.graphics.clear()
-			ui:drawBar(knockback2/5)
+			ui:drawBar(weapon2.knockback/4)
 
 
 			love.graphics.setCanvas(ui.healthBarCanvas)
@@ -635,59 +633,62 @@ function newUi(name, data1, data2)
 			love.graphics.draw(ui.weaponSprite1Canvas, 6, 6)
 			love.graphics.draw(ui.weaponSprite2Canvas, 164, 6)
 			love.graphics.setFont(textFont1)
-			love.graphics.printf(camelToTitle(name1), 10, 47, 1000)
-			love.graphics.printf(camelToTitle(name2), 108, 47, 1000)
+			love.graphics.printf(camelToTitle(weapon1.name), 10, 47, 1000)
+			love.graphics.printf(camelToTitle(weapon2.name), 108, 47, 1000)
 			love.graphics.printf("1 - " .. camelToTitle(levelName), 81, 9, 1000)
 
 			local selectedAccessoryName = player.accessories[ui.accessoryNumberSelected]
 			if selectedAccessoryName ~= nil then
-				local accessoryName, iconImage, accessoryType, text, xAcceleration, xDeceleration, xTerminalVelocity, jumpAcceleration, fallAcceleration,
-					yTerminalVelocity = unpack(getAccessoryStats(selectedAccessoryName))
+				local stats = getAccessoryStats(selectedAccessoryName)
 				love.graphics.printf(camelToTitle(selectedAccessoryName), 10, 118, 1000)
 				love.graphics.setFont(textFont1Light)
-				love.graphics.printf(text, 10, 127, 1000)
+				love.graphics.printf(stats.text, 10, 127, 184)
 			end
 			for i, accessoryCanvas in ipairs(ui.accessoryCanvases) do
-				love.graphics.draw(accessoryCanvas, 6 + (i-1)*28, 144)
+				if i <= 7 then
+					love.graphics.draw(accessoryCanvas, 6 + (i-1)*28, 152)
+				elseif i <= 13 then
+					love.graphics.draw(accessoryCanvas, 20 + (i-7-1)*28, 180)
+				else
+					love.graphics.draw(accessoryCanvas, 34 + (i-13-1)*28, 208)
+				end
 			end
 			
 			love.graphics.setFont(boldFont2)
-			love.graphics.printf(tostring(player.money), 95, 204, 1000)
+			love.graphics.printf(tostring(player.money), 95, 240, 1000)
 
 		elseif ui.name == "newWeapon" then
-			local name1, type1, _, _, _, _, _, width1, height1, damage1, knockback1, startupLag1,
-				slashDuration1, endLag1, _, _, _, movementReduction1, pierce1 = unpack(getWeaponStats(ui.newWeaponName))
+			local weapon2
 			if ui.weapon1Selected then
-				name2, type2, _, _, _, _, _, width2, height2, damage2, knockback2, startupLag2,
-					slashDuration2, endLag2, _, _, _, movementReduction2, pierce2 = unpack(getWeaponStats(player.equippedWeapon1))
-				speed2 = 60 - (startupLag2 + slashDuration2 + endLag2)
+				weapon2 = getWeaponStats(player.equippedWeapon1)
 			elseif ui.weapon2Selected then
-				name2, type2, _, _, _, _, _, width2, height2, damage2, knockback2, startupLag2,
-					slashDuration2, endLag2, _, _, _, movementReduction2, pierce2 = unpack(getWeaponStats(player.equippedWeapon2))
-				speed2 = 60 - (startupLag2 + slashDuration2 + endLag2)
+				weapon2 = getWeaponStats(player.equippedWeapon2)
 			end
-			local speed1 = 60 - (startupLag1 + slashDuration1 + endLag1)
+
+			local weapon1 = getWeaponStats(ui.newWeaponName)
+			local speed1 = 60 - (weapon1.startupLag + weapon1.slashDuration + weapon1.endLag)
 			
 			if ui.weapon1Selected or ui.weapon2Selected then
+				local speed2 = 60 - (weapon2.startupLag + weapon2.slashDuration + weapon2.endLag)
 				love.graphics.setCanvas(ui.damageBarCanvas)
 				love.graphics.clear()
-				ui:drawBar(damage1/100, damage2/100)
+				ui:drawBar(weapon1.damage/100, weapon2.damage/100)
 				love.graphics.setCanvas(ui.speedBarCanvas)
 				love.graphics.clear()
 				ui:drawBar(speed1/60, speed2/60)
 				love.graphics.setCanvas(ui.knockbackBarCanvas)
 				love.graphics.clear()
-				ui:drawBar(knockback1/5, knockback2/5)
+				ui:drawBar(weapon1.knockback/4, weapon2.knockback/4)
 			else
 				love.graphics.setCanvas(ui.damageBarCanvas)
 				love.graphics.clear()
-				ui:drawBar(damage1/100)
+				ui:drawBar(weapon1.damage/100)
 				love.graphics.setCanvas(ui.speedBarCanvas)
 				love.graphics.clear()
 				ui:drawBar(speed1/60)
 				love.graphics.setCanvas(ui.knockbackBarCanvas)
 				love.graphics.clear()
-				ui:drawBar(knockback1/5)
+				ui:drawBar(weapon1.knockback/4)
 			end
 
 			love.graphics.setCanvas(ui.canvas)

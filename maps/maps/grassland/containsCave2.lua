@@ -1,13 +1,14 @@
 return {
-  version = "1.1",
+  version = "1.2",
   luaversion = "5.1",
-  tiledversion = "1.1.2",
+  tiledversion = "1.2.4",
   orientation = "orthogonal",
   renderorder = "right-down",
   width = 32,
   height = 19,
   tilewidth = 16,
   tileheight = 16,
+  nextlayerid = 15,
   nextobjectid = 5,
   properties = {
     ["background"] = "../../../images/backgrounds/grassland.png",
@@ -16,7 +17,7 @@ return {
     ["bottomRight"] = false,
     ["leftBottom"] = false,
     ["leftMiddle"] = true,
-    ["leftTop"] = false,
+    ["leftTop"] = true,
     ["rightBottom"] = true,
     ["rightMiddle"] = false,
     ["rightTop"] = false,
@@ -33,6 +34,7 @@ return {
       tileheight = 16,
       spacing = 0,
       margin = 0,
+      columns = 8,
       image = "../../../images/tiles/grass.png",
       imagewidth = 128,
       imageheight = 128,
@@ -188,14 +190,64 @@ return {
           id = 5,
           properties = {
             ["background"] = false,
-            ["collidable"] = false
+            ["collidable"] = true
+          },
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            offsetx = 0,
+            offsety = 0,
+            draworder = "index",
+            properties = {},
+            objects = {
+              {
+                id = 1,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = 0,
+                y = 0,
+                width = 16,
+                height = 16,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
           }
         },
         {
           id = 6,
           properties = {
             ["background"] = false,
-            ["collidable"] = false
+            ["collidable"] = true
+          },
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            offsetx = 0,
+            offsety = 0,
+            draworder = "index",
+            properties = {},
+            objects = {
+              {
+                id = 1,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = 0,
+                y = 0,
+                width = 16,
+                height = 16,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
           }
         },
         {
@@ -344,14 +396,64 @@ return {
           id = 13,
           properties = {
             ["background"] = false,
-            ["collidable"] = false
+            ["collidable"] = true
+          },
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            offsetx = 0,
+            offsety = 0,
+            draworder = "index",
+            properties = {},
+            objects = {
+              {
+                id = 1,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = 0,
+                y = 0,
+                width = 16,
+                height = 16,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
           }
         },
         {
           id = 14,
           properties = {
             ["background"] = false,
-            ["collidable"] = false
+            ["collidable"] = true
+          },
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            offsetx = 0,
+            offsety = 0,
+            draworder = "index",
+            properties = {},
+            objects = {
+              {
+                id = 1,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = 0,
+                y = 0,
+                width = 16,
+                height = 16,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
           }
         },
         {
@@ -1209,28 +1311,128 @@ return {
           id = 58,
           properties = {
             ["background"] = false,
-            ["collidable"] = false
+            ["collidable"] = true
+          },
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            offsetx = 0,
+            offsety = 0,
+            draworder = "index",
+            properties = {},
+            objects = {
+              {
+                id = 1,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = 0,
+                y = 0,
+                width = 16,
+                height = 16,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
           }
         },
         {
           id = 59,
           properties = {
             ["background"] = false,
-            ["collidable"] = false
+            ["collidable"] = true
+          },
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            offsetx = 0,
+            offsety = 0,
+            draworder = "index",
+            properties = {},
+            objects = {
+              {
+                id = 1,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = 0,
+                y = 0,
+                width = 16,
+                height = 16,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
           }
         },
         {
           id = 60,
           properties = {
             ["background"] = false,
-            ["collidable"] = false
+            ["collidable"] = true
+          },
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            offsetx = 0,
+            offsety = 0,
+            draworder = "index",
+            properties = {},
+            objects = {
+              {
+                id = 1,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = 0,
+                y = 0,
+                width = 16,
+                height = 16,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
           }
         },
         {
           id = 61,
           properties = {
             ["background"] = false,
-            ["collidable"] = false
+            ["collidable"] = true
+          },
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            offsetx = 0,
+            offsety = 0,
+            draworder = "index",
+            properties = {},
+            objects = {
+              {
+                id = 1,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = 0,
+                y = 0,
+                width = 16,
+                height = 16,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
           }
         },
         {
@@ -1257,6 +1459,7 @@ return {
       tileheight = 21,
       spacing = 0,
       margin = 0,
+      columns = 6,
       image = "../../../images/npcs/enemy/plant/upPlantIdleSpritesheet.png",
       imagewidth = 192,
       imageheight = 21,
@@ -1317,6 +1520,7 @@ return {
       tileheight = 21,
       spacing = 0,
       margin = 0,
+      columns = 6,
       image = "../../../images/npcs/enemy/plant/downPlantIdleSpritesheet.png",
       imagewidth = 192,
       imageheight = 21,
@@ -1377,6 +1581,7 @@ return {
       tileheight = 25,
       spacing = 0,
       margin = 0,
+      columns = 6,
       image = "../../../images/npcs/enemy/acorn/acornMoveRightSpritesheet.png",
       imagewidth = 156,
       imageheight = 25,
@@ -1435,6 +1640,7 @@ return {
       tileheight = 23,
       spacing = 0,
       margin = 0,
+      columns = 5,
       image = "../../../images/npcs/enemy/mushroomMonster/mushroomMonsterMoveRightSpritesheet.png",
       imagewidth = 135,
       imageheight = 23,
@@ -1489,6 +1695,7 @@ return {
       tileheight = 14,
       spacing = 0,
       margin = 0,
+      columns = 3,
       image = "../../../images/npcs/enemy/moonfly/moonflyMoveRightSpritesheet.png",
       imagewidth = 54,
       imageheight = 14,
@@ -1535,6 +1742,7 @@ return {
       tileheight = 16,
       spacing = 0,
       margin = 0,
+      columns = 12,
       image = "../../../images/tiles/dirtBg.png",
       imagewidth = 192,
       imageheight = 192,
@@ -2009,6 +2217,7 @@ return {
       tileheight = 16,
       spacing = 0,
       margin = 0,
+      columns = 2,
       image = "../../../images/tiles/grassBg.png",
       imagewidth = 32,
       imageheight = 32,
@@ -2063,6 +2272,7 @@ return {
       tileheight = 16,
       spacing = 0,
       margin = 0,
+      columns = 3,
       image = "../../../images/tiles/woodenPlatform.png",
       imagewidth = 48,
       imageheight = 48,
@@ -2161,6 +2371,7 @@ return {
       tileheight = 16,
       spacing = 0,
       margin = 0,
+      columns = 4,
       image = "../../../images/tiles/mushroom.png",
       imagewidth = 64,
       imageheight = 64,
@@ -2299,6 +2510,7 @@ return {
       tileheight = 16,
       spacing = 0,
       margin = 0,
+      columns = 3,
       image = "../../../images/tiles/ladder.png",
       imagewidth = 48,
       imageheight = 48,
@@ -2388,6 +2600,7 @@ return {
       tileheight = 16,
       spacing = 0,
       margin = 0,
+      columns = 4,
       image = "../../../images/tiles/rock.png",
       imagewidth = 64,
       imageheight = 64,
@@ -2526,6 +2739,7 @@ return {
       tileheight = 24,
       spacing = 0,
       margin = 0,
+      columns = 3,
       image = "../../../images/tiles/sign.png",
       imagewidth = 72,
       imageheight = 72,
@@ -2606,11 +2820,73 @@ return {
           }
         }
       }
+    },
+    {
+      name = "fuzzy",
+      firstgid = 298,
+      filename = "../../tiles/npcs/enemy/fuzzy.tsx",
+      tilewidth = 27,
+      tileheight = 23,
+      spacing = 0,
+      margin = 0,
+      columns = 6,
+      image = "../../../images/npcs/enemy/fuzzy/fuzzyMoveRightSpritesheet.png",
+      imagewidth = 162,
+      imageheight = 23,
+      tileoffset = {
+        x = 0,
+        y = 0
+      },
+      grid = {
+        orientation = "orthogonal",
+        width = 27,
+        height = 23
+      },
+      properties = {},
+      terrains = {},
+      tilecount = 6,
+      tiles = {
+        {
+          id = 0,
+          properties = {
+            ["npc"] = true,
+            ["xOffset"] = 0,
+            ["yOffset"] = 5
+          },
+          animation = {
+            {
+              tileid = 0,
+              duration = 100
+            },
+            {
+              tileid = 1,
+              duration = 100
+            },
+            {
+              tileid = 2,
+              duration = 100
+            },
+            {
+              tileid = 3,
+              duration = 100
+            },
+            {
+              tileid = 4,
+              duration = 100
+            },
+            {
+              tileid = 5,
+              duration = 100
+            }
+          }
+        }
+      }
     }
   },
   layers = {
     {
       type = "tilelayer",
+      id = 1,
       name = "dirtBg",
       x = 0,
       y = 0,
@@ -2646,6 +2922,7 @@ return {
     },
     {
       type = "tilelayer",
+      id = 2,
       name = "grassBg",
       x = 0,
       y = 0,
@@ -2681,6 +2958,7 @@ return {
     },
     {
       type = "tilelayer",
+      id = 3,
       name = "woodenPlatform",
       x = 0,
       y = 0,
@@ -2716,6 +2994,7 @@ return {
     },
     {
       type = "tilelayer",
+      id = 4,
       name = "ladder",
       x = 0,
       y = 0,
@@ -2751,6 +3030,7 @@ return {
     },
     {
       type = "tilelayer",
+      id = 5,
       name = "sign",
       x = 0,
       y = 0,
@@ -2786,6 +3066,7 @@ return {
     },
     {
       type = "tilelayer",
+      id = 6,
       name = "mushroom",
       x = 0,
       y = 0,
@@ -2821,6 +3102,7 @@ return {
     },
     {
       type = "tilelayer",
+      id = 7,
       name = "rock",
       x = 0,
       y = 0,
@@ -2856,6 +3138,7 @@ return {
     },
     {
       type = "tilelayer",
+      id = 8,
       name = "acorn",
       x = 0,
       y = 0,
@@ -2891,6 +3174,7 @@ return {
     },
     {
       type = "tilelayer",
+      id = 9,
       name = "grass",
       x = 0,
       y = 0,
@@ -2909,13 +3193,13 @@ return {
         0, 0, 0, 0, 51, 53, 0, 0, 0, 0, 16, 24, 0, 0, 0, 0, 51, 52, 52, 52, 53, 0, 0, 0, 0, 0, 0, 0, 51, 7, 20, 20,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19, 20, 20,
         8, 8, 8, 8, 8, 8, 8, 24, 0, 0, 19, 21, 0, 0, 16, 8, 24, 0, 0, 0, 0, 0, 0, 16, 8, 24, 0, 0, 0, 19, 20, 20,
-        12, 12, 12, 12, 12, 12, 12, 4, 0, 0, 19, 21, 0, 0, 2, 47, 13, 8, 24, 0, 0, 16, 8, 11, 46, 4, 0, 0, 0, 19, 20, 20,
+        12, 12, 12, 12, 12, 12, 46, 4, 0, 0, 19, 21, 0, 0, 2, 47, 13, 8, 24, 0, 0, 16, 8, 11, 46, 4, 0, 0, 0, 19, 20, 20,
         52, 52, 52, 52, 52, 52, 53, 0, 0, 16, 19, 21, 24, 0, 0, 51, 61, 12, 13, 0, 0, 11, 12, 62, 53, 0, 0, 0, 16, 19, 20, 20,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 58, 57, 4, 0, 0, 0, 51, 52, 53, 0, 0, 51, 52, 53, 0, 0, 0, 16, 11, 15, 20, 20,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 60, 20, 20, 20,
         8, 8, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 8, 24, 0, 0, 16, 8, 8, 8, 8, 24, 0, 0, 0, 0, 0, 51, 7, 20, 20,
         12, 12, 13, 0, 0, 16, 8, 8, 8, 24, 0, 0, 11, 46, 4, 0, 0, 2, 47, 12, 12, 46, 4, 0, 0, 32, 0, 0, 0, 51, 7, 20,
-        20, 20, 21, 0, 0, 2, 47, 12, 12, 4, 0, 0, 19, 21, 0, 0, 0, 0, 51, 52, 52, 53, 0, 0, 0, 9, 24, 0, 0, 0, 51, 52,
+        20, 20, 21, 0, 0, 2, 47, 12, 46, 4, 0, 0, 19, 21, 0, 0, 0, 0, 51, 52, 52, 53, 0, 0, 0, 9, 24, 0, 0, 0, 51, 52,
         20, 20, 21, 0, 0, 0, 51, 52, 53, 0, 0, 0, 19, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 22, 13, 24, 0, 0, 0, 0,
         20, 20, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19, 21, 0, 0, 0, 0, 16, 24, 0, 0, 0, 0, 0, 19, 14, 13, 24, 0, 0, 0,
         20, 20, 21, 8, 24, 0, 0, 0, 0, 0, 16, 8, 19, 21, 0, 0, 0, 0, 11, 13, 8, 8, 8, 8, 8, 19, 20, 14, 13, 8, 8, 8,
@@ -2926,6 +3210,7 @@ return {
     },
     {
       type = "tilelayer",
+      id = 10,
       name = "upPlant",
       x = 0,
       y = 0,
@@ -2961,6 +3246,7 @@ return {
     },
     {
       type = "tilelayer",
+      id = 11,
       name = "downPlant",
       x = 0,
       y = 0,
@@ -2996,7 +3282,8 @@ return {
     },
     {
       type = "tilelayer",
-      name = "moonfly",
+      id = 12,
+      name = "fuzzy",
       x = 0,
       y = 0,
       width = 32,
@@ -3010,18 +3297,18 @@ return {
       data = {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 298, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 298, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 88, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 298, 0, 0, 0, 0, 0, 298, 0, 0, 0, 0, 298, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 88, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 88, 0, 0, 0, 0, 0, 88, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 298, 0, 0, 0, 0, 0, 0, 0, 298, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 298, 0, 0, 0, 0, 0, 0, 298, 0, 0, 0, 0, 0, 0, 0, 0, 0, 298, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -3031,6 +3318,7 @@ return {
     },
     {
       type = "tilelayer",
+      id = 13,
       name = "mushroomMonster",
       x = 0,
       y = 0,
@@ -3066,6 +3354,7 @@ return {
     },
     {
       type = "objectgroup",
+      id = 14,
       name = "objects",
       visible = true,
       opacity = 1,

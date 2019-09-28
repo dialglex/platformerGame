@@ -8,7 +8,7 @@ return {
   height = 17,
   tilewidth = 16,
   tileheight = 16,
-  nextobjectid = 1,
+  nextobjectid = 2,
   properties = {
     ["background"] = "../../../images/backgrounds/desert.png"
   },
@@ -1190,7 +1190,7 @@ return {
                 x = 2,
                 y = 0,
                 width = 14,
-                height = 14,
+                height = 16,
                 rotation = 0,
                 visible = true,
                 properties = {}
@@ -1222,7 +1222,7 @@ return {
                 x = 0,
                 y = 0,
                 width = 16,
-                height = 14,
+                height = 16,
                 rotation = 0,
                 visible = true,
                 properties = {}
@@ -1254,7 +1254,7 @@ return {
                 x = 0,
                 y = 0,
                 width = 14,
-                height = 14,
+                height = 16,
                 rotation = 0,
                 visible = true,
                 properties = {}
@@ -1502,7 +1502,7 @@ return {
                 x = 0,
                 y = 0,
                 width = 16,
-                height = 14,
+                height = 16,
                 rotation = 0,
                 visible = true,
                 properties = {}
@@ -1676,7 +1676,7 @@ return {
                 x = 2,
                 y = 0,
                 width = 12,
-                height = 14,
+                height = 16,
                 rotation = 0,
                 visible = true,
                 properties = {}
@@ -1736,7 +1736,7 @@ return {
                 x = 2,
                 y = 0,
                 width = 14,
-                height = 14,
+                height = 16,
                 rotation = 0,
                 visible = true,
                 properties = {}
@@ -1768,7 +1768,7 @@ return {
                 x = 0,
                 y = 0,
                 width = 14,
-                height = 14,
+                height = 16,
                 rotation = 0,
                 visible = true,
                 properties = {}
@@ -1901,31 +1901,6 @@ return {
           properties = {
             ["background"] = false,
             ["collidable"] = false
-          },
-          objectGroup = {
-            type = "objectgroup",
-            name = "",
-            visible = true,
-            opacity = 1,
-            offsetx = 0,
-            offsety = 0,
-            draworder = "index",
-            properties = {},
-            objects = {
-              {
-                id = 1,
-                name = "",
-                type = "",
-                shape = "rectangle",
-                x = 2,
-                y = -8.88178e-16,
-                width = 14,
-                height = 15,
-                rotation = 0,
-                visible = true,
-                properties = {}
-              }
-            }
           }
         },
         {
@@ -2018,6 +1993,31 @@ return {
           properties = {
             ["background"] = false,
             ["collidable"] = false
+          },
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            offsetx = 0,
+            offsety = 0,
+            draworder = "index",
+            properties = {},
+            objects = {
+              {
+                id = 1,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = 0,
+                y = 0,
+                width = 14,
+                height = 16,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
           }
         },
         {
@@ -2058,7 +2058,7 @@ return {
                 x = 2,
                 y = 0,
                 width = 14,
-                height = 14,
+                height = 16,
                 rotation = 0,
                 visible = true,
                 properties = {}
@@ -2090,7 +2090,7 @@ return {
                 x = 0,
                 y = 0,
                 width = 16,
-                height = 14,
+                height = 16,
                 rotation = 0,
                 visible = true,
                 properties = {}
@@ -2122,7 +2122,7 @@ return {
                 x = 0,
                 y = 0,
                 width = 14,
-                height = 14,
+                height = 16,
                 rotation = 0,
                 visible = true,
                 properties = {}
@@ -2199,20 +2199,95 @@ return {
           properties = {
             ["background"] = false,
             ["collidable"] = false
+          },
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            offsetx = 0,
+            offsety = 0,
+            draworder = "index",
+            properties = {},
+            objects = {
+              {
+                id = 1,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = 2,
+                y = 0,
+                width = 14,
+                height = 16,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
           }
         },
         {
           id = 56,
           properties = {
             ["background"] = false,
-            ["collidable"] = false
+            ["collidable"] = true
+          },
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            offsetx = 0,
+            offsety = 0,
+            draworder = "index",
+            properties = {},
+            objects = {
+              {
+                id = 1,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = 0,
+                y = 0,
+                width = 16,
+                height = 16,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
           }
         },
         {
           id = 57,
           properties = {
             ["background"] = false,
-            ["collidable"] = false
+            ["collidable"] = true
+          },
+          objectGroup = {
+            type = "objectgroup",
+            name = "",
+            visible = true,
+            opacity = 1,
+            offsetx = 0,
+            offsety = 0,
+            draworder = "index",
+            properties = {},
+            objects = {
+              {
+                id = 2,
+                name = "",
+                type = "",
+                shape = "rectangle",
+                x = 0,
+                y = 0,
+                width = 16,
+                height = 16,
+                rotation = 0,
+                visible = true,
+                properties = {}
+              }
+            }
           }
         },
         {
@@ -2290,6 +2365,40 @@ return {
           }
         }
       }
+    },
+    {
+      name = "teleporter",
+      firstgid = 135,
+      filename = "../../tiles/tiles/teleporter.tsx",
+      tilewidth = 32,
+      tileheight = 22,
+      spacing = 0,
+      margin = 0,
+      image = "../../../images/tiles/teleporter/teleporterOff.png",
+      imagewidth = 32,
+      imageheight = 22,
+      tileoffset = {
+        x = 0,
+        y = 0
+      },
+      grid = {
+        orientation = "orthogonal",
+        width = 32,
+        height = 22
+      },
+      properties = {},
+      terrains = {},
+      tilecount = 1,
+      tiles = {
+        {
+          id = 0,
+          properties = {
+            ["active"] = false,
+            ["background"] = true,
+            ["collidable"] = false
+          }
+        }
+      }
     }
   },
   layers = {
@@ -2328,7 +2437,7 @@ return {
     },
     {
       type = "tilelayer",
-      name = "player",
+      name = "teleporter",
       x = 0,
       y = 0,
       width = 30,
@@ -2353,7 +2462,7 @@ return {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 69, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 135, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
@@ -2423,6 +2532,34 @@ return {
         36, 36, 36, 36, 36, 57, 28, 29, 46, 31, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 25, 42, 27, 28, 58, 36, 36, 36, 36, 36,
         36, 36, 36, 36, 36, 36, 36, 57, 29, 46, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 42, 27, 58, 36, 36, 36, 36, 36, 36, 36,
         36, 36, 36, 36, 36, 36, 36, 36, 57, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 58, 36, 36, 36, 36, 36, 36, 36, 36
+      }
+    },
+    {
+      type = "objectgroup",
+      name = "objects",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      draworder = "topdown",
+      properties = {},
+      objects = {
+        {
+          id = 1,
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 224,
+          y = 202,
+          width = 32,
+          height = 22,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["active"] = false,
+            ["type"] = "teleporter"
+          }
+        }
       }
     }
   }

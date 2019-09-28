@@ -1,42 +1,48 @@
- function newWeapon(index, weaponName, weaponType, x, y, iconSprite, startupSprite, slash1Sprite, slash2Sprite, endSprite, width, height, damage, knockback, startupLag, slashDuration, endLag, duration, screenShakeAmount, screenShakeLength, screenFreezeLength, xOffset, yOffset, directionLocked, movementReduction, pierce, projectile, shootDirection)
+ function newWeapon(index, x, y, shootDirection, stats)
 	local weapon = {}
 	
 	weapon.index = index
 	
-	weapon.damage = damage
-	weapon.knockback = knockback
-	weapon.startupLag = startupLag
-	weapon.slashDuration = slashDuration
-	weapon.endLag = endLag
-	weapon.duration = duration
-	weapon.screenShakeAmount = screenShakeAmount
-	weapon.screenShakeLength = screenShakeLength
-	weapon.screenFreezeLength = screenFreezeLength
-	weapon.pierce = pierce
-	weapon.projectile = projectile
+	weapon.damage = stats.damage
+	weapon.knockback = stats.knockback
+	weapon.status = stats.status
+	weapon.statusDuration = stats.statusDuration
+	weapon.startupLag = stats.startupLag
+	weapon.slashDuration = stats.slashDuration
+	weapon.endLag = stats.endLag
+	weapon.duration = stats.duration
+	weapon.screenShakeAmount = stats.screenShakeAmount
+	weapon.screenShakeLength = stats.screenShakeLength
+	weapon.screenFreezeLength = stats.screenFreezeLength
+	weapon.pierce = stats.pierce
+	weapon.projectile = stats.projectile
 	weapon.shootDirection = shootDirection
 
 	weapon.durationCounter = 0
 	weapon.state = "startup"
+	weapon.frozen = false
 
-	weapon.name = weaponName
-	weapon.type = weaponType
+	weapon.name = stats.name
+	weapon.type = stats.weaponType
 
-	weapon.iconSprite = iconSprite
+	weapon.iconSprite = stats.iconSprite
 	if weapon.startupLag > 0 then
-		weapon.startupSprite = startupSprite
+		weapon.startupSprite = stats.startupSprite
 	end
-	weapon.slash1Sprite = slash1Sprite
-	weapon.slash2Sprite = slash2Sprite
+	weapon.slash1Sprite = stats.slash1Sprite
+	weapon.slash2Sprite = stats.slash2Sprite
 	if weapon.endLag > 0 then
-		weapon.endSprite = endSprite
+		weapon.endSprite = stats.endSprite
 	end
 
 	weapon.width = weapon.slash1Sprite:getWidth()
 	weapon.height = weapon.slash1Sprite:getHeight()
 	weapon.canvas = love.graphics.newCanvas(weapon.width, weapon.height)
 
-	if weapon.type == "projectile" then
+	if weapon.type == "sword" then
+		weapon.xOffset = stats.xOffset
+		weapon.yOffset = stats.yOffset
+	elseif weapon.type == "projectile" then
 		weapon.sprite1 = love.graphics.newImage("images/weapons/bows/"..weapon.name.."/"..weapon.name.."1.png")
 		weapon.sprite2 = love.graphics.newImage("images/weapons/bows/"..weapon.name.."/"..weapon.name.."2.png")
 		weapon.sprite3 = love.graphics.newImage("images/weapons/bows/"..weapon.name.."/"..weapon.name.."3.png")
@@ -47,21 +53,25 @@
 		weapon.upSprite = love.graphics.newImage("images/weapons/bows/"..weapon.name.."/"..weapon.name.."Up.png")
 		weapon.sideSprite = love.graphics.newImage("images/weapons/bows/"..weapon.name.."/"..weapon.name.."Side.png")
 		if weapon.shootDirection == "up" or weapon.shootDirection == "down" then
-			weapon.width = weapon.upSprite:getWidth() / 4
-			weapon.height = weapon.sideSprite:getHeight()
+			weapon.width = weapon.sideSprite:getHeight()
+			weapon.height = weapon.upSprite:getHeight()
 			weapon.canvas = love.graphics.newCanvas(weapon.width, weapon.height)
 		elseif weapon.shootDirection == "left" or weapon.shootDirection == "right" then
-			weapon.width = weapon.sideSprite:getWidth() / 4
+			weapon.width = weapon.upSprite:getHeight()
 			weapon.height = weapon.sideSprite:getHeight()
 			weapon.canvas = love.graphics.newCanvas(weapon.width, weapon.height)
 		end
+		weapon.sideXOffset = stats.sideXOffset
+		weapon.sideYOffset = stats.sideYOffset
+		weapon.upXOffset = stats.upXOffset
+		weapon.upYOffset = stats.upYOffset
+		weapon.downXOffset = stats.downXOffset
+		weapon.downYOffset = stats.downYOffset
 	end
 	weapon.x = x
 	weapon.y = y
-	weapon.xOffset = xOffset
-	weapon.yOffset = yOffset
 
-	weapon.directionLocked = directionLocked
+	weapon.directionLocked = stats.directionLocked
 	if weapon.directionLocked then
 		if player.weaponOut then
 			weapon.direction = player.currentWeapon.direction
@@ -72,27 +82,24 @@
 	
 	weapon.xAcceleration = 0
 	weapon.yAcceleration = 0.2
-	local radius = 6
-	if weapon.shootDirection == "left" then
-		weapon.xVelocity = -math.sqrt(radius^2 - 1.5^2)
-		weapon.yVelocity = -1.5
-	elseif weapon.shootDirection == "right" then
-		weapon.xVelocity = math.sqrt(radius^2 - 1.5^2)
-		weapon.yVelocity = -1.5
-	elseif weapon.shootDirection == "up" then
-		weapon.xVelocity = 0
-		weapon.yVelocity = -radius
-	elseif weapon.shootDirection == "down" then
-		weapon.xVelocity = 0
-		weapon.yVelocity = radius
+	if weapon.type == "projectile" then
+		if weapon.shootDirection == "left" then
+			weapon.xVelocity = -math.sqrt(stats.velocity^2 + 1.5^2)
+			weapon.yVelocity = -1.5
+		elseif weapon.shootDirection == "right" then
+			weapon.xVelocity = math.sqrt(stats.velocity^2 + 1.5^2)
+			weapon.yVelocity = -1.5
+		elseif weapon.shootDirection == "up" then
+			weapon.xVelocity = 0
+			weapon.yVelocity = -stats.velocity
+		elseif weapon.shootDirection == "down" then
+			weapon.xVelocity = 0
+			weapon.yVelocity = stats.velocity
+		end
 	end
-
-	weapon.frozen = false
-	weapon.frozenCounter = 0
-	weapon.movementReduction = movementReduction
+	weapon.movementReduction = stats.movementReduction
 
 	weapon.actor = "weapon"
-
 	weapon.enemiesHit = {}
 
 	function weapon:getX()
@@ -104,9 +111,10 @@
 	end
 
 	function weapon:act(index)
-		weapon.index = index
 		if weapon.frozen == false then
+			weapon.index = index
 			weapon:effects()
+			weapon:collision()
 			weapon:movement()
 			weapon:collision()
 			weapon:changeStates()
@@ -114,44 +122,35 @@
 				weapon:hitCollision()
 			end
 			weapon:destroy()
-		else
-			if weapon.frozenCounter > 0 then
-				weapon.frozenCounter = weapon.frozenCounter - 1
-			elseif weapon.frozenCounter == 0 then
-				weapon.frozen = false
-			end
 		end
 	end
 
 	function weapon:collision()
 		if weapon.type == "projectile" then
-			for _, actor in ipairs(getCollidingActors(weapon.x + weapon.width/2 - weapon.width/16, weapon.y + weapon.height/2 - weapon.height/16, weapon.width/8, weapon.height/8, true, false, true, true, false, false, false, false, false, 1)) do
-				weapon.frozen = true
-				weapon.frozenCounter = -1
-				if shakeLength < weapon.screenShakeLength/6 then
-					shakeLength = weapon.screenShakeLength/6
+			for _, actor in ipairs(getCollidingActors(weapon.x + weapon.width/2 - weapon.width/8, weapon.y + weapon.height/2 - weapon.height/8, weapon.width/4, weapon.height/4, true, false, true, true, false, false, false, false, false, 1)) do
+				if shakeLength < weapon.screenShakeLength/2 then
+					shakeLength = weapon.screenShakeLength/2
 				end
 				maxShakeLength = shakeLength
-				shakeAmount = shakeAmount + weapon.screenShakeAmount/6
+				if shakeAmount < weapon.screenShakeAmount/2 then
+					shakeAmount = weapon.screenShakeAmount/2
+				end
 				maxShakeAmount = shakeAmount
-				shakeType = "short"
+				weapon.frozen = true
 			end
 		end
 	end
 
 	function weapon:effects()
 		if weapon.durationCounter == weapon.startupLag and weapon.type == "bow" then
-			local weaponName, weaponType, iconSprite, startupSprite, slash1Sprite, slash2Sprite, endSprite, width, height, damage, knockback, startupLag,
-				slashDuration, endLag, screenShakeAmount, screenShakeLength, screenFreezeLength, xOffset, yOffset, directionLocked, movementReduction, pierce, projectile = unpack(getWeaponStats(weapon.projectile))
+			local stats = getWeaponStats(weapon.projectile)
+			stats.duration = 1
 
-			if weapon.shootDirection == "up" then
-				sprite = love.graphics.newImage("images/weapons/bows/"..weaponName.."/"..weaponName.."1.png")
-			elseif weapon.shootDirection == "left" then
-				sprite = love.graphics.newImage("images/weapons/bows/"..weaponName.."/"..weaponName.."5.png")
-			elseif weapon.shootDirection == "right" then
-				sprite = love.graphics.newImage("images/weapons/bows/"..weaponName.."/"..weaponName.."5.png")
-			elseif weapon.shootDirection == "down" then
-				sprite = love.graphics.newImage("images/weapons/bows/"..weaponName.."/"..weaponName.."1.png")
+			local sprite
+			if weapon.shootDirection == "up" or weapon.shootDirection == "down" then
+				sprite = love.graphics.newImage("images/weapons/bows/"..stats.name.."/"..stats.name.."1.png")
+			elseif weapon.shootDirection == "left" or weapon.shootDirection == "right" then
+				sprite = love.graphics.newImage("images/weapons/bows/"..stats.name.."/"..stats.name.."5.png")
 			end
 
 			local width = sprite:getWidth()
@@ -159,9 +158,7 @@
 			local x = player.x + player.width/2 - width/2
 			local y = player.y + player.height/2 - height/2
 
-			table.insert(actors, newWeapon(actors[getTableLength(actors)+1], weaponName, weaponType, x, y, iconSprite, startupSprite, slash1Sprite, slash2Sprite, endSprite, width, 
-				height, damage, knockback, startupLag, slashDuration, endLag, duration, screenShakeAmount, screenShakeLength, screenFreezeLength, 
-				xOffset, yOffset, directionLocked, movementReduction, pierce, projectile, shootDirection))
+			table.insert(actors, newWeapon(actors[getTableLength(actors)+1], x, y, weapon.shootDirection, stats))
 		end
 	end
 
@@ -172,13 +169,14 @@
 			weapon.state = "startup"
 		elseif weapon.durationCounter <= (weapon.slashDuration + weapon.startupLag) then
 			if weapon.state ~= "slash" then
-				if shakeLength < weapon.screenShakeAmount/5 then
-					shakeLength = weapon.screenShakeAmount/5
+				if shakeLength < weapon.screenShakeLength/2 then
+					shakeLength = weapon.screenShakeLength/2
 				end
 				maxShakeLength = shakeLength
-				shakeAmount = shakeAmount + weapon.screenShakeAmount/5
+				if shakeAmount < weapon.screenShakeAmount/2 then
+					shakeAmount = weapon.screenShakeAmount/2
+				end
 				maxShakeAmount = shakeAmount
-				shakeType = "short"
 			end
 			weapon.state = "slash"
 		else
@@ -231,35 +229,36 @@
 		end
 
 		if weapon.type == "sword" then
-			if weapon.direction == "left" then
-				weapon.x = player.x + player.width/2 - weapon.width/2 - weapon.xOffset
-			else
-				weapon.x = player.x + player.width/2 - weapon.width/2 + weapon.xOffset
-			end
+			weapon.x = player.x + player.width/2 - weapon.width/2
 			weapon.y = player.y + player.height/2 - weapon.height/2 + weapon.yOffset
+			if weapon.direction == "left" then
+				weapon.x = weapon.x - weapon.xOffset
+			else
+				weapon.x = weapon.x + weapon.xOffset
+			end
 		elseif weapon.type == "bow" then
 			weapon.x = player.x + player.width/2 - weapon.width/2
 			weapon.y = player.y + player.height/2 - weapon.height/2
 			if weapon.shootDirection == "up" then
-				weapon.y = weapon.y - weapon.yOffset
 				if player.direction == "left" then
-					weapon.x = weapon.x - 1
+					weapon.x = weapon.x - weapon.upXOffset
 				else
-					weapon.x = weapon.x + 1
+					weapon.x = weapon.x + weapon.upXOffset
 				end
-			elseif weapon.shootDirection == "left" then
-				weapon.x = weapon.x - weapon.xOffset
-				weapon.y = weapon.y - 1
-			elseif weapon.shootDirection == "right" then
-				weapon.x = weapon.x + weapon.xOffset
-				weapon.y = weapon.y - 1
+				weapon.y = weapon.y + weapon.upYOffset
 			elseif weapon.shootDirection == "down" then
-				weapon.y = weapon.y + weapon.yOffset
 				if player.direction == "left" then
-					weapon.x = weapon.x - 1
+					weapon.x = weapon.x - weapon.downXOffset
 				else
-					weapon.x = weapon.x + 1
+					weapon.x = weapon.x + weapon.downXOffset
 				end
+				weapon.y = weapon.y + weapon.downYOffset
+			elseif weapon.shootDirection == "left" then
+				weapon.x = weapon.x - weapon.sideXOffset
+				weapon.y = weapon.y + weapon.sideYOffset
+			elseif weapon.shootDirection == "right" then
+				weapon.x = weapon.x + weapon.sideXOffset
+				weapon.y = weapon.y + weapon.sideYOffset
 			end
 		elseif weapon.type == "projectile" then
 			weapon.xVelocity = weapon.xVelocity + weapon.xAcceleration
@@ -267,13 +266,14 @@
 			weapon.x = weapon.x + weapon.xVelocity
 			weapon.y = weapon.y + weapon.yVelocity
 			local velocity = math.sqrt(weapon.xVelocity^2 + weapon.yVelocity^2)
-			if (velocity > 6) then
-				local fraction = 6/velocity
+			if (velocity > stats.velocity) then
+				local fraction = stats.velocity/velocity
 				weapon.xVelocity = weapon.xVelocity*fraction
 				weapon.yVelocity = weapon.yVelocity*fraction
 			end
-			local absoluteVelocity = math.sqrt(velocity^2)
-			if absoluteVelocity > 3 then
+			
+			local absoluteVelocity = math.abs(velocity)
+			if absoluteVelocity >= 3 then
 				for _, actor in ipairs(getCollidingActors(weapon.x + weapon.width/2 - 75/2, weapon.y + weapon.height/2 - 75/2, 75, 75, false, false, true, false, true)) do
 					if actor.ai ~= "projectile" then
 						local currentAngle = math.atan2(weapon.yVelocity, weapon.xVelocity)
@@ -281,9 +281,10 @@
 						local dx = math.cos(newAngle)
 						local dy = math.sin(newAngle)
 						-- if current weapon trajectory is similar to trajectory of weapon needed to hit enemy
-						if newAngle > currentAngle - 0.5 and newAngle < currentAngle + 0.5 then
-							weapon.xVelocity = weapon.xVelocity + absoluteVelocity/6*dx
-							weapon.yVelocity = weapon.yVelocity + absoluteVelocity/6*dy
+						if newAngle > currentAngle - 0.4 and newAngle < currentAngle + 0.4 then
+							weapon.xVelocity = weapon.xVelocity + absoluteVelocity/stats.velocity*dx
+							weapon.yVelocity = weapon.yVelocity + absoluteVelocity/stats.velocity*dy
+							break
 						end
 					end
 				end
@@ -351,52 +352,81 @@
 					-- end
 
 					-- if blocked == false then
+
 					for _, actor in ipairs(getCollidingActors(weapon:getX() + x-1, weapon:getY() + y-1, 1, 1, false, false, true, false, true, false, false, false, true)) do
-						if actor.enemy and actor.projectile == false or (actor.ai == "diving" and actor.stuck == false and actor.diving == false and actor.attacking == false) then
+						if actor.enemy and actor.projectile == false then
 							if isInTable(actor.uuid, weapon.enemiesHit) == false then
-								if weapon.damage > 0 then
-									actor.hp = actor.hp - weapon.damage
+								if actor.invincibility == 0 then
+									actor.hit = true
 									actor.lastHitTimer = 0
-									if weapon.type == "projectile" then
-										weapon.pierce = weapon.pierce - 1
-										if weapon.pierce == 0 then
-											table.remove(actors, weapon.index)
+
+									if weapon.damage > 0 then
+										actor.previousHp = actor.hp
+										if isInTable("poisonDamage", player.accessories) and actor.poison > 0 then
+											actor.hp = actor.hp - weapon.damage*player.damageBuff*1.5
+										else
+											actor.hp = actor.hp - weapon.damage*player.damageBuff
+										end
+										actor.lastDamagedTimer = 0
+										actor.lastHitTimer = 0
+
+										if actor.hp < 0 then
+											actor.hp = 0
+										end
+										if weapon.type == "projectile" then
+											weapon.pierce = weapon.pierce - 1
+											if weapon.pierce == 0 then
+												table.remove(actors, weapon.index)
+											end
 										end
 									end
-								end
 
-								if weapon.knockback > 0 then
-									actor.knockedBack = true
+									if weapon.knockback > 0 then
+										actor.knockedBack = true
 
-									actor.knockbackAngle = math.atan2((player.y + player.height/2) - (actor.y + actor.height/2), (player.x + player.width/2) - (actor.x + actor.width/2))
-									
-									actor.knockbackDx = math.cos(actor.knockbackAngle)
-									actor.knockbackDy = math.sin(actor.knockbackAngle)
-									actor.xVelocity = -actor.knockbackDx*weapon.knockback/actor.knockbackResistance
-									if actor.ai == "walking" then
-										actor.yVelocity = actor.knockbackDy*weapon.knockback/actor.knockbackResistance
+										actor.knockbackAngle = math.atan2((player.y + player.height/2) - (actor.y + actor.height/2), (player.x + player.width/2) - (actor.x + actor.width/2))
+										
+										actor.knockbackDx = math.cos(actor.knockbackAngle)
+										actor.knockbackDy = math.sin(actor.knockbackAngle)
+										actor.xVelocity = -actor.knockbackDx*weapon.knockback/actor.knockbackResistance
+										if actor.ai == "walking" then
+											actor.yVelocity = actor.knockbackDy*weapon.knockback/actor.knockbackResistance
+										end
 									end
-								end
+									
+									for i, accessory in ipairs(player.accessories) do
+										local stats = getAccessoryStats(accessory)
+										if stats.status == "poison" and actor.poison < stats.statusDuration then
+											actor.poison = stats.statusDuration*player.poisonDurationBuff
+											actor.lastPoisonDuration = actor.poison
+										elseif stats.status == "burn" and actor.burn < stats.statusDuration then
+											actor.burn = stats.statusDuration*player.burnDurationBuff
+											actor.lastBurnDuration = actor.burn
+										end
+									end
+									
+									if weapon.status == "poison" and actor.poison < weapon.statusDuration then
+										actor.poison = weapon.statusDuration*player.poisonDurationBuff
+										actor.lastPoisonDuration = actor.poison
+									elseif weapon.status == "burn" and actor.burn < weapon.statusDuration then
+										actor.burn = weapon.statusDuration*player.burnDurationBuff
+										actor.lastBurnDuration = actor.burn
+									end
 
-								if shakeLength < weapon.screenShakeLength then
-									shakeLength = weapon.screenShakeLength
-								end
-								maxShakeLength = shakeLength
-								shakeAmount = shakeAmount + weapon.screenShakeAmount
-								maxShakeAmount = shakeAmount
-								shakeType = "short"
+									if shakeLength < weapon.screenShakeLength then
+										shakeLength = weapon.screenShakeLength
+									end
+									maxShakeLength = shakeLength
+									if shakeAmount < weapon.screenShakeAmount then
+										shakeAmount = weapon.screenShakeAmount
+									end
+									maxShakeAmount = shakeAmount
+									if screenFreeze < weapon.screenFreezeLength then
+										screenFreeze = weapon.screenFreezeLength
+									end
 
-								if weapon.type ~= "projectile" then
-									player.frozen = true
-									player.frozenCounter = player.frozenCounter + weapon.screenFreezeLength
-									weapon.frozen = true
-									weapon.frozenCounter = weapon.frozenCounter + weapon.screenFreezeLength
+									table.insert(weapon.enemiesHit, actor.uuid)
 								end
-								actor.frozen = true
-								actor.frozenCounter = actor.frozenCounter + weapon.screenFreezeLength
-								actor.hit = true
-								actor.hitLength = actor.hitLength + weapon.screenFreezeLength*1.5
-								table.insert(weapon.enemiesHit, actor.uuid)
 							end
 						end
 					end
@@ -448,11 +478,7 @@
 				bowFrame = 3
 			end
 
-			if weapon.shootDirection == "up" or weapon.shootDirection == "down" then
-				quad = love.graphics.newQuad(bowFrame*21, 0, 21, 22, 84, 22)
-			elseif weapon.shootDirection == "left" or weapon.shootDirection == "right" then
-				quad = love.graphics.newQuad(bowFrame*22, 0, 22, 21, 88, 21)
-			end
+			quad = love.graphics.newQuad(bowFrame*weapon.width, 0, weapon.width, weapon.height, weapon.width*4, weapon.height)
 			
 			if weapon.shootDirection == "up" then
 				love.graphics.draw(weapon.upSprite, quad)
@@ -461,7 +487,7 @@
 			elseif weapon.shootDirection == "right" then
 				love.graphics.draw(weapon.sideSprite, quad)
 			elseif weapon.shootDirection == "down" then
-				love.graphics.draw(weapon.upSprite, quad, 0, 0, 0, 1, -1, 0, weapon.height)
+				love.graphics.draw(weapon.upSprite, quad, 0, 0, 0, 1, -1, 0, weapon.width)
 			end
 		else
 			if weapon.xVelocity > 0 then

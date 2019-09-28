@@ -9,6 +9,14 @@ very high - 3.5
 level pacing: start -> 1(2) -> 2(0.5) -> 3(1) -> 4(1.5) -> 5(2) -> 6(2.5) -> boss	(3 normal maps, 2 cave maps, 1 shop map)
                               cave1(1.5)       cave2(2.5)
 
+weapon/accessory per level
++ 1 cave
++ 1-2 shop
++ 1 boss (0 on the final level)
+= 3-4 (2-3 on last level)
+min amount = 3+4+3+4+2 = 16
+max amount = 4+3+4+3+3 = 17
+
 8 normal maps
 5*2 cave maps
 3*2 shop maps
@@ -33,23 +41,27 @@ accessories later on will be slightly more powerful, but not by much
 status effects
 grassland:
 poison - DoT for 3s, deals 100% of weapon damage. (purple)
-snare - can't move for 3 seconds. (dark green)
 
 frozen desert:
-freeze - immobolized for 2s, but take 25% damage. (blue)
 shock - immobolized, DoT, deals 25% of weapon damage, lasts 1 second. (yellow)
 
 slime volcano:
 slime - move slower for 5s. (green)
-sleep - immobolized for 5s or until hit by an attack. (saturated blue)
 
 magma cave:
 burn - DoT for 1.5s, deals 50% of weapon damage. but is cancelled out by freeze or slime. (orange)
-blind - can't attack for 2s. (grey)
 
 corrupted grassland:
-death - after 3 seconds, deals damage until it dies. (black)
 curse - take 100% more damage, but deal 50% more for 3s. (dark purple)
+
+
+OLD:
+snare - can't move for 3 seconds. (dark green)
+freeze - immobolized for 2s, but take 25% damage. (blue)
+sleep - immobolized for 5s or until hit by an attack. (saturated blue)
+blind - can't attack for 2s. (grey)
+death - after 3 seconds, deals damage until it dies. (black)
+
 
 
 WEAPON LIST:

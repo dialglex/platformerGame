@@ -60,9 +60,9 @@ function drawFadeScreen()
 		transitionCounter = transitionCounter - 0.075
 	end
 
-	if transitionCounter >= 1 and fadeIn then
+	if transitionCounter >= 1 and fadeIn then -- switching it once it reaches full blackness
 		fadeIn = false
-	elseif transitionCounter <= 0 and fadeIn == false then
+	elseif transitionCounter <= 0 and fadeIn == false then -- finishing and resetting it
 		transitioningScreen = false
 		transitionCounter = 0
 		fadeIn = true
@@ -72,21 +72,16 @@ end
 
 function screenShake()
 	if shakeLength > 0 then
-		if shakeType == "short" then
-			shakeAmount = (shakeLength/maxShakeLength)*maxShakeAmount
-			shakeLength = shakeLength - 1
-		elseif shakeType == "long" then
-			shakeAmount = shakeAmount - shakeAmount/shakeLength
-			shakeLength = shakeLength - 1
-		end
+		shakeAmount = (shakeLength/maxShakeLength)*maxShakeAmount
+		shakeLength = shakeLength - 1
 		if shakeAmount > 16 then
 			shakeX = math.random(-16, 16)
 			shakeY = math.random(-16, 16)
 		else
-			shakeX = math.random(-shakeAmount + math.random(), shakeAmount - math.random())
-			shakeY = math.random(-shakeAmount + math.random(), shakeAmount - math.random())
+			shakeX = math.random(-shakeAmount, shakeAmount)
+			shakeY = math.random(-shakeAmount, shakeAmount)
 		end
-		if gamepad ~= nil then
+		if lastInputType == "gamepad" then
 			gamepad:setVibration(1, 1)
 		end
 	else
@@ -118,7 +113,7 @@ function convertOpacity(canvas, alpha)
 	return love.graphics.newImage(imageData)
 end
 
-function convertColor(canvas, r1, g1, b1, a1, image)
+function convertColor(canvas, r1, g1, b1, a1, image, keepWhite)
 	if image ~= nil then
 		canvas = love.graphics.newCanvas(image:getWidth(), image:getHeight())
 		love.graphics.setCanvas(canvas)
@@ -129,7 +124,6 @@ function convertColor(canvas, r1, g1, b1, a1, image)
 	local imageData = canvas:newImageData()
 	local width = imageData:getWidth()
 	local height = imageData:getHeight()
-	local string = ""
 
 	for y1 = 1, height do
 		for x1 = 1, width do
@@ -139,13 +133,13 @@ function convertColor(canvas, r1, g1, b1, a1, image)
 
 			r2, g2, b2, a2 = imageData:getPixel(pixel.x, pixel.y)
 			if a2 > 0 then
-				string = string.."X"
-				imageData:setPixel(pixel.x, pixel.y, r1, g1, b1, a1)
-			else
-				string = string.." "
+				if keepWhite and r2 == 248/255 and g2 == 248/255 and b2 == 248/255 then -- if it is white
+					imageData:setPixel(pixel.x, pixel.y, 248/255, 248/255, 248/255, 1)
+				else
+					imageData:setPixel(pixel.x, pixel.y, r1, g1, b1, a1)
+				end
 			end
 		end
-		string = string.."\n"
 	end
 
 	love.graphics.setCanvas(canvas)
@@ -259,36 +253,88 @@ function giveOutline(image, color)
 	return canvas
 end
 
-function drawProgressBar(actor, progressBarWidth, progressBarHeight, progressBarOffset, progressBarOpacity, progressBarColor)
-	local xOffset = 0
-	local yOffset = 0
-	if actor.attacking then
-		xOffset = -actor.attackXOffset
-		yOffset = -actor.attackYOffset
+function drawProgressBar(actor, barWidth, barHeight, barOffset, barOpacity, barColor)
+	local x
+	local y = actor:getY() - barOffset
+	if actor.direction == "left" then
+		x = actor:getX() + (actor.width - actor.hitboxWidth - actor.hitboxX) + actor.hitboxWidth/2 - barWidth/2
+	else
+		x = actor:getX() + actor.hitboxX + actor.hitboxWidth/2 - barWidth/2
 	end
-	if actor.hp > 0 then
-		--black border
-		love.graphics.setColor(0, 0, 0, progressBarOpacity)
-		love.graphics.rectangle("fill", actor.x + actor.width/2 - progressBarWidth/2 - 1 + xOffset, actor.y - progressBarOffset - 1,
-			progressBarWidth + 2, progressBarHeight + 2)
-		--color inside
-		-- love.graphics.setColor(1-actor.hp/actor.maxHp, actor.hp/actor.maxHp - 0.1, 0, progressBarOpacity)
-		if progressBarColor == "green" then
-			love.graphics.setColor(0.231, 0.741, 0.388, progressBarOpacity)
-		elseif progressBarColor == "red" then
-			love.graphics.setColor(0.718, 0.255, 0.333, progressBarOpacity)
+	if actor.actor == "npc" and actor.attacking then
+		if actor.direction == "left" then
+			x = x - actor.leftAttackXOffset
+		elseif actor.direction == "right" then
+			x = x - actor.rightAttackXOffset
 		end
-		love.graphics.rectangle("fill", actor.x + actor.width/2 - progressBarWidth/2 + xOffset, actor.y - progressBarOffset,
-			actor.hp/actor.maxHp*progressBarWidth, progressBarHeight)
+		y = y - actor.attackYOffset
+	end
+	x = math.floor(x)
+	y = math.floor(y)
 
-		if progressBarColor == "green" then
-			love.graphics.setColor(0.545, 0.894, 0.435, progressBarOpacity)
-		elseif progressBarColor == "red" then
-			love.graphics.setColor(0.910, 0.365, 0.329, progressBarOpacity)
-		end
-		love.graphics.rectangle("fill", actor.x + actor.width/2 - progressBarWidth/2 + xOffset, actor.y - progressBarOffset + 1,
-			actor.hp/actor.maxHp*progressBarWidth, progressBarHeight - 3)
+	-- black border
+	love.graphics.setColor(0, 0, 0, barOpacity)
+	love.graphics.rectangle("fill", x - 1, y - 1, barWidth + 2, barHeight + 2)
+
+	-- white previous hp
+	if actor.hit then
+		love.graphics.setColor(0.973, 0.973, 0.973, barOpacity)
+		love.graphics.rectangle("fill", x, y, actor.previousHp/actor.maxHp*barWidth, barHeight)
 	end
+
+	-- color inside
+	if barColor == "green" then
+		love.graphics.setColor(0.231, 0.741, 0.388, barOpacity)
+	elseif barColor == "red" then
+		love.graphics.setColor(0.718, 0.255, 0.333, barOpacity)
+	end
+	love.graphics.rectangle("fill", x, y, actor.hp/actor.maxHp*barWidth, barHeight)
+
+	if barColor == "green" then
+		love.graphics.setColor(0.545, 0.894, 0.435, barOpacity)
+	elseif barColor == "red" then
+		love.graphics.setColor(0.910, 0.365, 0.329, barOpacity)
+	end
+	love.graphics.rectangle("fill", x, y + 1, actor.hp/actor.maxHp*barWidth, barHeight - 3)
+	
+	-- status effects
+	if actor.actor == "npc" then
+		local hpWidth = actor.hp/actor.maxHp
+		local damageBuff = 1
+		if isInTable("poisonDamage", player.accessories) and actor.poison > 0 then
+			damageBuff = 1.5
+		end
+		local burnWidth = (actor.burn/3*player.damageBuff*damageBuff)/actor.maxHp
+		local poisonWidth = (actor.poison/6*player.damageBuff*damageBuff)/actor.maxHp
+		local burnX = hpWidth - burnWidth
+		local poisonX = hpWidth - burnWidth - poisonWidth
+		if poisonWidth + burnWidth > actor.hp/actor.maxHp then
+			poisonX = 0
+			poisonWidth = actor.hp/actor.maxHp - burnWidth
+		end
+		
+		if burnWidth > hpWidth then
+			burnX = 0
+			burnWidth = hpWidth
+			poisonX = 0
+			poisonWidth = 0
+		end
+
+		if actor.burn > 0 then
+			love.graphics.setColor(0.949, 0.584, 0.275, barOpacity)
+			love.graphics.rectangle("fill", x + burnX*barWidth, y, burnWidth*barWidth, barHeight)
+			love.graphics.setColor(1, 0.808, 0, barOpacity)
+			love.graphics.rectangle("fill", x + burnX*barWidth, y + 1, burnWidth*barWidth, barHeight - 3)
+		end
+
+		if actor.poison > 0 then
+			love.graphics.setColor(0.392, 0.275, 0.553, barOpacity)
+			love.graphics.rectangle("fill", x + poisonX*barWidth, y, poisonWidth*barWidth, barHeight)
+			love.graphics.setColor(0.675, 0.333, 0.671, barOpacity)
+			love.graphics.rectangle("fill", x + poisonX*barWidth, y + 1, poisonWidth*barWidth, barHeight - 3)
+		end
+	end
+
 	love.graphics.setColor(1, 1, 1, 1)
 end
 
@@ -367,7 +413,9 @@ function drawScreen()
 	end
 	
 	for _, actor in ipairs(dusts) do
-		love.graphics.draw(actor.canvas, actor:getX(), actor:getY())
+		if actor.background then
+			love.graphics.draw(actor.canvas, actor:getX(), actor:getY())
+		end
 	end
 
 	for _, actor in ipairs(npcs) do
@@ -382,10 +430,25 @@ function drawScreen()
 		if actor.background == false then
 			love.graphics.draw(actor.canvas, actor:getX(), actor:getY())
 		end
-		drawProgressBar(actor, 20 + 0.05*actor.maxHp, 5, 5, actor.healthBarOpacity, "red")
+	end
+
+	for _, actor in ipairs(dusts) do
+		if actor.background == false then
+			love.graphics.draw(actor.canvas, actor:getX(), actor:getY())
+		end
 	end
 	
-	drawProgressBar(player, 20 + 0.05*player.hp, 5, -player.height-1, 1, "green")
+	for _, actor in ipairs(npcs) do
+		drawProgressBar(actor, 15 + 0.1*actor.maxHp, 5, 5, actor.healthBarOpacity, "red")
+	end
+
+	if player.hp > 0 then
+		drawProgressBar(player, 15 + 0.1*player.maxHp, 5, -player.height-1, 1, "green")
+		love.graphics.setFont(textFont1)
+		local text = "$"..tostring(player.money)
+		local wrapWidth, wrapText = textFont1:getWrap(text, 1000)
+		love.graphics.printf(text, player.x + player.width/2 - wrapWidth/2, player.y + player.height + 8, 1000)
+	end
 
 	for _, actor in ipairs(items) do
 		if actor.type == "shop" and uiFrozen == false then
@@ -397,19 +460,18 @@ function drawScreen()
 				local textY = actor.y - textHeight - 3
 
 				if actor.name == "weaponShopItem" then
-					local name, weaponType, _, _, _, _, _, width, height, damage, knockback, startupLag,
-						slashDuration, endLag, _, _, _, movementReduction, pierce = unpack(getWeaponStats(actor.randomName))
-					local speed = 60 - (startupLag + slashDuration + endLag)
+					local weapon = getWeaponStats(actor.randomName)
+					local speed = 60 - (weapon.startupLag + weapon.slashDuration + weapon.endLag)
 
 					love.graphics.setCanvas(damageBarCanvas)
 					love.graphics.clear()
-					drawBar(damage/100)
+					drawBar(weapon.damage/100)
 					love.graphics.setCanvas(speedBarCanvas)
 					love.graphics.clear()
 					drawBar(speed/60)
 					love.graphics.setCanvas(knockbackBarCanvas)
 					love.graphics.clear()
-					drawBar(knockback/5)
+					drawBar(weapon.knockback/4)
 
 					barX = (actor.x + actor.width/2) - emptyBar:getWidth()/2 + (5 + 12)/2
 					barY = textY - emptyBar:getHeight() - 4
@@ -429,9 +491,8 @@ function drawScreen()
 					love.graphics.draw(speedBarCanvas, barX, barY - 14)
 					love.graphics.draw(knockbackBarCanvas, barX, barY)
 				else
-					local accessoryName, iconImage, accessoryType, text, xAcceleration, xDeceleration, xTerminalVelocity, jumpAcceleration, fallAcceleration,
-						yTerminalVelocity = unpack(getAccessoryStats(actor.randomName))
-					local itemWrapWidth, itemWrapText = textFont:getWrap(text, 300)
+					local accessory = getAccessoryStats(actor.randomName)
+					local itemWrapWidth, itemWrapText = textFont:getWrap(accessory.text, 300)
 					local itemTextHeight = textFont:getHeight()
 					local itemTextX = (actor.x + actor.width/2) - itemWrapWidth/2 + 1
 					local itemTextY = textY - itemTextHeight - 2
@@ -448,7 +509,7 @@ function drawScreen()
 
 					love.graphics.setFont(textFont)
 					love.graphics.setColor(0.973, 0.973, 0.973, actor.nearCounter)
-					love.graphics.printf(text, itemTextX, itemTextY, itemWrapWidth, "center")
+					love.graphics.printf(accessory.text, itemTextX, itemTextY, itemWrapWidth, "center")
 				end
 			end
 			love.graphics.setFont(signFont)
@@ -499,12 +560,24 @@ function drawScreen()
 		table.insert(textToDraw, {"YOU WIN", winFont, textX, textY, 1000, nil, {0.973, 0.973, 0.973}})
 	end
 	
-	newPurple = 1-(player.hp/player.maxHp)
-	if newPurple > purple then
+	targetPurple = 1-(player.hp/player.maxHp)
+	if purple < targetPurple + 0.05 and purple > targetPurple - 0.05 then
+		purple = targetPurple
+	elseif targetPurple > purple then
 		purple = purple + 0.05
+	elseif targetPurple < purple then
+		purple = purple - 0.05
 	end
 
-	love.graphics.setColor(0.39, 0.27, 0.55, purple/10)
+	if white > 0 then
+		white = white - 0.008
+	else
+		white = 0
+	end
+
+	love.graphics.setColor(0.39, 0.27, 0.55, purple/6)
+	love.graphics.rectangle("fill", 0, 0, 506, 296)
+	love.graphics.setColor(0.973, 0.973, 0.973, white)
 	love.graphics.rectangle("fill", 0, 0, 506, 296)
 	love.graphics.setColor(1, 1, 1)
 	drawTextCanvas()
@@ -534,21 +607,40 @@ function drawDebug()
 	--draw tile hitboxes
 	love.graphics.setCanvas(debugCanvas)
 	love.graphics.clear()
-	for _, actor in ipairs(tiles) do
-		if debug and actor.collidable then
-			love.graphics.setColor(0, 0, 1, 0.6)
-			love.graphics.rectangle("fill", actor.hitboxX + actor.x, actor.hitboxY + actor.y, actor.hitboxWidth, actor.hitboxHeight)
-		elseif debug then
-			love.graphics.setColor(1, 0, 1, 0.1)
-			love.graphics.rectangle("fill", actor.hitboxX + actor.x, actor.hitboxY + actor.y, actor.hitboxWidth, actor.hitboxHeight)
-		end
-	end
-	love.graphics.setColor(1, 1, 1, 1)
-
 	if debug then
+		for _, actor in ipairs(tiles) do
+			love.graphics.setColor(1, 1, 1, 1)
+			love.graphics.rectangle("fill", actor.hitboxX + actor.x, actor.hitboxY + actor.y, 1, 1)
+			
+			if actor.collidable then
+				love.graphics.setColor(0, 0, 1, 0.6)
+				love.graphics.rectangle("fill", actor.hitboxX + actor.x, actor.hitboxY + actor.y, actor.hitboxWidth, actor.hitboxHeight)
+			else
+				love.graphics.setColor(1, 0, 1, 0.2)
+				love.graphics.rectangle("fill", actor.hitboxX + actor.x, actor.hitboxY + actor.y, actor.hitboxWidth, actor.hitboxHeight)
+			end
+		end
+
+		for _, actor in ipairs(npcs) do
+			love.graphics.setColor(0.75, 1, 0.75, 0.9)
+			if actor.attacking then
+				if actor.direction == "left" then
+					love.graphics.rectangle("fill", actor.x + (actor.attackWidth - actor.attackHitboxWidth - actor.attackHitboxX), actor.y + actor.attackHitboxY, actor.attackHitboxWidth, actor.attackHitboxHeight)
+				elseif actor.direction == "right" then
+					love.graphics.rectangle("fill", actor.x + actor.attackHitboxX, actor.y + actor.attackHitboxY, actor.attackHitboxWidth, actor.attackHitboxHeight)
+				end
+			else
+				if actor.direction == "left" then
+					love.graphics.rectangle("fill", actor.x + (actor.width - actor.hitboxWidth - actor.hitboxX), actor.y + actor.hitboxY, actor.hitboxWidth, actor.hitboxHeight)
+				elseif actor.direction == "right" then
+					love.graphics.rectangle("fill", actor.x + actor.hitboxX, actor.y + actor.hitboxY, actor.hitboxWidth, actor.hitboxHeight)
+				end
+			end
+		end
+
 		for _, hitbox in ipairs(hitboxes) do
 			x, y, w, h = unpack(hitbox)
-			love.graphics.setColor(0.15, 0.75, 0.3, 0.6)
+			love.graphics.setColor(0.1, 1, 0.25, 0.75)
 			love.graphics.rectangle("fill", x, y, w, h)
 		end
 
@@ -562,6 +654,26 @@ function drawDebug()
 			love.graphics.print(string, 2 + 16, (i - 1) * 12 + 16)
 		end
 	end
+
+	local hours = math.floor(frame/60/60/60)
+	local minutes = math.floor(frame/60/60 - hours*60)
+	local seconds = math.floor(frame/60 - hours*60*60 - minutes*60)
+	local stringHours = tostring(hours)
+	local stringMinutes = tostring(minutes)
+	local stringSeconds = tostring(seconds)
+	if string.len(stringHours) == 1 then
+		stringHours = "0"..stringHours
+	end
+	if string.len(stringMinutes) == 1 then
+		stringMinutes = "0"..stringMinutes
+	end
+	if string.len(stringSeconds) == 1 then
+		stringSeconds = "0"..stringSeconds
+	end
+
+	love.graphics.setFont(textFont)
+	love.graphics.print(stringHours..":"..stringMinutes..":"..stringSeconds, 18, 18)
+	
 	love.graphics.setCanvas()
 end
 

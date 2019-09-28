@@ -6,7 +6,7 @@ function windowSetup()
 
 	love.graphics.setDefaultFilter("nearest", "nearest")
 
-	love.window.setTitle("Platformer Base")
+	love.window.setTitle("Platformer Game")
 
 	gameIconImage = love.graphics.newImage("images/ui/gameIcon.png")
 	gameIconCanvas = love.graphics.newCanvas(16, 16)

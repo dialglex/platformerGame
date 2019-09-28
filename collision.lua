@@ -4,10 +4,10 @@ function AABB(x1, y1, width1, height1, x2, y2, width2, height2)
 	return xCheck and yCheck
 end
 
-function checkCollision(x, y, width, height, platform)
+function checkCollision(x, y, width, height, platform, playerCollision)
 	table.insert(hitboxes, {x, y, width, height})
 	for _, actor in ipairs(tiles) do
-		if actor.collidable or platform and actor.platform and player.yVelocity >= 0 and downInputs.down ~= true then
+		if (actor.collidable) or (playerCollision == false and platform and actor.platform) or (playerCollision and platform and actor.platform and player.yVelocity >= 0 and downInputs.down ~= true) then
 			if AABB(x, y, width, height, actor.x + actor.hitboxX, actor.y + actor.hitboxY, actor.hitboxWidth, actor.hitboxHeight) then
 				return true
 			end
@@ -27,7 +27,7 @@ function getCollidingActors(x, y, width, height, collidable, platform, drawHitbo
 
 	if checkTiles then
 		for _, actor in ipairs(tiles) do
-			if actor.collidable and collidable or actor.platform and platform or actor.background and collidable == false then
+			if (actor.collidable and collidable) or (actor.platform and platform) or (actor.background and collidable == false) then
 				if largeHitboxes then
 					if AABB(x, y, width, height, actor.x, actor.y, actor.width, actor.height) then
 						table.insert(collides, actor)
@@ -43,8 +43,26 @@ function getCollidingActors(x, y, width, height, collidable, platform, drawHitbo
 
 	if checkNpcs then
 		for _, actor in ipairs(npcs) do
-			if AABB(x, y, width, height, actor.x + actor.hitboxX, actor.y + actor.hitboxY, actor.hitboxWidth, actor.hitboxHeight) then
-				table.insert(collides, actor)
+			if actor.attacking then
+				if actor.direction == "left" then
+					if AABB(x, y, width, height, actor.x + (actor.attackWidth - actor.attackHitboxWidth - actor.attackHitboxX), actor.y + actor.attackHitboxY, actor.attackHitboxWidth, actor.attackHitboxHeight) then
+						table.insert(collides, actor)
+					end
+				else
+					if AABB(x, y, width, height, actor.x + actor.attackHitboxX, actor.y + actor.attackHitboxY, actor.attackHitboxWidth, actor.attackHitboxHeight) then
+						table.insert(collides, actor)
+					end
+				end
+			else
+				if actor.direction == "left" then
+					if AABB(x, y, width, height, actor.x + (actor.width - actor.hitboxWidth - actor.hitboxX), actor.y + actor.hitboxY, actor.hitboxWidth, actor.hitboxHeight) then
+						table.insert(collides, actor)
+					end
+				else
+					if AABB(x, y, width, height, actor.x + actor.hitboxX, actor.y + actor.hitboxY, actor.hitboxWidth, actor.hitboxHeight) then
+						table.insert(collides, actor)
+					end
+				end
 			end
 		end
 	end

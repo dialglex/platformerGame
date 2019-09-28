@@ -1,326 +1,496 @@
 function getNpcStats(npc)
-	local stats = {}
-
 	if npc == "acorn" then
-		name = npc
-		ai = "walking"
-		spritesheet = love.graphics.newImage("images/npcs/enemy/acorn/acornMoveRightSpritesheet.png")
-		animationSpeed = 5 -- lower is faster
-		animationFrames = 6
-		width = spritesheet:getWidth() / animationFrames
-		height = spritesheet:getHeight()
-		attackAnimationFrames = 11
-		attackXOffset = -5
-		attackYOffset = 0
-		attackHitFrames = {3}
-		attackCooldownLength = 20
-		attackDistance = 4
-		damage = 25
-		hp = 90
-		knockbackStrength = 2.5
-		knockbackResistance = 1.5
-		screenShakeAmount = 8
-		screenShakeLength = 6
-		screenFreezeLength = 4
-		xAcceleration = 0.05
-		xTerminalVelocity = 0.75
-		enemy = true
-		money = 20
-		boss = false
-		projectile = false
-		background = true
+		return {
+			name = npc,
+			ai = "walking",
+			spritesheet = love.graphics.newImage("images/npcs/enemy/acorn/acornMoveRightSpritesheet.png"),
+			animationSpeed = 5, -- lower is faster
+			attackAnimationSpeed = 5,
+			animationFrames = 6,
+			hitboxX = 5,
+			hitboxWidth = 16,
+			hitboxY = 5,
+			hitboxHeight = 20,
+			attackHitboxX = 10,
+			attackHitboxWidth = 16,
+			attackHitboxY = 5,
+			attackHitboxHeight = 21,
+			attackAnimationFrames = 11,
+			attackYOffset = -1,
+			attackHitFrames = {3}, -- starts from 0
+			attackCooldownLength = 0,
+			attackDistance = 4,
+			wallDistance = 6,
+			hp = 90,
+			damage = 15,
+			knockback = 2.5,
+			knockbackResistance = 1.1,
+			screenShakeAmount = 8,
+			screenShakeLength = 6,
+			screenFreezeLength = 4,
+			xAcceleration = 0.05,
+			xTerminalVelocity = 0.75,
+			yAcceleration = 0.075,
+			yTerminalVelocity = 0.6,
+			towardsPlayer = false,
+			enemy = true,
+			money = 8,
+			boss = false,
+			projectile = false,
+			background = true
+		}
 	end
 
 	if npc == "mushroomMonster" then
-		name = npc
-		ai = "mushroomMonster"
-		spritesheet = love.graphics.newImage("images/npcs/enemy/mushroomMonster/mushroomMonsterMoveRightSpritesheet.png")
-		animationSpeed = 7 -- lower is faster
-		animationFrames = 5
-		width = spritesheet:getWidth() / animationFrames
-		height = spritesheet:getHeight()
-		attackAnimationFrames = 10
-		attackXOffset = 0
-		attackYOffset = 0
-		attackHitFrames = {6}
-		attackCooldownLength = 50
-		attackDistance = 2
-		damage = 0
-		hp = 60
-		knockbackStrength = 2.5
-		knockbackResistance = 1.5
-		screenShakeAmount = 8
-		screenShakeLength = 6
-		screenFreezeLength = 4
-		xAcceleration = 0.05
-		xTerminalVelocity = 0.75
-		enemy = true
-		money = 20
-		boss = false
-		projectile = false
-		background = true
+		return {
+			name = npc,
+			ai = "mushroomMonster",
+			spritesheet = love.graphics.newImage("images/npcs/enemy/mushroomMonster/mushroomMonsterMoveRightSpritesheet.png"),
+			animationSpeed = 7, -- lower is faster
+			attackAnimationSpeed = 7,
+			animationFrames = 5,
+			hitboxX = 0,
+			hitboxWidth = 27,
+			hitboxY = 0,
+			hitboxHeight = 23,
+			attackHitboxX = 0,
+			attackHitboxWidth = 22,
+			attackHitboxY = 0,
+			attackHitboxHeight = 23,
+			attackAnimationFrames = 10,
+			attackYOffset = 0,
+			attackHitFrames = {6}, -- starts from 0
+			attackCooldownLength = 18*5,
+			attackDistance = 0,
+			wallDistance = 2,
+			hp = 70,
+			damage = 0,
+			knockback = 0,
+			knockbackResistance = 0.9,
+			screenShakeAmount = 8,
+			screenShakeLength = 6,
+			screenFreezeLength = 4,
+			xAcceleration = 0.05,
+			xTerminalVelocity = 0.75,
+			yAcceleration = 0.075,
+			yTerminalVelocity = 6,
+			towardsPlayer = false,
+			enemy = true,
+			money = 7,
+			boss = false,
+			projectile = false,
+			background = true
+		}
 	elseif npc == "poisonCloud" then
-		name = npc
-		ai = "cloud"
-		spritesheet = love.graphics.newImage("images/npcs/enemy/mushroomMonster/poisonCloud.png")
-		animationSpeed = 7 -- lower is faster
-		animationFrames = 1
-		width = spritesheet:getWidth() / animationFrames
-		height = spritesheet:getHeight()
-		attackAnimationFrames = 1
-		attackXOffset = 0
-		attackYOffset = 0
-		attackHitFrames = {}
-		attackCooldownLength = 1
-		attackDistance = 1
-		damage = 0.5
-		hp = 1
-		knockbackStrength = 0
-		knockbackResistance = 1
-		screenShakeAmount = 1
-		screenShakeLength = 1
-		screenFreezeLength = 0
-		xAcceleration = 0
-		xTerminalVelocity = 0
-		enemy = true
-		money = 0
-		boss = false
-		projectile = true
-		background = false
+		return {
+			name = npc,
+			ai = "cloud",
+			spritesheet = love.graphics.newImage("images/npcs/enemy/mushroomMonster/poisonCloud.png"),
+			animationSpeed = 5, -- lower is faster
+			attackAnimationSpeed = 5,
+			animationFrames = 18,
+			hitboxX = 0,
+			hitboxWidth = 48,
+			hitboxY = 0,
+			hitboxHeight = 48,
+			attackHitboxX = 0,
+			attackHitboxWidth = 0,
+			attackHitboxY = 0,
+			attackHitboxHeight = 0,
+			attackAnimationFrames = 1,
+			attackYOffset = 0,
+			attackHitFrames = {}, -- starts from 0
+			attackCooldownLength = 0,
+			attackDistance = 0,
+			wallDistance = 0,
+			hp = 1,
+			damage = 0.04,
+			knockback = 0,
+			knockbackResistance = 1,
+			screenShakeAmount = 1,
+			screenShakeLength = 1,
+			screenFreezeLength = 0,
+			xAcceleration = 0,
+			xTerminalVelocity = 0,
+			yAcceleration = 0,
+			yTerminalVelocity = 0,
+			towardsPlayer = false,
+			enemy = true,
+			money = 0,
+			boss = false,
+			projectile = true,
+			background = false
+		}
 	end
 
 	if npc == "moonfly" then
-		name = npc
-		ai = "diving"
-		spritesheet = love.graphics.newImage("images/npcs/enemy/moonfly/moonflyMoveRightSpritesheet.png")
-		animationSpeed = 5 -- lower is faster
-		animationFrames = 3
-		width = spritesheet:getWidth() / animationFrames
-		height = spritesheet:getHeight()
-		attackAnimationFrames = 5
-		attackXOffset = 0
-		attackYOffset = 0
-		attackHitFrames = {0, 1}
-		attackCooldownLength = 1
-		attackDistance = 1
-		damage = 25
-		hp = 40
-		knockbackStrength = 5
-		knockbackResistance = 1
-		screenShakeAmount = 0
-		screenShakeLength = 0
-		screenFreezeLength = 0
-		xAcceleration = 0.05
-		xTerminalVelocity = 1
-		enemy = true
-		money = 10
-		boss = false
-		projectile = false
-		background = true
+		return {
+			name = npc,
+			ai = "diving",
+			spritesheet = love.graphics.newImage("images/npcs/enemy/moonfly/moonflyMoveRightSpritesheet.png"),
+			animationSpeed = 5, -- lower is faster
+			attackAnimationSpeed = 5,
+			animationFrames = 3,
+			hitboxX = 0,
+			hitboxWidth = 18,
+			hitboxY = 0,
+			hitboxHeight = 14,
+			attackHitboxX = 1,
+			attackHitboxWidth = 16,
+			attackHitboxY = 0,
+			attackHitboxHeight = 13,
+			-- maybe add seperate hitboxes for diving
+			attackAnimationFrames = 5,
+			attackYOffset = 0,
+			attackHitFrames = {0, 1}, -- starts from 0
+			attackCooldownLength = 0,
+			attackDistance = 0,
+			wallDistance = 10,
+			hp = 50,
+			damage = 20,
+			knockback = 2.5,
+			knockbackResistance = 0.8,
+			screenShakeAmount = 0,
+			screenShakeLength = 0,
+			screenFreezeLength = 0,
+			xAcceleration = 0.05,
+			xTerminalVelocity = 1,
+			yAcceleration = 0,
+			yTerminalVelocity = 0,
+			towardsPlayer = false,
+			enemy = true,
+			money = 6,
+			boss = false,
+			projectile = false,
+			background = true
+		}
+	end
+
+	if npc == "fuzzy" then
+		return {
+			name = npc,
+			ai = "flying",
+			spritesheet = love.graphics.newImage("images/npcs/enemy/fuzzy/fuzzyMoveRightSpritesheet.png"),
+			animationSpeed = 4, -- lower is faster
+			attackAnimationSpeed = 4,
+			animationFrames = 6,
+			hitboxX = 4,
+			hitboxWidth = 20,
+			hitboxY = 3,
+			hitboxHeight = 17,
+			attackHitboxX = 0,
+			attackHitboxWidth = 27,
+			attackHitboxY = 0,
+			attackHitboxHeight = 23,
+			attackAnimationFrames = 6,
+			attackYOffset = 0,
+			attackHitFrames = {},
+			attackCooldownLength = 0,
+			attackDistance = 0,
+			wallDistance = 10,
+			hp = 50,
+			damage = 10,
+			knockback = 2.5,
+			knockbackResistance = 0.8,
+			screenShakeAmount = 0,
+			screenShakeLength = 0,
+			screenFreezeLength = 0,
+			xAcceleration = 0.05,
+			xTerminalVelocity = 1,
+			yAcceleration = 0,
+			yTerminalVelocity = 0,
+			towardsPlayer = false,
+			enemy = true,
+			money = 6,
+			boss = false,
+			projectile = false,
+			background = true
+		}
 	end
 
 	if npc == "upPlant" then
-		name = npc
-		ai = "shootTurret"
-		spritesheet = love.graphics.newImage("images/npcs/enemy/plant/upPlantIdleSpritesheet.png")
-		animationSpeed = 5 -- lower is faster
-		animationFrames = 6
-		width = spritesheet:getWidth() / animationFrames
-		height = spritesheet:getHeight()
-		attackAnimationFrames = 12
-		attackXOffset = 0
-		attackYOffset = -4
-		attackHitFrames = {7}
-		attackCooldownLength = 0
-		attackDistance = 0
-		damage = 0
-		hp = 90
-		knockbackStrength = 0
-		knockbackResistance = 0
-		screenShakeAmount = 0
-		screenShakeLength = 0
-		screenFreezeLength = 0
-		xAcceleration = 0
-		xTerminalVelocity = 0
-		enemy = true
-		money = 20
-		boss = false
-		projectile = false
-		background = false
+		return {
+			name = npc,
+			ai = "shootTurret",
+			spritesheet = love.graphics.newImage("images/npcs/enemy/plant/upPlantIdleSpritesheet.png"),
+			animationSpeed = 6, -- lower is faster
+			attackAnimationSpeed = 6,
+			animationFrames = 6,
+			hitboxX = 0,
+			hitboxWidth = 32,
+			hitboxY = 0,
+			hitboxHeight = 21,
+			attackHitboxX = 0,
+			attackHitboxWidth = 32,
+			attackHitboxY = 0,
+			attackHitboxHeight = 29,
+			attackAnimationFrames = 12,
+			attackYOffset = -4,
+			attackHitFrames = {7}, -- starts from 0
+			attackCooldownLength = 0,
+			attackDistance = 0,
+			wallDistance = 0,
+			hp = 80,
+			damage = 0,
+			knockback = 0,
+			knockbackResistance = 0,
+			screenShakeAmount = 0,
+			screenShakeLength = 0,
+			screenFreezeLength = 0,
+			xAcceleration = 0,
+			xTerminalVelocity = 0,
+			yAcceleration = 0,
+			yTerminalVelocity = 0,
+			towardsPlayer = false,
+			enemy = true,
+			money = 8,
+			boss = false,
+			projectile = false,
+			background = false
+		}
 	elseif npc == "downPlant" then
-		name = npc
-		ai = "shootTurret"
-		spritesheet = love.graphics.newImage("images/npcs/enemy/plant/downPlantIdleSpritesheet.png")
-		animationSpeed = 5 -- lower is faster
-		animationFrames = 6
-		width = spritesheet:getWidth() / animationFrames
-		height = spritesheet:getHeight()
-		attackAnimationFrames = 12
-		attackXOffset = 0
-		attackYOffset = -4
-		attackHitFrames = {7}
-		attackCooldownLength = 0
-		attackDistance = 0
-		damage = 0
-		hp = 90
-		knockbackStrength = 0
-		knockbackResistance = 0
-		screenShakeAmount = 0
-		screenShakeLength = 0
-		screenFreezeLength = 0
-		xAcceleration = 0
-		xTerminalVelocity = 0
-		enemy = true
-		money = 20
-		boss = false
-		projectile = false
-		background = false
+		return {
+			name = npc,
+			ai = "shootTurret",
+			spritesheet = love.graphics.newImage("images/npcs/enemy/plant/downPlantIdleSpritesheet.png"),
+			animationSpeed = 6, -- lower is faster
+			attackAnimationSpeed = 6,
+			animationFrames = 6,
+			hitboxX = 0,
+			hitboxWidth = 32,
+			hitboxY = 0,
+			hitboxHeight = 21,
+			attackHitboxX = 0,
+			attackHitboxWidth = 32,
+			attackHitboxY = 0,
+			attackHitboxHeight = 29,
+			attackAnimationFrames = 12,
+			attackYOffset = -4,
+			attackHitFrames = {7}, -- starts from 0
+			attackCooldownLength = 0,
+			attackDistance = 0,
+			wallDistance = 0,
+			hp = 80,
+			damage = 0,
+			knockback = 0,
+			knockbackResistance = 0,
+			screenShakeAmount = 0,
+			screenShakeLength = 0,
+			screenFreezeLength = 0,
+			xAcceleration = 0,
+			xTerminalVelocity = 0,
+			yAcceleration = 0,
+			yTerminalVelocity = 0,
+			towardsPlayer = false,
+			enemy = true,
+			money = 8,
+			boss = false,
+			projectile = false,
+			background = false
+		}
 	elseif npc == "plantProjectile" then
-		background = false
-		name = npc
-		ai = "projectile"
-		spritesheet = love.graphics.newImage("images/npcs/enemy/plant/plantProjectile.png")
-		animationSpeed = 6 -- lower is faster
-		animationFrames = 2
-		width = spritesheet:getWidth() / animationFrames
-		height = spritesheet:getHeight()
-		attackAnimationFrames = 1
-		attackXOffset = 0
-		attackYOffset = 0
-		attackHitFrames = {}
-		attackCooldownLength = 1
-		attackDistance = 1
-		damage = 20
-		hp = 1
-		knockbackStrength = 1
-		knockbackResistance = 1
-		screenShakeAmount = 4
-		screenShakeLength = 3
-		screenFreezeLength = 3
-		xAcceleration = 1
-		xTerminalVelocity = 1
-		enemy = true
-		money = 0
-		boss = false
-		projectile = true
-		background = true
+		return {
+			name = npc,
+			ai = "projectile",
+			spritesheet = love.graphics.newImage("images/npcs/enemy/plant/plantProjectile.png"),
+			animationSpeed = 5, -- lower is faster
+			attackAnimationSpeed = 5,
+			animationFrames = 3,
+			hitboxX = 0,
+			hitboxWidth = 16,
+			hitboxY = 0,
+			hitboxHeight = 16,
+			attackHitboxX = 0,
+			attackHitboxWidth = 0,
+			attackHitboxY = 0,
+			attackHitboxHeight = 0,
+			attackAnimationFrames = 1,
+			attackYOffset = 0,
+			attackHitFrames = {}, -- starts from 0
+			attackCooldownLength = 0,
+			attackDistance = 0,
+			wallDistance = 0,
+			hp = 1,
+			damage = 10,
+			knockback = 1,
+			knockbackResistance = 1,
+			screenShakeAmount = 4,
+			screenShakeLength = 3,
+			screenFreezeLength = 3,
+			xAcceleration = 0,
+			xTerminalVelocity = 0,
+			yAcceleration = 0,
+			yTerminalVelocity = 0,
+			towardsPlayer = false,
+			enemy = true,
+			money = 0,
+			boss = false,
+			projectile = true,
+			background = true
+		}
 	end
 
-	if npc == "treeMonster" then
-		name = npc
-		ai = "treeMonster"
-		spritesheet = love.graphics.newImage("images/npcs/enemy/treeMonster/treeMonsterMoveRightSpritesheet.png")
-		animationSpeed = 5 -- lower is faster
-		animationFrames = 1
-		width = spritesheet:getWidth() / animationFrames
-		height = spritesheet:getHeight()
-		attackAnimationFrames = 1
-		attackXOffset = 0
-		attackYOffset = 0
-		attackHitFrames = {}
-		attackCooldownLength = 1
-		attackDistance = 1
-		damage = 25
-		hp = 250
-		knockbackStrength = 5
-		knockbackResistance = 10
-		screenShakeAmount = 10
-		screenShakeLength = 7
-		screenFreezeLength = 6
-		xAcceleration = 0.035
-		xTerminalVelocity = 0.5
-		enemy = true
-		money = 100
-		boss = true
-		projectile = false
-		background = true
+	if npc == "acornKing" then
+		return {
+			name = npc,
+			ai = "acornKing",
+			spritesheet = love.graphics.newImage("images/npcs/enemy/acornKing/acornKingMoveRightSpritesheet.png"),
+			animationSpeed = 8, -- lower is faster
+			attackAnimationSpeed = 7,
+			animationFrames = 6,
+			hitboxX = 30,
+			hitboxWidth = 38,
+			hitboxY = 10,
+			hitboxHeight = 44,
+			attackHitboxX = 37,
+			attackHitboxWidth = 41,
+			attackHitboxY = 20,
+			attackHitboxHeight = 44,
+			attackAnimationFrames = 15,
+			attackYOffset = -10,
+			attackHitFrames = {5}, -- starts from 0
+			attackCooldownLength = 0,
+			attackDistance = 16,
+			wallDistance = 4,
+			hp = 1000,
+			damage = 20,
+			knockback = 5,
+			knockbackResistance = 5,
+			screenShakeAmount = 14,
+			screenShakeLength = 8,
+			screenFreezeLength = 5,
+			xAcceleration = 0.15,
+			xTerminalVelocity = 0.75,
+			yAcceleration = 0.2,
+			yTerminalVelocity = 6,
+			towardsPlayer = true,
+			enemy = true,
+			money = 50,
+			boss = true,
+			projectile = false,
+			background = true
+		}
+	elseif npc == "acornProjectile" then
+		return {
+			name = npc,
+			ai = "projectile",
+			spritesheet = love.graphics.newImage("images/npcs/enemy/acornKing/acornProjectile1.png"),
+			animationSpeed = 5, -- lower is faster
+			attackAnimationSpeed = 5,
+			animationFrames = 3,
+			hitboxX = 0,
+			hitboxWidth = 16,
+			hitboxY = 0,
+			hitboxHeight = 16,
+			attackHitboxX = 0,
+			attackHitboxWidth = 0,
+			attackHitboxY = 0,
+			attackHitboxHeight = 0,
+			attackAnimationFrames = 1,
+			attackYOffset = 0,
+			attackHitFrames = {}, -- starts from 0
+			attackCooldownLength = 0,
+			attackDistance = 0,
+			wallDistance = 0,
+			hp = 1,
+			damage = 10,
+			knockback = 1,
+			knockbackResistance = 1,
+			screenShakeAmount = 4,
+			screenShakeLength = 3,
+			screenFreezeLength = 3,
+			xAcceleration = 0,
+			xTerminalVelocity = 0,
+			yAcceleration = 0.075,
+			yTerminalVelocity = 0,
+			towardsPlayer = false,
+			enemy = true,
+			money = 0,
+			boss = false,
+			projectile = true,
+			background = true
+		}
 	end
 
 	if npc == "smiley" then
-		name = npc
-		ai = "boss"
-		spritesheet = love.graphics.newImage("images/npcs/enemy/smiley/smileySpritesheet.png")
-		animationSpeed = 5 -- lower is faster
-		animationFrames = 1
-		width = spritesheet:getWidth() / animationFrames
-		height = spritesheet:getHeight()
-		attackAnimationFrames = 1
-		attackXOffset = 0
-		attackYOffset = 0
-		attackHitFrames = {}
-		attackCooldownLength = 1
-		attackDistance = 1
-		damage = 25
-		hp = 250
-		knockbackStrength = 5
-		knockbackResistance = 10
-		screenShakeAmount = 10
-		screenShakeLength = 7
-		screenFreezeLength = 6
-		xAcceleration = 0.035
-		xTerminalVelocity = 0.5
-		enemy = true
-		money = 100
-		boss = true
-		projectile = false
-		background = true
+		return {
+			name = npc,
+			ai = "smiley",
+			spritesheet = love.graphics.newImage("images/npcs/enemy/smiley/smileySpritesheet.png"),
+			animationSpeed = 1, -- lower is faster
+			attackAnimationSpeed = 1,
+			animationFrames = 1,
+			hitboxX = 0,
+			hitboxWidth = 0,
+			hitboxY = 0,
+			hitboxHeight = 0,
+			attackHitboxX = 0,
+			attackHitboxWidth = 0,
+			attackHitboxY = 0,
+			attackHitboxHeight = 0,
+			attackAnimationFrames = 1,
+			attackYOffset = 0,
+			attackHitFrames = {}, -- starts from 0
+			attackCooldownLength = 0,
+			attackDistance = 0,
+			wallDistance = 8,
+			hp = 250,
+			damage = 25,
+			knockback = 5,
+			knockbackResistance = 10,
+			screenShakeAmount = 10,
+			screenShakeLength = 7,
+			screenFreezeLength = 6,
+			xAcceleration = 0.1,
+			xTerminalVelocity = 0.5,
+			yAcceleration = 0,
+			yTerminalVelocity = 0,
+			towardsPlayer = false,
+			enemy = true,
+			money = 50,
+			boss = true,
+			projectile = false,
+			background = true
+		}
 	elseif npc == "smileyProjectile" then
-		name = npc
-		ai = "projectile"
-		spritesheet = love.graphics.newImage("images/npcs/enemy/smiley/smileyProjectile.png")
-		animationSpeed = 1 -- lower is faster
-		animationFrames = 1
-		width = spritesheet:getWidth() / animationFrames
-		height = spritesheet:getHeight()
-		attackAnimationFrames = 1
-		attackXOffset = 0
-		attackYOffset = 0
-		attackHitFrames = {}
-		attackCooldownLength = 1
-		attackDistance = 1
-		damage = 1
-		hp = 1
-		knockbackStrength = 1
-		knockbackResistance = 1
-		screenShakeAmount = 4
-		screenShakeLength = 3
-		screenFreezeLength = 3
-		xAcceleration = 1
-		xTerminalVelocity = 1
-		enemy = true
-		money = 0
-		boss = false
-		projectile = true
-		background = true
+		return {
+			name = npc,
+			ai = "projectile",
+			spritesheet = love.graphics.newImage("images/npcs/enemy/smiley/smileyProjectile.png"),
+			animationSpeed = 1, -- lower is faster
+			attackAnimationSpeed = 1,
+			animationFrames = 1,
+			hitboxX = 0,
+			hitboxWidth = 0,
+			hitboxY = 0,
+			hitboxHeight = 0,
+			attackHitboxX = 0,
+			attackHitboxWidth = 0,
+			attackHitboxY = 0,
+			attackHitboxHeight = 0,
+			attackAnimationFrames = 1,
+			attackYOffset = 0,
+			attackHitFrames = {}, -- starts from 0
+			attackCooldownLength = 0,
+			attackDistance = 0,
+			wallDistance = 0,
+			damage = 1,
+			hp = 1,
+			knockback = 1,
+			knockbackResistance = 1,
+			screenShakeAmount = 4,
+			screenShakeLength = 3,
+			screenFreezeLength = 3,
+			xAcceleration = 1,
+			xTerminalVelocity = 1,
+			yAcceleration = 0.1,
+			yTerminalVelocity = 6,
+			towardsPlayer = false,
+			enemy = true,
+			money = 0,
+			boss = false,
+			projectile = true,
+			background = true
+		}
 	end
-
-	table.insert(stats, name)
-	table.insert(stats, ai)
-	table.insert(stats, spritesheet)
-	table.insert(stats, animationSpeed)
-	table.insert(stats, animationFrames)
-	table.insert(stats, width)
-	table.insert(stats, height)
-	table.insert(stats, attackAnimationFrames)
-	table.insert(stats, attackXOffset)
-	table.insert(stats, attackYOffset)
-	table.insert(stats, attackHitFrames)
-	table.insert(stats, attackCooldownLength)
-	table.insert(stats, attackDistance)
-	table.insert(stats, damage)
-	table.insert(stats, hp)
-	table.insert(stats, knockbackStrength)
-	table.insert(stats, knockbackResistance)
-	table.insert(stats, screenShakeAmount)
-	table.insert(stats, screenShakeLength)
-	table.insert(stats, screenFreezeLength)
-	table.insert(stats, xAcceleration)
-	table.insert(stats, xTerminalVelocity)
-	table.insert(stats, enemy)
-	table.insert(stats, money)
-	table.insert(stats, boss)
-	table.insert(stats, projectile)
-	table.insert(stats, background)
-
-	return stats
 end

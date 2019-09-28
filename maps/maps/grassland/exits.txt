@@ -1,12 +1,15 @@
-bottomleft - 5
-bottomMiddle - 4
-bottomRight - 4
-leftBottom - 4
+bottomLeft - 3
+bottomMiddle - 3
+bottomRight - 3
+
+leftBottom - 3
 leftMiddle - 3
-leftTop - 4
-rightBottom - 5
+leftTop - 2
+
+rightBottom - 3
 rightMiddle - 3
-rightTop - 4
-topLeft - 4
-topMiddle - 4
-topRight - 4
+rightTop - 2
+
+topLeft - 3
+topMiddle - 2
+topRight - 3

@@ -21,6 +21,7 @@ function love.load()
 	muted = true
 	fadeIn = true
 	chestOpening = false
+	secondChestType = ""
 	transitionCounter = 0
 	win = false
 	local randomNumber = math.random(2)
@@ -28,6 +29,15 @@ function love.load()
 		shopItemType = "weapon"
 	else
 		shopItemType = "accessory"
+	end
+
+	local randomNumber = math.random(2)
+	if randomNumber == 1 then
+		firstChestType = "weapon"
+		secondChestType = "accessory"
+	else
+		firstChestType = "accessory"
+		secondChestType = "weapon"
 	end
 
 	local mainDirectory = "maps/maps"
@@ -50,18 +60,34 @@ function love.load()
 				local requireMap = require(string.gsub(mapDirectory, ".lua", "", 1))
 				allMaps[string.gsub(mapDirectory, ".lua", "", 1)] = loadMap(requireMap, nil, mapDirectory)
 				if string.match(string.gsub(mapDirectory, ".lua", "", 1), "maps/maps/grassland") then
-					if string.find(mapDirectory, "containsCave") then
+					if string.find(mapDirectory, "start") then
+						
+					elseif string.find(mapDirectory, "containsCave") then
 						table.insert(allGrasslandCaveMaps, (string.gsub(mapDirectory, ".lua", "", 1)))
 					elseif string.find(mapDirectory, "containsShop") then
 						table.insert(allGrasslandShopMaps, (string.gsub(mapDirectory, ".lua", "", 1)))
+					elseif string.find(mapDirectory, "cave") then
+
+					elseif string.find(mapDirectory, "shop") then
+
+					elseif string.find(mapDirectory, "boss") then
+
 					else
 						table.insert(allGrasslandOverworldMaps, (string.gsub(mapDirectory, ".lua", "", 1)))
 					end
 				elseif string.match(string.gsub(mapDirectory, ".lua", "", 1), "maps/maps/desert") then
-					if string.find(mapDirectory, "containsCave") then
+					if string.find(mapDirectory, "start") then
+
+					elseif string.find(mapDirectory, "containsCave") then
 						table.insert(allDesertCaveMaps, (string.gsub(mapDirectory, ".lua", "", 1)))
 					elseif string.find(mapDirectory, "containsShop") then
 						table.insert(allDesertShopMaps, (string.gsub(mapDirectory, ".lua", "", 1)))
+					elseif string.find(mapDirectory, "cave") then
+
+					elseif string.find(mapDirectory, "shop") then
+
+					elseif string.find(mapDirectory, "boss") then
+
 					else
 						table.insert(allDesertOverworldMaps, (string.gsub(mapDirectory, ".lua", "", 1)))
 					end
@@ -72,7 +98,8 @@ function love.load()
 	randomMaps = true
 
 	levelName = "grassland"
-	currentMap = allMaps["maps/maps/grassland/1"]
+	local randomNumber = math.random(3)
+	currentMap = allMaps["maps/maps/grassland/start"..tostring(randomNumber)]
 	
 	actors = currentMap.actors
 	table.insert(actors, newUi("menu"))
@@ -143,13 +170,14 @@ function love.load()
 	shakeAmount = 0
 	shakeX = 0
 	shakeY = 0
-	shakeType = ""
+	white = 0
 	purple = 0
-	newPurple = 0
+	targetPurple = 0
 	stickX = 0
 	stickY = 0
 	oldStickX = 0
 	oldStickY = 0
+	screenFreeze = 0
 
 	getImages()
 	getAudio()
@@ -183,7 +211,6 @@ function love.update(dt)
 				actor:act(index)
 			end
 		end
-		frame = frame + 1
 		keyPress = {}
 		buttonPress = {}
 	end
@@ -199,8 +226,17 @@ function gameLogic()
 	getActors(actors)
 	hitboxes = {}
 	debugStrings = {"debug"}
-	for index, actor in ipairs(actors) do
-		actor:act(index)
+	if screenFreeze <= 0 then
+		player.hit = false
+		for index, actor in ipairs(npcs) do
+			actor.hit = false
+			actor.hitPlayer = false
+		end
+		for index, actor in ipairs(actors) do
+			actor:act(index)
+		end
+	else
+		screenFreeze = screenFreeze - 1
 	end
 	debugPrint("Frame: " .. tostring(frame))
 	debugPrint("Scale: " .. tostring(scale))

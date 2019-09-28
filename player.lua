@@ -25,12 +25,12 @@ function newPlayer(playerX, playerY)
 
 	player.baseXAcceleration = 0.5
 	player.baseXDeceleration = 0.3
-	player.baseXTerminalVelocity = 2.4
+	player.baseXTerminalVelocity = 2
 	player.baseJumpAcceleration = 3.9
 	player.baseFallAcceleration = 0.25
 	player.baseYTerminalVelocity = 8
 
-	player.jumps = 5
+	player.jumps = 1
 	player.jumpsLeft = player.jumps
 	player.jumpHoldDuration = 0.175 * 60
 	player.jumpHoldCounter = 0
@@ -53,20 +53,31 @@ function newPlayer(playerX, playerY)
 	player.tileRight = ""
 
 	player.frozen = false
-	player.frozenCounter = 0
 	player.hit = false
-	player.hitLength = 0
-	player.hitCounter = 0
 	player.invincible = false
 	player.invincibilityLength = 60
 	player.invincibilityCounter = 0
 	player.hp = 100
 	player.maxHp = player.hp
+	player.baseMaxHp = player.hp
+	player.previousHp = player.hp
 	player.knockbackRestistance = 1
 	player.weaponOut = false
 	player.equippedWeapon1 = "woodenSword"
 	player.equippedWeapon2 = "woodenBow"
-	player.accessories = {}--, "coolHat"}
+	-- player.accessories = {"poisonDamage", "poisonVial"}
+	player.accessories = {"gumBoots", -- 1
+						   "magicFeather", -- 2
+						   "magicFungus", -- 3
+						   "lifeFruit", -- 4
+						   "thorns", -- 5
+						   -- "", -- 6
+						   "poisonLength", -- 7
+						   "poisonDamage", -- 8
+						   "poisonVial", -- 9
+						   "virus"} -- 10
+						   -- "", -- 11
+						   -- ""} -- 12
 	player.money = 0
 
 	player.runCounter = 0
@@ -114,25 +125,23 @@ function newPlayer(playerX, playerY)
 	end
 
 	function player:act(index)
-		player.previousX = player.x
-		player.previousY = player.y
 		player:mapTransition()
 		player:checkGrounded()
 		player:checkBoss()
 		if player.frozen == false and chestOpening == false then
+			player.previousX = player.x
+			player.previousY = player.y
 			player:statChanges()
 			player:combatLogic()
 			player:ladder()
+			player:openUi()
 			if player:isDead() == false then
-				player:openUi()
-				if player.jumpAble then
+				if player.jumpAble and player.jumpsLeft > 0 then
 					player:jump()
 				end
 				if player.invincible == false then
 					player:hitCollision()
 				end
-			else
-				player.hp = 0
 			end
 			if player.onLadder == false then
 				player:physics()
@@ -151,21 +160,14 @@ function newPlayer(playerX, playerY)
 				for _, actor in ipairs(actors) do
 					if actor.type == "door" then
 						player.yVelocity = 0
-						if mapNumber == 2 or mapNumber == 4 then
+						if mapNumber == 2 or mapNumber == 4 then -- cave
 							player.y = actor.y + 17
-						elseif mapNumber == 3 then
+						elseif mapNumber == 3 then -- shop
 							player.y = actor.y + 2
 						end
 					end
 				end
 				player.mapToEnter = nil
-				player.frozen = false
-				player.frozenCounter = 0
-			end
-
-			if player.frozenCounter > 0 then
-				player.frozenCounter = player.frozenCounter - 1
-			elseif player.frozenCounter == 0 then
 				player.frozen = false
 			end
 		end
@@ -176,27 +178,41 @@ function newPlayer(playerX, playerY)
 		debugPrint("player.yVelocity: " .. player.yVelocity)
 		debugPrint("player.jumps: " .. player.jumps)
 		debugPrint("player.jumpsLeft: " .. player.jumpsLeft)
+		debugPrint("player.jumpAble: " .. tostring(player.jumpAble))
 		
 		debugPrint("spawnRate: "..spawnRate)
 		debugPrint("mapNumber: "..mapNumber)
+
+		-- debugPrint("currentMap.bottomMiddle: "..tostring(currentMap.bottomMiddle))
+		-- debugPrint("blockBottomMiddle: "..tostring(blockBottomMiddle))
 	end
 
 	function player:statChanges()
+		player.damageBuff = 1
+		player.xTerminalVelocityBuff = 1
 		player.xAccelerationBuff = 1
 		player.xDecelerationBuff = 1
-		player.xTerminalVelocityBuff = 1
+		player.yTerminalVelocityBuff = 1
 		player.jumpAccelerationBuff = 1
 		player.fallAccelerationBuff = 1
-		player.yTerminalVelocityBuff = 1
+		player.maxHpBuff = 1
+		player.poisonDurationBuff = 1
+		player.burnDurationBuff = 1
+		player.jumps = 1
+
 		for i, accessory in ipairs(player.accessories) do
-			local accessoryName, iconImage, accessoryType, text, xAcceleration, xDeceleration, xTerminalVelocity, jumpAcceleration, fallAcceleration,
-				yTerminalVelocity = unpack(getAccessoryStats(accessory))
-			player.xTerminalVelocityBuff = player.xTerminalVelocityBuff*xTerminalVelocity
-			player.xAccelerationBuff = player.xAccelerationBuff*xAcceleration
-			player.xDecelerationBuff = player.xDecelerationBuff*xDeceleration
-			player.yTerminalVelocityBuff = player.yTerminalVelocityBuff*yTerminalVelocity
-			player.jumpAccelerationBuff = player.jumpAccelerationBuff*jumpAcceleration
-			player.fallAccelerationBuff = player.fallAccelerationBuff*fallAcceleration
+			local stats = getAccessoryStats(accessory)
+			player.damageBuff = player.damageBuff*stats.damage
+			player.xTerminalVelocityBuff = player.xTerminalVelocityBuff*stats.xTerminalVelocity
+			player.xAccelerationBuff = player.xAccelerationBuff*stats.xAcceleration
+			player.xDecelerationBuff = player.xDecelerationBuff*stats.xDeceleration
+			player.yTerminalVelocityBuff = player.yTerminalVelocityBuff*stats.yTerminalVelocity
+			player.jumpAccelerationBuff = player.jumpAccelerationBuff*stats.jumpAcceleration
+			player.fallAccelerationBuff = player.fallAccelerationBuff*stats.fallAcceleration
+			player.maxHpBuff = player.maxHpBuff*stats.maxHp
+			player.poisonDurationBuff = player.poisonDurationBuff*stats.poisonDuration
+			player.burnDurationBuff = player.burnDurationBuff*stats.burnDuration
+			player.jumps = player.jumps + stats.jumps
 		end
 
 		if player.weaponOut then
@@ -210,6 +226,7 @@ function newPlayer(playerX, playerY)
 		player.jumpAcceleration = player.baseJumpAcceleration*player.jumpAccelerationBuff
 		player.fallAcceleration = player.baseFallAcceleration*player.fallAccelerationBuff
 		player.yTerminalVelocity = player.baseYTerminalVelocity*player.yTerminalVelocityBuff
+		player.maxHp = player.baseMaxHp*player.maxHpBuff
 	end
 
 	function player:openUi()
@@ -245,44 +262,21 @@ function newPlayer(playerX, playerY)
 				player.attackWeapon = player.equippedWeapon2
 			end
 
-			local weaponName, weaponType, iconSprite, startupSprite, slash1Sprite, slash2Sprite, endSprite, width, height, damage, knockback, startupLag,
-			slashDuration, endLag, screenShakeAmount, screenShakeLength, screenFreezeLength, xOffset, yOffset, directionLocked, movementReduction, pierce,
-			projectile = unpack(getWeaponStats(player.attackWeapon))
-			local duration = startupLag + slashDuration + endLag
+			local stats = getWeaponStats(player.attackWeapon)
+			stats.duration = stats.startupLag + stats.slashDuration + stats.endLag
 
-			if downInputs.left then
+			local shootDirection = player.direction
+			if downInputs.up then
+				shootDirection = "up"
+			elseif downInputs.down then
+				shootDirection = "down"
+			elseif downInputs.left then
 				shootDirection = "left"
 			elseif downInputs.right then
 				shootDirection = "right"
-			else
-				shootDirection = player.direction
 			end
 
-			if downInputs.down and downInputs.left then
-				shootDirection = "down"
-			elseif downInputs.down and downInputs.right then
-				shootDirection = "down"
-			elseif downInputs.down then
-				shootDirection = "down"
-			end
-
-			if downInputs.up and downInputs.left then
-				shootDirection = "up"
-			elseif downInputs.up and downInputs.right then
-				shootDirection = "up"
-			elseif downInputs.up then
-				shootDirection = "up"
-			end
-
-			if player.direction == "left" then
-				table.insert(actors, newWeapon(actors[getTableLength(actors)+1], weaponName, weaponType, player.x + player.width/2 - width/2 - xOffset,
-					player.y + player.height/2 - height/2 - yOffset, iconSprite, startupSprite, slash1Sprite, slash2Sprite, endSprite, width, height, damage,
-					knockback, startupLag, slashDuration, endLag, duration, screenShakeAmount, screenShakeLength, screenFreezeLength, xOffset, yOffset, directionLocked, movementReduction, pierce, projectile, shootDirection))
-			else
-				table.insert(actors, newWeapon(actors[getTableLength(actors)+1], weaponName, weaponType, player.x + player.width/2 - width/2 + xOffset,
-					player.y + player.height/2 - height/2 + yOffset, iconSprite, startupSprite, slash1Sprite, slash2Sprite, endSprite, width, height, damage,
-					knockback, startupLag, slashDuration, endLag, duration, screenShakeAmount, screenShakeLength, screenFreezeLength, xOffset, yOffset, directionLocked, movementReduction, pierce, projectile, shootDirection))
-			end
+			table.insert(actors, newWeapon(actors[getTableLength(actors)+1], 0, 0, shootDirection, stats))
 			player.currentWeapon = actors[getTableLength(actors)]
 			player.lastUsedWeapon = player.currentWeapon
 			player.weaponOut = true
@@ -477,51 +471,51 @@ function newPlayer(playerX, playerY)
 		newRightBottom = newMap.rightBottom
 
 		local suitableMap = false
-		if newTopLeft and bottomLeft and player.y >= 270 and player.x < 10*16 then
+		if newTopLeft and bottomLeft and player.y >= 286 and player.x >= 6*16 - 16 and player.x + player.width <= 9*16 + 16 then
 			blockTopLeft = true
 			blockBottomLeft = true
 			suitableMap = true
-		elseif newTopMiddle and bottomMiddle and player.y >= 270 and player.x > 10*16 and player.x < 20*16 then
+		elseif newTopMiddle and bottomMiddle and player.y >= 286 and player.x >= 14*16 - 16 and player.x + player.width <= 18*16 + 16 then -- do this
 			blockTopMiddle = true
 			blockBottomMiddle = true
 			suitableMap = true
-		elseif newTopRight and bottomRight and player.y >= 270 and player.x > 20*16 then
+		elseif newTopRight and bottomRight and player.y >= 286 and player.x >= 23*16 - 16 and player.x + player.width <= 26*16 + 16 then
 			blockTopRight = true
 			blockBottomRight = true
 			suitableMap = true
-		elseif newBottomLeft and topLeft and player.y + player.height <= 0 and player.x < 10*16 then
+		elseif newBottomLeft and topLeft and player.y + player.height <= 16 and player.x >= 6*16 - 16 and player.x + player.width <= 9*16 + 16 then
 			blockBottomLeft = true
 			blockTopLeft = true
 			suitableMap = true
-		elseif newBottomMiddle and topMiddle and player.y + player.height <= 0 and player.x > 10.16 and player.x < 20*16 then
+		elseif newBottomMiddle and topMiddle and player.y + player.height <= 16 and player.x >= 14*16 - 16 and player.x + player.width <= 18*16 + 16 then
 			blockBottomMiddle = true
 			blockTopMiddle = true
 			suitableMap = true
-		elseif newBottomRight and topRight and player.y + player.height <= 0 and player.x > 20*16 then
+		elseif newBottomRight and topRight and player.y + player.height <= 16 and player.x >= 23*16 - 16 and player.x + player.width <= 26*16 + 16 then
 			blockBottomRight = true
 			blockTopRight = true
 			suitableMap = true
-		elseif newLeftTop and rightTop and player.x >= 480 and player.y < 7*16 then
+		elseif newLeftTop and rightTop and player.x >= 496 and player.y >= 3*16 - 16 and player.y + player.height <= 6*16 + 16 then
 			blockLeftTop = true
 			blockRightTop = true
 			suitableMap = true
-		elseif newLeftMiddle and rightMiddle and player.x >= 480 and player.y > 7*16 and player.y < 12*16 then
+		elseif newLeftMiddle and rightMiddle and player.x >= 496 and player.y >= 8*16 - 16 and player.y + player.height <= 11*16 + 16 then
 			blockLeftMiddle = true
 			blockRightMiddle = true
 			suitableMap = true
-		elseif newLeftBottom and rightBottom and player.x >= 480 and player.y > 12*16 then
+		elseif newLeftBottom and rightBottom and player.x >= 496 and player.y >= 13*16 - 16 and player.y + player.height <= 16*16 + 16 then
 			blockLeftBottom = true
 			blockRightBottom = true
 			suitableMap = true
-		elseif newRightTop and leftTop and player.x + player.width <= 0 and player.y < 7*16 then
+		elseif newRightTop and leftTop and player.x + player.width <= 16 and player.y >= 3*16 - 16 and player.y + player.height <= 6*16 + 16 then
 			blockRightTop = true
 			blockLeftTop = true
 			suitableMap = true
-		elseif newRightMiddle and leftMiddle and player.x + player.width <= 0 and player.y > 7*16 and player.y < 12*16 then
+		elseif newRightMiddle and leftMiddle and player.x + player.width <= 16 and player.y >= 8*16 - 16 and player.y + player.height <= 11*16 + 16 then
 			blockRightMiddle = true
 			blockLeftMiddle = true
 			suitableMap = true
-		elseif newRightBottom and leftBottom and player.x + player.width <= 0 and player.y > 12*16 then
+		elseif newRightBottom and leftBottom and player.x + player.width <= 16 and player.y >= 13*16 - 16 and player.y + player.height <= 16*16 + 16 then
 			blockRightBottom = true
 			blockLeftBottom = true
 			suitableMap = true
@@ -559,6 +553,8 @@ function newPlayer(playerX, playerY)
 		local suitableMap = false
 		suitableMap = isSuitableMap(randomMap)
 
+		local i = 0
+		-- print(i .. "  mapNumber: " .. tostring(mapNumber) .. "  randomMap: " .. randomMap)
 		while suitableMap == false do
 			local randomNumber = math.random(1, getTableLength(mapsToCheck))
 			randomMap = mapsToCheck[randomNumber]
@@ -566,7 +562,10 @@ function newPlayer(playerX, playerY)
 			if isSuitableMap(randomMap) then
 				suitableMap = true
 			end
+			-- print(i .. "  mapNumber: " .. tostring(mapNumber) .. "  randomMap: " .. randomMap)
+			i = i + 1
 		end
+
 		player:newMap(randomMap, false)
 
 		local image = love.graphics.newImage("images/tiles/corruption.png")
@@ -673,51 +672,46 @@ function newPlayer(playerX, playerY)
 	end
 
 	function player:mapTransition()
-		if player.x + player.width <= 0 then
-			transitioningScreen = true
-			player.frozen = true
-			player.frozenCounter = -1
+		local mapTransition = false
+
+		if player.x + player.width <= 16 then
+			mapTransition = true
 			if fadeIn == false then
 				player:findRandomMap()
-				player.frozen = false
-				player.frozenCounter = 0
-				player.x = 480 - player.width - 16 + 16
+				player.x = 496 - player.width - 16
 				player.y = player.previousY
 			end
-		elseif player.x >= 480 then
-			transitioningScreen = true
-			player.frozen = true
-			player.frozenCounter = -1
+		elseif player.x >= 496 then
+			mapTransition = true
 			if fadeIn == false then
 				player:findRandomMap()
-				player.frozen = false
-				player.frozenCounter = 0
-				player.x = 0 + 16 + 16
-				player.y = player.previousY 
+				player.x = 16 + 16
+				player.y = player.previousY
 			end
 		end
 
-		if player.y + player.height <= 0 then
-			transitioningScreen = true
-			player.frozen = true
-			player.frozenCounter = -1
+		if player.y + player.height <= 16 then
+			mapTransition = true
 			if fadeIn == false then
 				player:findRandomMap()
-				player.frozen = false
-				player.frozenCounter = 0
 				player.x = player.previousX
-				player.y = 270 - player.height - 16 + 16
+				player.y = 286 - player.height - 16
 			end
-		elseif player.y >= 270 then
-			transitioningScreen = true
-			player.frozen = true
-			player.frozenCounter = -1
+		elseif player.y >= 286 then
+			mapTransition = true
 			if fadeIn == false then
 				player:findRandomMap()
-				player.frozen = false
-				player.frozenCounter = 0
 				player.x = player.previousX
-				player.y = 0 + 16 + 16
+				player.y = 16 + 16
+			end
+		end
+
+		if mapTransition then
+			transitioningScreen = true
+			if fadeIn then
+				player.frozen = true
+			else
+				player.frozen = false
 			end
 		end
 	end
@@ -739,14 +733,14 @@ function newPlayer(playerX, playerY)
 			if player.jumpsLeft <= 0 then
 				player.jumpAble = false
 			end
-			table.insert(actors, newDust(player.x, player.y, "jump", player.direction, player.tileBelow))
+			table.insert(actors, newDust(player.x + player.width/2, player.y + player.height, "jump", player.direction, player.tileBelow))
 		end
 	end
 
 	function player:checkGrounded()
 		player.transitioning = false
 		player.oldGrounded = player.grounded
-		if checkCollision(player:getX(), player:getY() + player.height, player.width, 1, true) then
+		if checkCollision(player:getX(), player:getY() + player.height, player.width, 1, true, true) then
 			if player.grounded == false then
 				if player.yVelocity > 2 then
 					player.landQuadSection = 0
@@ -775,7 +769,7 @@ function newPlayer(playerX, playerY)
 					player.xVelocity = 0
 				end
 			end
-		else
+		elseif minXMovement > 0 then
 		  --collision to the right
 			for _, actor in ipairs(getCollidingActors(player:getX() + player.width, player:getY(), 32, player.height, true, false, true, true, false, false)) do
 				local newXMovement = (actor.x + actor.hitboxX) - (player.x + player.width)
@@ -817,10 +811,10 @@ function newPlayer(playerX, playerY)
 				if actor.actor == "item" then
 					actor.near = true
 					if actor.type == "shop" then
-						if pressInputs.interact and player.money > (10 + mapNumber*3) then
+						if pressInputs.interact and player.money >= actor.price then
 							if actor.name == "weaponShopItem" then
-								local weaponName, _, iconSprite = unpack(getWeaponStats(actor.randomName))
-								table.insert(actors, newUi("newWeapon", weaponName, iconSprite))
+								local weapon = getWeaponStats(actor.randomName)
+								table.insert(actors, newUi("newWeapon", weapon.name, weapon.iconSprite))
 							elseif actor.name == "accessoryShopItem" then
 								table.insert(player.accessories, actor.randomName)
 							end
@@ -843,7 +837,6 @@ function newPlayer(playerX, playerY)
 						if pressInputs.interact and transitioningScreen == false then
 							transitioningScreen = true
 							player.frozen = true
-							player.frozenCounter = -1
 							player.mapToEnter = actor.data
 							
 							indoor = not indoor
@@ -938,7 +931,7 @@ function newPlayer(playerX, playerY)
 					end
 				end
 			end
-		else
+		elseif minYMovement < 0 then
 			--collision above player
 			for _, actor in ipairs(getCollidingActors(player:getX(), player:getY() - 32, player.width, 32, true, false, false, true, false, false)) do
 				local newYMovement = (actor.y + actor.hitboxY) + actor.hitboxHeight - player.y
@@ -1007,7 +1000,7 @@ function newPlayer(playerX, playerY)
 	function player:hitCollision()
 		love.graphics.setCanvas()
 		for _, actor in ipairs(npcs) do
-			if (isInTable(actor.attackQuadSection/actor.attackWidth, actor.attackHitFrames) and ((actor.attacking and actor.ai ~= "diving") or actor.diving)) or actor.projectile then
+			if (isInTable(actor.attackQuadSection/actor.attackWidth, actor.attackHitFrames) and ((actor.attacking and actor.ai ~= "diving") or actor.diving)) or actor.projectile or actor.name == "fuzzy" then
 				imageData = actor.canvas:newImageData()
 				for x = 1, imageData:getWidth() do
 					for y = 1, imageData:getHeight() do
@@ -1015,64 +1008,68 @@ function newPlayer(playerX, playerY)
 						red, green, blue, alpha = imageData:getPixel(x-1, y-1)
 						if red == 248/255 and green == 248/255 and blue == 248/255 then
 							for _, _ in ipairs(getCollidingActors(actor:getX() + x-1, actor:getY() + y-1, 1, 1, false, false, false, false, false, false, false, true)) do
-								if player.invincible == false and (actor.damage > 0 or actor.knockbackStrength > 0) then
+								if player.invincible == false and player:isDead() == false and (actor.damage > 0 or actor.knockbackStrength > 0) then
+									player.previousHp = player.hp
 									player.hp = player.hp - actor.damage
 									player.knockbackAngle = math.atan2((player.y + player.height/2) - (actor.y + actor.attackHeight/2), (player.x + player.width/2) - (actor.x + actor.attackWidth/2))
 									player.knockbackDx = math.cos(player.knockbackAngle)
 									player.knockbackDy = math.sin(player.knockbackAngle)
+									player.hit = true
+									actor.hitPlayer = true
+									if shakeLength < actor.screenShakeLength then
+										shakeLength = actor.screenShakeLength
+									end
+									maxShakeLength = shakeLength
+									if shakeAmount < actor.screenShakeAmount then
+										shakeAmount = actor.screenShakeAmount
+									end
+									maxShakeAmount = shakeAmount
+									if screenFreeze < actor.screenFreezeLength then
+										screenFreeze = actor.screenFreezeLength
+									end
+
+									if actor.projectile == false then
+										if isInTable("thorns", player.accessories) then
+											actor.hit = true
+											actor.previousHp = actor.hp
+											actor.lastDamagedTimer = 0
+											actor.lastHitTimer = 0
+											actor.hp = actor.hp - 30
+											if actor.hp < 0 then
+												actor.hp = 0
+											end
+										end
+									end
+
+									if actor.name == "fuzzy" then
+										actor.attacking = true
+										actor.attackDirection = actor.direction
+									end
 									if player:isDead() == false then
 										if actor.damage > 0 and actor.ai ~= "cloud" then
 											player.invincible = true
+											player.invincibilityCounter = player.invincibilityLength
 										end
-										player.invincibilityCounter = player.invincibilityLength
 										if actor.knockbackStrength > 0 then
 											player.xVelocity = player.knockbackDx*actor.knockbackStrength
 											if player.yVelocity < 0 then
 												player.yVelocity = player.knockbackDy*actor.knockbackStrength
 											else
-												player.yVelocity = player.knockbackDy*actor.knockbackStrength/2
-											end
-											if shakeLength < actor.screenShakeLength then
-												shakeLength = actor.screenShakeLength
+												player.yVelocity = player.knockbackDy*actor.knockbackStrength
 											end
 										end
-										maxShakeLength = shakeLength
-										shakeAmount = shakeAmount + actor.screenShakeAmount
-										maxShakeAmount = shakeAmount
-										shakeType = "short"
-										player.frozen = true
-										player.frozenCounter = player.frozenCounter + actor.screenFreezeLength
-										player.hit = true
-										player.hitLength = player.hitLength + actor.screenFreezeLength
-										actor.frozen = true
-										actor.frozenCounter = actor.frozenCounter + actor.screenFreezeLength
-										actor.hit = true
-										actor.hitLength = actor.hitLength + actor.screenFreezeLength
+										purple = targetPurple + 1
 									else
+										player.hp = 0
 										if actor.knockbackStrength > 0 then
-											player.xVelocity = player.knockbackDx*actor.knockbackStrength*1.5
+											player.xVelocity = player.knockbackDx*actor.knockbackStrength*2
 											if player.yVelocity < 0 then
-												player.yVelocity = player.knockbackDy*actor.knockbackStrength*1.5
+												player.yVelocity = player.knockbackDy*actor.knockbackStrength*2
 											else
-												player.yVelocity = player.knockbackDy*actor.knockbackStrength*1.5/2
+												player.yVelocity = player.knockbackDy*actor.knockbackStrength*2
 											end
 										end
-										player.xTerminalVelocity = player.xTerminalVelocity + actor.knockbackStrength / 10
-										if shakeLength < actor.screenShakeLength*1.5 then
-											shakeLength = actor.screenShakeLength*1.5
-										end
-										maxShakeLength = shakeLength
-										shakeAmount = shakeAmount + actor.screenShakeAmount
-										maxShakeAmount = shakeAmount
-										shakeType = "short"
-										player.frozen = true
-										player.frozenCounter = player.frozenCounter + actor.screenFreezeLength*1.5
-										player.hit = true
-										player.hitLength = player.hitLength + actor.screenFreezeLength*1.5
-										actor.frozen = true
-										actor.frozenCounter = actor.frozenCounter + actor.screenFreezeLength*1.5
-										actor.hitPlayer = true
-										actor.hitPlayerLength = actor.hitPlayerLength + actor.screenFreezeLength*1.5
+										purple = targetPurple + 2
 									end
 								end
 							end
@@ -1187,11 +1184,11 @@ function newPlayer(playerX, playerY)
 
 	function player:dust()
 		if player.xVelocity ~= 0 and player.grounded and player.runDust then
-			table.insert(actors, newDust(player.x + player.xVelocity, player.y + player.yVelocity, "run", player.direction, player.tileBelow))
+			table.insert(actors, newDust(player.x + player.width/2 + player.xVelocity, player.y + player.height + player.yVelocity, "run", player.direction, player.tileBelow))
 		end
 		if player.oldGrounded ~= player.grounded then
-			if player.jumpAble == false or player.oldGrounded == false then
-				table.insert(actors, newDust(player.x, player.y, "land", player.direction, player.tileBelow))
+			if player.oldGrounded == false then
+				table.insert(actors, newDust(player.x + player.width/2, player.y + player.height, "land", player.direction, player.tileBelow))
 			end
 			player.transitioning = true
 		end
@@ -1233,7 +1230,7 @@ function newPlayer(playerX, playerY)
 				else
 					if player.currentWeapon.shootDirection == "up" then
 						player.spritesheet = player.bowUpRightSpritesheet
-						elseif player.currentWeapon.shootDirection == "down" then
+					elseif player.currentWeapon.shootDirection == "down" then
 						player.spritesheet = player.bowDownRightSpritesheet
 					else
 						player.spritesheet = player.bowRightSpritesheet
@@ -1302,25 +1299,18 @@ function newPlayer(playerX, playerY)
 			end
 		end
 
-
 		love.graphics.setColor(1, 1, 1, 1)
 		love.graphics.draw(player.spritesheet, player.quad)
 
-		if player.hit then
-			player.hitLength = player.hitLength - 1
-		end
-		if player.hitLength <= 0 then
-			player.hit = false
-		end
 		if player.hit then
 			player.image = convertColor(player.canvas, 0, 0, 0, 1)
 			love.graphics.clear()
 			love.graphics.draw(player.image)
 		elseif player.invincible then
 			if player.invincibilityCounter % 2 == 0 then
-				player.image = convertOpacity(player.canvas, 0.9)
+				player.image = convertOpacity(player.canvas, 0.8)
 			else
-				player.image = convertColor(player.canvas, 1, 1, 1, 0.3)
+				player.image = convertColor(player.canvas, 1, 1, 1, 0.4)
 			end
 			love.graphics.clear()
 			love.graphics.draw(player.image)
