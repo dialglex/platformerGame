@@ -265,18 +265,7 @@ function newPlayer(playerX, playerY)
 			local stats = getWeaponStats(player.attackWeapon)
 			stats.duration = stats.startupLag + stats.slashDuration + stats.endLag
 
-			local shootDirection = player.direction
-			if downInputs.up then
-				shootDirection = "up"
-			elseif downInputs.down then
-				shootDirection = "down"
-			elseif downInputs.left then
-				shootDirection = "left"
-			elseif downInputs.right then
-				shootDirection = "right"
-			end
-
-			table.insert(actors, newWeapon(actors[getTableLength(actors)+1], 0, 0, shootDirection, stats))
+			table.insert(actors, newWeapon(actors[getTableLength(actors)+1], 0, 0, nil, stats))
 			player.currentWeapon = actors[getTableLength(actors)]
 			player.lastUsedWeapon = player.currentWeapon
 			player.weaponOut = true
@@ -525,6 +514,11 @@ function newPlayer(playerX, playerY)
 	end
 
 	function player:findRandomMap()
+		for i, item in ipairs(items) do
+			if item.type == "coin" then
+				player.money = player.money + 1
+			end
+		end
 		table.insert(mapsUsed, (string.gsub(currentMapDirectory, ".lua", "", 1)))
 		mapNumber = mapNumber + 1
 		local mapsToCheck = {}
@@ -821,6 +815,9 @@ function newPlayer(playerX, playerY)
 							player.money = player.money - actor.price
 							actor.remove = true
 						end
+					elseif actor.type == "coin" then
+						player.money = player.money + 1
+						actor.remove = true
 					end
 				elseif actor.actor == "object" then
 					actor.near = true

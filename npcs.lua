@@ -132,8 +132,13 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 	npc.attacking = false
 	npc.attackCooldown = 0
 	npc.attackCooldownLength = stats.attackCooldownLength
-	npc.leftAttackXOffset = (npc.width - npc.hitboxWidth - npc.hitboxX) - (npc.attackWidth - npc.attackHitboxWidth - npc.attackHitboxX)
-	npc.rightAttackXOffset = (npc.hitboxX + npc.hitboxWidth) - (npc.attackHitboxWidth + npc.attackHitboxX)
+	if npc.name == "fuzzy" then
+		npc.leftAttackXOffset = 0
+		npc.rightAttackXOffset = 0
+	else
+		npc.leftAttackXOffset = (npc.width - npc.hitboxWidth - npc.hitboxX) - (npc.attackWidth - npc.attackHitboxWidth - npc.attackHitboxX)
+		npc.rightAttackXOffset = (npc.hitboxX + npc.hitboxWidth) - (npc.attackHitboxWidth + npc.attackHitboxX)
+	end
 	npc.attackYOffset = stats.attackYOffset
 	npc.attackHitFrames = stats.attackHitFrames
 	npc.attackDistance = stats.attackDistance
@@ -307,54 +312,61 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 		end
 
 		if (npc.hp <= 0 and npc.hit == false) or npc.x < 0 - npc.width or npc.x > 480 + npc.width then
-			player.money = player.money + npc.money
 			npc.remove = true
 		end
 
 		if npc.remove then
-			if npc.boss then
-				for i, npc in ipairs(npcs) do
-					if npc.enemy then
-						npc.remove = true
+			if npc.projectile == false then
+				if npc.boss then
+					for i, npc in ipairs(npcs) do
+						if npc.enemy then
+							npc.remove = true
+						end
 					end
+					white = 1.2
+					player.hp = player.maxHp
 				end
-				white = 1.2
-				player.hp = player.maxHp
-			else
-				if npc.projectile == false then
-					if isInTable("lifeFruit", player.accessories) then
-						player.hp = player.hp + 5
-					end
 
-					local x
-					local y
-					if npc.attacking then
-						if npc.direction == "left" then
-							x = npc.x + (npc.attackWidth - npc.attackHitboxWidth - npc.attackHitboxX) + npc.attackHitboxWidth/2
-						else
-							x = npc.x + npc.attackHitboxX + npc.attackHitboxWidth/2
-						end
-						y = npc.y + npc.attackHitboxY + npc.attackHitboxHeight/2
+				for i = 1, npc.money do
+					local stats = getItemStats("coin")
+					table.insert(actors, newItem("coin", npc.x + npc.width/2, npc.y + npc.height/2, stats))
+				end
+
+				if isInTable("lifeFruit", player.accessories) then
+					player.hp = player.hp + 5
+				end
+
+				local x
+				local y
+				if npc.attacking then
+					if npc.direction == "left" then
+						x = npc.x + (npc.attackWidth - npc.attackHitboxWidth - npc.attackHitboxX) + npc.attackHitboxWidth/2
 					else
-						if npc.direction == "left" then
-							x = npc.x + (npc.width - npc.hitboxWidth - npc.hitboxX) + npc.hitboxWidth/2
-						else
-							x = npc.x + npc.hitboxX + npc.hitboxWidth/2
-						end
-						y = npc.y + npc.hitboxY + npc.hitboxHeight/2
+						x = npc.x + npc.attackHitboxX + npc.attackHitboxWidth/2
 					end
-
-					if npc.width*npc.height <= 20^2 then -- 16 - from 0 to 20
-						table.insert(actors, newDust(x, y, "die1"))
-					elseif npc.width*npc.height <= 28^2 then -- 24 - from 20 to 28
-						table.insert(actors, newDust(x, y, "die2"))
-					else -- 32 - from 28 to infinity
-						table.insert(actors, newDust(x, y, "die3"))
-					end
+					y = npc.y + npc.attackHitboxY + npc.attackHitboxHeight/2
 				else
+					if npc.direction == "left" then
+						x = npc.x + (npc.width - npc.hitboxWidth - npc.hitboxX) + npc.hitboxWidth/2
+					else
+						x = npc.x + npc.hitboxX + npc.hitboxWidth/2
+					end
+					y = npc.y + npc.hitboxY + npc.hitboxHeight/2
+				end
+
+				if npc.width*npc.height <= 20^2 then -- 16 - from 0 to 20
+					table.insert(actors, newDust(x, y, "die1"))
+				elseif npc.width*npc.height <= 28^2 then -- 24 - from 20 to 28
+					table.insert(actors, newDust(x, y, "die2"))
+				else -- 32 - from 28 to infinity
+					table.insert(actors, newDust(x, y, "die3"))
+				end
+			else
+				if npc.name ~= "poisonCloud" then
 					table.insert(actors, newDust(npc.x + npc.width/2, npc.y + npc.height/2, "dirtImpact"))
 				end
 			end
+
 			table.remove(actors, npcIndex)
 		end
 

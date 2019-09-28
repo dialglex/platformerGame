@@ -167,7 +167,6 @@ function giveOutline(image, color)
 	love.graphics.draw(colorImage, 1+1, 1)
 	love.graphics.draw(colorImage, 1-1, 1)
 
-
 	for y1 = 1, height do
 		for x1 = 1, width do
 			local pixel = {}
@@ -253,7 +252,7 @@ function giveOutline(image, color)
 	return canvas
 end
 
-function drawProgressBar(actor, barWidth, barHeight, barOffset, barOpacity, barColor)
+function drawHealthBar(actor, barWidth, barHeight, barOffset, barOpacity, barColor)
 	local x
 	local y = actor:getY() - barOffset
 	if actor.direction == "left" then
@@ -403,7 +402,9 @@ function drawScreen()
 
 
 	for _, actor in ipairs(items) do
-		love.graphics.draw(actor.canvas, actor:getX(), actor:getY())
+		if actor.type == "shop" then
+			love.graphics.draw(actor.canvas, actor:getX(), actor:getY())
+		end
 	end
 
 	love.graphics.draw(player.canvas, player:getX() - 3, player:getY() - 2)
@@ -426,6 +427,12 @@ function drawScreen()
 
 	love.graphics.draw(foregroundCanvas)
 
+	for _, actor in ipairs(items) do
+		if actor.type == "coin" then
+			love.graphics.draw(actor.canvas, actor:getX(), actor:getY())
+		end
+	end
+
 	for _, actor in ipairs(npcs) do
 		if actor.background == false then
 			love.graphics.draw(actor.canvas, actor:getX(), actor:getY())
@@ -439,11 +446,11 @@ function drawScreen()
 	end
 	
 	for _, actor in ipairs(npcs) do
-		drawProgressBar(actor, 15 + 0.1*actor.maxHp, 5, 5, actor.healthBarOpacity, "red")
+		drawHealthBar(actor, 15 + 0.1*actor.maxHp, 5, 5, actor.healthBarOpacity, "red")
 	end
 
 	if player.hp > 0 then
-		drawProgressBar(player, 15 + 0.1*player.maxHp, 5, -player.height-1, 1, "green")
+		drawHealthBar(player, 15 + 0.1*player.maxHp, 5, -player.height-1, 1, "green")
 		love.graphics.setFont(textFont1)
 		local text = "$"..tostring(player.money)
 		local wrapWidth, wrapText = textFont1:getWrap(text, 1000)

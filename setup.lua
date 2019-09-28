@@ -88,11 +88,11 @@ function loadMap(newMap, oldPlayer, file)
 									end
 
 									if shopItem == "weapon" then
-										local item = getItemStats("weaponShopItem")
-										table.insert(actors, newItem("weaponShopItem", mapX*16, mapY*16, item.itemType, item.iconSprite, item.width, item.height, item.randomItemName))
+										local stats = getItemStats("weaponShopItem")
+										table.insert(actors, newItem("weaponShopItem", mapX*16, mapY*16, stats))
 									else
-										local item = getItemStats("accessoryShopItem")
-										table.insert(actors, newItem("accessoryShopItem", mapX*16, mapY*16, item.itemType, item.iconSprite, item.width, item.height, item.randomItemName))
+										local stats = getItemStats("accessoryShopItem")
+										table.insert(actors, newItem("accessoryShopItem", mapX*16, mapY*16, stats))
 									end
 									shopItemNumber = shopItemNumber + 1
 								elseif tile.properties["npc"] then

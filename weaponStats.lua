@@ -15,16 +15,26 @@ function returnWeaponList()
 end
 
 function getWeaponStats(weapon)
+	local shootDirection
+	if player ~= nil then
+		shootDirection = player.direction
+		if downInputs.up then
+			shootDirection = "up"
+		elseif downInputs.down then
+			shootDirection = "down"
+		elseif downInputs.left then
+			shootDirection = "left"
+		elseif downInputs.right then
+			shootDirection = "right"
+		end
+	end
+
 	if weapon == "defaultSword" then
-		local sprite = love.graphics.newImage("images/weapons/swords/defaultSword/defaultSwordSlash1.png")
 		return {
 			name = weapon,
 			weaponType = "sword",
 			iconSprite = love.graphics.newImage("images/weapons/swords/defaultSword/defaultSwordIcon.png"), -- max size: 31x31px
-			startupSprite = love.graphics.newImage("images/weapons/swords/defaultSword/defaultSwordStartup.png"),
-			slash1Sprite = sprite,
-			slash2Sprite = love.graphics.newImage("images/weapons/swords/defaultSword/defaultSwordSlash2.png"),
-			endSprite = love.graphics.newImage("images/weapons/swords/defaultSword/defaultSwordEnd.png"),
+			spritesheet = love.graphics.newImage("images/weapons/swords/defaultSword/defaultSword.png"),
 			damage = 50, -- min: 0, max: 100
 			knockback = 2, -- min: 0, max: 4
 			status =  "",
@@ -32,6 +42,7 @@ function getWeaponStats(weapon)
 			startupLag = 6, -- min: 0, max: 60
 			slashDuration = 4, -- min: 0, max: 60
 			endLag = 20, -- min: 0, max: 60
+			shootDirection = shootDirection,
 			screenShakeAmount = 6,
 			screenShakeLength = 4,
 			screenFreezeLength = 3,
@@ -45,15 +56,11 @@ function getWeaponStats(weapon)
 	end
 
 	if weapon == "woodenSword" then
-		local sprite = love.graphics.newImage("images/weapons/swords/woodenSword/woodenSwordSlash1.png")
 		return {
 			name = weapon,
 			weaponType = "sword",
 			iconSprite = love.graphics.newImage("images/weapons/swords/woodenSword/woodenSwordIcon.png"),
-			startupSprite = love.graphics.newImage("images/weapons/swords/woodenSword/woodenSwordStartup.png"),
-			slash1Sprite = sprite,
-			slash2Sprite = love.graphics.newImage("images/weapons/swords/woodenSword/woodenSwordSlash2.png"),
-			endSprite = love.graphics.newImage("images/weapons/swords/woodenSword/woodenSwordEnd.png"),
+			spritesheet = love.graphics.newImage("images/weapons/swords/woodenSword/woodenSword.png"),
 			damage = 25,
 			knockback = 1.5,
 			status =  "",
@@ -61,6 +68,7 @@ function getWeaponStats(weapon)
 			startupLag = 4,
 			slashDuration = 3,
 			endLag = 13,
+			shootDirection = shootDirection,
 			screenShakeAmount = 5,
 			screenShakeLength = 3,
 			screenFreezeLength = 3,
@@ -74,15 +82,11 @@ function getWeaponStats(weapon)
 	end
 
 	if weapon == "mushroomSword" then
-		local sprite = love.graphics.newImage("images/weapons/swords/mushroomSword/mushroomSwordSlash1.png")
 		return {
 			name = weapon,
 			weaponType = "sword",
 			iconSprite = love.graphics.newImage("images/weapons/swords/mushroomSword/mushroomSwordIcon.png"),
-			startupSprite = love.graphics.newImage("images/weapons/swords/mushroomSword/mushroomSwordStartup.png"),
-			slash1Sprite = sprite,
-			slash2Sprite = love.graphics.newImage("images/weapons/swords/mushroomSword/mushroomSwordSlash2.png"),
-			endSprite = love.graphics.newImage("images/weapons/swords/mushroomSword/mushroomSwordEnd.png"),
+			spritesheet = love.graphics.newImage("images/weapons/swords/mushroomSword/mushroomSword.png"),
 			damage = 25,
 			knockback = 3.5,
 			status =  "", 
@@ -90,6 +94,7 @@ function getWeaponStats(weapon)
 			startupLag = 4,
 			slashDuration = 3,
 			endLag = 16,
+			shootDirection = shootDirection,
 			screenShakeAmount = 4,
 			screenShakeLength = 3,
 			screenFreezeLength = 3,
@@ -103,15 +108,11 @@ function getWeaponStats(weapon)
 	end
 
 	if weapon == "grassBlade" then
-		local sprite = love.graphics.newImage("images/weapons/swords/grassBlade/grassBladeSlash1.png")
 		return {
 			name = weapon,
 			weaponType = "sword",
 			iconSprite = love.graphics.newImage("images/weapons/swords/grassBlade/grassBladeIcon.png"),
-			startupSprite = love.graphics.newImage("images/weapons/swords/grassBlade/grassBladeStartup.png"),
-			slash1Sprite = sprite,
-			slash2Sprite = love.graphics.newImage("images/weapons/swords/grassBlade/grassBladeSlash2.png"),
-			endSprite = love.graphics.newImage("images/weapons/swords/grassBlade/grassBladeEnd.png"),
+			spritesheet = love.graphics.newImage("images/weapons/swords/grassBlade/grassBlade.png"),
 			damage = 50,
 			knockback = 2,
 			status =  "", 
@@ -119,6 +120,7 @@ function getWeaponStats(weapon)
 			startupLag = 6,
 			slashDuration = 3,
 			endLag = 18,
+			shootDirection = shootDirection,
 			screenShakeAmount = 7,
 			screenShakeLength = 4,
 			screenFreezeLength = 4,
@@ -132,15 +134,11 @@ function getWeaponStats(weapon)
 	end
 
 	if weapon == "treeSword" then
-		local sprite = love.graphics.newImage("images/weapons/swords/treeSword/treeSwordSlash1.png")
 		return {
 			name = weapon,
 			weaponType = "sword",
 			iconSprite = love.graphics.newImage("images/weapons/swords/treeSword/treeSwordIcon.png"),
-			startupSprite = love.graphics.newImage("images/weapons/swords/treeSword/treeSwordStartup.png"),
-			slash1Sprite = sprite,
-			slash2Sprite = love.graphics.newImage("images/weapons/swords/treeSword/treeSwordSlash2.png"),
-			endSprite = love.graphics.newImage("images/weapons/swords/treeSword/treeSwordEnd.png"),
+			spritesheet = love.graphics.newImage("images/weapons/swords/treeSword/treeSword.png"),
 			damage = 25,
 			knockback = 1.5,
 			status =  "", 
@@ -148,6 +146,7 @@ function getWeaponStats(weapon)
 			startupLag = 3,
 			slashDuration = 3,
 			endLag = 10,
+			shootDirection = shootDirection,
 			screenShakeAmount = 5,
 			screenShakeLength = 3,
 			screenFreezeLength = 3,
@@ -161,15 +160,11 @@ function getWeaponStats(weapon)
 	end
 
 	if weapon == "flowerSword" then
-		local sprite = love.graphics.newImage("images/weapons/swords/flowerSword/flowerSwordSlash1.png")
 		return {
 			name = weapon,
 			weaponType = "sword",
 			iconSprite = love.graphics.newImage("images/weapons/swords/flowerSword/flowerSwordIcon.png"),
-			startupSprite = love.graphics.newImage("images/weapons/swords/flowerSword/flowerSwordStartup.png"),
-			slash1Sprite = sprite,
-			slash2Sprite = love.graphics.newImage("images/weapons/swords/flowerSword/flowerSwordSlash2.png"),
-			endSprite = love.graphics.newImage("images/weapons/swords/flowerSword/flowerSwordEnd.png"),
+			spritesheet = love.graphics.newImage("images/weapons/swords/flowerSword/flowerSword.png"),
 			damage = 35,
 			knockback = 2,
 			status =  "", 
@@ -177,6 +172,7 @@ function getWeaponStats(weapon)
 			startupLag = 4,
 			slashDuration = 3,
 			endLag = 14,
+			shootDirection = shootDirection,
 			screenShakeAmount = 6,
 			screenShakeLength = 4,
 			screenFreezeLength = 4,
@@ -190,15 +186,11 @@ function getWeaponStats(weapon)
 	end
 
 	if weapon == "thornSword" then
-		local sprite = love.graphics.newImage("images/weapons/swords/thornSword/thornSwordSlash1.png")
 		return {
 			name = weapon,
 			weaponType = "sword",
 			iconSprite = love.graphics.newImage("images/weapons/swords/thornSword/thornSwordIcon.png"),
-			startupSprite = love.graphics.newImage("images/weapons/swords/thornSword/thornSwordStartup.png"),
-			slash1Sprite = sprite,
-			slash2Sprite = love.graphics.newImage("images/weapons/swords/thornSword/thornSwordSlash2.png"),
-			endSprite = love.graphics.newImage("images/weapons/swords/thornSword/thornSwordEnd.png"),
+			spritesheet = love.graphics.newImage("images/weapons/swords/thornSword/thornSword.png"),
 			damage = 25, -- 25 DoT
 			knockback = 1.5,
 			status = "poison", 
@@ -206,6 +198,7 @@ function getWeaponStats(weapon)
 			startupLag = 5,
 			slashDuration = 3,
 			endLag = 16,
+			shootDirection = shootDirection,
 			screenShakeAmount = 6,
 			screenShakeLength = 4,
 			screenFreezeLength = 4,
@@ -221,15 +214,17 @@ function getWeaponStats(weapon)
 
 
 	if weapon == "woodenBow" then
-		local sprite = love.graphics.newImage("images/weapons/bows/woodenBow/woodenBowSide.png")
+		local spritesheet
+		if shootDirection == "left" or shootDirection == "right" then
+			spritesheet = love.graphics.newImage("images/weapons/bows/woodenBow/woodenBowSide.png")
+		else
+			spritesheet = love.graphics.newImage("images/weapons/bows/woodenBow/woodenBowUp.png")
+		end
 		return {
 			name = weapon,
 			weaponType = "bow",
 			iconSprite = love.graphics.newImage("images/weapons/bows/woodenBow/woodenBowIcon.png"),
-			startupSprite = love.graphics.newImage("images/weapons/bows/woodenBow/woodenBowSide.png"),
-			slash1Sprite = sprite,
-			slash2Sprite = love.graphics.newImage("images/weapons/bows/woodenBow/woodenBowSide.png"),
-			endSprite = love.graphics.newImage("images/weapons/bows/woodenBow/woodenBowSide.png"),
+			spritesheet = spritesheet,
 			damage = 15,
 			knockback = 0.5,
 			status = "", 
@@ -237,6 +232,7 @@ function getWeaponStats(weapon)
 			startupLag = 7,
 			slashDuration = 1,
 			endLag = 16,
+			shootDirection = shootDirection,
 			screenShakeAmount = 0,
 			screenShakeLength = 0,
 			screenFreezeLength = 0,
@@ -252,15 +248,11 @@ function getWeaponStats(weapon)
 			projectile = "woodenArrow"
 		}
 	elseif weapon == "woodenArrow" then
-		local sprite = love.graphics.newImage("images/weapons/bows/woodenArrow/woodenArrow3.png")
 		return {
 			name = weapon,
 			weaponType = "projectile",
 			iconSprite = love.graphics.newImage("images/weapons/bows/woodenArrow/woodenArrowIcon.png"),
-			startupSprite = love.graphics.newImage("images/weapons/bows/woodenArrow/woodenArrow3.png"),
-			slash1Sprite = sprite,
-			slash2Sprite = love.graphics.newImage("images/weapons/bows/woodenArrow/woodenArrow3.png"),
-			endSprite = love.graphics.newImage("images/weapons/bows/woodenArrow/woodenArrow3.png"),
+			spritesheet = love.graphics.newImage("images/weapons/bows/woodenArrow/woodenArrow.png"),
 			damage = 15,
 			knockback = 0.5,
 			status = "", 
@@ -268,6 +260,7 @@ function getWeaponStats(weapon)
 			startupLag = 0,
 			slashDuration = 0,
 			endLag = 0,
+			shootDirection = shootDirection,
 			screenShakeAmount = 4,
 			screenShakeLength = 2,
 			screenFreezeLength = 2,
@@ -280,15 +273,17 @@ function getWeaponStats(weapon)
 	end
 
 	if weapon == "mushroomBow" then
-		local sprite = love.graphics.newImage("images/weapons/bows/mushroomBow/mushroomBowSide.png")
+		local spritesheet
+		if shootDirection == "left" or shootDirection == "right" then
+			spritesheet = love.graphics.newImage("images/weapons/bows/mushroomBow/mushroomBowSide.png")
+		else
+			spritesheet = love.graphics.newImage("images/weapons/bows/mushroomBow/mushroomBowUp.png")
+		end
 		return {
 			name = weapon,
 			weaponType = "bow",
 			iconSprite = love.graphics.newImage("images/weapons/bows/mushroomBow/mushroomBowIcon.png"),
-			startupSprite = love.graphics.newImage("images/weapons/bows/mushroomBow/mushroomBowSide.png"),
-			slash1Sprite = sprite,
-			slash2Sprite = love.graphics.newImage("images/weapons/bows/mushroomBow/mushroomBowSide.png"),
-			endSprite = love.graphics.newImage("images/weapons/bows/mushroomBow/mushroomBowSide.png"),
+			spritesheet = spritesheet,
 			damage = 15,
 			knockback = 3,
 			status = "", 
@@ -296,6 +291,7 @@ function getWeaponStats(weapon)
 			startupLag = 7,
 			slashDuration = 1,
 			endLag = 16,
+			shootDirection = shootDirection,
 			screenShakeAmount = 0,
 			screenShakeLength = 0,
 			screenFreezeLength = 0,
@@ -311,15 +307,11 @@ function getWeaponStats(weapon)
 			projectile = "mushroomArrow"
 		}
 	elseif weapon == "mushroomArrow" then
-		local sprite = love.graphics.newImage("images/weapons/bows/mushroomArrow/mushroomArrow3.png")
 		return {
 			name = weapon,
 			weaponType = "projectile",
 			iconSprite = love.graphics.newImage("images/weapons/bows/mushroomArrow/mushroomArrowIcon.png"),
-			startupSprite = love.graphics.newImage("images/weapons/bows/mushroomArrow/mushroomArrow3.png"),
-			slash1Sprite = sprite,
-			slash2Sprite = love.graphics.newImage("images/weapons/bows/mushroomArrow/mushroomArrow3.png"),
-			endSprite = love.graphics.newImage("images/weapons/bows/mushroomArrow/mushroomArrow3.png"),
+			spritesheet = love.graphics.newImage("images/weapons/bows/mushroomArrow/mushroomArrow.png"),
 			damage = 15,
 			knockback = 3,
 			status = "", 
@@ -327,6 +319,7 @@ function getWeaponStats(weapon)
 			startupLag = 0,
 			slashDuration = 0,
 			endLag = 0,
+			shootDirection = shootDirection,
 			screenShakeAmount = 4,
 			screenShakeLength = 2,
 			screenFreezeLength = 2,
@@ -339,15 +332,17 @@ function getWeaponStats(weapon)
 	end
 
 	if weapon == "thornBow" then
-		local sprite = love.graphics.newImage("images/weapons/bows/thornBow/thornBowSide.png")
+		local spritesheet
+		if shootDirection == "left" or shootDirection == "right" then
+			spritesheet = love.graphics.newImage("images/weapons/bows/thornBow/thornBowSide.png")
+		else
+			spritesheet = love.graphics.newImage("images/weapons/bows/thornBow/thornBowUp.png")
+		end
 		return {
 			name = weapon,
 			weaponType = "bow",
 			iconSprite = love.graphics.newImage("images/weapons/bows/thornBow/thornBowIcon.png"),
-			startupSprite = love.graphics.newImage("images/weapons/bows/thornBow/thornBowSide.png"),
-			slash1Sprite = sprite,
-			slash2Sprite = love.graphics.newImage("images/weapons/bows/thornBow/thornBowSide.png"),
-			endSprite = love.graphics.newImage("images/weapons/bows/thornBow/thornBowSide.png"),
+			spritesheet = spritesheet,
 			damage = 15, -- 15 DoT
 			knockback = 0.5,
 			status = "poison", 
@@ -355,6 +350,7 @@ function getWeaponStats(weapon)
 			startupLag = 8,
 			slashDuration = 1,
 			endLag = 18,
+			shootDirection = shootDirection,
 			screenShakeAmount = 0,
 			screenShakeLength = 0,
 			screenFreezeLength = 0,
@@ -370,15 +366,11 @@ function getWeaponStats(weapon)
 			projectile = "thornArrow"
 		}
 	elseif weapon == "thornArrow" then
-		local sprite = love.graphics.newImage("images/weapons/bows/thornArrow/thornArrow3.png")
 		return {
 			name = weapon,
 			weaponType = "projectile",
 			iconSprite = love.graphics.newImage("images/weapons/bows/thornArrow/thornArrowIcon.png"),
-			startupSprite = love.graphics.newImage("images/weapons/bows/thornArrow/thornArrow3.png"),
-			slash1Sprite = sprite,
-			slash2Sprite = love.graphics.newImage("images/weapons/bows/thornArrow/thornArrow3.png"),
-			endSprite = love.graphics.newImage("images/weapons/bows/thornArrow/thornArrow3.png"),
+			spritesheet = love.graphics.newImage("images/weapons/bows/thornArrow/thornArrow.png"),
 			damage = 15, -- 15 DoT
 			knockback = 0.5,
 			status = "poison", 
@@ -386,6 +378,7 @@ function getWeaponStats(weapon)
 			startupLag = 0,
 			slashDuration = 0,
 			endLag = 0,
+			shootDirection = shootDirection,
 			screenShakeAmount = 4,
 			screenShakeLength = 2,
 			screenFreezeLength = 2,
@@ -398,15 +391,17 @@ function getWeaponStats(weapon)
 	end
 
 	if weapon == "leafBow" then
-		local sprite = love.graphics.newImage("images/weapons/bows/leafBow/leafBowSide.png")
+		local spritesheet
+		if shootDirection == "left" or shootDirection == "right" then
+			spritesheet = love.graphics.newImage("images/weapons/bows/leafBow/leafBowSide.png")
+		else
+			spritesheet = love.graphics.newImage("images/weapons/bows/leafBow/leafBowUp.png")
+		end
 		return {
 			name = weapon,
 			weaponType = "bow",
 			iconSprite = love.graphics.newImage("images/weapons/bows/leafBow/leafBowIcon.png"),
-			startupSprite = love.graphics.newImage("images/weapons/bows/leafBow/leafBowSide.png"),
-			slash1Sprite = sprite,
-			slash2Sprite = love.graphics.newImage("images/weapons/bows/leafBow/leafBowSide.png"),
-			endSprite = love.graphics.newImage("images/weapons/bows/leafBow/leafBowSide.png"),
+			spritesheet = spritesheet,
 			damage = 20,
 			knockback = 0.75,
 			status = "", 
@@ -414,6 +409,7 @@ function getWeaponStats(weapon)
 			startupLag = 6,
 			slashDuration = 1,
 			endLag = 14,
+			shootDirection = shootDirection,
 			screenShakeAmount = 0,
 			screenShakeLength = 0,
 			screenFreezeLength = 0,
@@ -429,15 +425,11 @@ function getWeaponStats(weapon)
 			projectile = "leafArrow"
 		}
 	elseif weapon == "leafArrow" then
-		local sprite = love.graphics.newImage("images/weapons/bows/leafArrow/leafArrow3.png")
 		return {
 			name = weapon,
 			weaponType = "projectile",
 			iconSprite = love.graphics.newImage("images/weapons/bows/leafArrow/leafArrowIcon.png"),
-			startupSprite = love.graphics.newImage("images/weapons/bows/leafArrow/leafArrow3.png"),
-			slash1Sprite = sprite,
-			slash2Sprite = love.graphics.newImage("images/weapons/bows/leafArrow/leafArrow3.png"),
-			endSprite = love.graphics.newImage("images/weapons/bows/leafArrow/leafArrow3.png"),
+			spritesheet = love.graphics.newImage("images/weapons/bows/leafArrow/leafArrow.png"),
 			damage = 20,
 			knockback = 0.75,
 			status = "", 
@@ -445,6 +437,7 @@ function getWeaponStats(weapon)
 			startupLag = 0,
 			slashDuration = 0,
 			endLag = 0,
+			shootDirection = shootDirection,
 			screenShakeAmount = 4,
 			screenShakeLength = 2,
 			screenFreezeLength = 2,

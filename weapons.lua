@@ -16,60 +16,50 @@
 	weapon.screenFreezeLength = stats.screenFreezeLength
 	weapon.pierce = stats.pierce
 	weapon.projectile = stats.projectile
-	weapon.shootDirection = shootDirection
+	if shootDirection == nil then
+		weapon.shootDirection = stats.shootDirection
+	else
+		weapon.shootDirection = shootDirection
+	end
 
 	weapon.durationCounter = 0
 	weapon.state = "startup"
+	weapon.frame = 1
 	weapon.frozen = false
 
 	weapon.name = stats.name
 	weapon.type = stats.weaponType
 
 	weapon.iconSprite = stats.iconSprite
-	if weapon.startupLag > 0 then
-		weapon.startupSprite = stats.startupSprite
-	end
-	weapon.slash1Sprite = stats.slash1Sprite
-	weapon.slash2Sprite = stats.slash2Sprite
-	if weapon.endLag > 0 then
-		weapon.endSprite = stats.endSprite
-	end
+	weapon.spritesheet = stats.spritesheet
 
-	weapon.width = weapon.slash1Sprite:getWidth()
-	weapon.height = weapon.slash1Sprite:getHeight()
 	weapon.canvas = love.graphics.newCanvas(weapon.width, weapon.height)
+	weapon.quads = {}
 
 	if weapon.type == "sword" then
 		weapon.xOffset = stats.xOffset
 		weapon.yOffset = stats.yOffset
+		weapon.frames = 4
 	elseif weapon.type == "projectile" then
-		weapon.sprite1 = love.graphics.newImage("images/weapons/bows/"..weapon.name.."/"..weapon.name.."1.png")
-		weapon.sprite2 = love.graphics.newImage("images/weapons/bows/"..weapon.name.."/"..weapon.name.."2.png")
-		weapon.sprite3 = love.graphics.newImage("images/weapons/bows/"..weapon.name.."/"..weapon.name.."3.png")
-		weapon.sprite4 = love.graphics.newImage("images/weapons/bows/"..weapon.name.."/"..weapon.name.."4.png")
-		weapon.sprite5 = love.graphics.newImage("images/weapons/bows/"..weapon.name.."/"..weapon.name.."5.png")
-		weapon.currentSprite = weapon.sprite1
+		weapon.frames = 5
 	elseif weapon.type == "bow" then
-		weapon.upSprite = love.graphics.newImage("images/weapons/bows/"..weapon.name.."/"..weapon.name.."Up.png")
-		weapon.sideSprite = love.graphics.newImage("images/weapons/bows/"..weapon.name.."/"..weapon.name.."Side.png")
-		if weapon.shootDirection == "up" or weapon.shootDirection == "down" then
-			weapon.width = weapon.sideSprite:getHeight()
-			weapon.height = weapon.upSprite:getHeight()
-			weapon.canvas = love.graphics.newCanvas(weapon.width, weapon.height)
-		elseif weapon.shootDirection == "left" or weapon.shootDirection == "right" then
-			weapon.width = weapon.upSprite:getHeight()
-			weapon.height = weapon.sideSprite:getHeight()
-			weapon.canvas = love.graphics.newCanvas(weapon.width, weapon.height)
-		end
 		weapon.sideXOffset = stats.sideXOffset
 		weapon.sideYOffset = stats.sideYOffset
 		weapon.upXOffset = stats.upXOffset
 		weapon.upYOffset = stats.upYOffset
 		weapon.downXOffset = stats.downXOffset
 		weapon.downYOffset = stats.downYOffset
+		weapon.frames = 4
 	end
+	weapon.width = weapon.spritesheet:getWidth()/weapon.frames
+	weapon.height = weapon.spritesheet:getHeight()
+	weapon.canvas = love.graphics.newCanvas(weapon.width, weapon.height)
 	weapon.x = x
 	weapon.y = y
+
+	for i = 1, weapon.frames do
+		table.insert(weapon.quads, love.graphics.newQuad(weapon.width*(i - 1), 0, weapon.width, weapon.height, weapon.spritesheet:getWidth(), weapon.spritesheet:getHeight()))
+	end
 
 	weapon.directionLocked = stats.directionLocked
 	if weapon.directionLocked then
@@ -146,15 +136,8 @@
 			local stats = getWeaponStats(weapon.projectile)
 			stats.duration = 1
 
-			local sprite
-			if weapon.shootDirection == "up" or weapon.shootDirection == "down" then
-				sprite = love.graphics.newImage("images/weapons/bows/"..stats.name.."/"..stats.name.."1.png")
-			elseif weapon.shootDirection == "left" or weapon.shootDirection == "right" then
-				sprite = love.graphics.newImage("images/weapons/bows/"..stats.name.."/"..stats.name.."5.png")
-			end
-
-			local width = sprite:getWidth()
-			local height = sprite:getHeight()
+			local width = stats.spritesheet:getWidth()/5
+			local height = stats.spritesheet:getHeight()
 			local x = player.x + player.width/2 - width/2
 			local y = player.y + player.height/2 - height/2
 
@@ -202,23 +185,15 @@
 
 			local section = math.pi/16
 			if corrospondingAngle < section then
-				weapon.currentSprite = weapon.sprite5
+				weapon.currentQuad = weapon.quads[5]
 			elseif corrospondingAngle < section*3 then
-				weapon.currentSprite = weapon.sprite4
+				weapon.currentQuad = weapon.quads[4]
 			elseif corrospondingAngle < section*5 then
-				weapon.currentSprite = weapon.sprite3
+				weapon.currentQuad = weapon.quads[3]
 			elseif corrospondingAngle < section*7 then
-				weapon.currentSprite = weapon.sprite2
+				weapon.currentQuad = weapon.quads[2]
 			elseif corrospondingAngle < section*9 then
-				weapon.currentSprite = weapon.sprite1
-			end
-
-			weapon.oldWidth = weapon.width
-			weapon.oldHeight = weapon.height
-			weapon.width = weapon.currentSprite:getWidth()
-			weapon.height = weapon.currentSprite:getHeight()
-			if weapon.oldWidth ~= weapon.width or weapon.oldHeight ~= weapon.height then
-				weapon.canvas = love.graphics.newCanvas(weapon.width, weapon.height)
+				weapon.currentQuad = weapon.quads[1]
 			end
 		end
 	end
@@ -440,56 +415,50 @@
 		love.graphics.clear()
 
 		if weapon.type == "sword" then
-			if weapon.direction == "left" then
-				if weapon.state == "startup" then
-					love.graphics.draw(weapon.startupSprite, 0, 0, 0, -1, 1, weapon.width)
-				elseif weapon.state == "slash" then
-					if weapon.durationCounter > (weapon.startupLag + weapon.slashDuration/2) then
-						love.graphics.draw(weapon.slash2Sprite, 0, 0, 0, -1, 1, weapon.width)
-					else
-						love.graphics.draw(weapon.slash1Sprite, 0, 0, 0, -1, 1, weapon.width)
-					end
+			local swordFrame
+			if weapon.state == "startup" then
+				swordFrame = 1
+			elseif weapon.state == "slash" then
+				if weapon.durationCounter > (weapon.startupLag + weapon.slashDuration/2) then
+					swordFrame = 2
 				else
-					love.graphics.draw(weapon.endSprite, 0, 0, 0, -1, 1, weapon.width)
+					swordFrame = 3
 				end
 			else
-				if weapon.state == "startup" then
-					love.graphics.draw(weapon.startupSprite)
-				elseif weapon.state == "slash" then
-					if weapon.durationCounter > (weapon.startupLag + weapon.slashDuration/2) then
-						love.graphics.draw(weapon.slash2Sprite)
-					else
-						love.graphics.draw(weapon.slash1Sprite)
-					end
-				else
-					love.graphics.draw(weapon.endSprite)
-				end
+				swordFrame = 4
+			end
+
+			if weapon.direction == "left" then
+				love.graphics.draw(weapon.spritesheet, weapon.quads[swordFrame], 0, 0, 0, -1, 1, weapon.width)
+			else
+				love.graphics.draw(weapon.spritesheet, weapon.quads[swordFrame])
 			end
 		elseif weapon.type == "bow" then
 			local bowFrame
-			local quad
 			if weapon.durationCounter <= weapon.startupLag then
-				bowFrame = 0
-			elseif weapon.durationCounter <= weapon.startupLag + weapon.slashDuration + weapon.endLag*1/4 then
 				bowFrame = 1
-			elseif weapon.durationCounter <= weapon.startupLag + weapon.slashDuration + weapon.endLag*2/4 then
+			elseif weapon.durationCounter <= weapon.startupLag + weapon.slashDuration + weapon.endLag*1/4 then
 				bowFrame = 2
-			else
+			elseif weapon.durationCounter <= weapon.startupLag + weapon.slashDuration + weapon.endLag*2/4 then
 				bowFrame = 3
+			else
+				bowFrame = 4
 			end
-
-			quad = love.graphics.newQuad(bowFrame*weapon.width, 0, weapon.width, weapon.height, weapon.width*4, weapon.height)
 			
 			if weapon.shootDirection == "up" then
-				love.graphics.draw(weapon.upSprite, quad)
+				love.graphics.draw(weapon.spritesheet, weapon.quads[bowFrame])
 			elseif weapon.shootDirection == "left" then
-				love.graphics.draw(weapon.sideSprite, quad, 0, 0, 0, -1, 1, weapon.width)
+				love.graphics.draw(weapon.spritesheet, weapon.quads[bowFrame], 0, 0, 0, -1, 1, weapon.width)
 			elseif weapon.shootDirection == "right" then
-				love.graphics.draw(weapon.sideSprite, quad)
+				love.graphics.draw(weapon.spritesheet, weapon.quads[bowFrame])
 			elseif weapon.shootDirection == "down" then
-				love.graphics.draw(weapon.upSprite, quad, 0, 0, 0, 1, -1, 0, weapon.width)
+				love.graphics.draw(weapon.spritesheet, weapon.quads[bowFrame], 0, 0, 0, 1, -1, 0, weapon.width)
 			end
 		else
+			local width
+			local height
+			local xScale
+			local yScale
 			if weapon.xVelocity > 0 then
 				xScale = 1
 				width = 0
@@ -506,7 +475,7 @@
 				height = weapon.height
 			end
 
-			love.graphics.draw(weapon.currentSprite, 0, 0, 0, xScale, yScale, width, height)
+			love.graphics.draw(weapon.spritesheet, weapon.currentQuad, 0, 0, 0, xScale, yScale, width, height)
 		end
 		love.graphics.setColor(1, 1, 1, 1)
 	end

@@ -6,7 +6,8 @@ function newDust(x, y, action, direction, tileBelow)
 	dust.direction = direction
 	dust.tileBelow = tileBelow
 	dust.counter = 0
-	dust.quadSection = 0
+	dust.frame = 1
+	dust.quads = {}
 	dust.actor = "dust"
 
 	if dust.action == "sparkles" then
@@ -20,6 +21,24 @@ function newDust(x, y, action, direction, tileBelow)
 		else
 			dust.spritesheet = love.graphics.newImage("images/dust/sparkles2.png")
 			dust.frames = 4
+			dust.speed = 6
+			dust.width = dust.spritesheet:getWidth() / dust.frames
+			dust.height = dust.spritesheet:getHeight()
+		end	
+		dust.x = dust.x + dust.width/2
+		dust.y = dust.y + dust.height/2
+		dust.background = false
+	elseif dust.action == "particle" then
+		local number = math.random(2)
+		if number == 1 then
+			dust.spritesheet = love.graphics.newImage("images/dust/particle1.png")
+			dust.frames = 1
+			dust.speed = 6
+			dust.width = dust.spritesheet:getWidth() / dust.frames
+			dust.height = dust.spritesheet:getHeight()
+		else
+			dust.spritesheet = love.graphics.newImage("images/dust/particle2.png")
+			dust.frames = 2
 			dust.speed = 6
 			dust.width = dust.spritesheet:getWidth() / dust.frames
 			dust.height = dust.spritesheet:getHeight()
@@ -190,19 +209,28 @@ function newDust(x, y, action, direction, tileBelow)
 			landNeutralSound:play()
 		end
 	end
+
+	if dust.frames > 1 then
+		for i = 1, dust.frames do
+			table.insert(dust.quads, love.graphics.newQuad(dust.width*(i - 1), 0, dust.width, dust.height, dust.spritesheet:getWidth(), dust.spritesheet:getHeight()))
+		end
+	end
+
 	dust.x = dust.x - dust.width
 	dust.y = dust.y - dust.height
 	dust.canvas = love.graphics.newCanvas(dust.width, dust.height)
 
 	function dust:act(index)
 		dust.index = index
-		if dust.counter >= dust.speed then
-			dust.quadSection = dust.quadSection + dust.width
+		if dust.counter == dust.speed then
+			if dust.frame == dust.frames then
+				table.remove(actors, index)
+			else
+				dust.frame = dust.frame + 1
+			end
 			dust.counter = 0
 		end
-		if dust.quadSection > dust.spritesheet:getWidth() - dust.width then
-			table.remove(actors, index)
-		end
+
 		dust.counter = dust.counter + 1
 	end
 
@@ -218,11 +246,10 @@ function newDust(x, y, action, direction, tileBelow)
 		love.graphics.setCanvas(dust.canvas)
 		love.graphics.clear()
 
-		love.graphics.setBackgroundColor(0, 0, 0, 0)
-
-		dust.quad = love.graphics.newQuad(dust.quadSection, 0, dust.width, dust.height, dust.spritesheet:getWidth(), dust.spritesheet:getHeight())
-		if dust.quadSection < dust.spritesheet:getWidth() then
-			love.graphics.draw(dust.spritesheet, dust.quad)
+		if dust.frames > 1 then
+			love.graphics.draw(dust.spritesheet, dust.quads[dust.frame])
+		else
+			love.graphics.draw(dust.spritesheet)
 		end
 	end
 

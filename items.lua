@@ -1,10 +1,16 @@
-function newItem(itemName, mapX, mapY, itemType, sprite, width, height, randomItemName)
+function newItem(name, x, y, stats)
 	local item = {}
-	item.name = itemName
-	item.width = width
-	item.height = height
-	item.x = mapX
-	item.y = mapY - (item.height - 16)
+	item.name = name
+	item.width = stats.width
+	item.height = stats.height
+	item.type = stats.itemType
+	if item.type == "shop" then
+		item.x = x
+		item.y = y - (item.height - 16)
+	else
+		item.x = x
+		item.y = y
+	end
 	item.hitboxX = 0
 	item.hitboxY = 0
 	item.hitboxWidth = item.width
@@ -14,43 +20,78 @@ function newItem(itemName, mapX, mapY, itemType, sprite, width, height, randomIt
 	item.nearCounter = 0
 	item.remove = false
 	item.actor = "item"
-	item.type = itemType
-
-	local basePrice = 100
-	local priceMin = basePrice-(0.2*basePrice)
-	local priceMax = basePrice+(0.2*basePrice)
-	item.basePrice = math.floor(math.random(priceMin, priceMax) + 0.5)
+	item.counter = 0
 
 	if item.type == "shop" then
-		item.randomName = randomItemName
+		local basePrice = 100
+		local priceMin = basePrice-(0.2*basePrice)
+		local priceMax = basePrice+(0.2*basePrice)
+		item.basePrice = math.floor(math.random(priceMin, priceMax) + 0.5)
+		item.randomName = stats.randomName
+	elseif item.type == "coin" then
+		local angle = math.random(0, 2*math.pi)
+		local dx = math.cos(angle)
+		local dy = math.sin(angle)
+		item.xVelocity = 2*dx
+		item.yVelocity = 2*dy
+		item.xAcceleration = 0.025
+		item.yAcceleration = 0.025
 	end
 
-	item.sprite = sprite
+	item.sprite = stats.sprite
 	item.spriteCanvas = giveOutline(item.sprite, {0.973, 0.973, 0.973})
 	item.canvas = love.graphics.newCanvas(item.width+2, item.height+2)
 
 	function item:act(index)
-		if levelName == "grassland" then
-			item.price = math.floor(item.basePrice*1 + 0.5)
-		elseif levelName == "desert" then
-			item.price = math.floor(item.basePrice*1.25 + 0.5)
-		elseif levelName == "slime" then
-			item.price = math.floor(item.basePrice*1.5 + 0.5)
-		elseif levelName == "magma" then
-			item.price = math.floor(item.basePrice*1.75 + 0.5)
-		elseif levelName == "corruption" then
-			item.price = math.floor(item.basePrice*2 + 0.5)
+		debugPrint("HIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII")
+		if item.type == "coin" then
+			local angle = math.atan2((player.y + player.height/2 + player.yVelocity) - (item.y + item.height/2), (player.x + player.width/2 + player.xVelocity) - (item.x + item.width/2))
+			local dx = math.cos(angle)
+			local dy = math.sin(angle)
+
+			item.xAcceleration = item.xAcceleration*1.1
+			item.yAcceleration = item.yAcceleration*1.1
+			item.xVelocity = item.xVelocity + item.xAcceleration*dx
+			item.yVelocity = item.yVelocity + item.yAcceleration*dy
+
+			item.x = item.x + item.xVelocity
+			item.y = item.y + item.yVelocity
+			if item.xVelocity > 25 or item.yVelocity > 25 then
+				player.money = player.money + 1
+				item.remove = true
+			end
+
+			if item.counter == 2 then
+				table.insert(actors, newDust(item.x + item.width/2, item.y + item.height/2, "particle"))
+				item.counter = 0
+			end
 		end
 
-		if item.near and item.nearCounter < 0.9 then
-			item.nearCounter = item.nearCounter + 0.1
-		elseif item.near == false and item.nearCounter > 0.1 then
-			item.nearCounter = item.nearCounter - 0.1
+		if item.type == "shop" then
+			if levelName == "grassland" then
+				item.price = math.floor(item.basePrice*1 + 0.5)
+			elseif levelName == "desert" then
+				item.price = math.floor(item.basePrice*1.25 + 0.5)
+			elseif levelName == "slime" then
+				item.price = math.floor(item.basePrice*1.5 + 0.5)
+			elseif levelName == "magma" then
+				item.price = math.floor(item.basePrice*1.75 + 0.5)
+			elseif levelName == "corruption" then
+				item.price = math.floor(item.basePrice*2 + 0.5)
+			end
+
+			if item.near and item.nearCounter < 0.9 then
+				item.nearCounter = item.nearCounter + 0.1
+			elseif item.near == false and item.nearCounter > 0.1 then
+				item.nearCounter = item.nearCounter - 0.1
+			end
 		end
 
 		if item.remove then
 			table.remove(actors, index)
 		end
+
+		item.counter = item.counter + 1
 	end
 
 	function item:getX()
@@ -65,11 +106,7 @@ function newItem(itemName, mapX, mapY, itemType, sprite, width, height, randomIt
 		love.graphics.setCanvas(item.canvas)
 		love.graphics.clear()
 
-		love.graphics.setBackgroundColor(0, 0, 0, 0)
-
 		love.graphics.draw(item.spriteCanvas)
-		
-		love.graphics.setColor(1, 1, 1, 1)
 	end
 
 	return item
