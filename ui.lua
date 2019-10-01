@@ -1,52 +1,108 @@
+function getUiImages()
+	menuPlayImage = love.graphics.newImage("images/ui/menu/menuPlay.png")
+	menuOptionsImage = love.graphics.newImage("images/ui/menu/menuOptions.png")
+	menuQuitImage = love.graphics.newImage("images/ui/menu/menuQuit.png")
+
+	inventoryAccessory1Image = love.graphics.newImage("images/ui/inventory/inventoryAccessory1.png")
+	inventoryAccessory2Image = love.graphics.newImage("images/ui/inventory/inventoryAccessory2.png")
+	inventoryAccessory3Image = love.graphics.newImage("images/ui/inventory/inventoryAccessory3.png")
+	inventoryAccessory4Image = love.graphics.newImage("images/ui/inventory/inventoryAccessory4.png")
+	inventoryAccessory5Image = love.graphics.newImage("images/ui/inventory/inventoryAccessory5.png")
+	inventoryAccessory6Image = love.graphics.newImage("images/ui/inventory/inventoryAccessory6.png")
+	inventoryAccessory7Image = love.graphics.newImage("images/ui/inventory/inventoryAccessory7.png")
+	inventoryAccessory8Image = love.graphics.newImage("images/ui/inventory/inventoryAccessory8.png")
+	inventoryAccessory9Image = love.graphics.newImage("images/ui/inventory/inventoryAccessory9.png")
+	inventoryAccessory10Image = love.graphics.newImage("images/ui/inventory/inventoryAccessory10.png")
+	inventoryAccessory11Image = love.graphics.newImage("images/ui/inventory/inventoryAccessory11.png")
+	inventoryAccessory12Image = love.graphics.newImage("images/ui/inventory/inventoryAccessory12.png")
+	inventoryAccessory13Image = love.graphics.newImage("images/ui/inventory/inventoryAccessory13.png")
+	inventoryHealthBarSprite = love.graphics.newImage("images/ui/inventory/healthBar.png")
+	inventoryHealthBarOutline1 = love.graphics.newImage("images/ui/inventory/healthBarOutline1.png")
+	inventoryHealthBarOutline2 = love.graphics.newImage("images/ui/inventory/healthBarOutline2.png")
+	inventoryHealthBarAA = love.graphics.newImage("images/ui/inventory/healthBarAA.png")
+
+	newWeaponSprite = love.graphics.newImage("images/ui/newWeapon/newWeapon.png")
+	newWeaponSpriteLeft = love.graphics.newImage("images/ui/newWeapon/newWeaponLeft.png")
+	newWeaponSpriteRight = love.graphics.newImage("images/ui/newWeapon/newWeaponRight.png")
+	emptyBar = love.graphics.newImage("images/ui/newWeapon/emptyBar.png")
+	barOutline = love.graphics.newImage("images/ui/newWeapon/barOutline.png")
+	greenBar = love.graphics.newImage("images/ui/newWeapon/greenBar.png")
+	greenBarAA = love.graphics.newImage("images/ui/newWeapon/greenBarAA.png")
+	greenConnecter = love.graphics.newImage("images/ui/newWeapon/greenConnecter.png")
+	orangeBar = love.graphics.newImage("images/ui/newWeapon/orangeBar.png")
+	orangeBarAA = love.graphics.newImage("images/ui/newWeapon/orangeBarAA.png")
+	orangeConnecter = love.graphics.newImage("images/ui/newWeapon/orangeConnecter.png")
+	redBar = love.graphics.newImage("images/ui/newWeapon/redBar.png")
+	redBarAA = love.graphics.newImage("images/ui/newWeapon/redBarAA.png")
+	redConnecter = love.graphics.newImage("images/ui/newWeapon/redConnecter.png")
+	whiteBar = love.graphics.newImage("images/ui/newWeapon/whiteBar.png")
+	greyBar = love.graphics.newImage("images/ui/newWeapon/greyBar.png")
+	statIcons = love.graphics.newImage("images/ui/statIcons.png")
+
+	optionsVideoSprite = love.graphics.newImage("images/ui/options/optionsVideo.png")
+	optionsAudioSprite = love.graphics.newImage("images/ui/options/optionsAudio.png")
+	optionsControlsSprite = love.graphics.newImage("images/ui/options/optionsControls.png")
+	optionsMenuSprite = love.graphics.newImage("images/ui/options/optionsMenu.png")
+
+	audioMusicSprite = love.graphics.newImage("images/ui/audio/audioMusic.png")
+	audioSfxSprite = love.graphics.newImage("images/ui/audio/audioSfx.png")
+	audioVolumeBar = love.graphics.newImage("images/ui/audio/volumeBar.png")
+	audioEmptyVolumeBar = love.graphics.newImage("images/ui/audio/emptyVolumeBar.png")
+	audioVolumeBarOutline = love.graphics.newImage("images/ui/audio/volumeBarOutline.png")
+	audioVolumeBarAA = love.graphics.newImage("images/ui/audio/volumeBarAA.png")
+
+	videoFullscreenSprite = love.graphics.newImage("images/ui/video/videoFullscreen.png")
+	videoVSyncSprite = love.graphics.newImage("images/ui/video/videoVSync.png")
+	videoShakeSprite = love.graphics.newImage("images/ui/video/videoShake.png")
+	videoCheckBoxOff = love.graphics.newImage("images/ui/video/checkBoxOff.png")
+	videoCheckBoxOn = love.graphics.newImage("images/ui/video/checkBoxOn.png")
+	videoBar = love.graphics.newImage("images/ui/video/bar.png")
+	videoEmptyBar = love.graphics.newImage("images/ui/video/emptyBar.png")
+	videoBarOutline = love.graphics.newImage("images/ui/video/barOutline.png")
+	videoBarAA = love.graphics.newImage("images/ui/video/barAA.png")
+end
+
 function newUi(name, data1, data2)
 	local ui = {}
 	ui.name = name
-	ui.sprite = love.graphics.newImage("images/ui/"..name.."/"..name..".png")
-	ui.width = ui.sprite:getWidth()
-	ui.height = ui.sprite:getHeight()
-	ui.x = 480/2 - ui.width/2
-	ui.y = 270/2 - ui.height/2
-	ui.canvas = love.graphics.newCanvas(ui.width, ui.height)
-	ui.remove = false
-	ui.control = true
-	ui.firstFrame = true
 	ui.actor = "ui"
 	if ui.name == "menu" then
 		ui.selected = "play"
-		ui.playSprite = love.graphics.newImage("images/ui/menu/menuPlay.png")
-		ui.optionsSprite = love.graphics.newImage("images/ui/menu/menuOptions.png")
-		ui.quitSprite = love.graphics.newImage("images/ui/menu/menuQuit.png")
+		ui.playSprite = menuPlayImage
+		ui.sprite = ui.playSprite
+		ui.optionsSprite = menuOptionsImage
+		ui.quitSprite = menuQuitImage
 	elseif ui.name == "inventory" then
-		ui.inventoryAccessory1 = love.graphics.newImage("images/ui/inventory/inventoryAccessory1.png")
-		ui.inventoryAccessory2 = love.graphics.newImage("images/ui/inventory/inventoryAccessory2.png")
-		ui.inventoryAccessory3 = love.graphics.newImage("images/ui/inventory/inventoryAccessory3.png")
-		ui.inventoryAccessory4 = love.graphics.newImage("images/ui/inventory/inventoryAccessory4.png")
-		ui.inventoryAccessory5 = love.graphics.newImage("images/ui/inventory/inventoryAccessory5.png")
-		ui.inventoryAccessory6 = love.graphics.newImage("images/ui/inventory/inventoryAccessory6.png")
-		ui.inventoryAccessory7 = love.graphics.newImage("images/ui/inventory/inventoryAccessory7.png")
-		ui.inventoryAccessory8 = love.graphics.newImage("images/ui/inventory/inventoryAccessory8.png")
-		ui.inventoryAccessory9 = love.graphics.newImage("images/ui/inventory/inventoryAccessory9.png")
-		ui.inventoryAccessory10 = love.graphics.newImage("images/ui/inventory/inventoryAccessory10.png")
-		ui.inventoryAccessory11 = love.graphics.newImage("images/ui/inventory/inventoryAccessory11.png")
-		ui.inventoryAccessory12 = love.graphics.newImage("images/ui/inventory/inventoryAccessory12.png")
-		ui.inventoryAccessory13 = love.graphics.newImage("images/ui/inventory/inventoryAccessory13.png")
+		ui.inventoryAccessory1 = inventoryAccessory1Image
+		ui.sprite = ui.inventoryAccessory1
+		ui.inventoryAccessory2 = inventoryAccessory2Image
+		ui.inventoryAccessory3 = inventoryAccessory3Image
+		ui.inventoryAccessory4 = inventoryAccessory4Image
+		ui.inventoryAccessory5 = inventoryAccessory5Image
+		ui.inventoryAccessory6 = inventoryAccessory6Image
+		ui.inventoryAccessory7 = inventoryAccessory7Image
+		ui.inventoryAccessory8 = inventoryAccessory8Image
+		ui.inventoryAccessory9 = inventoryAccessory9Image
+		ui.inventoryAccessory10 = inventoryAccessory10Image
+		ui.inventoryAccessory11 = inventoryAccessory11Image
+		ui.inventoryAccessory12 = inventoryAccessory12Image
+		ui.inventoryAccessory13 = inventoryAccessory13Image
 
-		ui.healthBarSprite = love.graphics.newImage("images/ui/inventory/healthBar.png")
+		ui.healthBarSprite = inventoryHealthBarSprite
 		ui.healthBarCanvas = love.graphics.newCanvas(113*(player.hp/player.maxHp), ui.healthBarSprite:getHeight())
-
-		ui.healthBarOutline1 = love.graphics.newImage("images/ui/inventory/healthBarOutline1.png")
-		ui.healthBarOutline2 = love.graphics.newImage("images/ui/inventory/healthBarOutline2.png")
+		ui.healthBarOutline1 = inventoryHealthBarOutline1
+		ui.healthBarOutline2 = inventoryHealthBarOutline2
 		ui.healthBarOutlineCanvas = love.graphics.newCanvas(113*(player.hp/player.maxHp) + 2, ui.healthBarOutline1:getHeight() + 4)
-		ui.healthBarAA = love.graphics.newImage("images/ui/inventory/healthBarAA.png")
+		ui.healthBarAA = inventoryHealthBarAA
 
-		ui.emptyBar = love.graphics.newImage("images/ui/inventory/emptyBar.png")
-		ui.barOutline = love.graphics.newImage("images/ui/inventory/barOutline.png")
-		ui.greenBar = love.graphics.newImage("images/ui/inventory/greenBar.png")
-		ui.greenBarAA = love.graphics.newImage("images/ui/inventory/greenBarAA.png")
-		ui.orangeBar = love.graphics.newImage("images/ui/inventory/orangeBar.png")
-		ui.orangeBarAA = love.graphics.newImage("images/ui/inventory/orangeBarAA.png")
-		ui.redBar = love.graphics.newImage("images/ui/inventory/redBar.png")
-		ui.redBarAA = love.graphics.newImage("images/ui/inventory/redBarAA.png")
+		ui.emptyBar = emptyBar
+		ui.barOutline = barOutline
+		ui.greenBar = greenBar
+		ui.greenBarAA = greenBarAA
+		ui.orangeBar = orangeBar
+		ui.orangeBarAA = orangeBarAA
+		ui.redBar = redBar
+		ui.redBarAA = redBarAA
 		ui.weapon1DamageBarCanvas = love.graphics.newCanvas(ui.emptyBar:getWidth(), ui.emptyBar:getHeight())
 		ui.weapon1SpeedBarCanvas = love.graphics.newCanvas(ui.emptyBar:getWidth(), ui.emptyBar:getHeight())
 		ui.weapon1KnockbackBarCanvas = love.graphics.newCanvas(ui.emptyBar:getWidth(), ui.emptyBar:getHeight())
@@ -56,14 +112,14 @@ function newUi(name, data1, data2)
 
 		local weapon1 = getWeaponStats(player.equippedWeapon1)
 		local weapon2 = getWeaponStats(player.equippedWeapon2)
-		ui.weaponSprite1Canvas = giveOutline(weapon1.iconSprite, {0.973, 0.973, 0.973})
-		ui.weaponSprite2Canvas = giveOutline(weapon2.iconSprite, {0.973, 0.973, 0.973})
+		ui.weaponSprite1Canvas = giveOutline(weapon1.iconSprite, {0.973, 0.973, 0.973}, true)
+		ui.weaponSprite2Canvas = giveOutline(weapon2.iconSprite, {0.973, 0.973, 0.973}, true)
 
 		ui.accessoryCanvases = {}
 		ui.accessoryCount = 0
 		for i, accessory in ipairs(player.accessories) do
 			local stats = getAccessoryStats(accessory)
-			local accessoryCanvas = giveOutline(stats.iconSprite, {0.973, 0.973, 0.973})
+			local accessoryCanvas = giveOutline(stats.iconSprite, {0.973, 0.973, 0.973}, true)
 			table.insert(ui.accessoryCanvases, accessoryCanvas)
 			ui.accessoryCount = ui.accessoryCount + 1
 		end
@@ -75,27 +131,28 @@ function newUi(name, data1, data2)
 	elseif ui.name == "newWeapon" then
 		ui.weapon1Selected = false
 		ui.weapon2Selected = false
-		ui.spriteLeft = love.graphics.newImage("images/ui/newWeapon/newWeaponLeft.png")
-		ui.spriteRight = love.graphics.newImage("images/ui/newWeapon/newWeaponRight.png")
+		ui.sprite = newWeaponSprite
+		ui.spriteLeft = newWeaponSpriteLeft
+		ui.spriteRight = newWeaponSpriteRight
 
 		local weapon1 = getWeaponStats(player.equippedWeapon1)
 		local weapon2 = getWeaponStats(player.equippedWeapon2)
 		ui.weaponSprite1Canvas = giveOutline(weapon1.iconSprite, {0.973, 0.973, 0.973})
 		ui.weaponSprite2Canvas = giveOutline(weapon2.iconSprite, {0.973, 0.973, 0.973})
 
-		ui.emptyBar = love.graphics.newImage("images/ui/newWeapon/emptyBar.png")
-		ui.barOutline = love.graphics.newImage("images/ui/newWeapon/barOutline.png")
-		ui.greenBar = love.graphics.newImage("images/ui/newWeapon/greenBar.png")
-		ui.greenBarAA = love.graphics.newImage("images/ui/newWeapon/greenBarAA.png")
-		ui.greenConnecter = love.graphics.newImage("images/ui/newWeapon/greenConnecter.png")
-		ui.orangeBar = love.graphics.newImage("images/ui/newWeapon/orangeBar.png")
-		ui.orangeBarAA = love.graphics.newImage("images/ui/newWeapon/orangeBarAA.png")
-		ui.orangeConnecter = love.graphics.newImage("images/ui/newWeapon/orangeConnecter.png")
-		ui.redBar = love.graphics.newImage("images/ui/newWeapon/redBar.png")
-		ui.redBarAA = love.graphics.newImage("images/ui/newWeapon/redBarAA.png")
-		ui.redConnecter = love.graphics.newImage("images/ui/newWeapon/redConnecter.png")
-		ui.whiteBar = love.graphics.newImage("images/ui/newWeapon/whiteBar.png")
-		ui.greyBar = love.graphics.newImage("images/ui/newWeapon/greyBar.png")
+		ui.emptyBar = emptyBar
+		ui.barOutline = barOutline
+		ui.greenBar = greenBar
+		ui.greenBarAA = greenBarAA
+		ui.greenConnecter = greenConnecter
+		ui.orangeBar = orangeBar
+		ui.orangeBarAA = orangeBarAA
+		ui.orangeConnecter = orangeConnecter
+		ui.redBar = redBar
+		ui.redBarAA = redBarAA
+		ui.redConnecter = redConnecter
+		ui.whiteBar = whiteBar
+		ui.greyBar = greyBar
 		ui.damageBarCanvas = love.graphics.newCanvas(ui.emptyBar:getWidth(), ui.emptyBar:getHeight())
 		ui.speedBarCanvas = love.graphics.newCanvas(ui.emptyBar:getWidth(), ui.emptyBar:getHeight())
 		ui.knockbackBarCanvas = love.graphics.newCanvas(ui.emptyBar:getWidth(), ui.emptyBar:getHeight())
@@ -109,33 +166,45 @@ function newUi(name, data1, data2)
 		else
 			ui.selected = "video"
 		end
-		ui.videoSprite = love.graphics.newImage("images/ui/options/optionsVideo.png")
-		ui.audioSprite = love.graphics.newImage("images/ui/options/optionsAudio.png")
-		ui.controlsSprite = love.graphics.newImage("images/ui/options/optionsControls.png")
-		ui.menuSprite = love.graphics.newImage("images/ui/options/optionsMenu.png")
+		ui.videoSprite = optionsVideoSprite
+		ui.sprite = ui.videoSprite
+		ui.audioSprite = optionsAudioSprite
+		ui.controlsSprite = optionsControlsSprite
+		ui.menuSprite = optionsMenuSprite
 	elseif ui.name == "audio" then
 		ui.selected = "music"
-		ui.musicSprite = love.graphics.newImage("images/ui/audio/audioMusic.png")
-		ui.sfxSprite = love.graphics.newImage("images/ui/audio/audioSfx.png")
-		ui.volumeBar = love.graphics.newImage("images/ui/audio/volumeBar.png")
-		ui.emptyVolumeBar = love.graphics.newImage("images/ui/audio/emptyVolumeBar.png")
-		ui.volumeBarOutline = love.graphics.newImage("images/ui/audio/volumeBarOutline.png")
-		ui.volumeBarAA = love.graphics.newImage("images/ui/audio/volumeBarAA.png")
+		ui.musicSprite = audioMusicSprite
+		ui.sprite = ui.musicSprite
+		ui.sfxSprite = audioSfxSprite
+		ui.volumeBar = audioVolumeSprite
+		ui.emptyVolumeBar = audioEmptyVolumeBar
+		ui.volumeBarOutline = audioVolumeBarOutline
+		ui.volumeBarAA = audioVolumeBarAA
 		ui.musicVolumeBarCanvas = love.graphics.newCanvas(ui.volumeBar:getWidth(), ui.volumeBar:getHeight())
 		ui.sfxVolumeBarCanvas = love.graphics.newCanvas(ui.volumeBar:getWidth(), ui.volumeBar:getHeight())
 	elseif ui.name == "video" then
 		ui.selected = "fullscreen"
-		ui.fullscreenSprite = love.graphics.newImage("images/ui/video/videoFullscreen.png")
-		ui.vSyncSprite = love.graphics.newImage("images/ui/video/videoVSync.png")
-		ui.shakeSprite = love.graphics.newImage("images/ui/video/videoShake.png")
-		ui.checkBoxOff = love.graphics.newImage("images/ui/video/checkBoxOff.png")
-		ui.checkBoxOn = love.graphics.newImage("images/ui/video/checkBoxOn.png")
-		ui.bar = love.graphics.newImage("images/ui/video/bar.png")
-		ui.emptyBar = love.graphics.newImage("images/ui/video/emptyBar.png")
-		ui.barOutline = love.graphics.newImage("images/ui/video/barOutline.png")
-		ui.barAA = love.graphics.newImage("images/ui/video/barAA.png")
+		ui.fullscreenSprite = videoFullscreenSprite
+		ui.sprite = ui.fullscreenSprite
+		ui.vSyncSprite = videoVSyncSprite
+		ui.shakeSprite = videoShakeSprite
+		ui.checkBoxOff = videoCheckBoxOff
+		ui.checkBoxOn =	videoCheckBoxOn
+		ui.bar = videoBar
+		ui.emptyBar = videoEmptyBar
+		ui.barOutline = videoBarOutline
+		ui.barAA = videoBarAA
 		ui.barCanvas = love.graphics.newCanvas(ui.bar:getWidth(), ui.bar:getHeight())
 	end
+
+	ui.width = ui.sprite:getWidth()
+	ui.height = ui.sprite:getHeight()
+	ui.x = 480/2 - ui.width/2
+	ui.y = 270/2 - ui.height/2
+	ui.canvas = love.graphics.newCanvas(ui.width, ui.height)
+	ui.remove = false
+	ui.control = true
+	ui.firstFrame = true
 	
 	function ui:act(index)
 		if getTableLength(uis) < 2 then

@@ -24,7 +24,6 @@
 
 	weapon.durationCounter = 0
 	weapon.state = "startup"
-	weapon.frame = 1
 	weapon.frozen = false
 
 	weapon.name = stats.name
@@ -276,138 +275,179 @@
 	function weapon:hitCollision()
 		love.graphics.setCanvas()
 		local imageData = weapon.canvas:newImageData()
-		-- local blockedPixels = {}
-		-- for x = 1, imageData:getWidth() do
-		-- 	for y = 1, imageData:getHeight() do
-		-- 		-- pixel coordinates range from 0 to image width - 1 / height - 1.
-		-- 		red, green, blue, alpha = imageData:getPixel(x-1, y-1)
-		-- 		if alpha > 0 then
-		-- 			for _, actor in ipairs(getCollidingActors(weapon:getX() + x-1, weapon:getY() + y-1, 1, 1, true, false, false, true)) do
-		-- 				if actor.y + actor.hitboxY + actor.hitboxHeight <= player.y then
-		-- 					table.insert(blockedPixels, {x, y, "up"})
-		-- 				end
-		-- 				if actor.y + actor.hitboxY >= player.y + player.height then
-		-- 					table.insert(blockedPixels, {x, y, "down"})
-		-- 				end
-		-- 				if actor.x + actor.hitboxX + actor.hitboxWidth <= player.x then
-		-- 					table.insert(blockedPixels, {x, y, "left"})
-		-- 				end
-		-- 				if actor.x + actor.hitboxX >= player.x + player.width then
-		-- 					table.insert(blockedPixels, {x, y, "right"})
+
+		local npcsInRange = {}
+		for _, actor in ipairs(getCollidingActors(weapon.x, weapon.y, weapon.width, weapon.height, false, false, true, false, true, false, false, false, false)) do
+			table.insert(npcsInRange, actor)
+		end
+
+		for i, actor in ipairs(npcsInRange) do
+			if actor.enemy and actor.projectile == false then
+				if isInTable(actor.uuid, weapon.enemiesHit) == false then
+					if actor.invincibility == 0 then
+						actor.hit = true
+						actor.lastHitTimer = 0
+
+						if weapon.damage > 0 then
+							actor.previousHp = actor.hp
+							if isInTable("poisonDamage", player.accessories) and actor.poison > 0 then
+								actor.hp = actor.hp - weapon.damage*player.damageBuff*1.5
+							else
+								actor.hp = actor.hp - weapon.damage*player.damageBuff
+							end
+							actor.lastDamagedTimer = 0
+							actor.lastHitTimer = 0
+
+							if actor.hp < 0 then
+								actor.hp = 0
+							end
+							if weapon.type == "projectile" then
+								weapon.pierce = weapon.pierce - 1
+								if weapon.pierce == 0 then
+									table.remove(actors, weapon.index)
+								end
+							end
+						end
+
+						if weapon.knockback > 0 then
+							actor.knockedBack = true
+
+							actor.knockbackAngle = math.atan2((player.y + player.height/2) - (actor.y + actor.height/2), (player.x + player.width/2) - (actor.x + actor.width/2))
+							
+							actor.knockbackDx = math.cos(actor.knockbackAngle)
+							actor.knockbackDy = math.sin(actor.knockbackAngle)
+							actor.xVelocity = -actor.knockbackDx*weapon.knockback/actor.knockbackResistance
+							if actor.ai == "walking" then
+								actor.yVelocity = actor.knockbackDy*weapon.knockback/actor.knockbackResistance
+							end
+						end
+						
+						for i, accessory in ipairs(player.accessories) do
+							local stats = getAccessoryStats(accessory)
+							if stats.status == "poison" and actor.poison < stats.statusDuration then
+								actor.poison = stats.statusDuration*player.poisonDurationBuff
+								actor.lastPoisonDuration = actor.poison
+							elseif stats.status == "burn" and actor.burn < stats.statusDuration then
+								actor.burn = stats.statusDuration*player.burnDurationBuff
+								actor.lastBurnDuration = actor.burn
+							end
+						end
+						
+						if weapon.status == "poison" and actor.poison < weapon.statusDuration then
+							actor.poison = weapon.statusDuration*player.poisonDurationBuff
+							actor.lastPoisonDuration = actor.poison
+						elseif weapon.status == "burn" and actor.burn < weapon.statusDuration then
+							actor.burn = weapon.statusDuration*player.burnDurationBuff
+							actor.lastBurnDuration = actor.burn
+						end
+
+						if shakeLength < weapon.screenShakeLength then
+							shakeLength = weapon.screenShakeLength
+						end
+						maxShakeLength = shakeLength
+						if shakeAmount < weapon.screenShakeAmount then
+							shakeAmount = weapon.screenShakeAmount
+						end
+						maxShakeAmount = shakeAmount
+						if screenFreeze < weapon.screenFreezeLength then
+							screenFreeze = weapon.screenFreezeLength
+						end
+
+						table.insert(weapon.enemiesHit, actor.uuid)
+					end
+				end
+			end
+		end
+
+		-- local width = imageData:getWidth()
+		-- local height = imageData:getHeight()
+		-- for i, actor in ipairs(npcsInRange) do
+		-- 	for x = 1, width do
+		-- 		for y = 1, height do
+		-- 			-- pixel coordinates range from 0 to image width - 1 / height - 1.
+		-- 			red, green, blue, alpha = imageData:getPixel(x-1, y-1)
+		-- 			if alpha > 0 and red == 248/255 and green == 248/255 and blue == 248/255 then
+		-- 				if AABB(weapon.x + x-1, weapon.y + y-1, 1, 1, actor.x, actor.y, actor.width, actor.height) then
+		-- 					if actor.enemy and actor.projectile == false then
+		-- 						if isInTable(actor.uuid, weapon.enemiesHit) == false then
+		-- 							if actor.invincibility == 0 then
+		-- 								actor.hit = true
+		-- 								actor.lastHitTimer = 0
+
+		-- 								if weapon.damage > 0 then
+		-- 									actor.previousHp = actor.hp
+		-- 									if isInTable("poisonDamage", player.accessories) and actor.poison > 0 then
+		-- 										actor.hp = actor.hp - weapon.damage*player.damageBuff*1.5
+		-- 									else
+		-- 										actor.hp = actor.hp - weapon.damage*player.damageBuff
+		-- 									end
+		-- 									actor.lastDamagedTimer = 0
+		-- 									actor.lastHitTimer = 0
+
+		-- 									if actor.hp < 0 then
+		-- 										actor.hp = 0
+		-- 									end
+		-- 									if weapon.type == "projectile" then
+		-- 										weapon.pierce = weapon.pierce - 1
+		-- 										if weapon.pierce == 0 then
+		-- 											table.remove(actors, weapon.index)
+		-- 										end
+		-- 									end
+		-- 								end
+
+		-- 								if weapon.knockback > 0 then
+		-- 									actor.knockedBack = true
+
+		-- 									actor.knockbackAngle = math.atan2((player.y + player.height/2) - (actor.y + actor.height/2), (player.x + player.width/2) - (actor.x + actor.width/2))
+											
+		-- 									actor.knockbackDx = math.cos(actor.knockbackAngle)
+		-- 									actor.knockbackDy = math.sin(actor.knockbackAngle)
+		-- 									actor.xVelocity = -actor.knockbackDx*weapon.knockback/actor.knockbackResistance
+		-- 									if actor.ai == "walking" then
+		-- 										actor.yVelocity = actor.knockbackDy*weapon.knockback/actor.knockbackResistance
+		-- 									end
+		-- 								end
+										
+		-- 								for i, accessory in ipairs(player.accessories) do
+		-- 									local stats = getAccessoryStats(accessory)
+		-- 									if stats.status == "poison" and actor.poison < stats.statusDuration then
+		-- 										actor.poison = stats.statusDuration*player.poisonDurationBuff
+		-- 										actor.lastPoisonDuration = actor.poison
+		-- 									elseif stats.status == "burn" and actor.burn < stats.statusDuration then
+		-- 										actor.burn = stats.statusDuration*player.burnDurationBuff
+		-- 										actor.lastBurnDuration = actor.burn
+		-- 									end
+		-- 								end
+										
+		-- 								if weapon.status == "poison" and actor.poison < weapon.statusDuration then
+		-- 									actor.poison = weapon.statusDuration*player.poisonDurationBuff
+		-- 									actor.lastPoisonDuration = actor.poison
+		-- 								elseif weapon.status == "burn" and actor.burn < weapon.statusDuration then
+		-- 									actor.burn = weapon.statusDuration*player.burnDurationBuff
+		-- 									actor.lastBurnDuration = actor.burn
+		-- 								end
+
+		-- 								if shakeLength < weapon.screenShakeLength then
+		-- 									shakeLength = weapon.screenShakeLength
+		-- 								end
+		-- 								maxShakeLength = shakeLength
+		-- 								if shakeAmount < weapon.screenShakeAmount then
+		-- 									shakeAmount = weapon.screenShakeAmount
+		-- 								end
+		-- 								maxShakeAmount = shakeAmount
+		-- 								if screenFreeze < weapon.screenFreezeLength then
+		-- 									screenFreeze = weapon.screenFreezeLength
+		-- 								end
+
+		-- 								table.insert(weapon.enemiesHit, actor.uuid)
+		-- 							end
+		-- 						end
+		-- 					end
 		-- 				end
 		-- 			end
 		-- 		end
 		-- 	end
 		-- end
-
-		for x = 1, imageData:getWidth() do
-			for y = 1, imageData:getHeight() do
-				-- pixel coordinates range from 0 to image width - 1 / height - 1.
-				red, green, blue, alpha = imageData:getPixel(x-1, y-1)
-				if alpha > 0 then
-					-- local blocked = false
-					-- for _, pixel in ipairs(blockedPixels) do
-					-- 	if pixel[3] == "above" then
-					-- 		if pixel[1] == x and y <= pixel[2] then
-					-- 			blocked = true
-					-- 		end
-					-- 	elseif pixel[3] == "below" then
-					-- 		if pixel[1] == x and y >= pixel[2] then
-					-- 			blocked = true
-					-- 		end
-					-- 	elseif pixel[3] == "left" then
-					-- 		if pixel[2] == y and x <= pixel[1] then
-					-- 			blocked = true
-					-- 		end
-					-- 	elseif pixel[3] == "right" then
-					-- 		if pixel[2] == y and x >= pixel[1] then
-					-- 			blocked = true
-					-- 		end
-					-- 	end
-					-- end
-
-					-- if blocked == false then
-
-					for _, actor in ipairs(getCollidingActors(weapon:getX() + x-1, weapon:getY() + y-1, 1, 1, false, false, true, false, true, false, false, false, true)) do
-						if actor.enemy and actor.projectile == false then
-							if isInTable(actor.uuid, weapon.enemiesHit) == false then
-								if actor.invincibility == 0 then
-									actor.hit = true
-									actor.lastHitTimer = 0
-
-									if weapon.damage > 0 then
-										actor.previousHp = actor.hp
-										if isInTable("poisonDamage", player.accessories) and actor.poison > 0 then
-											actor.hp = actor.hp - weapon.damage*player.damageBuff*1.5
-										else
-											actor.hp = actor.hp - weapon.damage*player.damageBuff
-										end
-										actor.lastDamagedTimer = 0
-										actor.lastHitTimer = 0
-
-										if actor.hp < 0 then
-											actor.hp = 0
-										end
-										if weapon.type == "projectile" then
-											weapon.pierce = weapon.pierce - 1
-											if weapon.pierce == 0 then
-												table.remove(actors, weapon.index)
-											end
-										end
-									end
-
-									if weapon.knockback > 0 then
-										actor.knockedBack = true
-
-										actor.knockbackAngle = math.atan2((player.y + player.height/2) - (actor.y + actor.height/2), (player.x + player.width/2) - (actor.x + actor.width/2))
-										
-										actor.knockbackDx = math.cos(actor.knockbackAngle)
-										actor.knockbackDy = math.sin(actor.knockbackAngle)
-										actor.xVelocity = -actor.knockbackDx*weapon.knockback/actor.knockbackResistance
-										if actor.ai == "walking" then
-											actor.yVelocity = actor.knockbackDy*weapon.knockback/actor.knockbackResistance
-										end
-									end
-									
-									for i, accessory in ipairs(player.accessories) do
-										local stats = getAccessoryStats(accessory)
-										if stats.status == "poison" and actor.poison < stats.statusDuration then
-											actor.poison = stats.statusDuration*player.poisonDurationBuff
-											actor.lastPoisonDuration = actor.poison
-										elseif stats.status == "burn" and actor.burn < stats.statusDuration then
-											actor.burn = stats.statusDuration*player.burnDurationBuff
-											actor.lastBurnDuration = actor.burn
-										end
-									end
-									
-									if weapon.status == "poison" and actor.poison < weapon.statusDuration then
-										actor.poison = weapon.statusDuration*player.poisonDurationBuff
-										actor.lastPoisonDuration = actor.poison
-									elseif weapon.status == "burn" and actor.burn < weapon.statusDuration then
-										actor.burn = weapon.statusDuration*player.burnDurationBuff
-										actor.lastBurnDuration = actor.burn
-									end
-
-									if shakeLength < weapon.screenShakeLength then
-										shakeLength = weapon.screenShakeLength
-									end
-									maxShakeLength = shakeLength
-									if shakeAmount < weapon.screenShakeAmount then
-										shakeAmount = weapon.screenShakeAmount
-									end
-									maxShakeAmount = shakeAmount
-									if screenFreeze < weapon.screenFreezeLength then
-										screenFreeze = weapon.screenFreezeLength
-									end
-
-									table.insert(weapon.enemiesHit, actor.uuid)
-								end
-							end
-						end
-					end
-				end
-			end
-		end
 	end
 
 	function weapon:draw()
@@ -420,9 +460,9 @@
 				swordFrame = 1
 			elseif weapon.state == "slash" then
 				if weapon.durationCounter > (weapon.startupLag + weapon.slashDuration/2) then
-					swordFrame = 2
-				else
 					swordFrame = 3
+				else
+					swordFrame = 2
 				end
 			else
 				swordFrame = 4

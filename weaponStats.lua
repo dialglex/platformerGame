@@ -14,6 +14,55 @@ function returnWeaponList()
 	return weaponList
 end
 
+function getWeaponImages()
+	woodenSwordIcon = love.graphics.newImage("images/weapons/swords/woodenSword/woodenSwordIcon.png")
+	woodenSwordSpritesheet = love.graphics.newImage("images/weapons/swords/woodenSword/woodenSword.png")
+
+	mushroomSwordIcon = love.graphics.newImage("images/weapons/swords/mushroomSword/mushroomSwordIcon.png")
+	mushroomSwordSpritesheet = love.graphics.newImage("images/weapons/swords/mushroomSword/mushroomSword.png")
+
+	grassBladeIcon = love.graphics.newImage("images/weapons/swords/grassBlade/grassBladeIcon.png")
+	grassBladeSpritesheet = love.graphics.newImage("images/weapons/swords/grassBlade/grassBlade.png")
+
+	treeSwordIcon = love.graphics.newImage("images/weapons/swords/treeSword/treeSwordIcon.png")
+	treeSwordSpritesheet = love.graphics.newImage("images/weapons/swords/treeSword/treeSword.png")
+
+	flowerSwordIcon = love.graphics.newImage("images/weapons/swords/flowerSword/flowerSwordIcon.png")
+	flowerSwordSpritesheet = love.graphics.newImage("images/weapons/swords/flowerSword/flowerSword.png")
+
+	thornSwordIcon = love.graphics.newImage("images/weapons/swords/thornSword/thornSwordIcon.png")
+	thornSwordSpritesheet = love.graphics.newImage("images/weapons/swords/thornSword/thornSword.png")
+
+
+	woodenBowIcon = love.graphics.newImage("images/weapons/bows/woodenBow/woodenBowIcon.png")
+	woodenBowSideSpritesheet = love.graphics.newImage("images/weapons/bows/woodenBow/woodenBowSide.png")
+	woodenBowUpSpritesheet = love.graphics.newImage("images/weapons/bows/woodenBow/woodenBowUp.png")
+
+	woodenArrowIcon = love.graphics.newImage("images/weapons/bows/woodenArrow/woodenArrowIcon.png")
+	woodenArrowSpritesheet = love.graphics.newImage("images/weapons/bows/woodenArrow/woodenArrow.png")
+
+	mushroomBowIcon = love.graphics.newImage("images/weapons/bows/mushroomBow/mushroomBowIcon.png")
+	mushroomBowSideSpritesheet = love.graphics.newImage("images/weapons/bows/mushroomBow/mushroomBowSide.png")
+	mushroomBowUpSpritesheet = love.graphics.newImage("images/weapons/bows/mushroomBow/mushroomBowUp.png")
+
+	mushroomArrowIcon = love.graphics.newImage("images/weapons/bows/mushroomArrow/mushroomArrowIcon.png")
+	mushroomArrowSpritesheet = love.graphics.newImage("images/weapons/bows/mushroomArrow/mushroomArrow.png")
+
+	thornBowIcon = love.graphics.newImage("images/weapons/bows/thornBow/thornBowIcon.png")
+	thornBowSideSpritesheet = love.graphics.newImage("images/weapons/bows/thornBow/thornBowSide.png")
+	thornBowUpSpritesheet = love.graphics.newImage("images/weapons/bows/thornBow/thornBowUp.png")
+
+	thornArrowIcon = love.graphics.newImage("images/weapons/bows/thornArrow/thornArrowIcon.png")
+	thornArrowSpritesheet = love.graphics.newImage("images/weapons/bows/thornArrow/thornArrow.png")
+
+	leafBowIcon = love.graphics.newImage("images/weapons/bows/leafBow/leafBowIcon.png")
+	leafBowSideSpritesheet = love.graphics.newImage("images/weapons/bows/leafBow/leafBowSide.png")
+	leafBowUpSpritesheet = love.graphics.newImage("images/weapons/bows/leafBow/leafBowUp.png")
+
+	leafArrowIcon = love.graphics.newImage("images/weapons/bows/leafArrow/leafArrowIcon.png")
+	leafArrowSpritesheet = love.graphics.newImage("images/weapons/bows/leafArrow/leafArrow.png")
+end
+
 function getWeaponStats(weapon)
 	local shootDirection
 	if player ~= nil then
@@ -33,8 +82,8 @@ function getWeaponStats(weapon)
 		return {
 			name = weapon,
 			weaponType = "sword",
-			iconSprite = love.graphics.newImage("images/weapons/swords/defaultSword/defaultSwordIcon.png"), -- max size: 31x31px
-			spritesheet = love.graphics.newImage("images/weapons/swords/defaultSword/defaultSword.png"),
+			iconSprite = defaultSwordIcon, -- max size: 31x31px
+			spritesheet = defaultSwordSpritesheet,
 			damage = 50, -- min: 0, max: 100
 			knockback = 2, -- min: 0, max: 4
 			status =  "",
@@ -59,8 +108,8 @@ function getWeaponStats(weapon)
 		return {
 			name = weapon,
 			weaponType = "sword",
-			iconSprite = love.graphics.newImage("images/weapons/swords/woodenSword/woodenSwordIcon.png"),
-			spritesheet = love.graphics.newImage("images/weapons/swords/woodenSword/woodenSword.png"),
+			iconSprite = woodenSwordIcon,
+			spritesheet = woodenSwordSpritesheet,
 			damage = 25,
 			knockback = 1.5,
 			status =  "",
@@ -85,8 +134,8 @@ function getWeaponStats(weapon)
 		return {
 			name = weapon,
 			weaponType = "sword",
-			iconSprite = love.graphics.newImage("images/weapons/swords/mushroomSword/mushroomSwordIcon.png"),
-			spritesheet = love.graphics.newImage("images/weapons/swords/mushroomSword/mushroomSword.png"),
+			iconSprite = mushroomSwordIcon,
+			spritesheet = mushroomSwordSpritesheet,
 			damage = 25,
 			knockback = 3.5,
 			status =  "", 
@@ -111,8 +160,8 @@ function getWeaponStats(weapon)
 		return {
 			name = weapon,
 			weaponType = "sword",
-			iconSprite = love.graphics.newImage("images/weapons/swords/grassBlade/grassBladeIcon.png"),
-			spritesheet = love.graphics.newImage("images/weapons/swords/grassBlade/grassBlade.png"),
+			iconSprite = grassBladeIcon,
+			spritesheet = grassBladeSpritesheet,
 			damage = 50,
 			knockback = 2,
 			status =  "", 
@@ -137,8 +186,8 @@ function getWeaponStats(weapon)
 		return {
 			name = weapon,
 			weaponType = "sword",
-			iconSprite = love.graphics.newImage("images/weapons/swords/treeSword/treeSwordIcon.png"),
-			spritesheet = love.graphics.newImage("images/weapons/swords/treeSword/treeSword.png"),
+			iconSprite = treeSwordIcon,
+			spritesheet = treeSwordSpritesheet,
 			damage = 25,
 			knockback = 1.5,
 			status =  "", 
@@ -163,8 +212,8 @@ function getWeaponStats(weapon)
 		return {
 			name = weapon,
 			weaponType = "sword",
-			iconSprite = love.graphics.newImage("images/weapons/swords/flowerSword/flowerSwordIcon.png"),
-			spritesheet = love.graphics.newImage("images/weapons/swords/flowerSword/flowerSword.png"),
+			iconSprite = flowerSwordIcon,
+			spritesheet = flowerSwordSpritesheet,
 			damage = 35,
 			knockback = 2,
 			status =  "", 
@@ -189,8 +238,8 @@ function getWeaponStats(weapon)
 		return {
 			name = weapon,
 			weaponType = "sword",
-			iconSprite = love.graphics.newImage("images/weapons/swords/thornSword/thornSwordIcon.png"),
-			spritesheet = love.graphics.newImage("images/weapons/swords/thornSword/thornSword.png"),
+			iconSprite = thornSwordIcon,
+			spritesheet = thornSwordSpritesheet,
 			damage = 25, -- 25 DoT
 			knockback = 1.5,
 			status = "poison", 
@@ -216,14 +265,14 @@ function getWeaponStats(weapon)
 	if weapon == "woodenBow" then
 		local spritesheet
 		if shootDirection == "left" or shootDirection == "right" then
-			spritesheet = love.graphics.newImage("images/weapons/bows/woodenBow/woodenBowSide.png")
+			spritesheet = woodenBowSideSpritesheet
 		else
-			spritesheet = love.graphics.newImage("images/weapons/bows/woodenBow/woodenBowUp.png")
+			spritesheet = woodenBowUpSpritesheet
 		end
 		return {
 			name = weapon,
 			weaponType = "bow",
-			iconSprite = love.graphics.newImage("images/weapons/bows/woodenBow/woodenBowIcon.png"),
+			iconSprite = woodenBowIcon,
 			spritesheet = spritesheet,
 			damage = 15,
 			knockback = 0.5,
@@ -251,8 +300,8 @@ function getWeaponStats(weapon)
 		return {
 			name = weapon,
 			weaponType = "projectile",
-			iconSprite = love.graphics.newImage("images/weapons/bows/woodenArrow/woodenArrowIcon.png"),
-			spritesheet = love.graphics.newImage("images/weapons/bows/woodenArrow/woodenArrow.png"),
+			iconSprite = woodenArrowIcon,
+			spritesheet = woodenArrowSpritesheet,
 			damage = 15,
 			knockback = 0.5,
 			status = "", 
@@ -275,14 +324,14 @@ function getWeaponStats(weapon)
 	if weapon == "mushroomBow" then
 		local spritesheet
 		if shootDirection == "left" or shootDirection == "right" then
-			spritesheet = love.graphics.newImage("images/weapons/bows/mushroomBow/mushroomBowSide.png")
+			spritesheet = mushroomBowSideSpritesheet
 		else
-			spritesheet = love.graphics.newImage("images/weapons/bows/mushroomBow/mushroomBowUp.png")
+			spritesheet = mushroomBowUpSpritesheet
 		end
 		return {
 			name = weapon,
 			weaponType = "bow",
-			iconSprite = love.graphics.newImage("images/weapons/bows/mushroomBow/mushroomBowIcon.png"),
+			iconSprite = mushroomBowIcon,
 			spritesheet = spritesheet,
 			damage = 15,
 			knockback = 3,
@@ -310,8 +359,8 @@ function getWeaponStats(weapon)
 		return {
 			name = weapon,
 			weaponType = "projectile",
-			iconSprite = love.graphics.newImage("images/weapons/bows/mushroomArrow/mushroomArrowIcon.png"),
-			spritesheet = love.graphics.newImage("images/weapons/bows/mushroomArrow/mushroomArrow.png"),
+			iconSprite = mushroomArrowIcon,
+			spritesheet = mushroomArrowSpritesheet,
 			damage = 15,
 			knockback = 3,
 			status = "", 
@@ -334,14 +383,14 @@ function getWeaponStats(weapon)
 	if weapon == "thornBow" then
 		local spritesheet
 		if shootDirection == "left" or shootDirection == "right" then
-			spritesheet = love.graphics.newImage("images/weapons/bows/thornBow/thornBowSide.png")
+			spritesheet = thornBowSideSpritesheet
 		else
-			spritesheet = love.graphics.newImage("images/weapons/bows/thornBow/thornBowUp.png")
+			spritesheet = thornBowUpSpritesheet
 		end
 		return {
 			name = weapon,
 			weaponType = "bow",
-			iconSprite = love.graphics.newImage("images/weapons/bows/thornBow/thornBowIcon.png"),
+			iconSprite = thornBowIcon,
 			spritesheet = spritesheet,
 			damage = 15, -- 15 DoT
 			knockback = 0.5,
@@ -369,8 +418,8 @@ function getWeaponStats(weapon)
 		return {
 			name = weapon,
 			weaponType = "projectile",
-			iconSprite = love.graphics.newImage("images/weapons/bows/thornArrow/thornArrowIcon.png"),
-			spritesheet = love.graphics.newImage("images/weapons/bows/thornArrow/thornArrow.png"),
+			iconSprite = thornArrowIcon,
+			spritesheet = thornArrowSpritesheet,
 			damage = 15, -- 15 DoT
 			knockback = 0.5,
 			status = "poison", 
@@ -393,14 +442,14 @@ function getWeaponStats(weapon)
 	if weapon == "leafBow" then
 		local spritesheet
 		if shootDirection == "left" or shootDirection == "right" then
-			spritesheet = love.graphics.newImage("images/weapons/bows/leafBow/leafBowSide.png")
+			spritesheet = leafBowSideSpritesheet
 		else
-			spritesheet = love.graphics.newImage("images/weapons/bows/leafBow/leafBowUp.png")
+			spritesheet = leafBowUpSpritesheet
 		end
 		return {
 			name = weapon,
 			weaponType = "bow",
-			iconSprite = love.graphics.newImage("images/weapons/bows/leafBow/leafBowIcon.png"),
+			iconSprite = leafBowIcon,
 			spritesheet = spritesheet,
 			damage = 20,
 			knockback = 0.75,
@@ -428,8 +477,8 @@ function getWeaponStats(weapon)
 		return {
 			name = weapon,
 			weaponType = "projectile",
-			iconSprite = love.graphics.newImage("images/weapons/bows/leafArrow/leafArrowIcon.png"),
-			spritesheet = love.graphics.newImage("images/weapons/bows/leafArrow/leafArrow.png"),
+			iconSprite = leafArrowIcon,
+			spritesheet = leafArrowSpritesheet,
 			damage = 20,
 			knockback = 0.75,
 			status = "", 

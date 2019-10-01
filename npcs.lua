@@ -57,67 +57,129 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 	npc.lastDamagedTimer = npc.healthBarDuration + npc.healthBarFadeDuration
 
 	npc.animationSpeed = stats.animationSpeed
-	npc.attackAnimationSpeed = stats.attackAnimationSpeed
 	npc.animationFrames = stats.animationFrames
+	npc.animationFrame = 1
+	npc.attackAnimationSpeed = stats.attackAnimationSpeed
 	npc.attackAnimationFrames = stats.attackAnimationFrames
-	npc.frame = 0
+	npc.attackAnimationFrame = 1
 	npc.frameCounter = 0
-	npc.baseSpritesheet = stats.spritesheet
+	if npc.name == "acorn" then
+		npc.moveRightSpritesheet = acornMoveRightSpritesheet
+		npc.moveLeftSpritesheet = acornMoveLeftSpritesheet
+		npc.attackRightSpritesheet = acornAttackRightSpritesheet
+		npc.attackLeftSpritesheet = acornAttackLeftSpritesheet
+		npc.hoverRightSpritesheet = acornHoverRightSpritesheet
+		npc.hoverLeftSpritesheet = acornHoverLeftSpritesheet
+		npc.baseSpritesheet = npc.moveRightSpritesheet
+
+		npc.hoverAnimationFrames = 2
+		npc.hoverAnimationFrame = 1
+		npc.hoverQuads = {}
+		local spritesheetWidth = npc.hoverRightSpritesheet:getWidth()
+		local spritesheetHeight = npc.hoverRightSpritesheet:getHeight()
+		local width = spritesheetWidth/2
+		local height = spritesheetHeight
+		for i = 1, 2 do
+			table.insert(npc.hoverQuads, love.graphics.newQuad(width*(i - 1), 0, width, height, spritesheetWidth, spritesheetHeight))
+		end
+	elseif npc.name == "mushroomMonster" then
+		npc.moveRightSpritesheet = mushroomMonsterMoveRightSpritesheet
+		npc.moveLeftSpritesheet = mushroomMonsterMoveLeftSpritesheet
+		npc.attackRightSpritesheet = mushroomMonsterAttackRightSpritesheet
+		npc.attackLeftSpritesheet = mushroomMonsterAttackLeftSpritesheet
+		npc.baseSpritesheet = npc.moveRightSpritesheet
+	elseif npc.name == "poisonCloud" then
+		npc.baseSpritesheet = poisonCloudSpritesheet
+	elseif npc.name == "upPlant" then
+		npc.idleSpritesheet = upPlantIdleSpritesheet
+		npc.attackSpritesheet = upPlantAttackSpritesheet
+		npc.baseSpritesheet = npc.idleSpritesheet
+	elseif npc.name == "downPlant" then
+		npc.idleSpritesheet = downPlantIdleSpritesheet
+		npc.attackSpritesheet = downPlantAttackSpritesheet
+		npc.baseSpritesheet = npc.idleSpritesheet
+	elseif npc.name == "plantProjectile" then
+		npc.baseSpritesheet = plantProjectileSpritesheet
+	elseif npc.name == "fuzzy" then
+		npc.moveRightSpritesheet = fuzzyMoveRightSpritesheet
+		npc.moveLeftSpritesheet = fuzzyMoveLeftSpritesheet
+		npc.attackRightSpritesheet = fuzzyAttackRightSpritesheet
+		npc.attackLeftSpritesheet = fuzzyAttackLeftSpritesheet
+		npc.baseSpritesheet = npc.moveRightSpritesheet
+	elseif npc.name == "acornKing" then
+		npc.moveRightSpritesheet = acornKingMoveRightSpritesheet
+		npc.moveLeftSpritesheet = acornKingMoveLeftSpritesheet
+		npc.attackRightSpritesheet = acornKingAttackRightSpritesheet
+		npc.attackLeftSpritesheet = acornKingAttackLeftSpritesheet
+		npc.baseSpritesheet = npc.moveRightSpritesheet
+	elseif npc.name == "acornProjectile" then
+		npc.rotation1Spritesheet = acornProjectileRotation1Spritesheet
+		npc.rotation2Spritesheet = acornProjectileRotation2Spritesheet
+		npc.rotation3Spritesheet = acornProjectileRotation3Spritesheet
+		npc.rotation4Spritesheet = acornProjectileRotation4Spritesheet
+		npc.rotation5Spritesheet = acornProjectileRotation5Spritesheet
+		npc.rotation6Spritesheet = acornProjectileRotation6Spritesheet
+		npc.rotation7Spritesheet = acornProjectileRotation7Spritesheet
+		npc.rotation8Spritesheet = acornProjectileRotation8Spritesheet
+		npc.baseSpritesheet = npc.rotation1Spritesheet
+	elseif npc.name == "moonfly" then
+		npc.moveRightSpritesheet = moonflyMoveRightSpritesheet
+		npc.moveLeftSpritesheet = moonflyMoveLeftSpritesheet
+		npc.attackRightSpritesheet = moonflyAttackRightSpritesheet
+		npc.attackLeftSpritesheet = moonflyAttackLeftSpritesheet
+		npc.diveRightSpritesheet = moonflyDiveRightSpritesheet
+		npc.diveLeftSpritesheet = moonflyDiveLeftSpritesheet
+		npc.stuckRightSpritesheet = moonflyStuckRightSpritesheet
+		npc.stuckLeftSpritesheet = moonflyStuckLeftSpritesheet
+		npc.baseSpritesheet = npc.moveRightSpritesheet
+
+		npc.diveAnimationFrames = 2
+		npc.diveAnimationFrame = 1
+		npc.diveQuads = {}
+		local spritesheetWidth = npc.diveRightSpritesheet:getWidth()
+		local spritesheetHeight = npc.diveRightSpritesheet:getHeight()
+		local width = spritesheetWidth/2
+		local height = spritesheetHeight
+		for i = 1, 2 do
+			table.insert(npc.diveQuads, love.graphics.newQuad(width*(i - 1), 0, width, height, spritesheetWidth, spritesheetHeight))
+		end
+
+		npc.stuckAnimationFrames = 2
+		npc.stuckAnimationFrame = 1
+		npc.stuckQuads = {}
+		local spritesheetWidth = npc.stuckRightSpritesheet:getWidth()
+		local spritesheetHeight = npc.stuckRightSpritesheet:getHeight()
+		local width = spritesheetWidth/2
+		local height = spritesheetHeight
+		for i = 1, 2 do
+			table.insert(npc.stuckQuads, love.graphics.newQuad(width*(i - 1), 0, width, height, spritesheetWidth, spritesheetHeight))
+		end
+	end
 	npc.width = npc.baseSpritesheet:getWidth() / npc.animationFrames
 	npc.height = npc.baseSpritesheet:getHeight()
 	npc.x = x
 	npc.y = y - (npc.height - 16)
-	if npc.ai == "walking" or npc.ai == "mushroomMonster" or npc.ai == "acornKing" then
-		npc.moveRightSpritesheet = npc.baseSpritesheet
-		npc.moveLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/"..npc.name.."/"..npc.name.."MoveLeftSpritesheet.png")
-		npc.attackRightSpritesheet = love.graphics.newImage("images/npcs/enemy/"..npc.name.."/"..npc.name.."AttackRightSpritesheet.png")
-		npc.attackLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/"..npc.name.."/"..npc.name.."AttackLeftSpritesheet.png")
-		if npc.name == "acorn" then
-			npc.hoverRightSpritesheet = love.graphics.newImage("images/npcs/enemy/acorn/acornHoverRightSpritesheet.png")
-			npc.hoverLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/acorn/acornHoverLeftSpritesheet.png")
-		end
-		npc.attackWidth = npc.attackRightSpritesheet:getWidth() / npc.attackAnimationFrames
-		npc.attackHeight = npc.attackRightSpritesheet:getHeight()
-	elseif npc.ai == "flying" then
-		npc.moveRightSpritesheet = npc.baseSpritesheet
-		npc.moveLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/"..npc.name.."/"..npc.name.."MoveLeftSpritesheet.png")
-		npc.attackRightSpritesheet = love.graphics.newImage("images/npcs/enemy/"..npc.name.."/"..npc.name.."AttackRightSpritesheet.png")
-		npc.attackLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/"..npc.name.."/"..npc.name.."AttackLeftSpritesheet.png")
-		npc.attackWidth = npc.attackRightSpritesheet:getWidth() / npc.attackAnimationFrames
-		npc.attackHeight = npc.attackRightSpritesheet:getHeight()
-	elseif npc.ai == "diving" then
-		npc.moveRightSpritesheet = npc.baseSpritesheet
-		npc.moveLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/"..npc.name.."/"..npc.name.."MoveLeftSpritesheet.png")
-		npc.attackRightSpritesheet = love.graphics.newImage("images/npcs/enemy/"..npc.name.."/"..npc.name.."AttackRightSpritesheet.png")
-		npc.attackLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/"..npc.name.."/"..npc.name.."AttackLeftSpritesheet.png")
-		npc.diveRightSpritesheet = love.graphics.newImage("images/npcs/enemy/"..npc.name.."/"..npc.name.."DiveRightSpritesheet.png")
-		npc.diveLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/"..npc.name.."/"..npc.name.."DiveLeftSpritesheet.png")
-		npc.stuckRightSpritesheet = love.graphics.newImage("images/npcs/enemy/"..npc.name.."/"..npc.name.."StuckRightSpritesheet.png")
-		npc.stuckLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/"..npc.name.."/"..npc.name.."StuckLeftSpritesheet.png")
-		npc.attackWidth = npc.attackRightSpritesheet:getWidth() / npc.attackAnimationFrames
-		npc.attackHeight = npc.attackRightSpritesheet:getHeight()
+
+	if npc.projectile then
+		npc.attackWidth = npc.width
+		npc.attackHeight = npc.height
 	elseif npc.ai == "shootTurret" then
-		npc.idleSpritesheet = npc.baseSpritesheet
-		npc.attackSpritesheet = love.graphics.newImage("images/npcs/enemy/plant/"..npc.name.."AttackSpritesheet.png")
 		npc.attackWidth = npc.attackSpritesheet:getWidth() / npc.attackAnimationFrames
 		npc.attackHeight = npc.attackSpritesheet:getHeight()
-	elseif npc.ai == "smiley" then
-		npc.attackWidth = 1
-		npc.attackHeight = 1
-	elseif npc.ai == "projectile" or npc.ai == "cloud" then
-		if npc.name == "acornProjectile" then
-			npc.rotation1Spritesheet = npc.baseSpritesheet
-			npc.rotation2Spritesheet = love.graphics.newImage("images/npcs/enemy/acornKing/acornProjectile2.png")
-			npc.rotation3Spritesheet = love.graphics.newImage("images/npcs/enemy/acornKing/acornProjectile3.png")
-			npc.rotation4Spritesheet = love.graphics.newImage("images/npcs/enemy/acornKing/acornProjectile4.png")
-			npc.rotation5Spritesheet = love.graphics.newImage("images/npcs/enemy/acornKing/acornProjectile5.png")
-			npc.rotation6Spritesheet = love.graphics.newImage("images/npcs/enemy/acornKing/acornProjectile6.png")
-			npc.rotation7Spritesheet = love.graphics.newImage("images/npcs/enemy/acornKing/acornProjectile7.png")
-			npc.rotation8Spritesheet = love.graphics.newImage("images/npcs/enemy/acornKing/acornProjectile8.png")
-		end
-		npc.attackWidth = 1
-		npc.attackHeight = 1
+	else
+		npc.attackWidth = npc.attackRightSpritesheet:getWidth() / npc.attackAnimationFrames
+		npc.attackHeight = npc.attackRightSpritesheet:getHeight()
 	end
+
+	npc.quads = {}
+	for i = 1, npc.animationFrames do
+		table.insert(npc.quads, love.graphics.newQuad(npc.width*(i - 1), 0, npc.width, npc.height, npc.baseSpritesheet:getWidth(), npc.baseSpritesheet:getHeight()))
+	end
+	npc.attackQuads = {}
+	for i = 1, npc.attackAnimationFrames do
+		table.insert(npc.attackQuads, love.graphics.newQuad(npc.attackWidth*(i - 1), 0, npc.attackWidth, npc.attackHeight, npc.attackWidth*npc.attackAnimationFrames, npc.attackHeight))
+	end
+
 	npc.rotation = 1
 	npc.hitboxX = stats.hitboxX
 	npc.hitboxY = stats.hitboxY
@@ -159,24 +221,17 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 	end
 
 	npc.moveCounter = 0
-	npc.moveQuadSection = 0
 	npc.idleCounter = 0
-	npc.idleQuadSection = 0
 	npc.attackCounter = 0
-	npc.attackQuadSection = 0
 	npc.diveCounter = 0
-	npc.diveQuadSection = 0
 	npc.stuckCounter = 0
-	npc.stuckQuadSection = 0
 	npc.hoverCounter = 0
-	npc.hoverQuadSection = 0
 
 	npc.xPlayerDistance = 0
 	npc.yPlayerDistance = 0
 	npc.playerDistance = 0
 
-	-- local randomNumber = math.random(2)
-	local randomNumber = 1
+	local randomNumber = math.random(2)
 	if randomNumber == 1 then
 		npc.direction = "left"
 	else
@@ -216,7 +271,7 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 				npc:checkGrounded()
 				npc:physics()
 				npc:airPhysics()
-				npc:walkingAi() -- its in walkingAi
+				npc:walkingAi()
 			elseif npc.ai == "acornKing" then
 				npc:checkGrounded()
 				npc:physics()
@@ -233,14 +288,8 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 				npc:airPhysics()
 				npc:physics()
 				npc:sineAi()
-			elseif npc.ai == "smiley" then
-				npc:airPhysics()
-				npc:physics()
-				npc:smileyAi()
 			elseif npc.ai == "projectile" then
 				npc:projectileAi()
-			elseif npc.ai == "cloud" then
-				npc:cloudAi()
 			end
 			npc:animation()
 		end
@@ -491,7 +540,6 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 		npc.playerLeft = false
 		npc.playerRight = false
 		npc.canMove = false
-		-- local wallDistance = npc.wallDistance*math.abs(npc.xVelocity)/npc.xTerminalVelocity + 1
 		local wallDistance = npc.wallDistance
 
 		local extraHitDistance
@@ -539,11 +587,10 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 			if npc.idle then
 				npc.canMove = false
 			else
-				local frameNumber = npc.moveQuadSection/npc.width
 				if npc.ai == "mushroomMonster" then
-					npc.canMove = (frameNumber == 0 or frameNumber == 1)
+					npc.canMove = (npc.animationFrame == 1 or npc.animationFrame == 2)
 				elseif npc.ai == "acornKing" then
-					npc.canMove = (frameNumber == 0 or frameNumber == 2 or frameNumber == 3 or frameNumber == 5)
+					npc.canMove = (npc.animationFrame == 1 or npc.animationFrame == 3 or npc.animationFrame == 4 or npc.animationFrame == 6)
 				else
 					npc.canMove = true
 				end
@@ -586,16 +633,10 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 							if npc.direction == "right" and npc.grounded and (npc.x >= 480-npc.width-8 or npc.tileRight ~= "" or npc.tileBottomRight == "") then
 								npc.direction = "left"
 								npc.x = npc.x + (npc.hitboxX - (npc.width - npc.hitboxWidth - npc.hitboxX))
-								-- if npc.tileRight ~= "" and npc.lastTurnCounter < 10 then
-								-- 	npc.idle = true
-								-- end
 								npc.lastTurnCounter = 0
 							elseif npc.direction == "left" and npc.grounded and (npc.x <= npc.width-8 or npc.tileLeft ~= "" or npc.tileBottomLeft == "") then
 								npc.direction = "right"
 								npc.x = npc.x - (npc.hitboxX - (npc.width - npc.hitboxWidth - npc.hitboxX))
-								-- if npc.tileLeft ~= "" and npc.lastTurnCounter < 10 then
-								-- 	npc.idle = true
-								-- end
 								npc.lastTurnCounter = 0
 							end
 						end
@@ -657,7 +698,7 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 	function npc:mushroomMonsterAi()
 		npc:walkingAi()
 		if npc.attacking then
-			if isInTable(npc.attackQuadSection/npc.attackWidth, npc.attackHitFrames) and npc.projectileShot == false then
+			if isInTable(npc.attackAnimationFrame, npc.attackHitFrames) and npc.projectileShot == false then
 				local stats = getNpcStats("poisonCloud")
 				local y = npc.y + npc.height - stats.spritesheet:getHeight()/2
 				local x
@@ -728,12 +769,6 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 		npc.xTerminalVelocity = npc.baseXTerminalVelocity * speedIncrease
 	end
 
-	function npc:cloudAi()
-		if npc.counter == npc.animationFrames*npc.animationSpeed then
-			npc.remove = true
-		end
-	end
-
 	function npc:shootTurretAi()
 		if npc.attackCooldown > 0 then
 			npc.attackCooldown = npc.attackCooldown - 1
@@ -764,7 +799,7 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 			end
 
 			if npc.attacking then
-				if isInTable(npc.attackQuadSection/npc.attackWidth, npc.attackHitFrames) and npc.projectileShot == false then
+				if isInTable(npc.attackAnimationFrame, npc.attackHitFrames) and npc.projectileShot == false then
 					y = npc.y + (npc.attackHitboxY + npc.attackHeight/2) - stats.spritesheet:getHeight()
 					table.insert(actors, newNpc(x, y, 0, -2.5, stats))
 					npc.projectileShot = true
@@ -785,7 +820,7 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 			end
 
 			if npc.attacking then
-				if isInTable(npc.attackQuadSection/npc.attackWidth, npc.attackHitFrames) and npc.projectileShot == false then
+				if isInTable(npc.attackAnimationFrame, npc.attackHitFrames) and npc.projectileShot == false then
 					y = npc.y + (npc.attackHitboxY + npc.attackHeight/2)
 					table.insert(actors, newNpc(x, y, 0, 2.5, stats))
 					npc.projectileShot = true
@@ -874,35 +909,6 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 		npc.yVelocity = math.sin(npc.sineRadians)*1.5
 	end
 
-	function npc:smileyAi()
-		if npc.hp/npc.maxHp > 2/3 then
-			npc.yVelocity = 0
-			npc.xTerminalVelocity = 1.75
-		elseif npc.hp/npc.maxHp > 1/3 then
-			npc:sineAi()
-			npc.xTerminalVelocity = 1
-		else
-			npc:sineAi()
-			npc.xTerminalVelocity = 1.5
-			if npc.projectileCounter > 20 then
-				-- local name, ai, spritesheet, animationSpeed, animationFrames, width, height, attackAnimationFrames, attackXOffset,
-				-- 	attackYOffset, attackHitFrames, attackCooldownLength, attackDistance, damage, hp, knockback, knockbackResistance,
-				-- 	screenShakeAmount, screenShakeLength, screenFreezeLength, xAcceleration, xTerminalVelocity, enemy, money, boss,
-				-- 	projectile, background = unpack(getNpcStats("smileyProjectile"))
-				-- local projectileAngle = math.atan2(npc.yVelocity, npc.xVelocity)
-				-- local projectileDx = math.cos(projectileAngle)
-				-- local projectileDy = math.sin(projectileAngle)
-
-				-- table.insert(actors, newNpc(name, ai, npc.x + npc.width/2 - width/2, npc.y + npc.height/2 - height/2, spritesheet, animationSpeed,
-				-- 	animationFrames, width, height, attackAnimationFrames, attackXOffset, attackYOffset, attackHitFrames, attackCooldownLength, attackDistance,
-				-- 	damage, hp, knockback, knockbackResistance, screenShakeAmount, screenShakeLength, screenFreezeLength, xAcceleration, xTerminalVelocity,
-				-- 	enemy, money, boss, projectile, background, projectileDx*3, projectileDy*3))
-				-- npc.projectileCounter = 0
-			end
-		end
-		npc:flyingAi()
-	end
-
 	function npc:projectileAi()
 		for _, actor in ipairs(getCollidingActors(npc.x + npc.width/4, npc.y + npc.height/4, npc.width/2, npc.height/2, true, false, false, true, false, false)) do
 			if actor.collidable then
@@ -983,21 +989,26 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 
 		if npc.attacking then
 			npc.idleCounter = 0
-			npc.idleQuadSection = 0
+			npc.moveCounter = 0
+			npc.animationFrame = 1
 		else
 			npc.attackCounter = 0
-			npc.attackQuadSection = 0
+			npc.attackAnimationFrame = 1
 		end
 
-		if npc.ai == "projectile" or npc.ai == "cloud" then
+		if npc.projectile then
 			if npc.frameCounter >= npc.animationSpeed then
-				npc.frame = npc.frame + 1
+				npc.animationFrame = npc.animationFrame + 1
 				npc.frameCounter = 0
-				npc.frameQuad = love.graphics.newQuad((npc.frame-1)*npc.width, 0, npc.width, npc.height, npc.width*npc.animationFrames, npc.height)
 			end
 
-			if npc.frame >= npc.animationFrames then
-				npc.frame = 0
+			if npc.animationFrame >= npc.animationFrames + 1 then
+				if npc.ai == "cloud" then
+					npc.remove = true
+					npc.animationFrame = npc.animationFrames
+				else
+					npc.animationFrame = 1
+				end
 				npc.frameCounter = 0
 			end
 
@@ -1015,13 +1026,13 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 		elseif npc.ai == "shootTurret" then
 			if npc.attacking then
 				if npc.attackCounter >= npc.attackAnimationSpeed then
-					npc.attackQuadSection = npc.attackQuadSection + npc.attackWidth
+					npc.attackAnimationFrame = npc.attackAnimationFrame + 1
 					npc.attackCounter = 0
 				end
-				if npc.attackQuadSection >= npc.attackWidth*npc.attackAnimationFrames then
+				if npc.attackAnimationFrame >= npc.attackAnimationFrames + 1 then
 					npc.attacking = false
 					npc.attackCounter = 0
-					npc.attackQuadSection = 0
+					npc.attackAnimationFrame = 1
 					npc.attackCooldown = npc.attackCooldownLength
 					if npc.direction == "left" then
 						npc.x = npc.x - npc.leftAttackXOffset
@@ -1033,11 +1044,11 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 				npc.attackCounter = npc.attackCounter + 1
 			else
 				if npc.idleCounter >= npc.animationSpeed then
-					npc.idleQuadSection = npc.idleQuadSection + npc.width
+					npc.animationFrame = npc.animationFrame + 1
 					npc.idleCounter = 0
 				end
-				if npc.idleQuadSection >= npc.width*npc.animationFrames then
-					npc.idleQuadSection = 0
+				if npc.animationFrame >= npc.animationFrames + 1 then
+					npc.animationFrame = 1
 					npc.idleCounter = 0
 				end
 				npc.idleCounter = npc.idleCounter + 1
@@ -1045,11 +1056,10 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 		elseif npc.ai == "walking" or npc.ai == "acornKing" or npc.ai == "mushroomMonster" or npc.ai == "flying" or npc.ai == "diving" then
 			if npc.attacking then
 				if npc.attackCounter >= npc.attackAnimationSpeed then
-					npc.attackQuadSection = npc.attackQuadSection + npc.attackWidth
+					npc.attackAnimationFrame = npc.attackAnimationFrame + 1
 					npc.attackCounter = 0
 					if npc.ai == "acornKing" then
-						local frameNumber = npc.attackQuadSection/npc.attackWidth
-						if frameNumber == 4 then
+						if npc.attackAnimationFrame == 6 then
 							if shakeLength < npc.screenShakeLength/2 then
 								shakeLength = npc.screenShakeLength/2
 							end
@@ -1061,10 +1071,10 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 						end
 					end
 				end
-				if npc.attackQuadSection >= npc.attackWidth*npc.attackAnimationFrames then
+				if npc.attackAnimationFrame >= npc.attackAnimationFrames + 1 then
 					npc.attacking = false
 					npc.attackCounter = 0
-					npc.attackQuadSection = 0
+					npc.attackAnimationFrame = 1
 					npc.attackCooldown = npc.attackCooldownLength
 					if npc.ai ~= "flying" then
 						if npc.direction == "left" then
@@ -1082,11 +1092,11 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 
 				if npc.ai == "diving" then
 					if npc.diveCounter >= npc.animationSpeed then
-						npc.diveQuadSection = npc.diveQuadSection + 18
+						npc.diveAnimationFrame = npc.diveAnimationFrame + 1
 						npc.diveCounter = 0
 					end
-					if npc.diveQuadSection >= 18*2 then
-						npc.diveQuadSection = 0
+					if npc.diveAnimationFrame >= npc.diveAnimationFrames + 1 then
+						npc.diveAnimationFrame = 1
 						npc.diveCounter = 0
 					end
 					npc.diveCounter = npc.diveCounter + 1
@@ -1094,31 +1104,30 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 			else
 				if npc.stuck then
 					if npc.stuckCounter >= npc.animationSpeed then
-						npc.stuckQuadSection = npc.stuckQuadSection + 18
+						npc.stuckAnimationFrame = npc.stuckAnimationFrame + 1
 						npc.stuckCounter = 0
 					end
-					if npc.stuckQuadSection >= 18*2 then
-						npc.stuckQuadSection = 0
+					if npc.stuckAnimationFrame >= npc.stuckAnimationFrames + 1 then
+						npc.stuckAnimationFrames = 1
 						npc.stuckCounter = 0
 					end
 					npc.stuckCounter = npc.stuckCounter + 1
 				elseif npc.yVelocity ~= 0 and npc.name == "acorn" then
 					if npc.hoverCounter >= npc.animationSpeed then
-						npc.hoverQuadSection = npc.hoverQuadSection + 28
+						npc.hoverAnimationFrame = npc.hoverAnimationFrame + 1
 						npc.hoverCounter = 0
 					end
-					if npc.hoverQuadSection >= 28*2 then
-						npc.hoverQuadSection = 0
+					if npc.hoverAnimationFrame >= npc.hoverAnimationFrames + 1 then
+						npc.hoverAnimationFrame = 1
 						npc.hoverCounter = 0
 					end
 					npc.hoverCounter = npc.hoverCounter + 1
 				else
 					if npc.moveCounter >= npc.animationSpeed then
-						npc.moveQuadSection = npc.moveQuadSection + npc.width
+						npc.animationFrame = npc.animationFrame + 1
 						npc.moveCounter = 0
 						if npc.ai == "acornKing" then
-							local frameNumber = npc.moveQuadSection/npc.width
-							if frameNumber == 1 or frameNumber == 4 then
+							if frameNumber == 2 or frameNumber == 5 then
 								if shakeLength < npc.screenShakeLength then
 									shakeLength = npc.screenShakeLength/4
 								end
@@ -1130,8 +1139,8 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 							end
 						end
 					end
-					if npc.moveQuadSection >= npc.width*npc.animationFrames then
-						npc.moveQuadSection = 0
+					if npc.animationFrame >= npc.animationFrames + 1 then
+						npc.animationFrame = 1
 						npc.moveCounter = 0
 					end
 					npc.moveCounter = npc.moveCounter + 1
@@ -1164,7 +1173,7 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 		love.graphics.clear()
 		love.graphics.setBackgroundColor(0, 0, 0, 0)
 
-		if npc.ai == "sine" or npc.ai == "smiley" or npc.ai == "projectile" or npc.ai == "cloud" then
+		if npc.projectile then
 			if npc.rotation == 1 then
 				npc.spritesheet = npc.baseSpritesheet
 			elseif npc.rotation == 2 then
@@ -1183,86 +1192,86 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 				npc.spritesheet = npc.rotation8Spritesheet
 			end
 
-			npc.quad = npc.frameQuad
+			npc.quad = npc.quads[npc.animationFrame]
 		elseif npc.ai == "walking" or npc.ai == "acornKing" or npc.ai == "mushroomMonster" or npc.ai == "flying" or npc.ai == "diving" then
 			if npc.attacking then
 				if npc.attackDirection == "left" then
 					npc.spritesheet = npc.attackLeftSpritesheet
-					npc.quad = love.graphics.newQuad(npc.attackQuadSection, 0, npc.attackWidth, npc.attackHeight, npc.attackWidth*npc.attackAnimationFrames, npc.attackHeight)
 				else
 					npc.spritesheet = npc.attackRightSpritesheet
-					npc.quad = love.graphics.newQuad(npc.attackQuadSection, 0, npc.attackWidth, npc.attackHeight, npc.attackWidth*npc.attackAnimationFrames, npc.attackHeight)
 				end
 
 				if npc.ai == "diving" then
 					if npc.direction == "left" then
 						npc.spritesheet = npc.attackLeftSpritesheet
-						npc.quad = love.graphics.newQuad(npc.attackQuadSection, 0, npc.attackWidth, npc.attackHeight, npc.attackWidth*npc.attackAnimationFrames, npc.attackHeight)
 					else
 						npc.spritesheet = npc.attackRightSpritesheet
-						npc.quad = love.graphics.newQuad(npc.attackQuadSection, 0, npc.attackWidth, npc.attackHeight, npc.attackWidth*npc.attackAnimationFrames, npc.attackHeight)
 					end
 				end
+				npc.quad = npc.attackQuads[npc.attackAnimationFrame]
 			else
 				if npc.diving then
 					if npc.direction == "left" then
 						npc.spritesheet = npc.diveLeftSpritesheet
-						npc.quad = love.graphics.newQuad(npc.diveQuadSection, 0, npc.diveWidth, npc.diveHeight, npc.diveWidth*2, npc.diveHeight)
 					else
 						npc.spritesheet = npc.diveRightSpritesheet
-						npc.quad = love.graphics.newQuad(npc.diveQuadSection, 0, npc.diveWidth, npc.diveHeight, npc.diveWidth*2, npc.diveHeight)
 					end
+					npc.quad = npc.diveQuads[npc.diveAnimationFrame]
 				elseif npc.stuck then
 					if npc.direction == "left" then
 						npc.spritesheet = npc.stuckLeftSpritesheet
-						npc.quad = love.graphics.newQuad(npc.stuckQuadSection, 0, npc.stuckWidth, npc.stuckHeight, npc.stuckWidth*2, npc.stuckHeight)
 					else
 						npc.spritesheet = npc.stuckRightSpritesheet
-						npc.quad = love.graphics.newQuad(npc.stuckQuadSection, 0, npc.stuckWidth, npc.stuckHeight, npc.stuckWidth*2, npc.stuckHeight)
 					end
+					npc.quad = npc.stuckQuads[npc.stuckAnimationFrame]
 				elseif npc.yVelocity ~= 0 and npc.name == "acorn" then
 					if npc.direction == "left" then
 						npc.spritesheet = npc.hoverLeftSpritesheet
-						npc.quad = love.graphics.newQuad(npc.hoverQuadSection, 0, npc.hoverWidth, npc.hoverHeight, npc.hoverWidth*2, npc.hoverHeight)
 					else
 						npc.spritesheet = npc.hoverRightSpritesheet
-						npc.quad = love.graphics.newQuad(npc.hoverQuadSection, 0, npc.hoverWidth, npc.hoverHeight, npc.hoverWidth*2, npc.hoverHeight)
 					end
+					npc.quad = npc.hoverQuads[npc.hoverAnimationFrame]
 				else
 					if npc.direction == "left" then
 						npc.spritesheet = npc.moveLeftSpritesheet
-						npc.quad = love.graphics.newQuad(npc.moveQuadSection, 0, npc.width, npc.height, npc.width*npc.animationFrames, npc.height)
 					else
 						npc.spritesheet = npc.moveRightSpritesheet
-						npc.quad = love.graphics.newQuad(npc.moveQuadSection, 0, npc.width, npc.height, npc.width*npc.animationFrames, npc.height)
 					end
+					npc.quad = npc.quads[npc.animationFrame]
 				end
 			end
 		elseif npc.ai == "shootTurret" then
 			if npc.attacking then
 				npc.spritesheet = npc.attackSpritesheet
-				npc.quad = love.graphics.newQuad(npc.attackQuadSection, 0, npc.attackWidth, npc.attackHeight, npc.attackWidth*npc.attackAnimationFrames, npc.attackHeight)
+				npc.quad = npc.attackQuads[npc.attackAnimationFrame]
 			else
 				npc.spritesheet = npc.idleSpritesheet
-				npc.quad = love.graphics.newQuad(npc.idleQuadSection, 0, npc.width, npc.height, npc.width*npc.animationFrames, npc.height)
+				npc.quad = npc.quads[npc.animationFrame]
 			end
 		end
 
+		-- if npc.hit then
+		-- 	love.graphics.setColor(0, 0, 0, 1)
+		-- else
+		-- 	love.graphics.setColor(1, 1, 1, 1)
+		-- end
+
 		love.graphics.draw(npc.spritesheet, npc.quad)
-		if npc.poison > 0 then
-			npc.image = convertColor(npc.canvas, 0.5, 0, 0.75, 0.5, nil, true)
-			love.graphics.draw(npc.image)
-		end
 
-		if npc.burn > 0 then
-			npc.image = convertColor(npc.canvas, 0.75, 0.5, 0, 0.5, nil, true)
-			love.graphics.draw(npc.image)
-		end
+		-- if npc.hit then
+		-- 	npc.image = convertColor(npc.canvas, 0, 0, 0, 1, nil, true)
+		-- 	love.graphics.draw(npc.image)
+		-- else
+		-- 	if npc.poison > 0 then
+		-- 		npc.image = convertColor(npc.canvas, 0.5, 0, 0.75, 0.5, nil, true)
+		-- 		love.graphics.draw(npc.image)
+		-- 	end
 
-		if npc.hit then
-			npc.image = convertColor(npc.canvas, 0.063, 0.118, 0.161, 1, nil, true)
-			love.graphics.draw(npc.image)
-		end
+		-- 	if npc.burn > 0 then
+		-- 		npc.image = convertColor(npc.canvas, 0.75, 0.5, 0, 0.5, nil, true)
+		-- 		love.graphics.draw(npc.image)
+		-- 	end
+		-- end
 	end
 
 	return npc

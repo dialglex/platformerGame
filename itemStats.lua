@@ -29,11 +29,11 @@ function getItemStats(item)
 		local random = math.random(3)
 		local sprite
 		if random == 1 then
-			sprite = love.graphics.newImage("images/items/coin1.png")
+			sprite = coin1Sprite
 		elseif random == 2 then
-			sprite = love.graphics.newImage("images/items/coin2.png")
+			sprite = coin2Sprite
 		elseif random == 3 then
-			sprite = love.graphics.newImage("images/items/coin3.png")
+			sprite = coin3Sprite
 		end
 		return {
 			itemType = "coin",

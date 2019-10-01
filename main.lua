@@ -13,6 +13,9 @@ function love.load()
 	loadSaveData()
 	windowSetup()
 	drawLoadingScreen()
+	getImages()
+	getAudio()
+	cursorType()
 	debug = false
 	frameStep = false
 	debugStrings = {"debug"}
@@ -178,10 +181,9 @@ function love.load()
 	oldStickX = 0
 	oldStickY = 0
 	screenFreeze = 0
-
-	getImages()
-	getAudio()
-	cursorType()
+	
+	-- profile.hookall("Lua")
+	-- profile.start()
 end
 
 function love.update(dt)
@@ -216,6 +218,11 @@ function love.update(dt)
 	end
 	
 	updateVolume()
+	-- if frame%100 == 0 then
+	-- 	local report = profile.report('time', 20)
+	-- 	print(report)
+	-- 	profile.reset()
+	-- end
 end
 
 function debugPrint(string)
@@ -245,15 +252,26 @@ end
 
 function getActors(actors)
 	tiles = {}
+	collidableTiles = {}
+	nonCollidableTiles = {}
+	platformTiles = {}
 	npcs = {}
 	objects = {}
 	dusts = {}
 	weapons = {}
 	items = {}
+	shopItems = {}
 	uis = {}
 	for _, actor in ipairs(actors) do
 		if actor.actor == "tile" then
 			table.insert(tiles, actor)
+			if actor.collidable then
+				table.insert(collidableTiles, actor)
+			elseif actor.platform then
+				table.insert(platformTiles, actor)
+			else
+				table.insert(nonCollidableTiles, actor)
+			end
 		elseif actor.actor == "npc" then
 			table.insert(npcs, actor)
 		elseif actor.actor == "object" then
@@ -264,6 +282,9 @@ function getActors(actors)
 			table.insert(weapons, actor)
 		elseif actor.actor == "item" then
 			table.insert(items, actor)
+			if actor.type == "shop" then
+				table.insert(shopItems, actor)
+			end
 		elseif actor.actor == "ui" then
 			table.insert(uis, actor)
 		end

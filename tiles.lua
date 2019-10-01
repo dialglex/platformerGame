@@ -115,7 +115,7 @@ function newTile(tileName, tileWidth, tileHeight, x, y, tileQuad, tileset, tileC
 			else
 				tile.spritesheet = love.graphics.newImage("images/tiles/chest/"..tile.chestType.."ChestClosed.png")
 				if tile.counter == 60 then
-					table.insert(actors, newDust(tile.x + math.random(0 + 6, tile.width - 6), tile.y + math.random(20 + 4, tile.height - 4), "sparkles"))
+					table.insert(actors, newDust(tile.x + math.random(0 + 6, tile.width - 6), tile.y + math.random(20 + 4, tile.height - 4), "sparkle"))
 					tile.counter = 0
 				end
 			end

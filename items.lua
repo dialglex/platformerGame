@@ -22,12 +22,15 @@ function newItem(name, x, y, stats)
 	item.actor = "item"
 	item.counter = 0
 
+	item.sprite = stats.sprite
+	item.canvas = love.graphics.newCanvas(item.width+2, item.height+2)
 	if item.type == "shop" then
 		local basePrice = 100
 		local priceMin = basePrice-(0.2*basePrice)
 		local priceMax = basePrice+(0.2*basePrice)
 		item.basePrice = math.floor(math.random(priceMin, priceMax) + 0.5)
 		item.randomName = stats.randomName
+		item.spriteCanvas = giveOutline(item.sprite, {248/255, 248/255, 248/255}, sharp)
 	elseif item.type == "coin" then
 		local angle = math.random(0, 2*math.pi)
 		local dx = math.cos(angle)
@@ -36,14 +39,11 @@ function newItem(name, x, y, stats)
 		item.yVelocity = 2*dy
 		item.xAcceleration = 0.025
 		item.yAcceleration = 0.025
+		item.spriteCanvas = giveOutline(item.sprite, {248/255, 248/255, 248/255})
 	end
 
-	item.sprite = stats.sprite
-	item.spriteCanvas = giveOutline(item.sprite, {0.973, 0.973, 0.973})
-	item.canvas = love.graphics.newCanvas(item.width+2, item.height+2)
 
 	function item:act(index)
-		debugPrint("HIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII")
 		if item.type == "coin" then
 			local angle = math.atan2((player.y + player.height/2 + player.yVelocity) - (item.y + item.height/2), (player.x + player.width/2 + player.xVelocity) - (item.x + item.width/2))
 			local dx = math.cos(angle)
@@ -61,7 +61,7 @@ function newItem(name, x, y, stats)
 				item.remove = true
 			end
 
-			if item.counter == 2 then
+			if item.counter == 1 then
 				table.insert(actors, newDust(item.x + item.width/2, item.y + item.height/2, "particle"))
 				item.counter = 0
 			end

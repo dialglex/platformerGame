@@ -1,9 +1,57 @@
+function getNpcImages()
+	acornMoveRightSpritesheet = love.graphics.newImage("images/npcs/enemy/acorn/acornMoveRightSpritesheet.png")
+	acornMoveLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/acorn/acornMoveLeftSpritesheet.png")
+	acornAttackRightSpritesheet = love.graphics.newImage("images/npcs/enemy/acorn/acornAttackRightSpritesheet.png")
+	acornAttackLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/acorn/acornAttackLeftSpritesheet.png")
+	acornHoverRightSpritesheet = love.graphics.newImage("images/npcs/enemy/acorn/acornHoverRightSpritesheet.png")
+	acornHoverLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/acorn/acornHoverLeftSpritesheet.png")
+
+	mushroomMonsterMoveRightSpritesheet = love.graphics.newImage("images/npcs/enemy/mushroomMonster/mushroomMonsterMoveRightSpritesheet.png")
+	mushroomMonsterMoveLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/mushroomMonster/mushroomMonsterMoveLeftSpritesheet.png")
+	mushroomMonsterAttackRightSpritesheet = love.graphics.newImage("images/npcs/enemy/mushroomMonster/mushroomMonsterAttackRightSpritesheet.png")
+	mushroomMonsterAttackLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/mushroomMonster/mushroomMonsterAttackLeftSpritesheet.png")
+	poisonCloudSpritesheet = love.graphics.newImage("images/npcs/enemy/mushroomMonster/poisonCloud.png")
+
+	upPlantIdleSpritesheet = love.graphics.newImage("images/npcs/enemy/plant/upPlantIdleSpritesheet.png")
+	upPlantAttackSpritesheet = love.graphics.newImage("images/npcs/enemy/plant/upPlantAttackSpritesheet.png")
+	downPlantIdleSpritesheet = love.graphics.newImage("images/npcs/enemy/plant/downPlantIdleSpritesheet.png")
+	downPlantAttackSpritesheet = love.graphics.newImage("images/npcs/enemy/plant/downPlantAttackSpritesheet.png")
+	plantProjectileSpritesheet = love.graphics.newImage("images/npcs/enemy/plant/plantProjectile.png")
+
+	fuzzyMoveRightSpritesheet = love.graphics.newImage("images/npcs/enemy/fuzzy/fuzzyMoveRightSpritesheet.png")
+	fuzzyMoveLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/fuzzy/fuzzyMoveLeftSpritesheet.png")
+	fuzzyAttackRightSpritesheet = love.graphics.newImage("images/npcs/enemy/fuzzy/fuzzyAttackRightSpritesheet.png")
+	fuzzyAttackLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/fuzzy/fuzzyAttackLeftSpritesheet.png")
+
+	acornKingMoveRightSpritesheet = love.graphics.newImage("images/npcs/enemy/acornKing/acornKingMoveRightSpritesheet.png")
+	acornKingMoveLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/acornKing/acornKingMoveLeftSpritesheet.png")
+	acornKingAttackRightSpritesheet = love.graphics.newImage("images/npcs/enemy/acornKing/acornKingAttackRightSpritesheet.png")
+	acornKingAttackLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/acornKing/acornKingAttackLeftSpritesheet.png")
+	acornProjectileRotation1Spritesheet = love.graphics.newImage("images/npcs/enemy/acornKing/acornProjectile1.png")
+	acornProjectileRotation2Spritesheet = love.graphics.newImage("images/npcs/enemy/acornKing/acornProjectile2.png")
+	acornProjectileRotation3Spritesheet = love.graphics.newImage("images/npcs/enemy/acornKing/acornProjectile3.png")
+	acornProjectileRotation4Spritesheet = love.graphics.newImage("images/npcs/enemy/acornKing/acornProjectile4.png")
+	acornProjectileRotation5Spritesheet = love.graphics.newImage("images/npcs/enemy/acornKing/acornProjectile5.png")
+	acornProjectileRotation6Spritesheet = love.graphics.newImage("images/npcs/enemy/acornKing/acornProjectile6.png")
+	acornProjectileRotation7Spritesheet = love.graphics.newImage("images/npcs/enemy/acornKing/acornProjectile7.png")
+	acornProjectileRotation8Spritesheet = love.graphics.newImage("images/npcs/enemy/acornKing/acornProjectile8.png")
+
+	moonflyMoveRightSpritesheet = love.graphics.newImage("images/npcs/enemy/moonfly/moonflyMoveRightSpritesheet.png")
+	moonflyMoveLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/moonfly/moonflyMoveLeftSpritesheet.png")
+	moonflyAttackRightSpritesheet = love.graphics.newImage("images/npcs/enemy/moonfly/moonflyAttackRightSpritesheet.png")
+	moonflyAttackLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/moonfly/moonflyAttackLeftSpritesheet.png")
+	moonflyDiveRightSpritesheet = love.graphics.newImage("images/npcs/enemy/moonfly/moonflyDiveRightSpritesheet.png")
+	moonflyDiveLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/moonfly/moonflyDiveLeftSpritesheet.png")
+	moonflyStuckRightSpritesheet = love.graphics.newImage("images/npcs/enemy/moonfly/moonflyStuckRightSpritesheet.png")
+	moonflyStuckLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/moonfly/moonflyStuckLeftSpritesheet.png")
+end
+
 function getNpcStats(npc)
 	if npc == "acorn" then
 		return {
 			name = npc,
 			ai = "walking",
-			spritesheet = love.graphics.newImage("images/npcs/enemy/acorn/acornMoveRightSpritesheet.png"),
+			spritesheet = acornMoveRightSpritesheet,
 			animationSpeed = 5, -- lower is faster
 			attackAnimationSpeed = 5,
 			animationFrames = 6,
@@ -17,7 +65,7 @@ function getNpcStats(npc)
 			attackHitboxHeight = 21,
 			attackAnimationFrames = 11,
 			attackYOffset = -1,
-			attackHitFrames = {3}, -- starts from 0
+			attackHitFrames = {4}, -- starts from 1
 			attackCooldownLength = 0,
 			attackDistance = 4,
 			wallDistance = 6,
@@ -45,7 +93,7 @@ function getNpcStats(npc)
 		return {
 			name = npc,
 			ai = "mushroomMonster",
-			spritesheet = love.graphics.newImage("images/npcs/enemy/mushroomMonster/mushroomMonsterMoveRightSpritesheet.png"),
+			spritesheet = mushroomMonsterMoveRightSpritesheet,
 			animationSpeed = 7, -- lower is faster
 			attackAnimationSpeed = 7,
 			animationFrames = 5,
@@ -59,7 +107,7 @@ function getNpcStats(npc)
 			attackHitboxHeight = 23,
 			attackAnimationFrames = 10,
 			attackYOffset = 0,
-			attackHitFrames = {6}, -- starts from 0
+			attackHitFrames = {7}, -- starts from 1
 			attackCooldownLength = 18*5,
 			attackDistance = 0,
 			wallDistance = 2,
@@ -85,7 +133,7 @@ function getNpcStats(npc)
 		return {
 			name = npc,
 			ai = "cloud",
-			spritesheet = love.graphics.newImage("images/npcs/enemy/mushroomMonster/poisonCloud.png"),
+			spritesheet = poisonCloudSpritesheet,
 			animationSpeed = 5, -- lower is faster
 			attackAnimationSpeed = 5,
 			animationFrames = 18,
@@ -94,12 +142,12 @@ function getNpcStats(npc)
 			hitboxY = 0,
 			hitboxHeight = 48,
 			attackHitboxX = 0,
-			attackHitboxWidth = 0,
+			attackHitboxWidth = 48,
 			attackHitboxY = 0,
-			attackHitboxHeight = 0,
+			attackHitboxHeight = 48,
 			attackAnimationFrames = 1,
 			attackYOffset = 0,
-			attackHitFrames = {}, -- starts from 0
+			attackHitFrames = {}, -- starts from 1
 			attackCooldownLength = 0,
 			attackDistance = 0,
 			wallDistance = 0,
@@ -127,7 +175,7 @@ function getNpcStats(npc)
 		return {
 			name = npc,
 			ai = "diving",
-			spritesheet = love.graphics.newImage("images/npcs/enemy/moonfly/moonflyMoveRightSpritesheet.png"),
+			spritesheet = moonflyMoveRightSpritesheet,
 			animationSpeed = 5, -- lower is faster
 			attackAnimationSpeed = 5,
 			animationFrames = 3,
@@ -142,7 +190,7 @@ function getNpcStats(npc)
 			-- maybe add seperate hitboxes for diving
 			attackAnimationFrames = 5,
 			attackYOffset = 0,
-			attackHitFrames = {0, 1}, -- starts from 0
+			attackHitFrames = {1, 2}, -- starts from 1
 			attackCooldownLength = 0,
 			attackDistance = 0,
 			wallDistance = 10,
@@ -170,7 +218,7 @@ function getNpcStats(npc)
 		return {
 			name = npc,
 			ai = "flying",
-			spritesheet = love.graphics.newImage("images/npcs/enemy/fuzzy/fuzzyMoveRightSpritesheet.png"),
+			spritesheet = fuzzyMoveRightSpritesheet,
 			animationSpeed = 4, -- lower is faster
 			attackAnimationSpeed = 4,
 			animationFrames = 6,
@@ -212,7 +260,7 @@ function getNpcStats(npc)
 		return {
 			name = npc,
 			ai = "shootTurret",
-			spritesheet = love.graphics.newImage("images/npcs/enemy/plant/upPlantIdleSpritesheet.png"),
+			spritesheet = upPlantIdleSpritesheet,
 			animationSpeed = 6, -- lower is faster
 			attackAnimationSpeed = 6,
 			animationFrames = 6,
@@ -226,7 +274,7 @@ function getNpcStats(npc)
 			attackHitboxHeight = 29,
 			attackAnimationFrames = 12,
 			attackYOffset = -4,
-			attackHitFrames = {7}, -- starts from 0
+			attackHitFrames = {8}, -- starts from 1
 			attackCooldownLength = 0,
 			attackDistance = 0,
 			wallDistance = 0,
@@ -252,7 +300,7 @@ function getNpcStats(npc)
 		return {
 			name = npc,
 			ai = "shootTurret",
-			spritesheet = love.graphics.newImage("images/npcs/enemy/plant/downPlantIdleSpritesheet.png"),
+			spritesheet = downPlantIdleSpritesheet,
 			animationSpeed = 6, -- lower is faster
 			attackAnimationSpeed = 6,
 			animationFrames = 6,
@@ -266,7 +314,7 @@ function getNpcStats(npc)
 			attackHitboxHeight = 29,
 			attackAnimationFrames = 12,
 			attackYOffset = -4,
-			attackHitFrames = {7}, -- starts from 0
+			attackHitFrames = {8}, -- starts from 1
 			attackCooldownLength = 0,
 			attackDistance = 0,
 			wallDistance = 0,
@@ -292,7 +340,7 @@ function getNpcStats(npc)
 		return {
 			name = npc,
 			ai = "projectile",
-			spritesheet = love.graphics.newImage("images/npcs/enemy/plant/plantProjectile.png"),
+			spritesheet = plantProjectileSpritesheet,
 			animationSpeed = 5, -- lower is faster
 			attackAnimationSpeed = 5,
 			animationFrames = 3,
@@ -301,12 +349,12 @@ function getNpcStats(npc)
 			hitboxY = 0,
 			hitboxHeight = 16,
 			attackHitboxX = 0,
-			attackHitboxWidth = 0,
+			attackHitboxWidth = 16,
 			attackHitboxY = 0,
-			attackHitboxHeight = 0,
+			attackHitboxHeight = 16,
 			attackAnimationFrames = 1,
 			attackYOffset = 0,
-			attackHitFrames = {}, -- starts from 0
+			attackHitFrames = {}, -- starts from 1
 			attackCooldownLength = 0,
 			attackDistance = 0,
 			wallDistance = 0,
@@ -334,7 +382,7 @@ function getNpcStats(npc)
 		return {
 			name = npc,
 			ai = "acornKing",
-			spritesheet = love.graphics.newImage("images/npcs/enemy/acornKing/acornKingMoveRightSpritesheet.png"),
+			spritesheet = acornKingMoveRightSpritesheet,
 			animationSpeed = 8, -- lower is faster
 			attackAnimationSpeed = 7,
 			animationFrames = 6,
@@ -348,7 +396,7 @@ function getNpcStats(npc)
 			attackHitboxHeight = 44,
 			attackAnimationFrames = 15,
 			attackYOffset = -10,
-			attackHitFrames = {5}, -- starts from 0
+			attackHitFrames = {6}, -- starts from 1
 			attackCooldownLength = 0,
 			attackDistance = 16,
 			wallDistance = 4,
@@ -374,7 +422,7 @@ function getNpcStats(npc)
 		return {
 			name = npc,
 			ai = "projectile",
-			spritesheet = love.graphics.newImage("images/npcs/enemy/acornKing/acornProjectile1.png"),
+			spritesheet = acornProjectileRotation1Spritesheet,
 			animationSpeed = 5, -- lower is faster
 			attackAnimationSpeed = 5,
 			animationFrames = 3,
@@ -383,12 +431,12 @@ function getNpcStats(npc)
 			hitboxY = 0,
 			hitboxHeight = 16,
 			attackHitboxX = 0,
-			attackHitboxWidth = 0,
+			attackHitboxWidth = 16,
 			attackHitboxY = 0,
-			attackHitboxHeight = 0,
+			attackHitboxHeight = 16,
 			attackAnimationFrames = 1,
 			attackYOffset = 0,
-			attackHitFrames = {}, -- starts from 0
+			attackHitFrames = {}, -- starts from 1
 			attackCooldownLength = 0,
 			attackDistance = 0,
 			wallDistance = 0,
@@ -403,88 +451,6 @@ function getNpcStats(npc)
 			xTerminalVelocity = 0,
 			yAcceleration = 0.075,
 			yTerminalVelocity = 0,
-			towardsPlayer = false,
-			enemy = true,
-			money = 0,
-			boss = false,
-			projectile = true,
-			background = true
-		}
-	end
-
-	if npc == "smiley" then
-		return {
-			name = npc,
-			ai = "smiley",
-			spritesheet = love.graphics.newImage("images/npcs/enemy/smiley/smileySpritesheet.png"),
-			animationSpeed = 1, -- lower is faster
-			attackAnimationSpeed = 1,
-			animationFrames = 1,
-			hitboxX = 0,
-			hitboxWidth = 0,
-			hitboxY = 0,
-			hitboxHeight = 0,
-			attackHitboxX = 0,
-			attackHitboxWidth = 0,
-			attackHitboxY = 0,
-			attackHitboxHeight = 0,
-			attackAnimationFrames = 1,
-			attackYOffset = 0,
-			attackHitFrames = {}, -- starts from 0
-			attackCooldownLength = 0,
-			attackDistance = 0,
-			wallDistance = 8,
-			hp = 250,
-			damage = 25,
-			knockback = 5,
-			knockbackResistance = 10,
-			screenShakeAmount = 10,
-			screenShakeLength = 7,
-			screenFreezeLength = 6,
-			xAcceleration = 0.1,
-			xTerminalVelocity = 0.5,
-			yAcceleration = 0,
-			yTerminalVelocity = 0,
-			towardsPlayer = false,
-			enemy = true,
-			money = 50,
-			boss = true,
-			projectile = false,
-			background = true
-		}
-	elseif npc == "smileyProjectile" then
-		return {
-			name = npc,
-			ai = "projectile",
-			spritesheet = love.graphics.newImage("images/npcs/enemy/smiley/smileyProjectile.png"),
-			animationSpeed = 1, -- lower is faster
-			attackAnimationSpeed = 1,
-			animationFrames = 1,
-			hitboxX = 0,
-			hitboxWidth = 0,
-			hitboxY = 0,
-			hitboxHeight = 0,
-			attackHitboxX = 0,
-			attackHitboxWidth = 0,
-			attackHitboxY = 0,
-			attackHitboxHeight = 0,
-			attackAnimationFrames = 1,
-			attackYOffset = 0,
-			attackHitFrames = {}, -- starts from 0
-			attackCooldownLength = 0,
-			attackDistance = 0,
-			wallDistance = 0,
-			damage = 1,
-			hp = 1,
-			knockback = 1,
-			knockbackResistance = 1,
-			screenShakeAmount = 4,
-			screenShakeLength = 3,
-			screenFreezeLength = 3,
-			xAcceleration = 1,
-			xTerminalVelocity = 1,
-			yAcceleration = 0.1,
-			yTerminalVelocity = 6,
 			towardsPlayer = false,
 			enemy = true,
 			money = 0,

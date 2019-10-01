@@ -5,7 +5,7 @@ function AABB(x1, y1, width1, height1, x2, y2, width2, height2)
 end
 
 function checkCollision(x, y, width, height, platform, playerCollision)
-	table.insert(hitboxes, {x, y, width, height})
+	-- table.insert(hitboxes, {x, y, width, height})
 	for _, actor in ipairs(tiles) do
 		if (actor.collidable) or (playerCollision == false and platform and actor.platform) or (playerCollision and platform and actor.platform and player.yVelocity >= 0 and downInputs.down ~= true) then
 			if AABB(x, y, width, height, actor.x + actor.hitboxX, actor.y + actor.hitboxY, actor.hitboxWidth, actor.hitboxHeight) then
@@ -17,17 +17,43 @@ function checkCollision(x, y, width, height, platform, playerCollision)
 end
 
 function getCollidingActors(x, y, width, height, collidable, platform, drawHitboxes, checkTiles, checkNpcs, checkObjects, checkItems, checkPlayer, largeHitboxes, sizeReduction)
-	if sizeReduction == nil then
-		sizeReduction = 0
-	end
 	local collides = {}
-	if drawHitboxes then
-		table.insert(hitboxes, {x, y, width, height})
+	-- if drawHitboxes then
+	-- 	table.insert(hitboxes, {x, y, width, height})
+	-- end
+
+	if largeHitboxes ~= true and sizeReduction == nil then
+		sizeReduction = 0
 	end
 
 	if checkTiles then
-		for _, actor in ipairs(tiles) do
-			if (actor.collidable and collidable) or (actor.platform and platform) or (actor.background and collidable == false) then
+		if collidable then
+			for _, actor in ipairs(collidableTiles) do
+				if largeHitboxes then
+					if AABB(x, y, width, height, actor.x, actor.y, actor.width, actor.height) then
+						table.insert(collides, actor)
+					end
+				else
+					if AABB(x, y, width, height, actor.x + actor.hitboxX + sizeReduction, actor.y + actor.hitboxY + sizeReduction, actor.hitboxWidth - sizeReduction*2, actor.hitboxHeight - sizeReduction*2) then
+						table.insert(collides, actor)
+					end
+				end
+			end
+		else
+			for _, actor in ipairs(nonCollidableTiles) do
+				if largeHitboxes then
+					if AABB(x, y, width, height, actor.x, actor.y, actor.width, actor.height) then
+						table.insert(collides, actor)
+					end
+				else
+					if AABB(x, y, width, height, actor.x + actor.hitboxX + sizeReduction, actor.y + actor.hitboxY + sizeReduction, actor.hitboxWidth - sizeReduction*2, actor.hitboxHeight - sizeReduction*2) then
+						table.insert(collides, actor)
+					end
+				end
+			end
+		end
+		if platform then
+			for _, actor in ipairs(platformTiles) do
 				if largeHitboxes then
 					if AABB(x, y, width, height, actor.x, actor.y, actor.width, actor.height) then
 						table.insert(collides, actor)
