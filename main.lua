@@ -25,6 +25,8 @@ function love.load()
 	fadeIn = true
 	chestOpening = false
 	secondChestType = ""
+	weaponsInRun = {}
+	accessoriesInRun = {}
 	transitionCounter = 0
 	win = false
 	local randomNumber = math.random(2)
@@ -182,11 +184,12 @@ function love.load()
 	oldStickY = 0
 	screenFreeze = 0
 	
-	-- profile.hookall("Lua")
-	-- profile.start()
 end
 
 function love.update(dt)
+	-- profile.hookall("Lua")
+	-- profile.start()
+
 	pressInputs = getPressInputs()
 	downInputs = getDownInputs()
 	windowCheck()
@@ -218,8 +221,9 @@ function love.update(dt)
 	end
 	
 	updateVolume()
-	-- if frame%100 == 0 then
-	-- 	local report = profile.report('time', 20)
+	-- if frame%60 == 0 then
+	-- 	print(frame)
+	-- 	local report = profile.report('time', 10)
 	-- 	print(report)
 	-- 	profile.reset()
 	-- end
@@ -295,7 +299,6 @@ function love.draw()
 	drawDebug()
 	setScreenCanvas()
 	drawScreen()
-	drawFPS()
 	drawScreenCanvas()
 end
 
@@ -334,11 +337,29 @@ function isInTable(element, table)
 end
 
 function getTableLength(table)
-	length = 0
+	local length = 0
 	for i, e in ipairs(table) do
 		length = length + 1
 	end
 	return length
+end
+
+function getRandomWeapon()
+	local weapon = getRandomElement(returnWeaponList())
+	while isInTable(weapon, weaponsInRun) do
+		weapon = getRandomElement(returnWeaponList())
+	end
+	table.insert(weaponsInRun, weapon)
+	return weapon
+end
+
+function getRandomAccessory()
+	local accessory = getRandomElement(returnAccessoryList())
+	while isInTable(accessory, accessoriesInRun) do
+		accessory = getRandomElement(returnAccessoryList())
+	end
+	table.insert(accessoriesInRun, accessory)
+	return accessory
 end
 
 function getRandomElement(table)

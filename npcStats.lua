@@ -1,32 +1,45 @@
 function getNpcImages()
 	acornMoveRightSpritesheet = love.graphics.newImage("images/npcs/enemy/acorn/acornMoveRightSpritesheet.png")
 	acornMoveLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/acorn/acornMoveLeftSpritesheet.png")
+	acornMoveQuads = getQuads(acornMoveRightSpritesheet, 6)
 	acornAttackRightSpritesheet = love.graphics.newImage("images/npcs/enemy/acorn/acornAttackRightSpritesheet.png")
 	acornAttackLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/acorn/acornAttackLeftSpritesheet.png")
+	acornAttackQuads = getQuads(acornAttackRightSpritesheet, 11)
 	acornHoverRightSpritesheet = love.graphics.newImage("images/npcs/enemy/acorn/acornHoverRightSpritesheet.png")
 	acornHoverLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/acorn/acornHoverLeftSpritesheet.png")
+	acornHoverQuads = getQuads(acornHoverRightSpritesheet, 2)
 
 	mushroomMonsterMoveRightSpritesheet = love.graphics.newImage("images/npcs/enemy/mushroomMonster/mushroomMonsterMoveRightSpritesheet.png")
 	mushroomMonsterMoveLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/mushroomMonster/mushroomMonsterMoveLeftSpritesheet.png")
+	mushroomMonsterMoveQuads = getQuads(mushroomMonsterMoveRightSpritesheet, 5)
 	mushroomMonsterAttackRightSpritesheet = love.graphics.newImage("images/npcs/enemy/mushroomMonster/mushroomMonsterAttackRightSpritesheet.png")
 	mushroomMonsterAttackLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/mushroomMonster/mushroomMonsterAttackLeftSpritesheet.png")
+	mushroomMonsterAttackQuads = getQuads(mushroomMonsterAttackRightSpritesheet, 10)
 	poisonCloudSpritesheet = love.graphics.newImage("images/npcs/enemy/mushroomMonster/poisonCloud.png")
+	poisonCloudQuads = getQuads(poisonCloudSpritesheet, 18)
 
 	upPlantIdleSpritesheet = love.graphics.newImage("images/npcs/enemy/plant/upPlantIdleSpritesheet.png")
-	upPlantAttackSpritesheet = love.graphics.newImage("images/npcs/enemy/plant/upPlantAttackSpritesheet.png")
 	downPlantIdleSpritesheet = love.graphics.newImage("images/npcs/enemy/plant/downPlantIdleSpritesheet.png")
+	plantIdleQuads = getQuads(upPlantIdleSpritesheet, 6)
+	upPlantAttackSpritesheet = love.graphics.newImage("images/npcs/enemy/plant/upPlantAttackSpritesheet.png")
 	downPlantAttackSpritesheet = love.graphics.newImage("images/npcs/enemy/plant/downPlantAttackSpritesheet.png")
+	plantAttackQuads = getQuads(upPlantAttackSpritesheet, 12)
 	plantProjectileSpritesheet = love.graphics.newImage("images/npcs/enemy/plant/plantProjectile.png")
+	plantProjectileQuads = getQuads(plantProjectileSpritesheet, 3)
 
 	fuzzyMoveRightSpritesheet = love.graphics.newImage("images/npcs/enemy/fuzzy/fuzzyMoveRightSpritesheet.png")
 	fuzzyMoveLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/fuzzy/fuzzyMoveLeftSpritesheet.png")
+	fuzzyMoveQuads = getQuads(fuzzyMoveRightSpritesheet, 6)
 	fuzzyAttackRightSpritesheet = love.graphics.newImage("images/npcs/enemy/fuzzy/fuzzyAttackRightSpritesheet.png")
 	fuzzyAttackLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/fuzzy/fuzzyAttackLeftSpritesheet.png")
+	fuzzyAttackQuads = getQuads(fuzzyAttackRightSpritesheet, 6)
 
 	acornKingMoveRightSpritesheet = love.graphics.newImage("images/npcs/enemy/acornKing/acornKingMoveRightSpritesheet.png")
 	acornKingMoveLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/acornKing/acornKingMoveLeftSpritesheet.png")
+	acornKingMoveQuads = getQuads(acornKingMoveRightSpritesheet, 6)
 	acornKingAttackRightSpritesheet = love.graphics.newImage("images/npcs/enemy/acornKing/acornKingAttackRightSpritesheet.png")
 	acornKingAttackLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/acornKing/acornKingAttackLeftSpritesheet.png")
+	acornKingAttackQuads = getQuads(acornKingAttackRightSpritesheet, 15)
 	acornProjectileRotation1Spritesheet = love.graphics.newImage("images/npcs/enemy/acornKing/acornProjectile1.png")
 	acornProjectileRotation2Spritesheet = love.graphics.newImage("images/npcs/enemy/acornKing/acornProjectile2.png")
 	acornProjectileRotation3Spritesheet = love.graphics.newImage("images/npcs/enemy/acornKing/acornProjectile3.png")
@@ -35,15 +48,20 @@ function getNpcImages()
 	acornProjectileRotation6Spritesheet = love.graphics.newImage("images/npcs/enemy/acornKing/acornProjectile6.png")
 	acornProjectileRotation7Spritesheet = love.graphics.newImage("images/npcs/enemy/acornKing/acornProjectile7.png")
 	acornProjectileRotation8Spritesheet = love.graphics.newImage("images/npcs/enemy/acornKing/acornProjectile8.png")
+	acornProjectileQuads = getQuads(acornProjectileRotation1Spritesheet, 3)
 
 	moonflyMoveRightSpritesheet = love.graphics.newImage("images/npcs/enemy/moonfly/moonflyMoveRightSpritesheet.png")
 	moonflyMoveLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/moonfly/moonflyMoveLeftSpritesheet.png")
+	moonflyMoveQuads = getQuads(moonflyMoveRightSpritesheet, 3)
 	moonflyAttackRightSpritesheet = love.graphics.newImage("images/npcs/enemy/moonfly/moonflyAttackRightSpritesheet.png")
 	moonflyAttackLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/moonfly/moonflyAttackLeftSpritesheet.png")
+	moonflyAttackQuads = getQuads(moonflyAttackRightSpritesheet, 5)
 	moonflyDiveRightSpritesheet = love.graphics.newImage("images/npcs/enemy/moonfly/moonflyDiveRightSpritesheet.png")
 	moonflyDiveLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/moonfly/moonflyDiveLeftSpritesheet.png")
+	moonflyDiveQuads = getQuads(moonflyDiveRightSpritesheet, 2)
 	moonflyStuckRightSpritesheet = love.graphics.newImage("images/npcs/enemy/moonfly/moonflyStuckRightSpritesheet.png")
 	moonflyStuckLeftSpritesheet = love.graphics.newImage("images/npcs/enemy/moonfly/moonflyStuckLeftSpritesheet.png")
+	moonflyStuckQuads = getQuads(moonflyStuckRightSpritesheet, 2)
 end
 
 function getNpcStats(npc)
@@ -152,7 +170,7 @@ function getNpcStats(npc)
 			attackDistance = 0,
 			wallDistance = 0,
 			hp = 1,
-			damage = 0.04,
+			damage = 1/3, -- 30 damage total
 			knockback = 0,
 			knockbackResistance = 1,
 			screenShakeAmount = 1,
@@ -168,91 +186,6 @@ function getNpcStats(npc)
 			boss = false,
 			projectile = true,
 			background = false
-		}
-	end
-
-	if npc == "moonfly" then
-		return {
-			name = npc,
-			ai = "diving",
-			spritesheet = moonflyMoveRightSpritesheet,
-			animationSpeed = 5, -- lower is faster
-			attackAnimationSpeed = 5,
-			animationFrames = 3,
-			hitboxX = 0,
-			hitboxWidth = 18,
-			hitboxY = 0,
-			hitboxHeight = 14,
-			attackHitboxX = 1,
-			attackHitboxWidth = 16,
-			attackHitboxY = 0,
-			attackHitboxHeight = 13,
-			-- maybe add seperate hitboxes for diving
-			attackAnimationFrames = 5,
-			attackYOffset = 0,
-			attackHitFrames = {1, 2}, -- starts from 1
-			attackCooldownLength = 0,
-			attackDistance = 0,
-			wallDistance = 10,
-			hp = 50,
-			damage = 20,
-			knockback = 2.5,
-			knockbackResistance = 0.8,
-			screenShakeAmount = 0,
-			screenShakeLength = 0,
-			screenFreezeLength = 0,
-			xAcceleration = 0.05,
-			xTerminalVelocity = 1,
-			yAcceleration = 0,
-			yTerminalVelocity = 0,
-			towardsPlayer = false,
-			enemy = true,
-			money = 6,
-			boss = false,
-			projectile = false,
-			background = true
-		}
-	end
-
-	if npc == "fuzzy" then
-		return {
-			name = npc,
-			ai = "flying",
-			spritesheet = fuzzyMoveRightSpritesheet,
-			animationSpeed = 4, -- lower is faster
-			attackAnimationSpeed = 4,
-			animationFrames = 6,
-			hitboxX = 4,
-			hitboxWidth = 20,
-			hitboxY = 3,
-			hitboxHeight = 17,
-			attackHitboxX = 0,
-			attackHitboxWidth = 27,
-			attackHitboxY = 0,
-			attackHitboxHeight = 23,
-			attackAnimationFrames = 6,
-			attackYOffset = 0,
-			attackHitFrames = {},
-			attackCooldownLength = 0,
-			attackDistance = 0,
-			wallDistance = 10,
-			hp = 50,
-			damage = 10,
-			knockback = 2.5,
-			knockbackResistance = 0.8,
-			screenShakeAmount = 0,
-			screenShakeLength = 0,
-			screenFreezeLength = 0,
-			xAcceleration = 0.05,
-			xTerminalVelocity = 1,
-			yAcceleration = 0,
-			yTerminalVelocity = 0,
-			towardsPlayer = false,
-			enemy = true,
-			money = 6,
-			boss = false,
-			projectile = false,
-			background = true
 		}
 	end
 
@@ -378,6 +311,48 @@ function getNpcStats(npc)
 		}
 	end
 
+	if npc == "fuzzy" then
+		return {
+			name = npc,
+			ai = "flying",
+			spritesheet = fuzzyMoveRightSpritesheet,
+			animationSpeed = 4, -- lower is faster
+			attackAnimationSpeed = 4,
+			animationFrames = 6,
+			hitboxX = 4,
+			hitboxWidth = 20,
+			hitboxY = 3,
+			hitboxHeight = 17,
+			attackHitboxX = 0,
+			attackHitboxWidth = 27,
+			attackHitboxY = 0,
+			attackHitboxHeight = 23,
+			attackAnimationFrames = 6,
+			attackYOffset = 0,
+			attackHitFrames = {},
+			attackCooldownLength = 0,
+			attackDistance = 0,
+			wallDistance = 10,
+			hp = 50,
+			damage = 10,
+			knockback = 2.5,
+			knockbackResistance = 0.8,
+			screenShakeAmount = 0,
+			screenShakeLength = 0,
+			screenFreezeLength = 0,
+			xAcceleration = 0.05,
+			xTerminalVelocity = 1,
+			yAcceleration = 0,
+			yTerminalVelocity = 0,
+			towardsPlayer = false,
+			enemy = true,
+			money = 6,
+			boss = false,
+			projectile = false,
+			background = true
+		}
+	end
+
 	if npc == "acornKing" then
 		return {
 			name = npc,
@@ -456,6 +431,49 @@ function getNpcStats(npc)
 			money = 0,
 			boss = false,
 			projectile = true,
+			background = true
+		}
+	end
+
+	if npc == "moonfly" then
+		return {
+			name = npc,
+			ai = "diving",
+			spritesheet = moonflyMoveRightSpritesheet,
+			animationSpeed = 5, -- lower is faster
+			attackAnimationSpeed = 5,
+			animationFrames = 3,
+			hitboxX = 0,
+			hitboxWidth = 18,
+			hitboxY = 0,
+			hitboxHeight = 14,
+			attackHitboxX = 1,
+			attackHitboxWidth = 16,
+			attackHitboxY = 0,
+			attackHitboxHeight = 13,
+			-- maybe add seperate hitboxes for diving
+			attackAnimationFrames = 5,
+			attackYOffset = 0,
+			attackHitFrames = {1, 2}, -- starts from 1
+			attackCooldownLength = 0,
+			attackDistance = 0,
+			wallDistance = 10,
+			hp = 50,
+			damage = 20,
+			knockback = 2.5,
+			knockbackResistance = 0.8,
+			screenShakeAmount = 0,
+			screenShakeLength = 0,
+			screenFreezeLength = 0,
+			xAcceleration = 0.05,
+			xTerminalVelocity = 1,
+			yAcceleration = 0,
+			yTerminalVelocity = 0,
+			towardsPlayer = false,
+			enemy = true,
+			money = 6,
+			boss = false,
+			projectile = false,
 			background = true
 		}
 	end

@@ -2,16 +2,16 @@ function getAudio()
 	musicList = {}
 	sfxList = {}
 
-	interactSound = love.audio.newSource("audio/sfx/interact.ogg", "stream")
-	runNeutralSound = love.audio.newSource("audio/sfx/runNeutral.ogg", "stream")
-	runGrassSound = love.audio.newSource("audio/sfx/runGrass.ogg", "stream")
-	jumpNeutralSound = love.audio.newSource("audio/sfx/jumpNeutral.ogg", "stream")
-	landNeutralSound = love.audio.newSource("audio/sfx/landNeutral.ogg", "stream")
-	landGrassSound = love.audio.newSource("audio/sfx/landGrass.ogg", "stream")
+	interactSound = love.audio.newSource("audio/sfx/interact.ogg", "static")
+	runNeutralSound = love.audio.newSource("audio/sfx/runNeutral.ogg", "static")
+	runGrassSound = love.audio.newSource("audio/sfx/runGrass.ogg", "static")
+	jumpNeutralSound = love.audio.newSource("audio/sfx/jumpNeutral.ogg", "static")
+	landNeutralSound = love.audio.newSource("audio/sfx/landNeutral.ogg", "static")
+	landGrassSound = love.audio.newSource("audio/sfx/landGrass.ogg", "static")
 
-	menuMoveSound = love.audio.newSource("audio/sfx/menuMove.wav", "stream")
-	menuConfirmSound = love.audio.newSource("audio/sfx/menuConfirm.wav", "stream")
-	menuBackSound = love.audio.newSource("audio/sfx/menuBack.wav", "stream")
+	menuMoveSound = love.audio.newSource("audio/sfx/menuMove.wav", "static")
+	menuConfirmSound = love.audio.newSource("audio/sfx/menuConfirm.wav", "static")
+	menuBackSound = love.audio.newSource("audio/sfx/menuBack.wav", "static")
 
 
 	table.insert(sfxList, interactSound)
@@ -28,7 +28,6 @@ function getAudio()
 		sfx:setVolume(sfxVolume)
 	end
 
-
 	caveMusic = love.audio.newSource("audio/music/cave.ogg", "stream")
 	shopMusic = love.audio.newSource("audio/music/shop.ogg", "stream")
 	bossMusic = love.audio.newSource("audio/music/boss.ogg", "stream")
@@ -41,7 +40,7 @@ function getAudio()
 
 	for i, music in ipairs(musicList) do
 		music:setLooping(true)
-		music:play()
+		-- music:play()
 		music:setVolume(0)
 	end
 
@@ -52,18 +51,18 @@ function getAudio()
 end
 
 function updateVolume()
-	if player.behindWall then -- if in cave area
-		grasslandMusicVolume = grasslandMusicVolume - 0.025
-		caveMusicVolume = caveMusicVolume + 0.025
-		shopMusicVolume = shopMusicVolume - 0.025
+	if (mapNumber == 2 or mapNumber == 4) and indoor then -- if inside cave
+		grasslandMusicVolume = grasslandMusicVolume - 0.05
+		caveMusicVolume = caveMusicVolume + 0.05
+		shopMusicVolume = shopMusicVolume - 0.05
 	elseif mapNumber == 3 and indoor then -- if inside shop
-		grasslandMusicVolume = grasslandMusicVolume - 0.025
-		caveMusicVolume = caveMusicVolume - 0.025
-		shopMusicVolume = shopMusicVolume + 0.025
+		grasslandMusicVolume = grasslandMusicVolume - 0.05
+		caveMusicVolume = caveMusicVolume - 0.05
+		shopMusicVolume = shopMusicVolume + 0.05
 	else
-		grasslandMusicVolume = grasslandMusicVolume + 0.025
-		caveMusicVolume = caveMusicVolume - 0.025
-		shopMusicVolume = shopMusicVolume - 0.025
+		grasslandMusicVolume = grasslandMusicVolume + 0.05
+		caveMusicVolume = caveMusicVolume - 0.05
+		shopMusicVolume = shopMusicVolume - 0.05
 	end
 
 	if grasslandMusicVolume > 1 then
@@ -88,6 +87,14 @@ function updateVolume()
 	shopMusic:setVolume(shopMusicVolume*musicVolume)
 	bossMusic:setVolume(bossMusicVolume*musicVolume)
 	grasslandMusic:setVolume(grasslandMusicVolume*musicVolume)
+
+	for i, music in ipairs(musicList) do
+		if music:getVolume() > 0 then
+			music:play()
+		else
+			music:stop()
+		end
+	end
 
 	for i, sfx in ipairs(sfxList) do
 		sfx:setVolume(sfxVolume*0.5)

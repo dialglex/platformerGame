@@ -49,6 +49,7 @@ function newPlayer(playerX, playerY)
 	player.actor = "player"
 	player.tileAbove = ""
 	player.tileBelow = ""
+	player.downPlatform = false
 
 	player.frozen = false
 	player.hit = false
@@ -63,20 +64,8 @@ function newPlayer(playerX, playerY)
 	player.weaponOut = false
 	player.equippedWeapon1 = "woodenSword"
 	player.equippedWeapon2 = "woodenBow"
-	-- player.accessories = {"poisonDamage", "poisonVial"}
-	player.accessories = {"gumBoots", -- 1
-						   "magicFeather", -- 2
-						   "magicFungus", -- 3
-						   "lifeFruit", -- 4
-						   "thorns", -- 5
-						   -- "", -- 6
-						   "poisonLength", -- 7
-						   "poisonDamage", -- 8
-						   "poisonVial", -- 9
-						   "virus"} -- 10
-						   -- "", -- 11
-						   -- ""} -- 12
-	player.money = 0
+	player.accessories = {}
+	player.money = 1000
 
 	player.idleCounter = 0
 	player.idleQuads = {}
@@ -175,6 +164,8 @@ function newPlayer(playerX, playerY)
 
 	player.attackLeftSpritesheet = love.graphics.newImage("images/player/playerAttackLeftSpritesheet.png")
 	player.attackRightSpritesheet = love.graphics.newImage("images/player/playerAttackRightSpritesheet.png")
+	player.attackLeftArmSpritesheet = love.graphics.newImage("images/player/playerAttackLeftArmSpritesheet.png")
+	player.attackRightArmSpritesheet = love.graphics.newImage("images/player/playerAttackRightArmSpritesheet.png")
 	local spritesheetWidth = player.attackRightSpritesheet:getWidth()
 	local spritesheetHeight = player.attackRightSpritesheet:getHeight()
 	local width = spritesheetWidth/player.attackFrames
@@ -185,10 +176,19 @@ function newPlayer(playerX, playerY)
 
 	player.bowLeftSpritesheet = love.graphics.newImage("images/player/playerBowLeftSpritesheet.png")
 	player.bowRightSpritesheet = love.graphics.newImage("images/player/playerBowRightSpritesheet.png")
+	player.bowLeftArmSpritesheet = love.graphics.newImage("images/player/playerBowLeftArmSpritesheet.png")
+	player.bowRightArmSpritesheet = love.graphics.newImage("images/player/playerBowRightArmSpritesheet.png")
+
 	player.bowUpLeftSpritesheet = love.graphics.newImage("images/player/playerBowUpLeftSpritesheet.png")
 	player.bowUpRightSpritesheet = love.graphics.newImage("images/player/playerBowUpRightSpritesheet.png")
+	player.bowUpLeftArmSpritesheet = love.graphics.newImage("images/player/playerBowUpLeftArmSpritesheet.png")
+	player.bowUpRightArmSpritesheet = love.graphics.newImage("images/player/playerBowUpRightArmSpritesheet.png")
+
 	player.bowDownLeftSpritesheet = love.graphics.newImage("images/player/playerBowDownLeftSpritesheet.png")
 	player.bowDownRightSpritesheet = love.graphics.newImage("images/player/playerBowDownRightSpritesheet.png")
+	player.bowDownLeftArmSpritesheet = love.graphics.newImage("images/player/playerBowDownLeftArmSpritesheet.png")
+	player.bowDownRightArmSpritesheet = love.graphics.newImage("images/player/playerBowDownRightArmSpritesheet.png")
+
 	local spritesheetWidth = player.bowRightSpritesheet:getWidth()
 	local spritesheetHeight = player.bowRightSpritesheet:getHeight()
 	local width = spritesheetWidth/player.bowFrames
@@ -221,14 +221,6 @@ function newPlayer(playerX, playerY)
 			player:combatLogic()
 			player:ladder()
 			player:openUi()
-			if player:isDead() == false then
-				if player.jumpAble and player.jumpsLeft > 0 then
-					player:jump()
-				end
-				if player.invincible == false then
-					player:hitCollision()
-				end
-			end
 			if player.onLadder == false then
 				player:physics()
 				player:xMovement()
@@ -237,6 +229,14 @@ function newPlayer(playerX, playerY)
 				end
 			else
 				player:airPhysics()
+			end
+			if player:isDead() == false then
+				if player.jumpAble and player.jumpsLeft > 0 then
+					player:jump()
+				end
+				if player.invincible == false then
+					player:hitCollision()
+				end
 			end
 			player:animations()
 			player:dust()
@@ -272,6 +272,7 @@ function newPlayer(playerX, playerY)
 
 	function player:statChanges()
 		player.damageBuff = 1
+		player.knockbackBuff = 1
 		player.xTerminalVelocityBuff = 1
 		player.xAccelerationBuff = 1
 		player.xDecelerationBuff = 1
@@ -286,6 +287,7 @@ function newPlayer(playerX, playerY)
 		for i, accessory in ipairs(player.accessories) do
 			local stats = getAccessoryStats(accessory)
 			player.damageBuff = player.damageBuff*stats.damage
+			player.knockbackBuff = player.knockbackBuff*stats.knockback
 			player.xTerminalVelocityBuff = player.xTerminalVelocityBuff*stats.xTerminalVelocity
 			player.xAccelerationBuff = player.xAccelerationBuff*stats.xAcceleration
 			player.xDecelerationBuff = player.xDecelerationBuff*stats.xDeceleration
@@ -346,16 +348,12 @@ function newPlayer(playerX, playerY)
 			end
 
 			local stats = getWeaponStats(player.attackWeapon)
-			stats.duration = stats.startupLag + stats.slashDuration + stats.endLag
+			stats.direction = player.direction
 
 			table.insert(actors, newWeapon(actors[getTableLength(actors)+1], 0, 0, nil, stats))
 			player.currentWeapon = actors[getTableLength(actors)]
 			player.lastUsedWeapon = player.currentWeapon
 			player.weaponOut = true
-		end
-
-		if player.weaponOut and player.currentWeapon.durationCounter+1 >= player.currentWeapon.duration then
-			player.weaponOut = false
 		end
 	end
 
@@ -749,17 +747,15 @@ function newPlayer(playerX, playerY)
 	end
 
 	function player:mapTransition()
-		local mapTransition = false
-
 		if player.x + player.width <= 16 then
-			mapTransition = true
+			transitioningScreen = true
 			if fadeIn == false then
 				player:findRandomMap()
 				player.x = 496 - player.width - 16
 				player.y = player.previousY
 			end
 		elseif player.x >= 496 then
-			mapTransition = true
+			transitioningScreen = true
 			if fadeIn == false then
 				player:findRandomMap()
 				player.x = 16 + 16
@@ -768,14 +764,14 @@ function newPlayer(playerX, playerY)
 		end
 
 		if player.y + player.height <= 16 then
-			mapTransition = true
+			transitioningScreen = true
 			if fadeIn == false then
 				player:findRandomMap()
 				player.x = player.previousX
 				player.y = 286 - player.height - 16
 			end
 		elseif player.y >= 286 then
-			mapTransition = true
+			transitioningScreen = true
 			if fadeIn == false then
 				player:findRandomMap()
 				player.x = player.previousX
@@ -783,13 +779,13 @@ function newPlayer(playerX, playerY)
 			end
 		end
 
-		if mapTransition then
-			transitioningScreen = true
-			if fadeIn then
-				player.frozen = true
-			else
+		if transitioningScreen then
+			player.frozen = true
+			if fadeIn == false and transitionCounter <= 1 - 0.075 then
 				player.frozen = false
 			end
+		else
+			player.frozen = false
 		end
 	end
 
@@ -800,7 +796,7 @@ function newPlayer(playerX, playerY)
 	end
 
 	function player:jump()
-		if pressInputs.jump then
+		if pressInputs.jump and player.downPlatform == false then
 			player.grounded = false
 			player.y = player.y - 1
 			player.jumpHoldCounter = 0
@@ -973,6 +969,8 @@ function newPlayer(playerX, playerY)
 	end
 
 	function player:airPhysics()
+		local platformBlocked = false
+		player.downPlatform = false
 		player.previousYVelocity = player.yVelocity
 		if player.onLadder == false then
 			player.yVelocity = player.yVelocity + player.fallAcceleration
@@ -984,9 +982,12 @@ function newPlayer(playerX, playerY)
 			for _, actor in ipairs(getCollidingActors(player:getX(), player:getY() + player.height, player.width, 32, true, true, false, true, false, false)) do
 				local newYMovement = (actor.y + actor.hitboxY) - (player.y + player.height)
 				if newYMovement < minYMovement then
-					if downInputs.down and actor.platform then
-
+					if downInputs.down and downInputs.jump and actor.platform then
+						player.downPlatform = true
 					else
+						if actor.platform == false then
+							platformBlocked = true
+						end
 						minYMovement = newYMovement
 					end
 				end
@@ -1000,6 +1001,10 @@ function newPlayer(playerX, playerY)
 					player.yVelocity = 0
 				end
 			end
+		end
+
+		if platformBlocked then
+			player.downPlatform = false
 		end
 
 		if player.yVelocity >= player.yTerminalVelocity then
@@ -1058,90 +1063,25 @@ function newPlayer(playerX, playerY)
 	end
 
 	function player:hitCollision()
-		-- for _, actor in ipairs(npcs) do
-		-- 	if AABB(player.x, player.y, player.width, player.height, actor.x, actor.y, actor.width, actor.height) then -- if npc is in range of player
-		-- 		if (isInTable(actor.attackAnimationFrames, actor.attackHitFrames) and ((actor.attacking and actor.ai ~= "diving") or actor.diving)) or actor.projectile or actor.name == "fuzzy" then
-		-- 			if player.invincible == false and player:isDead() == false and (actor.damage > 0 or actor.knockbackStrength > 0) then
-		-- 				player.previousHp = player.hp
-		-- 				player.hp = player.hp - actor.damage
-		-- 				player.knockbackAngle = math.atan2((player.y + player.height/2) - (actor.y + actor.attackHeight/2), (player.x + player.width/2) - (actor.x + actor.attackWidth/2))
-		-- 				player.knockbackDx = math.cos(player.knockbackAngle)
-		-- 				player.knockbackDy = math.sin(player.knockbackAngle)
-		-- 				player.hit = true
-		-- 				actor.hitPlayer = true
-		-- 				if shakeLength < actor.screenShakeLength then
-		-- 					shakeLength = actor.screenShakeLength
-		-- 				end
-		-- 				maxShakeLength = shakeLength
-		-- 				if shakeAmount < actor.screenShakeAmount then
-		-- 					shakeAmount = actor.screenShakeAmount
-		-- 				end
-		-- 				maxShakeAmount = shakeAmount
-		-- 				if screenFreeze < actor.screenFreezeLength then
-		-- 					screenFreeze = actor.screenFreezeLength
-		-- 				end
-
-		-- 				if actor.projectile == false then
-		-- 					if isInTable("thorns", player.accessories) then
-		-- 						actor.hit = true
-		-- 						actor.previousHp = actor.hp
-		-- 						actor.lastDamagedTimer = 0
-		-- 						actor.lastHitTimer = 0
-		-- 						actor.hp = actor.hp - 30
-		-- 						if actor.hp < 0 then
-		-- 							actor.hp = 0
-		-- 						end
-		-- 					end
-		-- 				end
-
-		-- 				if actor.name == "fuzzy" then
-		-- 					actor.attacking = true
-		-- 					actor.attackDirection = actor.direction
-		-- 				end
-		-- 				if player:isDead() == false then
-		-- 					if actor.damage > 0 and actor.ai ~= "cloud" then
-		-- 						player.invincible = true
-		-- 						player.invincibilityCounter = player.invincibilityLength
-		-- 					end
-		-- 					if actor.knockbackStrength > 0 then
-		-- 						player.xVelocity = player.knockbackDx*actor.knockbackStrength
-		-- 						if player.yVelocity < 0 then
-		-- 							player.yVelocity = player.knockbackDy*actor.knockbackStrength
-		-- 						else
-		-- 							player.yVelocity = player.knockbackDy*actor.knockbackStrength
-		-- 						end
-		-- 					end
-		-- 					purple = targetPurple + 1
-		-- 				else
-		-- 					player.hp = 0
-		-- 					if actor.knockbackStrength > 0 then
-		-- 						player.xVelocity = player.knockbackDx*actor.knockbackStrength*2
-		-- 						if player.yVelocity < 0 then
-		-- 							player.yVelocity = player.knockbackDy*actor.knockbackStrength*2
-		-- 						else
-		-- 							player.yVelocity = player.knockbackDy*actor.knockbackStrength*2
-		-- 						end
-		-- 					end
-		-- 					purple = targetPurple + 2
-		-- 				end
-		-- 			end
-		-- 		end
-		-- 	end
-		-- end
-
-
 		for _, actor in ipairs(npcs) do
 			if (((actor.attacking and actor.ai ~= "diving") or actor.diving) and isInTable(actor.attackAnimationFrame, actor.attackHitFrames)) or actor.projectile or actor.name == "fuzzy" then -- if able to hit
 				if player.invincible == false and player:isDead() == false and (actor.damage > 0 or actor.knockbackStrength > 0) then
 					if AABB(player.x, player.y, player.width, player.height, actor.x, actor.y, actor.attackWidth, actor.attackHeight) then -- if npc is in range of player
 						imageData = actor.canvas:newImageData()
+						local npcAlreadyHit = false
 						for x = 1, imageData:getWidth() do
+							if npcAlreadyHit then
+								break
+							end
 							for y = 1, imageData:getHeight() do
-								-- Pixel coordinates range from 0 to image width - 1 / height - 1.
+								if npcAlreadyHit then
+									break
+								end
 								red, green, blue, alpha = imageData:getPixel(x-1, y-1)
 								if red == 248/255 and green == 248/255 and blue == 248/255 or (actor.projectile) then
 									for _, _ in ipairs(getCollidingActors(actor:getX() + x-1, actor:getY() + y-1, 1, 1, false, false, false, false, false, false, false, true)) do -- checks player
 										if player.invincible == false and player:isDead() == false and (actor.damage > 0 or actor.knockbackStrength > 0) then
+											npcAlreadyHit = true
 											player.previousHp = player.hp
 											player.hp = player.hp - actor.damage
 											player.knockbackAngle = math.atan2((player.y + player.height/2) - (actor.y + actor.attackHeight/2), (player.x + player.width/2) - (actor.x + actor.attackWidth/2))
@@ -1162,7 +1102,7 @@ function newPlayer(playerX, playerY)
 											end
 
 											if actor.projectile == false then
-												if isInTable("thorns", player.accessories) then
+												if isInTable("ballOfThorns", player.accessories) then
 													actor.hit = true
 													actor.previousHp = actor.hp
 													actor.lastDamagedTimer = 0
@@ -1433,7 +1373,6 @@ function newPlayer(playerX, playerY)
 			end
 		end
 
-		love.graphics.setColor(1, 1, 1, 1)
 		if player.hit then
 			love.graphics.setColor(0, 0, 0, 1)
 		end
@@ -1443,11 +1382,13 @@ function newPlayer(playerX, playerY)
 		
 		love.graphics.draw(player.spritesheet, player.quad)
 
-		-- if player.invincible and player.invincibilityCounter % 2 ~= 0 then
-		-- 	local image = convertColor(player.canvas, 1, 1, 1, 0.25)
-		-- 	love.graphics.clear()
-		-- 	love.graphics.draw(image)
-		-- end
+		if player.invincible and player.invincibilityCounter % 2 ~= 0 then
+			love.graphics.clear()
+			love.graphics.setShader(convertColorShader)
+			love.graphics.setColor(1, 1, 1, 0.25)
+			love.graphics.draw(player.spritesheet, player.quad)
+			love.graphics.setShader()
+		end
 
 		love.graphics.setColor(1, 1, 1, 1)
 	end

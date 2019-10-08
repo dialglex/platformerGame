@@ -7,7 +7,7 @@ end
 function checkCollision(x, y, width, height, platform, playerCollision)
 	-- table.insert(hitboxes, {x, y, width, height})
 	for _, actor in ipairs(tiles) do
-		if (actor.collidable) or (playerCollision == false and platform and actor.platform) or (playerCollision and platform and actor.platform and player.yVelocity >= 0 and downInputs.down ~= true) then
+		if (actor.collidable) or (playerCollision == false and platform and actor.platform) or (playerCollision and platform and actor.platform and player.yVelocity >= 0 and (downInputs.down and downInputs.jump) ~= true) then
 			if AABB(x, y, width, height, actor.x + actor.hitboxX, actor.y + actor.hitboxY, actor.hitboxWidth, actor.hitboxHeight) then
 				return true
 			end

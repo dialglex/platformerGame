@@ -3,6 +3,7 @@ function getUiImages()
 	menuOptionsImage = love.graphics.newImage("images/ui/menu/menuOptions.png")
 	menuQuitImage = love.graphics.newImage("images/ui/menu/menuQuit.png")
 
+	inventoryImage = love.graphics.newImage("images/ui/inventory/inventory.png")
 	inventoryAccessory1Image = love.graphics.newImage("images/ui/inventory/inventoryAccessory1.png")
 	inventoryAccessory2Image = love.graphics.newImage("images/ui/inventory/inventoryAccessory2.png")
 	inventoryAccessory3Image = love.graphics.newImage("images/ui/inventory/inventoryAccessory3.png")
@@ -36,7 +37,9 @@ function getUiImages()
 	redBarAA = love.graphics.newImage("images/ui/newWeapon/redBarAA.png")
 	redConnecter = love.graphics.newImage("images/ui/newWeapon/redConnecter.png")
 	whiteBar = love.graphics.newImage("images/ui/newWeapon/whiteBar.png")
+	whiteConnecter = love.graphics.newImage("images/ui/newWeapon/whiteConnecter.png")
 	greyBar = love.graphics.newImage("images/ui/newWeapon/greyBar.png")
+	greyConnecter = love.graphics.newImage("images/ui/newWeapon/greyConnecter.png")
 	statIcons = love.graphics.newImage("images/ui/statIcons.png")
 
 	optionsVideoSprite = love.graphics.newImage("images/ui/options/optionsVideo.png")
@@ -127,6 +130,7 @@ function newUi(name, data1, data2)
 			ui.accessoryNumberSelected = 1
 		else
 			ui.accessoryNumberSelected = 0
+			ui.sprite = inventoryImage
 		end
 	elseif ui.name == "newWeapon" then
 		ui.weapon1Selected = false
@@ -137,8 +141,8 @@ function newUi(name, data1, data2)
 
 		local weapon1 = getWeaponStats(player.equippedWeapon1)
 		local weapon2 = getWeaponStats(player.equippedWeapon2)
-		ui.weaponSprite1Canvas = giveOutline(weapon1.iconSprite, {0.973, 0.973, 0.973})
-		ui.weaponSprite2Canvas = giveOutline(weapon2.iconSprite, {0.973, 0.973, 0.973})
+		ui.weaponSprite1Canvas = giveOutline(weapon1.iconSprite, {0.973, 0.973, 0.973}, true)
+		ui.weaponSprite2Canvas = giveOutline(weapon2.iconSprite, {0.973, 0.973, 0.973}, true)
 
 		ui.emptyBar = emptyBar
 		ui.barOutline = barOutline
@@ -152,14 +156,16 @@ function newUi(name, data1, data2)
 		ui.redBarAA = redBarAA
 		ui.redConnecter = redConnecter
 		ui.whiteBar = whiteBar
+		ui.whiteConnecter = whiteConnecter
 		ui.greyBar = greyBar
+		ui.greyConnecter = greyConnecter
 		ui.damageBarCanvas = love.graphics.newCanvas(ui.emptyBar:getWidth(), ui.emptyBar:getHeight())
 		ui.speedBarCanvas = love.graphics.newCanvas(ui.emptyBar:getWidth(), ui.emptyBar:getHeight())
 		ui.knockbackBarCanvas = love.graphics.newCanvas(ui.emptyBar:getWidth(), ui.emptyBar:getHeight())
 
 		ui.newWeaponName = data1
 		ui.newWeaponSprite = data2
-		ui.newWeaponSpriteCanvas = giveOutline(ui.newWeaponSprite, {0.973, 0.973, 0.973})
+		ui.newWeaponSpriteCanvas = giveOutline(ui.newWeaponSprite, {0.973, 0.973, 0.973}, true)
 	elseif ui.name == "options" then
 		if data ~= nil then
 			ui.selected = data1
@@ -176,7 +182,7 @@ function newUi(name, data1, data2)
 		ui.musicSprite = audioMusicSprite
 		ui.sprite = ui.musicSprite
 		ui.sfxSprite = audioSfxSprite
-		ui.volumeBar = audioVolumeSprite
+		ui.volumeBar = audioVolumeBar
 		ui.emptyVolumeBar = audioEmptyVolumeBar
 		ui.volumeBarOutline = audioVolumeBarOutline
 		ui.volumeBarAA = audioVolumeBarAA
@@ -584,24 +590,15 @@ function newUi(name, data1, data2)
 					if number1*ui.emptyBar:getWidth() > 5 then
 						love.graphics.draw(ui.redBarAA, 2, 2)
 					end
-					if number1 ~= number2 then
-						love.graphics.draw(ui.redConnecter, number1*ui.emptyBar:getWidth() - 3, 0)
-					end
 				elseif number1*ui.emptyBar:getWidth() < ui.emptyBar:getWidth()*2/3 then
 					love.graphics.draw(ui.orangeBar, number1*ui.emptyBar:getWidth() - ui.emptyBar:getWidth(), 0)
 					if number1*ui.emptyBar:getWidth() > 5 then
 						love.graphics.draw(ui.orangeBarAA, 2, 2)
 					end
-					if number1 ~= number2 then
-						love.graphics.draw(ui.orangeConnecter, number1*ui.emptyBar:getWidth() - 3, 0)
-					end
 				else
 					love.graphics.draw(ui.greenBar, number1*ui.emptyBar:getWidth() - ui.emptyBar:getWidth(), 0)
 					if number1*ui.emptyBar:getWidth() > 5 then
 						love.graphics.draw(ui.greenBarAA, 2, 2)
-					end
-					if number1 ~= number2 then
-						love.graphics.draw(ui.greenConnecter, number1*ui.emptyBar:getWidth() - 3, 0)
 					end
 				end
 			end
@@ -623,29 +620,26 @@ function newUi(name, data1, data2)
 		elseif ui.name == "inventory" then
 			local weapon1 = getWeaponStats(player.equippedWeapon1)
 			local weapon2 = getWeaponStats(player.equippedWeapon2)
-			local speed1 = 60 - (weapon1.startupLag + weapon1.slashDuration + weapon1.endLag)
-			local speed2 = 60 - (weapon2.startupLag + weapon2.slashDuration + weapon2.endLag)
 
 			love.graphics.setCanvas(ui.weapon1DamageBarCanvas)
 			love.graphics.clear()
 			ui:drawBar(weapon1.damage/100)
 			love.graphics.setCanvas(ui.weapon1SpeedBarCanvas)
 			love.graphics.clear()
-			ui:drawBar(speed1/60)
+			ui:drawBar(weapon1.speed/100)
 			love.graphics.setCanvas(ui.weapon1KnockbackBarCanvas)
 			love.graphics.clear()
-			ui:drawBar(weapon1.knockback/4)
+			ui:drawBar(weapon1.knockback/100)
 
 			love.graphics.setCanvas(ui.weapon2DamageBarCanvas)
 			love.graphics.clear()
 			ui:drawBar(weapon2.damage/100)
 			love.graphics.setCanvas(ui.weapon2SpeedBarCanvas)
 			love.graphics.clear()
-			ui:drawBar(speed2/60)
+			ui:drawBar(weapon2.speed/100)
 			love.graphics.setCanvas(ui.weapon2KnockbackBarCanvas)
 			love.graphics.clear()
-			ui:drawBar(weapon2.knockback/4)
-
+			ui:drawBar(weapon2.knockback/100)
 
 			love.graphics.setCanvas(ui.healthBarCanvas)
 			for i = 0, 2 do
@@ -667,6 +661,17 @@ function newUi(name, data1, data2)
 			love.graphics.draw(ui.weapon2DamageBarCanvas, 127, 67)
 			love.graphics.draw(ui.weapon2SpeedBarCanvas, 127, 81)
 			love.graphics.draw(ui.weapon2KnockbackBarCanvas, 127, 95)
+
+			love.graphics.setColor(1, 1, 1, 1)
+			love.graphics.setFont(textFont1)
+			love.graphics.printf(weapon1.damage, 82, 69, 1000)
+			love.graphics.printf(weapon1.speed, 82, 83, 1000)
+			love.graphics.printf(weapon1.knockback, 82, 97, 1000)
+
+			love.graphics.printf(weapon2.damage, 180, 69, 1000)
+			love.graphics.printf(weapon2.speed, 180, 83, 1000)
+			love.graphics.printf(weapon2.knockback, 180, 97, 1000)
+
 			if ui.accessoryNumberSelected == 1 then
 				love.graphics.draw(ui.inventoryAccessory1)
 			elseif ui.accessoryNumberSelected == 2 then
@@ -735,29 +740,27 @@ function newUi(name, data1, data2)
 			end
 
 			local weapon1 = getWeaponStats(ui.newWeaponName)
-			local speed1 = 60 - (weapon1.startupLag + weapon1.slashDuration + weapon1.endLag)
 			
 			if ui.weapon1Selected or ui.weapon2Selected then
-				local speed2 = 60 - (weapon2.startupLag + weapon2.slashDuration + weapon2.endLag)
 				love.graphics.setCanvas(ui.damageBarCanvas)
 				love.graphics.clear()
 				ui:drawBar(weapon1.damage/100, weapon2.damage/100)
 				love.graphics.setCanvas(ui.speedBarCanvas)
 				love.graphics.clear()
-				ui:drawBar(speed1/60, speed2/60)
+				ui:drawBar(weapon1.speed/100, weapon2.speed/100)
 				love.graphics.setCanvas(ui.knockbackBarCanvas)
 				love.graphics.clear()
-				ui:drawBar(weapon1.knockback/4, weapon2.knockback/4)
+				ui:drawBar(weapon1.knockback/100, weapon2.knockback/100)
 			else
 				love.graphics.setCanvas(ui.damageBarCanvas)
 				love.graphics.clear()
 				ui:drawBar(weapon1.damage/100)
 				love.graphics.setCanvas(ui.speedBarCanvas)
 				love.graphics.clear()
-				ui:drawBar(speed1/60)
+				ui:drawBar(weapon1.speed/100)
 				love.graphics.setCanvas(ui.knockbackBarCanvas)
 				love.graphics.clear()
-				ui:drawBar(weapon1.knockback/4)
+				ui:drawBar(weapon1.knockback/100)
 			end
 
 			love.graphics.setCanvas(ui.canvas)
@@ -770,6 +773,11 @@ function newUi(name, data1, data2)
 			love.graphics.draw(ui.weaponSprite1Canvas, 6, 104)
 			love.graphics.draw(ui.newWeaponSpriteCanvas, 58, 104)
 			love.graphics.draw(ui.weaponSprite2Canvas, 110, 104)
+
+			love.graphics.setFont(textFont1)
+			love.graphics.printf(weapon1.damage, 100, 59, 1000)
+			love.graphics.printf(weapon1.speed, 100, 73, 1000)
+			love.graphics.printf(weapon1.knockback, 100, 87, 1000)
 		elseif ui.name == "options" then
 			love.graphics.setCanvas(ui.canvas)
 			love.graphics.clear()

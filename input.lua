@@ -56,6 +56,8 @@ function getCorrospondingButton(button)
 		return "rightStick"
 	elseif button == 10 then
 		return "leftStick"
+	elseif button == 11 then
+		return "xbox"
 	end
 end
 
@@ -78,7 +80,7 @@ function findGamepads()
 		local name = e:getName()
 		if name == "Pro Controller" then
 			table.insert(proControllers, e)
-		elseif name == "XInput Controller #1" then
+		elseif name == "XInput Controller #1" or name == "XInput Controller #2" or name == "XInput Controller #3" or name == "XInput Controller #4" or name == "Microsoft X-Box One pad"  then
 			table.insert(xboxControllers, e)
 		end
 	end

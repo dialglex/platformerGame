@@ -1,6 +1,6 @@
 function getItemStats(item)
 	if item == "weaponShopItem" then
-		local random = getRandomElement(returnWeaponList())
+		local random = getRandomWeapon()
 		local weapon = getWeaponStats(random)
 		local sprite = weapon.iconSprite
 		return {
@@ -13,7 +13,7 @@ function getItemStats(item)
 			randomName = random
 		}
 	elseif item == "accessoryShopItem" then
-		local random = getRandomElement(returnAccessoryList())
+		local random = getRandomAccessory()
 		local accessory = getAccessoryStats(random)
 		local sprite = accessory.iconSprite
 		return {

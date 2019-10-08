@@ -62,20 +62,45 @@ sleep - immobolized for 5s or until hit by an attack. (saturated blue)
 blind - can't attack for 2s. (grey)
 death - after 3 seconds, deals damage until it dies. (black)
 
+WEAPON IDEAS:
+bird bow
+bat bow
+worm bow
+leech bow
+vine bow
+lightning bow - clouds and thunderbolts
+beholder bow - eye in middle shoots rays
+coffin/phantom bow - pierces enemies
+bull head
+crescent moon
+boomerang bow
+ice bow - shoots icicles
+molten metal sword/bow
 
+sinking sand bow that drips
+sandstone sword
+glass sword
+crab claw / crab bow that shoots its pinchers
+snake bow
+cactus sword
+something vulture related
 
-WEAPON LIST:
-starting gear: wooden sword, wooden bow
+slime hat
+slime companion
+a rock and slime mixture sword
+diamond/emerald sword
+different colored slime things have different effects
 
-GRASSLAND:
-swords -
-spikey club
-mushroom sword
+magma rock that shoots magma
+lava sword that has like steam coming off it or a magma rock that shoots hot steam
+magma boots that make you take less fire damagea crystal sword like before
+hot steel sword like out of a blacksmiths thing
+stone sword that jagged or something
 
-thorny sword (poison)
-grass sword (snare)
-
-bows - 
-
-thorny bow (poison)
-grass bow (snare)
+coffin that shoots ghosts (Piercing)
+spidery web bow or just a spider that shoots webs
+eyeball sword with a fleshy blade and a eyeball in the middle of its hilt
+a tooth sword or bow
+dead frog sword with the tongue as the blade
+a needle that is a sword
+a bone bow or sword

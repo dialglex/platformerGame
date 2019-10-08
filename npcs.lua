@@ -66,51 +66,70 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 	if npc.name == "acorn" then
 		npc.moveRightSpritesheet = acornMoveRightSpritesheet
 		npc.moveLeftSpritesheet = acornMoveLeftSpritesheet
+		npc.quads = acornMoveQuads
+
 		npc.attackRightSpritesheet = acornAttackRightSpritesheet
 		npc.attackLeftSpritesheet = acornAttackLeftSpritesheet
-		npc.hoverRightSpritesheet = acornHoverRightSpritesheet
-		npc.hoverLeftSpritesheet = acornHoverLeftSpritesheet
-		npc.baseSpritesheet = npc.moveRightSpritesheet
+		npc.attackQuads = acornAttackQuads
 
 		npc.hoverAnimationFrames = 2
 		npc.hoverAnimationFrame = 1
-		npc.hoverQuads = {}
-		local spritesheetWidth = npc.hoverRightSpritesheet:getWidth()
-		local spritesheetHeight = npc.hoverRightSpritesheet:getHeight()
-		local width = spritesheetWidth/2
-		local height = spritesheetHeight
-		for i = 1, 2 do
-			table.insert(npc.hoverQuads, love.graphics.newQuad(width*(i - 1), 0, width, height, spritesheetWidth, spritesheetHeight))
-		end
+		npc.hoverRightSpritesheet = acornHoverRightSpritesheet
+		npc.hoverLeftSpritesheet = acornHoverLeftSpritesheet
+		npc.hoverQuads = getQuads(npc.hoverRightSpritesheet, npc.hoverAnimationFrames)
+
+		npc.baseSpritesheet = npc.moveRightSpritesheet
 	elseif npc.name == "mushroomMonster" then
 		npc.moveRightSpritesheet = mushroomMonsterMoveRightSpritesheet
 		npc.moveLeftSpritesheet = mushroomMonsterMoveLeftSpritesheet
+		npc.quads = mushroomMonsterMoveQuads
+
 		npc.attackRightSpritesheet = mushroomMonsterAttackRightSpritesheet
 		npc.attackLeftSpritesheet = mushroomMonsterAttackLeftSpritesheet
+		npc.attackQuads = mushroomMonsterAttackQuads
+
 		npc.baseSpritesheet = npc.moveRightSpritesheet
 	elseif npc.name == "poisonCloud" then
 		npc.baseSpritesheet = poisonCloudSpritesheet
+		npc.quads = poisonCloudQuads
 	elseif npc.name == "upPlant" then
 		npc.idleSpritesheet = upPlantIdleSpritesheet
+		npc.quads = plantIdleQuads
+
 		npc.attackSpritesheet = upPlantAttackSpritesheet
+		npc.attackQuads = plantAttackQuads
+
 		npc.baseSpritesheet = npc.idleSpritesheet
 	elseif npc.name == "downPlant" then
 		npc.idleSpritesheet = downPlantIdleSpritesheet
+		npc.quads = plantIdleQuads
+
 		npc.attackSpritesheet = downPlantAttackSpritesheet
+		npc.attackQuads = plantAttackQuads
+
 		npc.baseSpritesheet = npc.idleSpritesheet
 	elseif npc.name == "plantProjectile" then
 		npc.baseSpritesheet = plantProjectileSpritesheet
+		npc.quads = plantProjectileQuads
 	elseif npc.name == "fuzzy" then
 		npc.moveRightSpritesheet = fuzzyMoveRightSpritesheet
 		npc.moveLeftSpritesheet = fuzzyMoveLeftSpritesheet
+		npc.quads = fuzzyMoveQuads
+
 		npc.attackRightSpritesheet = fuzzyAttackRightSpritesheet
 		npc.attackLeftSpritesheet = fuzzyAttackLeftSpritesheet
+		npc.attackQuads = fuzzyAttackQuads
+
 		npc.baseSpritesheet = npc.moveRightSpritesheet
 	elseif npc.name == "acornKing" then
 		npc.moveRightSpritesheet = acornKingMoveRightSpritesheet
 		npc.moveLeftSpritesheet = acornKingMoveLeftSpritesheet
+		npc.quads = acornKingMoveQuads
+
 		npc.attackRightSpritesheet = acornKingAttackRightSpritesheet
 		npc.attackLeftSpritesheet = acornKingAttackLeftSpritesheet
+		npc.attackQuads = acornKingAttackQuads
+
 		npc.baseSpritesheet = npc.moveRightSpritesheet
 	elseif npc.name == "acornProjectile" then
 		npc.rotation1Spritesheet = acornProjectileRotation1Spritesheet
@@ -121,39 +140,31 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 		npc.rotation6Spritesheet = acornProjectileRotation6Spritesheet
 		npc.rotation7Spritesheet = acornProjectileRotation7Spritesheet
 		npc.rotation8Spritesheet = acornProjectileRotation8Spritesheet
+		npc.quads = acornProjectileQuads
+
 		npc.baseSpritesheet = npc.rotation1Spritesheet
 	elseif npc.name == "moonfly" then
 		npc.moveRightSpritesheet = moonflyMoveRightSpritesheet
 		npc.moveLeftSpritesheet = moonflyMoveLeftSpritesheet
+		npc.quads = moonflyMoveQuads
+
 		npc.attackRightSpritesheet = moonflyAttackRightSpritesheet
 		npc.attackLeftSpritesheet = moonflyAttackLeftSpritesheet
-		npc.diveRightSpritesheet = moonflyDiveRightSpritesheet
-		npc.diveLeftSpritesheet = moonflyDiveLeftSpritesheet
-		npc.stuckRightSpritesheet = moonflyStuckRightSpritesheet
-		npc.stuckLeftSpritesheet = moonflyStuckLeftSpritesheet
-		npc.baseSpritesheet = npc.moveRightSpritesheet
+		npc.attackQuads = moonflyAttackQuads
 
 		npc.diveAnimationFrames = 2
 		npc.diveAnimationFrame = 1
-		npc.diveQuads = {}
-		local spritesheetWidth = npc.diveRightSpritesheet:getWidth()
-		local spritesheetHeight = npc.diveRightSpritesheet:getHeight()
-		local width = spritesheetWidth/2
-		local height = spritesheetHeight
-		for i = 1, 2 do
-			table.insert(npc.diveQuads, love.graphics.newQuad(width*(i - 1), 0, width, height, spritesheetWidth, spritesheetHeight))
-		end
+		npc.diveRightSpritesheet = moonflyDiveRightSpritesheet
+		npc.diveLeftSpritesheet = moonflyDiveLeftSpritesheet
+		npc.diveQuads = getQuads(npc.diveRightSpritesheet, 2)
 
 		npc.stuckAnimationFrames = 2
 		npc.stuckAnimationFrame = 1
-		npc.stuckQuads = {}
-		local spritesheetWidth = npc.stuckRightSpritesheet:getWidth()
-		local spritesheetHeight = npc.stuckRightSpritesheet:getHeight()
-		local width = spritesheetWidth/2
-		local height = spritesheetHeight
-		for i = 1, 2 do
-			table.insert(npc.stuckQuads, love.graphics.newQuad(width*(i - 1), 0, width, height, spritesheetWidth, spritesheetHeight))
-		end
+		npc.stuckRightSpritesheet = moonflyStuckRightSpritesheet
+		npc.stuckLeftSpritesheet = moonflyStuckLeftSpritesheet
+		npc.stuckQuads = getQuads(npc.stuckRightSpritesheet, 2)
+
+		npc.baseSpritesheet = npc.moveRightSpritesheet
 	end
 	npc.width = npc.baseSpritesheet:getWidth() / npc.animationFrames
 	npc.height = npc.baseSpritesheet:getHeight()
@@ -169,15 +180,6 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 	else
 		npc.attackWidth = npc.attackRightSpritesheet:getWidth() / npc.attackAnimationFrames
 		npc.attackHeight = npc.attackRightSpritesheet:getHeight()
-	end
-
-	npc.quads = {}
-	for i = 1, npc.animationFrames do
-		table.insert(npc.quads, love.graphics.newQuad(npc.width*(i - 1), 0, npc.width, npc.height, npc.baseSpritesheet:getWidth(), npc.baseSpritesheet:getHeight()))
-	end
-	npc.attackQuads = {}
-	for i = 1, npc.attackAnimationFrames do
-		table.insert(npc.attackQuads, love.graphics.newQuad(npc.attackWidth*(i - 1), 0, npc.attackWidth, npc.attackHeight, npc.attackWidth*npc.attackAnimationFrames, npc.attackHeight))
 	end
 
 	npc.rotation = 1
@@ -290,6 +292,8 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 				npc:sineAi()
 			elseif npc.ai == "projectile" then
 				npc:projectileAi()
+			elseif npc.ai == "cloud" then
+				debugPrint("HIII")
 			end
 			npc:animation()
 		end
@@ -382,7 +386,7 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 				end
 
 				if isInTable("lifeFruit", player.accessories) then
-					player.hp = player.hp + 5
+					player.hp = player.hp + 3
 				end
 
 				local x
@@ -419,7 +423,7 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 			table.remove(actors, npcIndex)
 		end
 
-		if npc.poison > 0 and isInTable("virus", player.accessories) then
+		if npc.poison > 0 and isInTable("viralPoison", player.accessories) then
 			for _, actor in ipairs(getCollidingActors(npc:getX(), npc:getY(), npc.width, npc.height, false, false, false, false, true, false, false, false)) do
 				if actor ~= npc and actor.projectile == false then
 					actor.poison = npc.lastPoisonDuration
@@ -434,6 +438,13 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 	end
 
 	function npc:physics()
+		npc.xAcceleration = npc.baseXAcceleration
+		npc.xTerminalVelocity = npc.baseXTerminalVelocity
+		if npc.poison > 0 and isInTable("stickyOoze", player.accessories) then
+			npc.xAcceleration = npc.baseXAcceleration/2
+			npc.xTerminalVelocity = npc.baseXTerminalVelocity/2 
+		end
+
 		npc.wallCollision = false
 		npc.previousXVelocity = npc.xVelocity
 		local minXMovement = npc.xVelocity
@@ -630,11 +641,11 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 								end
 							end
 						else
-							if npc.direction == "right" and npc.grounded and (npc.x >= 480-npc.width-8 or npc.tileRight ~= "" or npc.tileBottomRight == "") then
+							if npc.direction == "right" and (npc.x >= 480-npc.width-8 or npc.tileRight ~= "" or (npc.tileBottomRight == "" and npc.grounded)) then
 								npc.direction = "left"
 								npc.x = npc.x + (npc.hitboxX - (npc.width - npc.hitboxWidth - npc.hitboxX))
 								npc.lastTurnCounter = 0
-							elseif npc.direction == "left" and npc.grounded and (npc.x <= npc.width-8 or npc.tileLeft ~= "" or npc.tileBottomLeft == "") then
+							elseif npc.direction == "left" and (npc.x <= npc.width-8 or npc.tileLeft ~= "" or (npc.tileBottomLeft == "" and npc.grounded)) then
 								npc.direction = "right"
 								npc.x = npc.x - (npc.hitboxX - (npc.width - npc.hitboxWidth - npc.hitboxX))
 								npc.lastTurnCounter = 0
@@ -1250,28 +1261,29 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 			end
 		end
 
-		-- if npc.hit then
-		-- 	love.graphics.setColor(0, 0, 0, 1)
-		-- else
-		-- 	love.graphics.setColor(1, 1, 1, 1)
-		-- end
-
 		love.graphics.draw(npc.spritesheet, npc.quad)
 
-		-- if npc.hit then
-		-- 	npc.image = convertColor(npc.canvas, 0, 0, 0, 1, nil, true)
-		-- 	love.graphics.draw(npc.image)
-		-- else
-		-- 	if npc.poison > 0 then
-		-- 		npc.image = convertColor(npc.canvas, 0.5, 0, 0.75, 0.5, nil, true)
-		-- 		love.graphics.draw(npc.image)
-		-- 	end
+		if npc.hit then
+			love.graphics.setShader(keepWhiteConvertColorShader)
+			love.graphics.setColor(0, 0, 0, 1)
+			love.graphics.draw(npc.spritesheet, npc.quad)
+			love.graphics.setShader()
+		else
+			if npc.poison > 0 then
+				love.graphics.setShader(keepWhiteConvertColorShader)
+				love.graphics.setColor(0.5, 0, 0.75, 0.5)
+				love.graphics.draw(npc.spritesheet, npc.quad)
+				love.graphics.setShader()
+			end
 
-		-- 	if npc.burn > 0 then
-		-- 		npc.image = convertColor(npc.canvas, 0.75, 0.5, 0, 0.5, nil, true)
-		-- 		love.graphics.draw(npc.image)
-		-- 	end
-		-- end
+			if npc.burn > 0 then
+				love.graphics.setShader(keepWhiteConvertColorShader)
+				love.graphics.setColor(0.75, 0.5, 0.5, 0.5)
+				love.graphics.draw(npc.spritesheet, npc.quad)
+				love.graphics.setShader()
+			end
+		end
+		love.graphics.setColor(1, 1, 1, 1)
 	end
 
 	return npc

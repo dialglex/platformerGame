@@ -1,8 +1,11 @@
 function getImages()
+	getTileImages()
 	getUiImages()
 	getNpcImages()
 	getWeaponImages()
+	getAccessoryImages()
 	getDustImages()
+	getShaders()
 
 	coin1Sprite = love.graphics.newImage("images/items/coin1.png")
 	coin2Sprite = love.graphics.newImage("images/items/coin2.png")
@@ -23,8 +26,45 @@ function getImages()
 	textCanvas = love.graphics.newCanvas(1920, 1080)
 	transitionCanvas = love.graphics.newCanvas(480, 270)
 	getFonts()
+
 	--white = 0.973, 0.973, 0.973 (248, 248, 248)
 	--black = 0.063, 0.118, 0.161 (16, 30, 41)
+end
+
+function getShaders()
+	convertColorShader = love.graphics.newShader[[
+		vec4 effect(vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords)
+		{
+			vec4 pixel = Texel(texture, texture_coords ); //This is the current pixel color
+			if (pixel.a == 1)
+			{
+				return color;
+			}
+			else
+			{
+				return vec4(0, 0, 0, 0);
+			}
+		}
+	]]
+
+	keepWhiteConvertColorShader = love.graphics.newShader[[
+		vec4 effect(vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords)
+		{
+			vec4 pixel = Texel(texture, texture_coords ); //This is the current pixel color
+			if (pixel.r == 0.9725490196 && pixel.g == 0.9725490196 && pixel.b == 0.9725490196)
+			{
+				return pixel;
+			}
+			else if (pixel.a == 1)
+			{
+				return color;
+			}
+			else
+			{
+				return vec4(0, 0, 0, 0);
+			}
+		}
+	]]
 end
 
 function getFonts()
@@ -38,6 +78,18 @@ function getFonts()
 	signFont = boldFont2
 	winFont = love.graphics.newFont("fonts/ubuntu/Ubuntu-Bold.ttf", 50*scale)
 	winOutlineFont = love.graphics.newFont("fonts/ubuntu/Ubuntu-Bold.ttf", 53*scale)
+end
+
+function getQuads(spritesheet, frames)
+	local quads = {}
+	local spritesheetWidth = spritesheet:getWidth()
+	local spritesheetHeight = spritesheet:getHeight()
+	local width = spritesheetWidth/frames
+	local height = spritesheetHeight
+	for i = 1, frames do
+		table.insert(quads, love.graphics.newQuad(width*(i - 1), 0, width, height, spritesheetWidth, spritesheetHeight))
+	end
+	return quads
 end
 
 function drawFadeScreen()
@@ -91,48 +143,18 @@ function screenShake()
 	end
 end
 
-function convertColor(canvas, r1, g1, b1, a1, image, keepWhite)
-	if image ~= nil then
-		canvas = love.graphics.newCanvas(image:getWidth(), image:getHeight())
-		love.graphics.setCanvas(canvas)
-		love.graphics.draw(image)
-	end
-
-	love.graphics.setCanvas()
-	local imageData = canvas:newImageData()
-	local width = imageData:getWidth()
-	local height = imageData:getHeight()
-
-	for y1 = 1, height do
-		for x1 = 1, width do
-			pixelX = x1 - 1
-			pixelY = y1 - 1
-
-			r2, g2, b2, a2 = imageData:getPixel(pixelX, pixelY)
-			if a2 > 0 then
-				if (keepWhite and r2 == 248/255 and g2 == 248/255 and b2 == 248/255) == false then -- if it is white
-
-				else
-					imageData:setPixel(pixelX, pixelY, r1, g1, b1, a1)
-				end
-			end
-		end
-	end
-
-	love.graphics.setCanvas(canvas)
-	return love.graphics.newImage(imageData)
-end
-
 function giveOutline(image, color, sharp)
 	r1, g1, b1, a1 = unpack(color)
-	local colorImage = convertColor(nil, r1, g1, b1, a1, image)
 	local canvas = love.graphics.newCanvas(image:getWidth()+2, image:getHeight()+2)
 
 	love.graphics.setCanvas(canvas)
-	love.graphics.draw(colorImage, 1, 1+1)
-	love.graphics.draw(colorImage, 1, 1-1)
-	love.graphics.draw(colorImage, 1+1, 1)
-	love.graphics.draw(colorImage, 1-1, 1)
+	love.graphics.setShader(convertColorShader)
+	love.graphics.setColor(r1, g1, b1, a1)
+	love.graphics.draw(image, 1, 1+1)
+	love.graphics.draw(image, 1, 1-1)
+	love.graphics.draw(image, 1+1, 1)
+	love.graphics.draw(image, 1-1, 1)
+	love.graphics.setShader()
 
 	if sharp then
 		local imageDataCanvas = love.graphics.newCanvas(image:getWidth() + 2, image:getHeight() + 2)
@@ -219,6 +241,7 @@ function giveOutline(image, color, sharp)
 				end
 			end
 		end
+		love.graphics.setCanvas(canvas)
 		local corners = love.graphics.newImage(newImageData)
 		love.graphics.draw(corners)
 	end
@@ -346,11 +369,17 @@ function drawScreen()
 
 	for _, actor in ipairs(tiles) do
 		if actor.name == "teleporter" then
-			if actor.active or bossLevel then
+			if actor.active then
+				love.graphics.draw(actor.spritesheet, actor.quad, actor:getX(), actor:getY())
+			elseif bossLevel then
 				love.graphics.draw(actor.spritesheet, actor:getX(), actor:getY())
 			end
 		elseif actor.name == "chest" then
-			love.graphics.draw(actor.spritesheet, actor:getX(), actor:getY())
+			if chestOpening then
+				love.graphics.draw(actor.spritesheet, actor.quad, actor:getX(), actor:getY())
+			else
+				love.graphics.draw(actor.spritesheet, actor:getX(), actor:getY())
+			end
 		end
 	end
 
@@ -388,6 +417,9 @@ function drawScreen()
 
 	for _, actor in ipairs(weapons) do
 		love.graphics.draw(actor.canvas, actor:getX(), actor:getY())
+		if actor.type ~= "projectile" and player.weaponOut then
+			love.graphics.draw(actor.armOverlaySpritesheet, player.quad, player:getX() - 3, player:getY() - 2)
+		end
 	end
 	
 	for _, actor in ipairs(dusts) do
@@ -445,17 +477,16 @@ function drawScreen()
 
 				if actor.name == "weaponShopItem" then
 					local weapon = getWeaponStats(actor.randomName)
-					local speed = 60 - (weapon.startupLag + weapon.slashDuration + weapon.endLag)
 
 					love.graphics.setCanvas(damageBarCanvas)
 					love.graphics.clear()
 					drawBar(weapon.damage/100)
 					love.graphics.setCanvas(speedBarCanvas)
 					love.graphics.clear()
-					drawBar(speed/60)
+					drawBar(weapon.speed/100)
 					love.graphics.setCanvas(knockbackBarCanvas)
 					love.graphics.clear()
-					drawBar(weapon.knockback/4)
+					drawBar(weapon.knockback/100)
 
 					barX = (actor.x + actor.width/2) - emptyBar:getWidth()/2 + (5 + 12)/2
 					barY = textY - emptyBar:getHeight() - 4
@@ -588,12 +619,11 @@ function drawTextCanvas()
 end
 
 function drawDebug()
-	--draw tile hitboxes
 	love.graphics.setCanvas(debugCanvas)
 	love.graphics.clear()
 	if debug then
+		love.graphics.setColor(1, 1, 1, 1)
 		for _, actor in ipairs(tiles) do
-			love.graphics.setColor(1, 1, 1, 1)
 			love.graphics.rectangle("fill", actor.hitboxX + actor.x, actor.hitboxY + actor.y, 1, 1)
 			
 			if actor.collidable then
@@ -605,8 +635,8 @@ function drawDebug()
 			end
 		end
 
+		love.graphics.setColor(0.75, 1, 0.75, 0.9)
 		for _, actor in ipairs(npcs) do
-			love.graphics.setColor(0.75, 1, 0.75, 0.9)
 			if actor.attacking then
 				if actor.direction == "left" then
 					love.graphics.rectangle("fill", actor.x + (actor.attackWidth - actor.attackHitboxWidth - actor.attackHitboxX), actor.y + actor.attackHitboxY, actor.attackHitboxWidth, actor.attackHitboxHeight)
@@ -622,52 +652,45 @@ function drawDebug()
 			end
 		end
 
+		love.graphics.setColor(0.1, 1, 0.25, 0.75)
 		for _, hitbox in ipairs(hitboxes) do
 			x, y, w, h = unpack(hitbox)
-			love.graphics.setColor(0.1, 1, 0.25, 0.75)
 			love.graphics.rectangle("fill", x, y, w, h)
 		end
 
 		love.graphics.setColor(1, 0, 0, 0.3)
 		love.graphics.rectangle("fill", player.x, player.y, player.width, player.height)
-		love.graphics.setColor(1, 1, 1, 1)
-		love.graphics.setColor(1, 1, 1)
 
+		love.graphics.setColor(1, 1, 1, 1)
 		for i, string in ipairs(debugStrings) do
 			love.graphics.setFont(textFont)
 			love.graphics.print(string, 2 + 16, (i - 1) * 12 + 16)
 		end
-	end
+	else
+		love.graphics.setColor(1, 1, 1, 1)
+		local hours = math.floor(frame/60/60/60)
+		local minutes = math.floor(frame/60/60 - hours*60)
+		local seconds = math.floor(frame/60 - hours*60*60 - minutes*60)
+		local stringHours = tostring(hours)
+		local stringMinutes = tostring(minutes)
+		local stringSeconds = tostring(seconds)
+		if string.len(stringHours) == 1 then
+			stringHours = "0"..stringHours
+		end
+		if string.len(stringMinutes) == 1 then
+			stringMinutes = "0"..stringMinutes
+		end
+		if string.len(stringSeconds) == 1 then
+			stringSeconds = "0"..stringSeconds
+		end
 
-	local hours = math.floor(frame/60/60/60)
-	local minutes = math.floor(frame/60/60 - hours*60)
-	local seconds = math.floor(frame/60 - hours*60*60 - minutes*60)
-	local stringHours = tostring(hours)
-	local stringMinutes = tostring(minutes)
-	local stringSeconds = tostring(seconds)
-	if string.len(stringHours) == 1 then
-		stringHours = "0"..stringHours
-	end
-	if string.len(stringMinutes) == 1 then
-		stringMinutes = "0"..stringMinutes
-	end
-	if string.len(stringSeconds) == 1 then
-		stringSeconds = "0"..stringSeconds
-	end
-
-	love.graphics.setFont(textFont)
-	love.graphics.print(stringHours..":"..stringMinutes..":"..stringSeconds, 18, 18)
-	
-	love.graphics.setCanvas()
-end
-
-function drawFPS()
-	love.graphics.setCanvas(screenCanvas)
-	if not debug then
 		love.graphics.setFont(textFont)
-		-- love.graphics.print("Current FPS: "..tostring(love.timer.getFPS()), 4, 4)
+		love.graphics.print("Current FPS: "..tostring(love.timer.getFPS()), 18, 18)
+		love.graphics.print(stringHours..":"..stringMinutes..":"..stringSeconds, 18, 30)
+		
 	end
 	love.graphics.setCanvas()
+	love.graphics.setColor(1, 1, 1, 1)
 end
 
 function drawBar(number1, number2) -- numbers must be between 0 and 1

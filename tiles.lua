@@ -1,3 +1,16 @@
+function getTileImages()
+	teleporterOffSprite = love.graphics.newImage("images/tiles/teleporter/teleporterOff.png")
+	teleporterOnSpritesheet = love.graphics.newImage("images/tiles/teleporter/teleporterOn.png")
+
+	weaponChestOpenSprite = love.graphics.newImage("images/tiles/chest/weaponChestOpen.png")
+	weaponChestClosedSprite = love.graphics.newImage("images/tiles/chest/weaponChestClosed.png")
+	weaponChestOpeningSpritesheet = love.graphics.newImage("images/tiles/chest/weaponChestOpening.png")
+
+	accessoryChestOpenSprite = love.graphics.newImage("images/tiles/chest/accessoryChestOpen.png")
+	accessoryChestClosedSprite = love.graphics.newImage("images/tiles/chest/accessoryChestClosed.png")
+	accessoryChestOpeningSpritesheet = love.graphics.newImage("images/tiles/chest/accessoryChestOpening.png")
+end
+
 function newTile(tileName, tileWidth, tileHeight, x, y, tileQuad, tileset, tileCollidable, tileBackground, tilePlatform, tileActive, hitboxX, hitboxY, hitboxWidth, hitboxHeight)
 	local tile = {}
 	tile.name = tileName
@@ -29,9 +42,25 @@ function newTile(tileName, tileWidth, tileHeight, x, y, tileQuad, tileset, tileC
 	end
 
 	tile.animationCounter = 0
-	tile.spritesheetNumber = 1
+	tile.frame = 1
 	tile.spritesheet = tileset
 	tile.counter = 0
+
+	if tile.name == "teleporter" then
+		tile.quads = {}
+		tile.frames = 6
+		for i = 1, tile.frames do
+			table.insert(tile.quads, love.graphics.newQuad(tile.width*(i - 1), 0, tile.width, tile.height, teleporterOnSpritesheet:getWidth(), teleporterOnSpritesheet:getHeight()))
+		end
+	end
+
+	if tile.name == "chest" then
+		tile.quads = {}
+		tile.frames = 27
+		for i = 1, tile.frames do
+			table.insert(tile.quads, love.graphics.newQuad(tile.width*(i - 1), 0, tile.width, tile.height, weaponChestOpeningSpritesheet:getWidth(), weaponChestOpeningSpritesheet:getHeight()))
+		end
+	end
 
 	function tile:act(index)
 		tile.index = index
@@ -51,15 +80,16 @@ function newTile(tileName, tileWidth, tileHeight, x, y, tileQuad, tileset, tileC
 			if tile.name == "teleporter" and tile.active then
 				tile.animationCounter = tile.animationCounter + 1
 				if tile.animationCounter > 6 then
-					tile.spritesheetNumber = tile.spritesheetNumber + 1
+					tile.frame = tile.frame + 1
 					tile.animationCounter = 0
-					if tile.spritesheetNumber > 6 then
-						tile.spritesheetNumber = 1
+					if tile.frame > tile.frames then
+						tile.frame = 1
 					end
 				end
-				tile.spritesheet = love.graphics.newImage("images/tiles/teleporter/teleporterOn"..tile.spritesheetNumber..".png")
+				tile.spritesheet = teleporterOnSpritesheet
+				tile.quad = tile.quads[tile.frame]
 			else
-				tile.spritesheet = love.graphics.newImage("images/tiles/teleporter/teleporterOff.png")
+				tile.spritesheet = teleporterOffSprite
 			end
 		end
 
@@ -72,13 +102,13 @@ function newTile(tileName, tileWidth, tileHeight, x, y, tileQuad, tileset, tileC
 			end
 
 			if currentMap.chestOpened then
-				if tile.spritesheetNumber < 27 then
+				if tile.frame < tile.frames then
 					chestOpening = true
 					tile.animationCounter = tile.animationCounter + 1
 					if tile.animationCounter > 2 then
-						tile.spritesheetNumber = tile.spritesheetNumber + 1
+						tile.frame = tile.frame + 1
 						tile.animationCounter = 0
-						if tile.spritesheetNumber == 16 then
+						if tile.frame == 16 then
 							if shakeLength < 2 then
 								shakeLength = 2
 							end
@@ -87,7 +117,7 @@ function newTile(tileName, tileWidth, tileHeight, x, y, tileQuad, tileset, tileC
 								shakeAmount = 3
 							end
 							maxShakeAmount = shakeAmount
-						elseif tile.spritesheetNumber == 20 then
+						elseif tile.frame == 20 then
 							if shakeLength < 1 then
 								shakeLength = 1
 							end
@@ -96,24 +126,37 @@ function newTile(tileName, tileWidth, tileHeight, x, y, tileQuad, tileset, tileC
 								shakeAmount = 1
 							end
 							maxShakeAmount = shakeAmount
-						elseif tile.spritesheetNumber == 25 then
+						elseif tile.frame == 25 then
 							if tile.chestType == "weapon" then
-								local randomWeapon = getRandomElement(returnWeaponList())
-								local weapon = getWeaponStats(randomWeapon)
+								local weapon = getWeaponStats(getRandomWeapon())
 								table.insert(actors, newUi("newWeapon", weapon.name, weapon.iconSprite))
 							else
-								local randomAccessory = getRandomElement(returnAccessoryList())
-								table.insert(player.accessories, randomAccessory)
+								local accessory = getRandomAccessory()
+								table.insert(player.accessories, accessory)
 							end
 						end
 					end
-					tile.spritesheet = love.graphics.newImage("images/tiles/chest/"..tile.chestType.."ChestOpening"..tile.spritesheetNumber..".png")
+					if tile.chestType == "weapon" then
+						tile.spritesheet = weaponChestOpeningSpritesheet
+					else
+						tile.spritesheet = accessoryChestOpeningSpritesheet
+					end
+					tile.quad = tile.quads[tile.frame]
 				else
 					chestOpening = false
-					tile.spritesheet = love.graphics.newImage("images/tiles/chest/"..tile.chestType.."ChestOpen.png")
+					if tile.chestType == "weapon" then
+						tile.spritesheet = weaponChestOpenSprite
+					else
+						tile.spritesheet = accessoryChestOpenSprite
+					end
 				end
 			else
-				tile.spritesheet = love.graphics.newImage("images/tiles/chest/"..tile.chestType.."ChestClosed.png")
+				if tile.chestType == "weapon" then
+					tile.spritesheet = weaponChestClosedSprite
+				else
+					tile.spritesheet = accessoryChestClosedSprite
+				end
+
 				if tile.counter == 60 then
 					table.insert(actors, newDust(tile.x + math.random(0 + 6, tile.width - 6), tile.y + math.random(20 + 4, tile.height - 4), "sparkle"))
 					tile.counter = 0
