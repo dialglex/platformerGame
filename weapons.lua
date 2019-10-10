@@ -31,7 +31,7 @@
 	weapon.iconSprite = stats.iconSprite
 	weapon.spritesheet = stats.spritesheet
 	weapon.quads = stats.quads
-
+	
 	if weapon.type == "sword" then
 		weapon.slashDuration = 4
 		weapon.xOffset = stats.xOffset
@@ -58,6 +58,8 @@
 	weapon.canvas = love.graphics.newCanvas(weapon.width, weapon.height)
 	weapon.x = x
 	weapon.y = y
+	weapon.currentXOffset = 0
+	weapon.currentYOffset = 0
 	
 	if weapon.type == "projectile" then
 		weapon.xAcceleration = 0
@@ -108,6 +110,8 @@
 	function weapon:collision()
 		if weapon.type == "projectile" then
 			for _, actor in ipairs(getCollidingActors(weapon.x + weapon.width/2 - weapon.width/8, weapon.y + weapon.height/2 - weapon.height/8, weapon.width/4, weapon.height/4, true, false, true, true, false, false, false, false, false, 1)) do
+				thudSound:stop()
+				thudSound:play()
 				if shakeLength < weapon.screenShakeLength/3 then
 					shakeLength = weapon.screenShakeLength/3
 				end
@@ -142,6 +146,14 @@
 			weapon.state = "startup"
 		elseif weapon.durationCounter <= (weapon.slashDuration + weapon.startupLag) then
 			if weapon.state ~= "slash" then
+				if weapon.type == "sword" then
+					swingSound:stop()
+					swingSound:play()
+				elseif weapon.type == "bow" then
+					shootSound:stop()
+					shootSound:play()
+				end
+
 				if shakeLength < weapon.screenShakeLength/3 then
 					shakeLength = weapon.screenShakeLength/3
 				end
@@ -191,35 +203,36 @@
 	function weapon:movement()
 		if weapon.type == "sword" then
 			weapon.x = player.x + player.width/2 - weapon.width/2
-			weapon.y = player.y + player.height/2 - weapon.height/2 + weapon.yOffset
+			weapon.y = player.y + player.height/2 - weapon.height/2
+			weapon.currentYOffset = weapon.yOffset
 			if weapon.direction == "left" then
-				weapon.x = weapon.x - weapon.xOffset
+				weapon.currentXOffset = -weapon.xOffset
 			else
-				weapon.x = weapon.x + weapon.xOffset
+				weapon.currentXOffset = weapon.xOffset
 			end
 		elseif weapon.type == "bow" then
 			weapon.x = player.x + player.width/2 - weapon.width/2
 			weapon.y = player.y + player.height/2 - weapon.height/2
 			if weapon.shootDirection == "up" then
 				if weapon.direction == "left" then
-					weapon.x = weapon.x - weapon.upXOffset
+					currentXOffset = -weapon.upXOffset
 				else
-					weapon.x = weapon.x + weapon.upXOffset
+					currentXOffset = weapon.upXOffset
 				end
-				weapon.y = weapon.y + weapon.upYOffset
+				weapon.currentYOffset = weapon.upYOffset
 			elseif weapon.shootDirection == "down" then
 				if weapon.direction == "left" then
-					weapon.x = weapon.x - weapon.downXOffset
+					weapon.currentXOffset = -weapon.downXOffset
 				else
-					weapon.x = weapon.x + weapon.downXOffset
+					weapon.currentXOffset = weapon.downXOffset
 				end
-				weapon.y = weapon.y + weapon.downYOffset
+				weapon.currentYOffset = weapon.downYOffset
 			elseif weapon.shootDirection == "left" then
-				weapon.x = weapon.x - weapon.sideXOffset
-				weapon.y = weapon.y + weapon.sideYOffset
+				weapon.currentXOffset = -weapon.sideXOffset
+				weapon.currentYOffset = weapon.sideYOffset
 			elseif weapon.shootDirection == "right" then
-				weapon.x = weapon.x + weapon.sideXOffset
-				weapon.y = weapon.y + weapon.sideYOffset
+				weapon.currentXOffset = weapon.sideXOffset
+				weapon.currentYOffset = weapon.sideYOffset
 			end
 		elseif weapon.type == "projectile" then
 			weapon.xVelocity = weapon.xVelocity + weapon.xAcceleration
@@ -251,10 +264,13 @@
 				end
 			end
 		end
+
+		weapon.x = weapon.x + weapon.currentXOffset
+		weapon.y = weapon.y + weapon.currentYOffset
 	end
 
 	function weapon:destroy()
-		if weapon.durationCounter >= weapon.duration and weapon.type ~= "projectile" then
+		if weapon.durationCounter >= weapon.duration and weapon.type ~= "projectile" or weapon.remove then
 			table.remove(actors, weapon.index)
 			player.weaponOut = false
 		end
@@ -277,10 +293,36 @@
 					-- pixel coordinates range from 0 to image width - 1 / height - 1.
 					red, green, blue, alpha = imageData:getPixel(x-1, y-1)
 					if weapon.type == "projectile" or (alpha > 0 and red == 248/255 and green == 248/255 and blue == 248/255) then
-						if AABB(weapon.x + x-1, weapon.y + y-1, 1, 1, actor.x, actor.y, actor.width, actor.height) then
+						local npcX
+						local npcY
+						local npcWidth
+						local npcHeight
+						if actor.attacking then
+							if actor.direction == "left" then
+								npcX = actor.x + (actor.attackWidth - actor.attackHitboxWidth - actor.attackHitboxX)
+							else
+								npcX = actor.x + actor.attackHitboxX
+							end
+							npcY = actor.y + actor.attackHitboxY
+							npcWidth = actor.attackHitboxWidth
+							npcHeight = actor.attackHitboxHeight
+						else
+							if actor.direction == "left" then
+								npcX = actor.x + (actor.width - actor.hitboxWidth - actor.hitboxX)
+							else
+								npcX = actor.x + actor.hitboxX
+							end
+							npcY = actor.y + actor.hitboxY
+							npcWidth = actor.hitboxWidth
+							npcHeight = actor.hitboxHeight
+						end
+
+						if AABB(weapon.x + x-1, weapon.y + y-1, 1, 1, npcX, npcY, npcWidth, npcHeight) then
 							if actor.enemy and actor.projectile == false then
 								if isInTable(actor.uuid, weapon.enemiesHit) == false then
 									if actor.invincibility == 0 then
+										hitSound:stop()
+										hitSound:play()
 										actor.hit = true
 										actor.lastHitTimer = 0
 

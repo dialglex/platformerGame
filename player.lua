@@ -62,10 +62,13 @@ function newPlayer(playerX, playerY)
 	player.previousHp = player.hp
 	player.knockbackRestistance = 1
 	player.weaponOut = false
-	player.equippedWeapon1 = "woodenSword"
+	player.equippedWeapon1 = "mushroomBow"
 	player.equippedWeapon2 = "woodenBow"
 	player.accessories = {}
 	player.money = 1000
+
+	player.interactSound = interactSound
+	player.teleportSound = teleportSound
 
 	player.idleCounter = 0
 	player.idleQuads = {}
@@ -214,7 +217,7 @@ function newPlayer(playerX, playerY)
 		player:mapTransition()
 		player:checkGrounded()
 		player:checkBoss()
-		if player.frozen == false and chestOpening == false then
+		if player.frozen == false then
 			player.previousX = player.x
 			player.previousY = player.y
 			player:statChanges()
@@ -414,6 +417,7 @@ function newPlayer(playerX, playerY)
 				player.jumpAble = true
 				player.yVelocity = 0
 				player.xVelocity = 0
+				interactSound:stop()
 				interactSound:play()
 				player.offLadderFirstFrame = true
 			end
@@ -445,24 +449,47 @@ function newPlayer(playerX, playerY)
 		currentMap = allMaps[map]
 		actors = currentMap.actors
 
+		local numberOfEnemies = 0
 		if mapNumber == 0 then -- starting map
-			spawnRate = 0
+			numberOfEnemies = 0
 		elseif mapNumber == 1 then
-			spawnRate = 25
+			if currentMap.explored == false then
+				table.insert(enemiesInLevel, grasslandEnemiesOrder[1])
+			end
+			numberOfEnemies = 3
 		elseif mapNumber == 2 then -- cave
-			spawnRate = 30 -- 55 in cave
+			if indoor then
+				numberOfEnemies = 9
+			else
+				if currentMap.explored == false then
+					table.insert(enemiesInLevel, grasslandEnemiesOrder[2])
+				end
+				numberOfEnemies = 6
+			end
 		elseif mapNumber == 3 then -- shop
-			spawnRate = 40
+			if indoor then
+				numberOfEnemies = 0
+			else
+				if currentMap.explored == false then
+					table.insert(enemiesInLevel, grasslandEnemiesOrder[3])
+				end
+				numberOfEnemies = 9
+			end
 		elseif mapNumber == 4 then -- cave
-			spawnRate = 45 -- 70 in cave
+			if indoor then
+				numberOfEnemies = 15
+			else
+				if currentMap.explored == false then
+					table.insert(enemiesInLevel, grasslandEnemiesOrder[4])
+				end
+				numberOfEnemies = 12
+			end
 		elseif mapNumber == 5 then
-			spawnRate = 55
+			numberOfEnemies = 15
 		elseif mapNumber == 6 then
-			spawnRate = 60
-		end
-
-		if indoor then
-			spawnRate = spawnRate + 25
+			numberOfEnemies = 18
+		elseif mapNumber == 7 then
+			numberOfEnemies = 21
 		end
 
 		if isInTable(player, actors) == false then
@@ -470,29 +497,45 @@ function newPlayer(playerX, playerY)
 		end
 
 		if currentMap.explored == false then
-			for i, npcSpawn in ipairs(currentMap.npcSpawns) do
-				local randomNumber = math.random(0, 100)
-				local npcSpawnClone = deepTableClone(npcSpawn)
-				if randomNumber < spawnRate and npcSpawnClone.boss == false then
-					npcExists = false
-					for i, actor in ipairs(actors) do
-						if actor.actor == "npc" then
-							if actor.uuid == npcSpawnClone.uuid then
-								npcExists = true
-							end
-						end
-					end
-					if npcExists == false then
-						table.insert(actors, npcSpawnClone)
-					end
-				elseif npcSpawnClone.boss then
+			if bossLevel then
+				for i, npcSpawn in ipairs(currentMap.npcSpawns) do
+					npcSpawnClone = deepTableClone(npcSpawn)
 					table.insert(actors, npcSpawnClone)
+				end
+			else
+				for i = 1, numberOfEnemies do
+					local random = math.random(#currentMap.npcSpawns)
+					print(random)
+					print(currentMap.npcSpawns)
+					local npcSpawn = currentMap.npcSpawns[random]
+					local npcName = npcSpawn.name
+					if npcName == "downPlant" or npcName == "upPlant" then
+						npcName = "plant"
+					end
+					table.remove(currentMap.npcSpawns, random)
+					while isInTable(npcName, enemiesInLevel) == false do
+						print(random)
+						print(currentMap.npcSpawns)
+						random = math.random(#currentMap.npcSpawns)
+						npcSpawn = currentMap.npcSpawns[random]
+						npcName = npcSpawn.name
+						if npcName == "downPlant" or npcName == "upPlant" then
+							npcName = "plant"
+						end
+						if npcSpawn.boss then
+							break
+						end
+						table.remove(currentMap.npcSpawns, random)
+					end
+					table.insert(actors, npcSpawn)
 				end
 			end
 			currentMap.explored = true
 		end
 
-		player:resetWeapon()
+		if player.weaponOut then
+			table.insert(actors, player.currentWeapon)
+		end
 
 		backgroundImage = currentMap.backgroundImage
 		backgroundCanvas = currentMap.backgroundCanvas
@@ -789,12 +832,6 @@ function newPlayer(playerX, playerY)
 		end
 	end
 
-	function player:resetWeapon()
-		if player.weaponOut then
-			table.insert(actors, player.currentWeapon)
-		end
-	end
-
 	function player:jump()
 		if pressInputs.jump and player.downPlatform == false then
 			player.grounded = false
@@ -861,21 +898,23 @@ function newPlayer(playerX, playerY)
 		for _, actor in ipairs(objects) do
 			actor.near = false
 		end
-
 		for _, actor in ipairs(shopItems) do
+			actor.near = false
+		end
+		for _, actor in ipairs(chestItems) do
 			actor.near = false
 		end
 
 		if player.isDead() == false then
 			for _, actor in ipairs(getCollidingActors(player:getX(), player:getY(), player.width, player.height, false, false, false, false, false, true, true, false, false, false)) do
 				if actor.actor == "item" then
-					if actor.type == "shop" then
+					if actor.type == "shop" or actor.type == "chest" then
 						actor.near = true
-						if pressInputs.interact and player.money >= actor.price then
-							if actor.name == "weaponShopItem" then
+						if pressInputs.interact and (player.money >= actor.price or actor.type == "chest") then
+							if actor.name == "weaponShopItem" or actor.name == "weaponChestItem" then
 								local weapon = getWeaponStats(actor.randomName)
 								table.insert(actors, newUi("newWeapon", weapon.name, weapon.iconSprite))
-							elseif actor.name == "accessoryShopItem" then
+							elseif actor.name == "accessoryShopItem" or actor.name == "accessoryChestItem" then
 								table.insert(player.accessories, actor.randomName)
 							end
 							player.money = player.money - actor.price
@@ -889,11 +928,15 @@ function newPlayer(playerX, playerY)
 					actor.near = true
 					if actor.type == "ladder" then
 						if pressInputs.interact and player.onLadder == false and player.offLadderFirstFrame == false then
+							interactSound:stop()
 							interactSound:play()
 							player.x = actor.x
 							player.xVelocity = 0
 							player.jumpLeft = player.jumps
 							player.onLadder = true
+							if player.weaponOut then
+								player.currentWeapon.remove = true
+							end
 						end
 						player.offLadderFirstFrame = false
 					elseif actor.type == "door" then
@@ -903,6 +946,7 @@ function newPlayer(playerX, playerY)
 							player.mapToEnter = actor.data
 							
 							indoor = not indoor
+							interactSound:stop()
 							interactSound:play()
 							break
 						end
@@ -919,6 +963,8 @@ function newPlayer(playerX, playerY)
 						end
 					elseif actor.type == "teleporter" then
 						if pressInputs.interact and actor.active then
+							teleportSound:stop()
+							teleportSound:play()
 							if bossLevel and enemyCounter == 0 then
 								if levelName == "grassland" then
 									levelName = "desert"
@@ -982,7 +1028,7 @@ function newPlayer(playerX, playerY)
 			for _, actor in ipairs(getCollidingActors(player:getX(), player:getY() + player.height, player.width, 32, true, true, false, true, false, false)) do
 				local newYMovement = (actor.y + actor.hitboxY) - (player.y + player.height)
 				if newYMovement < minYMovement then
-					if downInputs.down and downInputs.jump and actor.platform then
+					if downInputs.down and downInputs.jump and actor.platform or player.onLadder and actor.platform then
 						player.downPlatform = true
 					else
 						if actor.platform == false then
@@ -1064,7 +1110,16 @@ function newPlayer(playerX, playerY)
 
 	function player:hitCollision()
 		for _, actor in ipairs(npcs) do
-			if (((actor.attacking and actor.ai ~= "diving") or actor.diving) and isInTable(actor.attackAnimationFrame, actor.attackHitFrames)) or actor.projectile or actor.name == "fuzzy" then -- if able to hit
+			local canHit = false
+			if actor.projectile then
+				canHit = isInTable(actor.animationFrame, actor.attackHitFrames)
+			elseif actor.attacking or actor.diving then
+				canHit = isInTable(actor.attackAnimationFrame, actor.attackHitFrames)
+			elseif actor.name == "fuzzy" then
+				canHit = true
+			end
+
+			if canHit then
 				if player.invincible == false and player:isDead() == false and (actor.damage > 0 or actor.knockbackStrength > 0) then
 					if AABB(player.x, player.y, player.width, player.height, actor.x, actor.y, actor.attackWidth, actor.attackHeight) then -- if npc is in range of player
 						imageData = actor.canvas:newImageData()
@@ -1114,10 +1169,16 @@ function newPlayer(playerX, playerY)
 												end
 											end
 
+											if actor.ai ~= "cloud" then
+												hitSound:stop()
+												hitSound:play()
+											end
+
 											if actor.name == "fuzzy" then
 												actor.attacking = true
 												actor.attackDirection = actor.direction
 											end
+
 											if player:isDead() == false then
 												if actor.damage > 0 and actor.ai ~= "cloud" then
 													player.invincible = true
@@ -1262,7 +1323,7 @@ function newPlayer(playerX, playerY)
 			table.insert(actors, newDust(player.x + player.width/2 + player.xVelocity, player.y + player.height + player.yVelocity, "run", player.direction, player.tileBelow))
 		end
 		if player.oldGrounded ~= player.grounded then
-			if player.oldGrounded == false then
+			if player.oldGrounded == false and player.onLadder == false then
 				table.insert(actors, newDust(player.x + player.width/2, player.y + player.height, "land", player.direction, player.tileBelow))
 			end
 			player.transitioning = true

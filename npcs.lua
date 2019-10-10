@@ -199,6 +199,7 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 	if npc.name == "fuzzy" then
 		npc.leftAttackXOffset = 0
 		npc.rightAttackXOffset = 0
+		npc.y = npc.y + 3
 	else
 		npc.leftAttackXOffset = (npc.width - npc.hitboxWidth - npc.hitboxX) - (npc.attackWidth - npc.attackHitboxWidth - npc.attackHitboxX)
 		npc.rightAttackXOffset = (npc.hitboxX + npc.hitboxWidth) - (npc.attackHitboxWidth + npc.attackHitboxX)
@@ -256,47 +257,43 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 
 	function npc:act(index)
 		npc.index = index
-		if chestOpening == false then
-			npc.counter = npc.counter + 1
-			npc:combatLogic(index)
-			npc:movement()
-			if npc.ai == "diving" then
-				npc:divingAi()
-				npc:flyingAi()
-				if npc.diving == false and npc.stuck == false then
-					npc:physics()
-				end
-			elseif npc.ai == "flying" then
-				npc:flyingAi()
+		npc.counter = npc.counter + 1
+		npc:combatLogic(index)
+		npc:movement()
+		if npc.ai == "diving" then
+			npc:divingAi()
+			npc:flyingAi()
+			if npc.diving == false and npc.stuck == false then
 				npc:physics()
-			elseif npc.ai == "walking" then
-				npc:checkGrounded()
-				npc:physics()
-				npc:airPhysics()
-				npc:walkingAi()
-			elseif npc.ai == "acornKing" then
-				npc:checkGrounded()
-				npc:physics()
-				npc:airPhysics()
-				npc:acornKingAi()
-			elseif npc.ai == "mushroomMonster" then
-				npc:checkGrounded()
-				npc:physics()
-				npc:airPhysics()
-				npc:mushroomMonsterAi()
-			elseif npc.ai == "shootTurret" then
-				npc:shootTurretAi()
-			elseif npc.ai == "sine" then
-				npc:airPhysics()
-				npc:physics()
-				npc:sineAi()
-			elseif npc.ai == "projectile" then
-				npc:projectileAi()
-			elseif npc.ai == "cloud" then
-				debugPrint("HIII")
 			end
-			npc:animation()
+		elseif npc.ai == "flying" then
+			npc:flyingAi()
+			npc:physics()
+		elseif npc.ai == "walking" then
+			npc:checkGrounded()
+			npc:physics()
+			npc:airPhysics()
+			npc:walkingAi()
+		elseif npc.ai == "acornKing" then
+			npc:checkGrounded()
+			npc:physics()
+			npc:airPhysics()
+			npc:acornKingAi()
+		elseif npc.ai == "mushroomMonster" then
+			npc:checkGrounded()
+			npc:physics()
+			npc:airPhysics()
+			npc:mushroomMonsterAi()
+		elseif npc.ai == "shootTurret" then
+			npc:shootTurretAi()
+		elseif npc.ai == "sine" then
+			npc:airPhysics()
+			npc:physics()
+			npc:sineAi()
+		elseif npc.ai == "projectile" then
+			npc:projectileAi()
 		end
+		npc:animation()
 	end
 
 	function npc:checkGrounded()
@@ -364,13 +361,15 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 			end
 		end
 
-		if (npc.hp <= 0 and npc.hit == false) or npc.x < 0 - npc.width or npc.x > 480 + npc.width then
+		if (npc.hp <= 0 and npc.hit == false) or npc.x + npc.width < 16 or npc.x > 496 or npc.y + npc.height < 16 or npc.y > 286 then
 			npc.remove = true
 		end
 
 		if npc.remove then
 			if npc.projectile == false then
 				if npc.boss then
+					bossDieSound:stop()
+					bossDieSound:play()
 					for i, npc in ipairs(npcs) do
 						if npc.enemy then
 							npc.remove = true
@@ -378,6 +377,9 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 					end
 					white = 1.2
 					player.hp = player.maxHp
+				else
+					enemyDieSound:stop()
+					enemyDieSound:play()
 				end
 
 				for i = 1, npc.money do
@@ -416,6 +418,8 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 				end
 			else
 				if npc.name ~= "poisonCloud" then
+					thudSound:stop()
+					thudSound:play()
 					table.insert(actors, newDust(npc.x + npc.width/2, npc.y + npc.height/2, "dirtImpact"))
 				end
 			end
@@ -1071,6 +1075,10 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 					npc.attackCounter = 0
 					if npc.ai == "acornKing" then
 						if npc.attackAnimationFrame == 6 then
+							swingSound:stop()
+							swingSound:play()
+							thudSound:stop()
+							thudSound:play()
 							if shakeLength < npc.screenShakeLength/2 then
 								shakeLength = npc.screenShakeLength/2
 							end
@@ -1139,6 +1147,8 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 						npc.moveCounter = 0
 						if npc.ai == "acornKing" then
 							if frameNumber == 2 or frameNumber == 5 then
+								thudSound:stop()
+								thudSound:play()
 								if shakeLength < npc.screenShakeLength then
 									shakeLength = npc.screenShakeLength/4
 								end

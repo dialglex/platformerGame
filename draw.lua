@@ -375,7 +375,7 @@ function drawScreen()
 				love.graphics.draw(actor.spritesheet, actor:getX(), actor:getY())
 			end
 		elseif actor.name == "chest" then
-			if chestOpening then
+			if actor.opening then
 				love.graphics.draw(actor.spritesheet, actor.quad, actor:getX(), actor:getY())
 			else
 				love.graphics.draw(actor.spritesheet, actor:getX(), actor:getY())
@@ -408,7 +408,7 @@ function drawScreen()
 
 
 	for _, actor in ipairs(items) do
-		if actor.type == "shop" then
+		if actor.type == "shop" or actor.type == "chest" then
 			love.graphics.draw(actor.canvas, actor:getX(), actor:getY())
 		end
 	end
@@ -416,9 +416,13 @@ function drawScreen()
 	love.graphics.draw(player.canvas, player:getX() - 3, player:getY() - 2)
 
 	for _, actor in ipairs(weapons) do
-		love.graphics.draw(actor.canvas, actor:getX(), actor:getY())
-		if actor.type ~= "projectile" and player.weaponOut then
-			love.graphics.draw(actor.armOverlaySpritesheet, player.quad, player:getX() - 3, player:getY() - 2)
+		if actor.type == "projectile" then
+			love.graphics.draw(actor.canvas, actor:getX(), actor:getY())
+		else
+			love.graphics.draw(actor.canvas, math.floor(player:getX() + player.width/2 - actor.width/2 + actor.currentXOffset + 0.5), math.floor(player:getY() + player.height/2 - actor.height/2 + actor.currentYOffset + 0.5))
+			if player.weaponOut then
+				love.graphics.draw(actor.armOverlaySpritesheet, player.quad, player:getX() - 3, player:getY() - 2)
+			end
 		end
 	end
 	
@@ -467,7 +471,7 @@ function drawScreen()
 	end
 
 	for _, actor in ipairs(items) do
-		if actor.type == "shop" and uiFrozen == false then
+		if (actor.type == "shop" or actor.type == "chest") and uiFrozen == false then
 			love.graphics.setFont(signFont)
 			if actor.nearCounter > 0.1 then
 				local wrapWidth, wrapText = signFont:getWrap(camelToTitle(actor.randomName), 300)
@@ -475,19 +479,25 @@ function drawScreen()
 				local textX = (actor.x + actor.width/2) - wrapWidth/2 + 1
 				local textY = actor.y - textHeight - 3
 
-				if actor.name == "weaponShopItem" then
+				if actor.name == "weaponShopItem" or actor.name == "weaponChestItem" then
 					local weapon = getWeaponStats(actor.randomName)
 
+					love.graphics.setColor(1, 1, 1, 1)
+					love.graphics.setFont(textFont1)
 					love.graphics.setCanvas(damageBarCanvas)
 					love.graphics.clear()
 					drawBar(weapon.damage/100)
+					love.graphics.printf(weapon.damage, 49, 2, 14, "right")
 					love.graphics.setCanvas(speedBarCanvas)
 					love.graphics.clear()
 					drawBar(weapon.speed/100)
+					love.graphics.printf(weapon.speed, 49, 2, 14, "right")
 					love.graphics.setCanvas(knockbackBarCanvas)
 					love.graphics.clear()
 					drawBar(weapon.knockback/100)
+					love.graphics.printf(weapon.knockback, 49, 2, 14, "right")
 
+					love.graphics.setFont(signFont)
 					barX = (actor.x + actor.width/2) - emptyBar:getWidth()/2 + (5 + 12)/2
 					barY = textY - emptyBar:getHeight() - 4
 					love.graphics.setCanvas(screenCanvas)
@@ -527,16 +537,18 @@ function drawScreen()
 					love.graphics.printf(accessory.text, itemTextX, itemTextY, itemWrapWidth, "center")
 				end
 			end
-			love.graphics.setFont(signFont)
-			local wrapWidth, wrapText = signFont:getWrap("$"..tostring(actor.price), 300)
-			local textHeight = signFont:getHeight()
-			local textX = (actor.x + actor.width/2) - wrapWidth/2 + 1
-			local textY = (actor.y + actor.height) + 2
+			if actor.type == "shop" then
+				love.graphics.setFont(signFont)
+				local wrapWidth, wrapText = signFont:getWrap("$"..tostring(actor.price), 300)
+				local textHeight = signFont:getHeight()
+				local textX = (actor.x + actor.width/2) - wrapWidth/2 + 1
+				local textY = (actor.y + actor.height) + 2
 
-			love.graphics.setColor(0.063, 0.118, 0.161, 0.5)
-			love.graphics.rectangle("fill", textX - 4, textY - 2, wrapWidth + 7, textHeight + 4, 3)
-			love.graphics.setColor(0.973, 0.973, 0.973)
-			love.graphics.printf("$"..tostring(actor.price), textX, textY, wrapWidth, "center")
+				love.graphics.setColor(0.063, 0.118, 0.161, 0.5)
+				love.graphics.rectangle("fill", textX - 4, textY - 2, wrapWidth + 7, textHeight + 4, 3)
+				love.graphics.setColor(0.973, 0.973, 0.973)
+				love.graphics.printf("$"..tostring(actor.price), textX, textY, wrapWidth, "center")
+			end
 		end
 	end
 	love.graphics.setColor(1, 1, 1)
@@ -751,24 +763,15 @@ function drawBar(number1, number2) -- numbers must be between 0 and 1
 				if number1*emptyBar:getWidth() > 5 then
 					love.graphics.draw(redBarAA, 2, 2)
 				end
-				if number1 ~= number2 then
-					love.graphics.draw(redConnecter, number1*emptyBar:getWidth() - 3, 0)
-				end
 			elseif number1*emptyBar:getWidth() < emptyBar:getWidth()*2/3 then
 				love.graphics.draw(orangeBar, number1*emptyBar:getWidth() - emptyBar:getWidth(), 0)
 				if number1*emptyBar:getWidth() > 5 then
 					love.graphics.draw(orangeBarAA, 2, 2)
 				end
-				if number1 ~= number2 then
-					love.graphics.draw(orangeConnecter, number1*emptyBar:getWidth() - 3, 0)
-				end
 			else
 				love.graphics.draw(greenBar, number1*emptyBar:getWidth() - emptyBar:getWidth(), 0)
 				if number1*emptyBar:getWidth() > 5 then
 					love.graphics.draw(greenBarAA, 2, 2)
-				end
-				if number1 ~= number2 then
-					love.graphics.draw(greenConnecter, number1*emptyBar:getWidth() - 3, 0)
 				end
 			end
 		end

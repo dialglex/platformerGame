@@ -1,26 +1,52 @@
 function getItemStats(item)
 	if item == "weaponShopItem" then
 		local random = getRandomWeapon()
-		local weapon = getWeaponStats(random)
-		local sprite = weapon.iconSprite
+		local stats = getWeaponStats(random)
+		local sprite = stats.iconSprite
 		return {
 			itemType = "shop",
-			randomAccessory = accessory,
+			randomWeapon = stats,
 			accessoryName = "weapon",
-			sprite = weapon.iconSprite,
+			sprite = stats.iconSprite,
 			width = sprite:getWidth(),
 			height = sprite:getHeight(),
 			randomName = random
 		}
 	elseif item == "accessoryShopItem" then
 		local random = getRandomAccessory()
-		local accessory = getAccessoryStats(random)
-		local sprite = accessory.iconSprite
+		local stats = getAccessoryStats(random)
+		local sprite = stats.iconSprite
 		return {
 			itemType = "shop",
-			randomAccessory = accessory,
+			randomAccessory = stats,
 			accessoryName = "accessory",
-			sprite = accessory.iconSprite,
+			sprite = stats.iconSprite,
+			width = sprite:getWidth(),
+			height = sprite:getHeight(),
+			randomName = random
+		}
+	elseif item == "weaponChestItem" then
+		local random = getRandomWeapon()
+		local stats = getWeaponStats(random)
+		local sprite = stats.iconSprite
+		return {
+			itemType = "chest",
+			randomWeapon = stats,
+			accessoryName = "weapon",
+			sprite = stats.iconSprite,
+			width = sprite:getWidth(),
+			height = sprite:getHeight(),
+			randomName = random
+		}
+	elseif item == "accessoryChestItem" then
+		local random = getRandomAccessory()
+		local stats = getAccessoryStats(random)
+		local sprite = stats.iconSprite
+		return {
+			itemType = "chest",
+			randomAccessory = stats,
+			accessoryName = "accessory",
+			sprite = stats.iconSprite,
 			width = sprite:getWidth(),
 			height = sprite:getHeight(),
 			randomName = random

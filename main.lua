@@ -23,7 +23,6 @@ function love.load()
 	uiFrozen = false
 	muted = true
 	fadeIn = true
-	chestOpening = false
 	secondChestType = ""
 	weaponsInRun = {}
 	accessoriesInRun = {}
@@ -104,7 +103,11 @@ function love.load()
 
 	levelName = "grassland"
 	local randomNumber = math.random(3)
-	currentMap = allMaps["maps/maps/grassland/start"..tostring(randomNumber)]
+	-- currentMap = allMaps["maps/maps/grassland/start"..tostring(randomNumber)]
+	currentMap = allMaps["maps/maps/grassland/start1"]
+	grasslandEnemies = {"acorn", "mushroomMonster", "plant", "fuzzy"}
+	grasslandEnemiesOrder = shuffleTable(grasslandEnemies)
+	enemiesInLevel = {}
 	
 	actors = currentMap.actors
 	table.insert(actors, newUi("menu"))
@@ -265,6 +268,7 @@ function getActors(actors)
 	weapons = {}
 	items = {}
 	shopItems = {}
+	chestItems = {}
 	uis = {}
 	for _, actor in ipairs(actors) do
 		if actor.actor == "tile" then
@@ -288,6 +292,8 @@ function getActors(actors)
 			table.insert(items, actor)
 			if actor.type == "shop" then
 				table.insert(shopItems, actor)
+			elseif actor.type == "chest" then
+				table.insert(chestItems, actor)
 			end
 		elseif actor.actor == "ui" then
 			table.insert(uis, actor)
@@ -400,5 +406,15 @@ function camelToTitle(string)
 		end
 	end
 
+	string = string.gsub(string, "Of", "of")
+
 	return string
+end
+
+function shuffleTable(table)
+	for i = #table, 2, -1 do
+		local j = math.random(i)
+		table[i], table[j] = table[j], table[i]
+	end
+	return table
 end

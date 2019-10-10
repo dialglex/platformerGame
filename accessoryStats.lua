@@ -137,7 +137,7 @@ function getAccessoryStats(accessory)
 			jumpAcceleration = 1,
 			fallAcceleration = 1,
 			yTerminalVelocity = 1,
-			jumps = 1,
+			jumps = 0,
 			maxHp = 1,
 			status = "",
 			statusDuration = 0,

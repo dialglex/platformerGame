@@ -165,12 +165,12 @@ function getNpcStats(npc)
 			attackHitboxHeight = 48,
 			attackAnimationFrames = 1,
 			attackYOffset = 0,
-			attackHitFrames = {}, -- starts from 1
+			attackHitFrames = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}, -- starts from 1
 			attackCooldownLength = 0,
 			attackDistance = 0,
 			wallDistance = 0,
 			hp = 1,
-			damage = 1/3, -- 30 damage total
+			damage = 1/2.75, -- 20 damage total over 11 frames
 			knockback = 0,
 			knockbackResistance = 1,
 			screenShakeAmount = 1,
@@ -287,7 +287,7 @@ function getNpcStats(npc)
 			attackHitboxHeight = 16,
 			attackAnimationFrames = 1,
 			attackYOffset = 0,
-			attackHitFrames = {}, -- starts from 1
+			attackHitFrames = {1, 2, 3}, -- starts from 1
 			attackCooldownLength = 0,
 			attackDistance = 0,
 			wallDistance = 0,
@@ -411,7 +411,7 @@ function getNpcStats(npc)
 			attackHitboxHeight = 16,
 			attackAnimationFrames = 1,
 			attackYOffset = 0,
-			attackHitFrames = {}, -- starts from 1
+			attackHitFrames = {1, 2, 3}, -- starts from 1
 			attackCooldownLength = 0,
 			attackDistance = 0,
 			wallDistance = 0,

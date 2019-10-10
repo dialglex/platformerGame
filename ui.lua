@@ -532,83 +532,6 @@ function newUi(name, data1, data2)
 		return math.floor(ui.y + 0.5)
 	end
 
-	function ui:drawBar(number1, number2) -- numbers must be between 0 and 1
-		love.graphics.draw(ui.emptyBar, 0, 0)
-
-		if number2 == nil then
-			if number1*ui.emptyBar:getWidth() < ui.emptyBar:getWidth()*1/3 then -- number1 is nil
-				love.graphics.draw(ui.redBar, number1*ui.emptyBar:getWidth() - ui.emptyBar:getWidth(), 0)
-				if number1*ui.emptyBar:getWidth() > 5 then
-					love.graphics.draw(ui.redBarAA, 2, 2)
-				end
-			elseif number1*ui.emptyBar:getWidth() < ui.emptyBar:getWidth()*2/3 then
-				love.graphics.draw(ui.orangeBar, number1*ui.emptyBar:getWidth() - ui.emptyBar:getWidth(), 0)
-				if number1*ui.emptyBar:getWidth() > 5 then
-					love.graphics.draw(ui.orangeBarAA, 2, 2)
-				end
-			else
-				love.graphics.draw(ui.greenBar, number1*ui.emptyBar:getWidth() - ui.emptyBar:getWidth(), 0)
-				if number1*ui.emptyBar:getWidth() > 5 then
-					love.graphics.draw(ui.greenBarAA, 2, 2)
-				end
-			end
-			if number1*ui.emptyBar:getWidth() > 2 then
-				love.graphics.draw(ui.barOutline, 0, 0)
-			end
-		else
-			if number1 > number2 then
-				love.graphics.draw(ui.whiteBar, number1*ui.emptyBar:getWidth() - ui.emptyBar:getWidth(), 0)
-				if number2*ui.emptyBar:getWidth() < ui.emptyBar:getWidth()*1/3 then
-					love.graphics.draw(ui.redBar, number2*ui.emptyBar:getWidth() - ui.emptyBar:getWidth(), 0)
-					if number2*ui.emptyBar:getWidth() > 5 then
-						love.graphics.draw(ui.redBarAA, 2, 2)
-					end
-					if number1 ~= number2 then
-						love.graphics.draw(ui.redConnecter, number2*ui.emptyBar:getWidth() - 3, 0)
-					end
-				elseif number2*ui.emptyBar:getWidth() < ui.emptyBar:getWidth()*2/3 then
-					love.graphics.draw(ui.orangeBar, number2*ui.emptyBar:getWidth() - ui.emptyBar:getWidth(), 0)
-					if number2*ui.emptyBar:getWidth() > 5 then
-						love.graphics.draw(ui.orangeBarAA, 2, 2)
-					end
-					if number1 ~= number2 then
-						love.graphics.draw(ui.orangeConnecter, number2*ui.emptyBar:getWidth() - 3, 0)
-					end
-				else
-					love.graphics.draw(ui.greenBar, number2*ui.emptyBar:getWidth() - ui.emptyBar:getWidth(), 0)
-					if number2*ui.emptyBar:getWidth() > 5 then
-						love.graphics.draw(ui.greenBarAA, 2, 2)
-					end
-					if number1 ~= number2 then
-						love.graphics.draw(ui.greenConnecter, number2*ui.emptyBar:getWidth() - 3, 0)
-					end
-				end
-			else
-				love.graphics.draw(ui.greyBar, number2*ui.emptyBar:getWidth() - ui.emptyBar:getWidth(), 0)
-				if number1*ui.emptyBar:getWidth() < ui.emptyBar:getWidth()*1/3 then
-					love.graphics.draw(ui.redBar, number1*ui.emptyBar:getWidth() - ui.emptyBar:getWidth(), 0)
-					if number1*ui.emptyBar:getWidth() > 5 then
-						love.graphics.draw(ui.redBarAA, 2, 2)
-					end
-				elseif number1*ui.emptyBar:getWidth() < ui.emptyBar:getWidth()*2/3 then
-					love.graphics.draw(ui.orangeBar, number1*ui.emptyBar:getWidth() - ui.emptyBar:getWidth(), 0)
-					if number1*ui.emptyBar:getWidth() > 5 then
-						love.graphics.draw(ui.orangeBarAA, 2, 2)
-					end
-				else
-					love.graphics.draw(ui.greenBar, number1*ui.emptyBar:getWidth() - ui.emptyBar:getWidth(), 0)
-					if number1*ui.emptyBar:getWidth() > 5 then
-						love.graphics.draw(ui.greenBarAA, 2, 2)
-					end
-				end
-			end
-			
-			if number2*ui.emptyBar:getWidth() > 2 then
-				love.graphics.draw(ui.barOutline, 0, 0)
-			end
-		end
-	end
-
 	function ui:draw()
 		if ui.name == "menu" then
 			love.graphics.setCanvas(ui.canvas)
@@ -623,23 +546,23 @@ function newUi(name, data1, data2)
 
 			love.graphics.setCanvas(ui.weapon1DamageBarCanvas)
 			love.graphics.clear()
-			ui:drawBar(weapon1.damage/100)
+			drawBar(weapon1.damage/100)
 			love.graphics.setCanvas(ui.weapon1SpeedBarCanvas)
 			love.graphics.clear()
-			ui:drawBar(weapon1.speed/100)
+			drawBar(weapon1.speed/100)
 			love.graphics.setCanvas(ui.weapon1KnockbackBarCanvas)
 			love.graphics.clear()
-			ui:drawBar(weapon1.knockback/100)
+			drawBar(weapon1.knockback/100)
 
 			love.graphics.setCanvas(ui.weapon2DamageBarCanvas)
 			love.graphics.clear()
-			ui:drawBar(weapon2.damage/100)
+			drawBar(weapon2.damage/100)
 			love.graphics.setCanvas(ui.weapon2SpeedBarCanvas)
 			love.graphics.clear()
-			ui:drawBar(weapon2.speed/100)
+			drawBar(weapon2.speed/100)
 			love.graphics.setCanvas(ui.weapon2KnockbackBarCanvas)
 			love.graphics.clear()
-			ui:drawBar(weapon2.knockback/100)
+			drawBar(weapon2.knockback/100)
 
 			love.graphics.setCanvas(ui.healthBarCanvas)
 			for i = 0, 2 do
@@ -664,13 +587,13 @@ function newUi(name, data1, data2)
 
 			love.graphics.setColor(1, 1, 1, 1)
 			love.graphics.setFont(textFont1)
-			love.graphics.printf(weapon1.damage, 82, 69, 1000)
-			love.graphics.printf(weapon1.speed, 82, 83, 1000)
-			love.graphics.printf(weapon1.knockback, 82, 97, 1000)
+			love.graphics.printf(weapon1.damage, 78, 69, 14, "right")
+			love.graphics.printf(weapon1.speed, 78, 83, 14, "right")
+			love.graphics.printf(weapon1.knockback, 78, 97, 14, "right")
 
-			love.graphics.printf(weapon2.damage, 180, 69, 1000)
-			love.graphics.printf(weapon2.speed, 180, 83, 1000)
-			love.graphics.printf(weapon2.knockback, 180, 97, 1000)
+			love.graphics.printf(weapon2.damage, 176, 69, 14, "right")
+			love.graphics.printf(weapon2.speed, 176, 83, 14, "right")
+			love.graphics.printf(weapon2.knockback, 176, 97, 14, "right")
 
 			if ui.accessoryNumberSelected == 1 then
 				love.graphics.draw(ui.inventoryAccessory1)
@@ -744,23 +667,23 @@ function newUi(name, data1, data2)
 			if ui.weapon1Selected or ui.weapon2Selected then
 				love.graphics.setCanvas(ui.damageBarCanvas)
 				love.graphics.clear()
-				ui:drawBar(weapon1.damage/100, weapon2.damage/100)
+				drawBar(weapon1.damage/100, weapon2.damage/100)
 				love.graphics.setCanvas(ui.speedBarCanvas)
 				love.graphics.clear()
-				ui:drawBar(weapon1.speed/100, weapon2.speed/100)
+				drawBar(weapon1.speed/100, weapon2.speed/100)
 				love.graphics.setCanvas(ui.knockbackBarCanvas)
 				love.graphics.clear()
-				ui:drawBar(weapon1.knockback/100, weapon2.knockback/100)
+				drawBar(weapon1.knockback/100, weapon2.knockback/100)
 			else
 				love.graphics.setCanvas(ui.damageBarCanvas)
 				love.graphics.clear()
-				ui:drawBar(weapon1.damage/100)
+				drawBar(weapon1.damage/100)
 				love.graphics.setCanvas(ui.speedBarCanvas)
 				love.graphics.clear()
-				ui:drawBar(weapon1.speed/100)
+				drawBar(weapon1.speed/100)
 				love.graphics.setCanvas(ui.knockbackBarCanvas)
 				love.graphics.clear()
-				ui:drawBar(weapon1.knockback/100)
+				drawBar(weapon1.knockback/100)
 			end
 
 			love.graphics.setCanvas(ui.canvas)
@@ -775,9 +698,9 @@ function newUi(name, data1, data2)
 			love.graphics.draw(ui.weaponSprite2Canvas, 110, 104)
 
 			love.graphics.setFont(textFont1)
-			love.graphics.printf(weapon1.damage, 100, 59, 1000)
-			love.graphics.printf(weapon1.speed, 100, 73, 1000)
-			love.graphics.printf(weapon1.knockback, 100, 87, 1000)
+			love.graphics.printf(weapon1.damage, 96, 59, 14, "right")
+			love.graphics.printf(weapon1.speed, 96, 73, 14, "right")
+			love.graphics.printf(weapon1.knockback, 96, 87, 14, "right")
 		elseif ui.name == "options" then
 			love.graphics.setCanvas(ui.canvas)
 			love.graphics.clear()

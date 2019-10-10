@@ -55,6 +55,7 @@ function newTile(tileName, tileWidth, tileHeight, x, y, tileQuad, tileset, tileC
 	end
 
 	if tile.name == "chest" then
+		tile.opening = false
 		tile.quads = {}
 		tile.frames = 27
 		for i = 1, tile.frames do
@@ -71,7 +72,7 @@ function newTile(tileName, tileWidth, tileHeight, x, y, tileQuad, tileset, tileC
 
 			if bossLevel then
 				if enemyCounter == 0 then
-					tile.active = true
+					-- tile.active = true -- uncomment to unlock level 2
 				else
 					tile.active = false
 				end
@@ -103,12 +104,17 @@ function newTile(tileName, tileWidth, tileHeight, x, y, tileQuad, tileset, tileC
 
 			if currentMap.chestOpened then
 				if tile.frame < tile.frames then
-					chestOpening = true
+					tile.opening = true
 					tile.animationCounter = tile.animationCounter + 1
 					if tile.animationCounter > 2 then
 						tile.frame = tile.frame + 1
 						tile.animationCounter = 0
-						if tile.frame == 16 then
+						if tile.frame == 8 then
+							local itemType = tile.chestType .. "ChestItem"
+							local itemStats = getItemStats(itemType)
+							tile.item = newItem(itemType, math.floor(tile.x + tile.width/2 - itemStats.width/2 - 1 + 0.5), math.floor(tile.y + tile.height - itemStats.height/2 - 1 - 24 + 0.5), itemStats)
+							table.insert(actors, tile.item)
+						elseif tile.frame == 16 then
 							if shakeLength < 2 then
 								shakeLength = 2
 							end
@@ -126,13 +132,9 @@ function newTile(tileName, tileWidth, tileHeight, x, y, tileQuad, tileset, tileC
 								shakeAmount = 1
 							end
 							maxShakeAmount = shakeAmount
-						elseif tile.frame == 25 then
-							if tile.chestType == "weapon" then
-								local weapon = getWeaponStats(getRandomWeapon())
-								table.insert(actors, newUi("newWeapon", weapon.name, weapon.iconSprite))
-							else
-								local accessory = getRandomAccessory()
-								table.insert(player.accessories, accessory)
+						elseif tile.frame == 25 + 1 then
+							if tile.item.remove == false then
+								tile.frame = 25
 							end
 						end
 					end
@@ -143,7 +145,7 @@ function newTile(tileName, tileWidth, tileHeight, x, y, tileQuad, tileset, tileC
 					end
 					tile.quad = tile.quads[tile.frame]
 				else
-					chestOpening = false
+					tile.opening = false
 					if tile.chestType == "weapon" then
 						tile.spritesheet = weaponChestOpenSprite
 					else
