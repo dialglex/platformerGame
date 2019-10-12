@@ -71,7 +71,9 @@ function getFonts()
 	textFont1 = love.graphics.newImageFont("fonts/4x4TextFont1.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]'{}|/~$@^_<>") --bugs out with \
 	textFont1Light = love.graphics.newImageFont("fonts/4x4TextFont1Light.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]'{}|/~$@^_<>") --bugs out with \
 	textFont1Dark = love.graphics.newImageFont("fonts/4x4TextFont1Dark.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]'{}|/~$@^_<>") --bugs out with \
+	textFont1Pink = love.graphics.newImageFont("fonts/4x4TextFont1Pink.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]'{}|/~$@^_<>") --bugs out with \
 	boldFont2 = love.graphics.newImageFont("fonts/6x10BoldFont2.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]'{}|/~$@^_<>") --bugs out with \
+	boldFont2Pink = love.graphics.newImageFont("fonts/6x10BoldFont2.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]'{}|/~$@^_<>") --bugs out with \
 	titleFont2 = love.graphics.newImageFont("fonts/9x15TitleFont2.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?-+/():;%&`'*#=[]'{}|/~$@^_<>") --bugs out with \
 	
 	textFont = textFont1
@@ -368,17 +370,21 @@ function drawScreen()
 	love.graphics.draw(backgroundCanvas)
 
 	for _, actor in ipairs(tiles) do
-		if actor.name == "teleporter" then
+		if actor.name == "corruption" then
+			love.graphics.draw(actor.spritesheet, actor.quad, actor:getX(), actor:getY())
+		elseif actor.name == "teleporter" then
 			if actor.active then
 				love.graphics.draw(actor.spritesheet, actor.quad, actor:getX(), actor:getY())
 			elseif bossLevel then
 				love.graphics.draw(actor.spritesheet, actor:getX(), actor:getY())
 			end
 		elseif actor.name == "chest" then
-			if actor.opening then
-				love.graphics.draw(actor.spritesheet, actor.quad, actor:getX(), actor:getY())
-			else
-				love.graphics.draw(actor.spritesheet, actor:getX(), actor:getY())
+			if actor.active then
+				if actor.opening then
+					love.graphics.draw(actor.spritesheet, actor.quad, actor:getX(), actor:getY())
+				else
+					love.graphics.draw(actor.spritesheet, actor:getX(), actor:getY())
+				end
 			end
 		end
 	end
@@ -481,7 +487,7 @@ function drawScreen()
 
 				if actor.name == "weaponShopItem" or actor.name == "weaponChestItem" then
 					local weapon = getWeaponStats(actor.randomName)
-
+					
 					love.graphics.setColor(1, 1, 1, 1)
 					love.graphics.setFont(textFont1)
 					love.graphics.setCanvas(damageBarCanvas)
@@ -511,7 +517,14 @@ function drawScreen()
 					love.graphics.setColor(0.973, 0.973, 0.973, actor.nearCounter)
 					love.graphics.printf(camelToTitle(actor.randomName), textX, textY, wrapWidth, "center")
 					
-					love.graphics.draw(statIcons, math.floor(barX - 5 - 12), math.floor(barY - 28))
+					if weapon.statusDuration > 0 then
+						if weapon.status == "poison" then
+							love.graphics.draw(poisonIcon, math.floor(barX - 5 - 12), math.floor(barY - 28))
+						end
+					else
+						love.graphics.draw(damageIcon, math.floor(barX - 5 - 12), math.floor(barY - 28))
+					end
+					love.graphics.draw(speedKnockbackStatIcons, math.floor(barX - 5 - 12), math.floor(barY - 28))
 					love.graphics.draw(damageBarCanvas, barX, barY - 28)
 					love.graphics.draw(speedBarCanvas, barX, barY - 14)
 					love.graphics.draw(knockbackBarCanvas, barX, barY)
@@ -522,13 +535,38 @@ function drawScreen()
 					local itemTextX = (actor.x + actor.width/2) - itemWrapWidth/2 + 1
 					local itemTextY = textY - itemTextHeight - 2
 
+					local x
+					local width
+					if itemWrapWidth > wrapWidth then
+						x = itemTextX - 4
+						width = itemWrapWidth + 7
+					else
+						x = textX - 4
+						width = wrapWidth + 7
+					end
+
+					if x < 16 then
+						x = 16
+					elseif x + width > 496 then
+						x = 496 - width
+					end
+
+					if textX < 16 then
+						textX = 16 + 2
+					elseif textX + wrapWidth > 496 then
+						textX = 496 - wrapWidth - 2
+					end
+
+					if itemTextX < 16 then
+						itemTextX = 16 + 2
+					elseif itemTextX + itemWrapWidth > 496 then
+						itemTextX = 496 - itemWrapWidth - 2
+					end
+
 					love.graphics.setFont(signFont)
 					love.graphics.setColor(0.063, 0.118, 0.161, actor.nearCounter / 2)
-					if itemWrapWidth > wrapWidth then
-						love.graphics.rectangle("fill", itemTextX - 4, itemTextY - 3, itemWrapWidth + 7, itemTextHeight + textHeight + 5, 3)
-					else
-						love.graphics.rectangle("fill", textX - 4, itemTextY - 3, wrapWidth + 7, itemTextHeight + textHeight + 5, 3)
-					end
+					love.graphics.rectangle("fill", x, itemTextY - 3, width, itemTextHeight + textHeight + 5, 3)
+
 					love.graphics.setColor(0.973, 0.973, 0.973, actor.nearCounter)
 					love.graphics.printf(camelToTitle(actor.randomName), textX, textY, wrapWidth, "center")
 
@@ -697,7 +735,8 @@ function drawDebug()
 		end
 
 		love.graphics.setFont(textFont)
-		love.graphics.print("Current FPS: "..tostring(love.timer.getFPS()), 18, 18)
+		love.graphics.print("Grassland Demo", 18, 18)
+		-- love.graphics.print("Current FPS: "..tostring(love.timer.getFPS()), 18, 18)
 		love.graphics.print(stringHours..":"..stringMinutes..":"..stringSeconds, 18, 30)
 		
 	end

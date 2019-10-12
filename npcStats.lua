@@ -332,7 +332,7 @@ function getNpcStats(npc)
 			attackHitFrames = {},
 			attackCooldownLength = 0,
 			attackDistance = 0,
-			wallDistance = 10,
+			wallDistance = 6,
 			hp = 50,
 			damage = 10,
 			knockback = 2.5,

@@ -10,7 +10,7 @@ function returnAccessoryList()
 						   "poisonVial", -- 9
 						   "viralPoison", -- 10
 						   "stickyOoze", -- 11
-						   "boilingToxin"} -- 12
+						   "poisonDart"} -- 12
 	return accessoryList
 end
 
@@ -22,11 +22,11 @@ function getAccessoryImages()
 	ballOfThornsSprite = love.graphics.newImage("images/accessories/ballOfThorns.png")
 	squishyMushroomSprite = love.graphics.newImage("images/accessories/squishyMushroom.png")
 	antiAntidoteSprite = love.graphics.newImage("images/accessories/antiAntidote.png")
-	corrosiveSubstanceSprite = love.graphics.newImage("images/accessories/debugSquare.png")
+	corrosiveSubstanceSprite = love.graphics.newImage("images/accessories/corrosiveSubstance.png")
 	poisonVialSprite = love.graphics.newImage("images/accessories/poisonVial.png")
 	viralPoisonSprite = love.graphics.newImage("images/accessories/viralPoison.png")
 	stickyOozeSprite = love.graphics.newImage("images/accessories/stickyOoze.png")
-	boilingToxinSprite = love.graphics.newImage("images/accessories/debugSquare.png")
+	poisonDartSprite = love.graphics.newImage("images/accessories/poisonDart.png")
 end
 
 function getAccessoryStats(accessory)
@@ -109,7 +109,7 @@ function getAccessoryStats(accessory)
 	elseif accessory == "ballOfThorns" then
 		return {
 			iconSprite = ballOfThornsSprite,
-			text = "Being hit damages the enemy.",
+			text = "Being hit deals 25 damage and poisons the enemy for 2.5s.",
 			damage = 1,
 			knockback = 1,
 			xAcceleration = 1,
@@ -240,10 +240,10 @@ function getAccessoryStats(accessory)
 			poisonDuration = 1,
 			burnDuration = 1
 		}
-	elseif accessory == "boilingToxin" then
+	elseif accessory == "poisonDart" then
 		return {
-			iconSprite = boilingToxinSprite,
-			text = "Poisoned enemies explode on death, damaging nearby enemies.",
+			iconSprite = poisonDartSprite,
+			text = "All weapons fire a poison dart, which inflicts poison for 1s.",
 			damage = 1,
 			knockback = 1,
 			xAcceleration = 1,

@@ -3719,6 +3719,7 @@ return {
         {
           id = 0,
           properties = {
+            ["active"] = false,
             ["background"] = true,
             ["collidable"] = false
           }
@@ -3756,6 +3757,32 @@ return {
             ["npc"] = true,
             ["xOffset"] = 0,
             ["yOffset"] = 5
+          },
+          animation = {
+            {
+              tileid = 0,
+              duration = 100
+            },
+            {
+              tileid = 1,
+              duration = 100
+            },
+            {
+              tileid = 2,
+              duration = 100
+            },
+            {
+              tileid = 3,
+              duration = 100
+            },
+            {
+              tileid = 4,
+              duration = 100
+            },
+            {
+              tileid = 5,
+              duration = 100
+            }
           }
         }
       }

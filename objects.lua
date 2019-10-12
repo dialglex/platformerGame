@@ -10,11 +10,20 @@ function newObject(objectX, objectY, objectWidth, objectHeight, objectType, obje
 	object.near = false
 	object.nearCounter = 0
 	object.actor = "object"
+	object.used = false
 
 	object.hitboxX = 0
 	object.hitboxY = 0
 	object.hitboxWidth = object.width
 	object.hitboxHeight = object.height
+
+	if object.type == "chest" then
+		if object.x < (16+480+16)/2 then
+			object.side = "left"
+		else
+			object.side = "right"
+		end
+	end
 
 	function object:act(index)
 		object.index = index
@@ -26,9 +35,20 @@ function newObject(objectX, objectY, objectWidth, objectHeight, objectType, obje
 
 		if object.type == "teleporter" then
 			if blocked or (bossLevel and enemyCounter == 0) then
-				object.active = true
+				if blocked and (bossLevel and enemy == 0) == false then
+					object.active = true
+				end
+				-- object.active = true -- uncomment to unlock level 2
 			else
 				object.active = false
+			end
+		end
+
+		if object.type == "chest" then
+			if object.used or (bossLevel and enemyCounter > 0) then
+				object.active = false
+			else
+				object.active = true
 			end
 		end
 	end

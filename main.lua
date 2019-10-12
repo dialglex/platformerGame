@@ -103,8 +103,7 @@ function love.load()
 
 	levelName = "grassland"
 	local randomNumber = math.random(3)
-	-- currentMap = allMaps["maps/maps/grassland/start"..tostring(randomNumber)]
-	currentMap = allMaps["maps/maps/grassland/start1"]
+	currentMap = allMaps["maps/maps/grassland/start"..tostring(randomNumber)]
 	grasslandEnemies = {"acorn", "mushroomMonster", "plant", "fuzzy"}
 	grasslandEnemiesOrder = shuffleTable(grasslandEnemies)
 	enemiesInLevel = {}
@@ -186,7 +185,7 @@ function love.load()
 	oldStickX = 0
 	oldStickY = 0
 	screenFreeze = 0
-	
+	newMapDirection = ""
 end
 
 function love.update(dt)
@@ -205,7 +204,7 @@ function love.update(dt)
 	end
 
 	if pressInputs.debug then
-		debug = not debug
+		-- debug = not debug
 		keyPress = {}
 		buttonPress = {}
 	elseif not (debug and frameStep and not pressInputs.frame) and transitionFrozen == false and uiFrozen == false then
@@ -340,14 +339,6 @@ function isInTable(element, table)
 		end
 	end
 	return false
-end
-
-function getTableLength(table)
-	local length = 0
-	for i, e in ipairs(table) do
-		length = length + 1
-	end
-	return length
 end
 
 function getRandomWeapon()

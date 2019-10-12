@@ -14,7 +14,7 @@ function setupCanvases(drawActors)
 
 	if drawActors ~= nil then
 		for _, actor in ipairs(drawActors) do
-			if actor.actor == "tile" and actor.name ~= "teleporter" and actor.name ~= "chest" then
+			if actor.actor == "tile" and actor.name ~= "corruption" and actor.name ~= "teleporter" and actor.name ~= "chest" then
 				if actor.background ~= nil then
 					if actor.background then
 						love.graphics.setCanvas(backgroundCanvas)

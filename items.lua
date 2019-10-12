@@ -77,15 +77,15 @@ function newItem(name, x, y, stats)
 			end
 		elseif item.type == "shop" then
 			if levelName == "grassland" then
-				item.price = math.floor(item.basePrice*1 + 0.5)
+				item.price = math.floor(item.basePrice*0.8 + 0.5)
 			elseif levelName == "desert" then
-				item.price = math.floor(item.basePrice*1.25 + 0.5)
+				item.price = math.floor(item.basePrice*1.2 + 0.5)
 			elseif levelName == "slime" then
-				item.price = math.floor(item.basePrice*1.5 + 0.5)
+				item.price = math.floor(item.basePrice*1.4 + 0.5)
 			elseif levelName == "magma" then
-				item.price = math.floor(item.basePrice*1.75 + 0.5)
+				item.price = math.floor(item.basePrice*1.6 + 0.5)
 			elseif levelName == "corruption" then
-				item.price = math.floor(item.basePrice*2 + 0.5)
+				item.price = math.floor(item.basePrice*1.8 + 0.5)
 			end
 		elseif item.type == "chest" then
 			if item.yVelocity <= 0 then

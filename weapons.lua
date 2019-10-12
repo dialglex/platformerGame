@@ -39,7 +39,11 @@
 		weapon.frames = 4
 	elseif weapon.type == "projectile" then
 		weapon.slashDuration = 1
-		weapon.frames = 5
+		if weapon.name == "poisonDart" then
+			weapon.frames = 1
+		else
+			weapon.frames = 5
+		end
 	elseif weapon.type == "bow" then
 		weapon.slashDuration = 1
 		weapon.sideXOffset = stats.sideXOffset
@@ -65,11 +69,21 @@
 		weapon.xAcceleration = 0
 		weapon.yAcceleration = stats.yAcceleration
 		if weapon.shootDirection == "left" then
-			weapon.xVelocity = -math.sqrt(stats.velocity^2 + 1.5^2)
-			weapon.yVelocity = -1.5
+			if weapon.name == "poisonDart" then
+				weapon.xVelocity = -stats.velocity
+				weapon.yVelocity = 0
+			else
+				weapon.xVelocity = -math.sqrt(stats.velocity^2 + 1.5^2)
+				weapon.yVelocity = -1.5
+			end
 		elseif weapon.shootDirection == "right" then
-			weapon.xVelocity = math.sqrt(stats.velocity^2 + 1.5^2)
-			weapon.yVelocity = -1.5
+			if weapon.name == "poisonDart" then
+				weapon.xVelocity = stats.velocity
+				weapon.yVelocity = 0
+			else
+				weapon.xVelocity = math.sqrt(stats.velocity^2 + 1.5^2)
+				weapon.yVelocity = -1.5
+			end
 		elseif weapon.shootDirection == "up" then
 			weapon.xVelocity = 0
 			weapon.yVelocity = -stats.velocity
@@ -77,7 +91,9 @@
 			weapon.xVelocity = 0
 			weapon.yVelocity = stats.velocity
 		end
-		weapon.currentQuad = weapon.quads[1]
+		if weapon.quads ~= nil then
+			weapon.currentQuad = weapon.quads[1]
+		end
 	end
 	weapon.movementReduction = stats.movementReduction
 
@@ -109,6 +125,10 @@
 
 	function weapon:collision()
 		if weapon.type == "projectile" then
+			if weapon.x < 0 or weapon.x > 16 + 480 + 16 or weapon.y < 0 or weapon.y > 16 + 270 + 16 then
+				weapon.remove = true
+			end
+
 			for _, actor in ipairs(getCollidingActors(weapon.x + weapon.width/2 - weapon.width/8, weapon.y + weapon.height/2 - weapon.height/8, weapon.width/4, weapon.height/4, true, false, true, true, false, false, false, false, false, 1)) do
 				thudSound:stop()
 				thudSound:play()
@@ -135,7 +155,7 @@
 			local x = player.x + player.width/2 - width/2
 			local y = player.y + player.height/2 - height/2
 
-			table.insert(actors, newWeapon(actors[getTableLength(actors)+1], x, y, weapon.shootDirection, stats))
+			table.insert(actors, newWeapon(actors[#actors + 1], x, y, weapon.shootDirection, stats))
 		end
 	end
 
@@ -145,7 +165,19 @@
 		if weapon.durationCounter < weapon.startupLag then
 			weapon.state = "startup"
 		elseif weapon.durationCounter <= (weapon.slashDuration + weapon.startupLag) then
-			if weapon.state ~= "slash" then
+			if weapon.state ~= "slash" and weapon.type ~= "projectile" then
+				if isInTable("poisonDart", player.accessories) then
+					local stats = getWeaponStats("poisonDart")
+					stats.duration = 1
+
+					local width = stats.spritesheet:getWidth()
+					local height = stats.spritesheet:getHeight()
+					local x = player.x + player.width/2 - width/2
+					local y = player.y + player.height/2 - height/2
+
+					table.insert(actors, newWeapon(actors[#actors + 1], x, y, weapon.direction, stats))
+				end
+
 				if weapon.type == "sword" then
 					swingSound:stop()
 					swingSound:play()
@@ -168,7 +200,7 @@
 			weapon.state = "end"
 		end
 
-		if weapon.type == "projectile" then
+		if weapon.type == "projectile" and weapon.quads ~= nil then
 			weapon.angle = math.atan2(weapon.yVelocity, weapon.xVelocity)
 			if weapon.angle < 0 then
 				weapon.angle = weapon.angle*-1
@@ -270,9 +302,11 @@
 	end
 
 	function weapon:destroy()
-		if weapon.durationCounter >= weapon.duration and weapon.type ~= "projectile" or weapon.remove then
+		if weapon.remove or weapon.durationCounter >= weapon.duration and weapon.type ~= "projectile" then
 			table.remove(actors, weapon.index)
-			player.weaponOut = false
+			if weapon.type ~= "projectile" then
+				player.weaponOut = false
+			end
 		end
 	end
 
@@ -285,6 +319,7 @@
 			table.insert(npcsInRange, actor)
 		end
 
+		local weaponHit = false
 		local width = imageData:getWidth()
 		local height = imageData:getHeight()
 		for i, actor in ipairs(npcsInRange) do
@@ -292,7 +327,7 @@
 				for y = 1, height do
 					-- pixel coordinates range from 0 to image width - 1 / height - 1.
 					red, green, blue, alpha = imageData:getPixel(x-1, y-1)
-					if weapon.type == "projectile" or (alpha > 0 and red == 248/255 and green == 248/255 and blue == 248/255) then
+					if alpha > 0 and (weapon.type == "projectile" or (red == 248/255 and green == 248/255 and blue == 248/255)) then
 						local npcX
 						local npcY
 						local npcWidth
@@ -323,6 +358,7 @@
 									if actor.invincibility == 0 then
 										hitSound:stop()
 										hitSound:play()
+										weaponHit = true
 										actor.hit = true
 										actor.lastHitTimer = 0
 
@@ -339,11 +375,12 @@
 											if actor.hp < 0 then
 												actor.hp = 0
 											end
-											if weapon.type == "projectile" then
-												weapon.pierce = weapon.pierce - 1
-												if weapon.pierce == 0 then
-													table.remove(actors, weapon.index)
-												end
+										end
+
+										if weapon.type == "projectile" then
+											weapon.pierce = weapon.pierce - 1
+											if weapon.pierce == 0 then
+												weapon.remove = true
 											end
 										end
 
@@ -481,7 +518,11 @@
 				yScale = -1
 				height = weapon.height
 			end
-			love.graphics.draw(weapon.spritesheet, weapon.currentQuad, 0, 0, 0, xScale, yScale, width, height)
+			if weapon.quads ~= nil then
+				love.graphics.draw(weapon.spritesheet, weapon.currentQuad, 0, 0, 0, xScale, yScale, width, height)
+			else
+				love.graphics.draw(weapon.spritesheet, 0, 0, 0, xScale, yScale, width, height)
+			end
 		end
 		love.graphics.setColor(1, 1, 1, 1)
 	end

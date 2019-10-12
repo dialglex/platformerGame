@@ -28,6 +28,7 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 	npc.projectileCounter = 0
 	npc.enemy = stats.enemy
 	npc.boss = stats.boss
+	npc.minion = stats.minion
 	npc.damage = stats.damage
 	npc.hp = stats.hp
 	npc.maxHp = npc.hp
@@ -234,9 +235,13 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 	npc.yPlayerDistance = 0
 	npc.playerDistance = 0
 
-	local randomNumber = math.random(2)
-	if randomNumber == 1 then
-		npc.direction = "left"
+	if npc.boss then
+		local randomNumber = math.random(2)
+		if randomNumber == 1 then
+			npc.direction = "left"
+		else
+			npc.direction = "right"
+		end
 	else
 		npc.direction = "right"
 	end
@@ -361,7 +366,7 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 			end
 		end
 
-		if (npc.hp <= 0 and npc.hit == false) or npc.x + npc.width < 16 or npc.x > 496 or npc.y + npc.height < 16 or npc.y > 286 then
+		if (npc.hp < 1 and npc.hit == false) or npc.x + npc.width < 16 or npc.x > 496 or npc.y + npc.height < 16 or npc.y > 286 then
 			npc.remove = true
 		end
 
@@ -382,9 +387,11 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 					enemyDieSound:play()
 				end
 
-				for i = 1, npc.money do
-					local stats = getItemStats("coin")
-					table.insert(actors, newItem("coin", npc.x + npc.width/2, npc.y + npc.height/2, stats))
+				if npc.minion ~= true then
+					for i = 1, npc.money do
+						local stats = getItemStats("coin")
+						table.insert(actors, newItem("coin", npc.x + npc.width/2, npc.y + npc.height/2, stats))
+					end
 				end
 
 				if isInTable("lifeFruit", player.accessories) then
@@ -570,8 +577,10 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 			npc.attackDirection = ""
 
 			if npc.direction == "left" then
-				for _, actor in ipairs(getCollidingActors(npc:getX() + (npc.width - npc.hitboxWidth - npc.hitboxX) - npc.attackDistance, npc:getY() + npc.hitboxY, npc.attackDistance + extraHitDistance, npc.hitboxHeight, false, false, false, false, false, false, false, true)) do
-					npc.playerLeft = true
+				if player:isDead() == false then
+					for _, actor in ipairs(getCollidingActors(npc:getX() + (npc.width - npc.hitboxWidth - npc.hitboxX) - npc.attackDistance, npc:getY() + npc.hitboxY, npc.attackDistance + extraHitDistance, npc.hitboxHeight, false, false, false, false, false, false, false, true)) do
+						npc.playerLeft = true
+					end
 				end
 				for _, actor in ipairs(getCollidingActors(npc:getX() + (npc.width - npc.hitboxWidth - npc.hitboxX) - wallDistance, npc:getY() + npc.hitboxY, wallDistance, npc.hitboxHeight, true, false, false, true, false, false)) do
 					if actor.collidable then
@@ -584,8 +593,10 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 					end
 				end
 			elseif npc.direction == "right" then
-				for _, actor in ipairs(getCollidingActors(npc:getX() + npc.hitboxX + npc.hitboxWidth - extraHitDistance, npc:getY() + npc.hitboxY, npc.attackDistance + extraHitDistance, npc.hitboxHeight, false, false, false, false, false, false, false, true)) do
-					npc.playerRight = true
+				if player:isDead() == false then
+					for _, actor in ipairs(getCollidingActors(npc:getX() + npc.hitboxX + npc.hitboxWidth - extraHitDistance, npc:getY() + npc.hitboxY, npc.attackDistance + extraHitDistance, npc.hitboxHeight, false, false, false, false, false, false, false, true)) do
+						npc.playerRight = true
+					end
 				end
 				for _, actor in ipairs(getCollidingActors(npc:getX() + npc.hitboxX + npc.hitboxWidth, npc:getY() + npc.hitboxY, wallDistance, npc.hitboxHeight, true, false, false, true, false, false)) do
 					if actor.collidable then
@@ -740,7 +751,8 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 		npc:walkingAi()
 		if (npc.lastDamagedTimer == 1) and ((npc.previousHp/npc.maxHp > 0.9 and npc.hp/npc.maxHp <= 0.9) or (npc.previousHp/npc.maxHp > 0.7 and npc.hp/npc.maxHp <= 0.7) or (npc.previousHp/npc.maxHp > 0.5 and npc.hp/npc.maxHp <= 0.5) or (npc.previousHp/npc.maxHp > 0.3 and npc.hp/npc.maxHp <= 0.3) or (npc.previousHp/npc.maxHp > 0.1 and npc.hp/npc.maxHp <= 0.1)) then
 			local stats = getNpcStats("acorn")
-			local y = npc.y + npc.height/2 - stats.spritesheet:getHeight()/2
+			stats.minion = true
+			local y = npc.y + npc.hitboxY + npc.hitboxHeight/2 - stats.spritesheet:getHeight()/2
 			local x
 			if npc.direction == "left" then
 				x = npc.x + ((npc.width - npc.hitboxWidth - npc.hitboxX) + npc.hitboxWidth/2) - (stats.spritesheet:getWidth()/stats.animationFrames)/2
@@ -758,17 +770,17 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 		if npc.attacking == false then
 			if npc.counter == 60*4 then
 				local stats = getNpcStats("acornProjectile")
-				local y = npc.y + npc.height/2 - stats.spritesheet:getHeight()/2
+				local y = npc.y + npc.hitboxY + npc.hitboxHeight/2 - stats.spritesheet:getHeight()/2
 				local x
 				if npc.direction == "left" then
 					x = npc.x + ((npc.width - npc.hitboxWidth - npc.hitboxX) + npc.hitboxWidth/2) - (stats.spritesheet:getWidth()/stats.animationFrames)/2
 				elseif npc.direction == "right" then
 					x = npc.x + (npc.hitboxX + npc.hitboxWidth/2) - (stats.spritesheet:getWidth()/stats.animationFrames)/2
 				end
-				table.insert(actors, newNpc(x, y, -1.5 - 0.5 + math.random(), -3 - 0.5 + math.random(), stats)) -- left
-				table.insert(actors, newNpc(x, y, 1.5 - 0.5 + math.random(), -3 - 0.5 + math.random(), stats)) -- right
+				table.insert(actors, newNpc(x, y, -1.5 - 0.5 + math.random(), -3 - 0.5 + math.random(), stats, 60/3)) -- left
+				table.insert(actors, newNpc(x, y, 1.5 - 0.5 + math.random(), -3 - 0.5 + math.random(), stats, 60/3)) -- right
 				if npc.hp/npc.maxHp <= 0.5 then
-					table.insert(actors, newNpc(x, y, -0.5 + math.random(), -3 - 0.5 + math.random(), stats)) -- middle
+					table.insert(actors, newNpc(x, y, -0.5 + math.random(), -3 - 0.5 + math.random(), stats, 60/3)) -- middle
 				end
 				npc.counter = 0
 			end
@@ -800,7 +812,7 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 
 		if npc.name == "upPlant" then
 			-- if centre of player is to the right of the left of the npc AND centre of player is to the left of the right of the npc
-			if player.x + player.width/2 > npc.x and player.x + player.width/2 < npc.x + npc.attackWidth and player.y < npc.y and npc.attackCooldown == 0 and npc.attacking == false then
+			if player:isDead() == false and player.x + player.width/2 > npc.x and player.x + player.width/2 < npc.x + npc.attackWidth and player.y < npc.y and npc.attackCooldown == 0 and npc.attacking == false then
 				if checkCollision(npc.x, player.y + player.height, npc.attackWidth, npc.y - player.y - player.height, false, false) == false then
 					npc.attacking = true
 					npc.projectileShot = false
@@ -821,7 +833,7 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 				end
 			end
 		elseif npc.name == "downPlant" then
-			if player.x + player.width/2 > npc.x and player.x + player.width/2 < npc.x + npc.attackWidth and player.y > npc.y and npc.attackCooldown == 0 and npc.attacking == false then
+			if player:isDead() == false and player.x + player.width/2 > npc.x and player.x + player.width/2 < npc.x + npc.attackWidth and player.y > npc.y and npc.attackCooldown == 0 and npc.attacking == false then
 				if checkCollision(npc.x, npc.y + npc.height, npc.attackWidth, player.y - npc.y - npc.height, false, false) == false then
 					npc.attacking = true
 					npc.projectileShot = false
@@ -845,7 +857,7 @@ function newNpc(x, y, xVelocity, yVelocity, stats, invincibility)
 	end
 
 	function npc:divingAi()
-		if player.x + player.width/2 > npc.x and player.x + player.width/2 < npc.x + npc.attackWidth and player.y > npc.y and npc.attackCooldown == 0 and npc.attacking == false then
+		if player:isDead() == false and player.x + player.width/2 > npc.x and player.x + player.width/2 < npc.x + npc.attackWidth and player.y > npc.y and npc.attackCooldown == 0 and npc.attacking == false then
 			if checkCollision(npc.x, npc.y + npc.height, npc.attackWidth, player.y - npc.y - npc.height, false, false) == false then
 				npc.attacking = true
 			end

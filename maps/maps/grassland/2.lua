@@ -1,13 +1,14 @@
 return {
-  version = "1.1",
+  version = "1.2",
   luaversion = "5.1",
-  tiledversion = "1.1.2",
+  tiledversion = "1.2.4",
   orientation = "orthogonal",
   renderorder = "right-down",
   width = 32,
   height = 19,
   tilewidth = 16,
   tileheight = 16,
+  nextlayerid = 15,
   nextobjectid = 6,
   properties = {
     ["background"] = "../../../images/backgrounds/grassland.png",
@@ -33,6 +34,7 @@ return {
       tileheight = 16,
       spacing = 0,
       margin = 0,
+      columns = 8,
       image = "../../../images/tiles/grass.png",
       imagewidth = 128,
       imageheight = 128,
@@ -1457,6 +1459,7 @@ return {
       tileheight = 16,
       spacing = 0,
       margin = 0,
+      columns = 3,
       image = "../../../images/tiles/ladder.png",
       imagewidth = 48,
       imageheight = 48,
@@ -1546,6 +1549,7 @@ return {
       tileheight = 16,
       spacing = 0,
       margin = 0,
+      columns = 3,
       image = "../../../images/tiles/woodenPlatform.png",
       imagewidth = 48,
       imageheight = 48,
@@ -1644,6 +1648,7 @@ return {
       tileheight = 16,
       spacing = 0,
       margin = 0,
+      columns = 2,
       image = "../../../images/tiles/grassBg.png",
       imagewidth = 32,
       imageheight = 32,
@@ -1698,6 +1703,7 @@ return {
       tileheight = 25,
       spacing = 0,
       margin = 0,
+      columns = 6,
       image = "../../../images/npcs/enemy/acorn/acornMoveRightSpritesheet.png",
       imagewidth = 156,
       imageheight = 25,
@@ -1756,6 +1762,7 @@ return {
       tileheight = 23,
       spacing = 0,
       margin = 0,
+      columns = 5,
       image = "../../../images/npcs/enemy/mushroomMonster/mushroomMonsterMoveRightSpritesheet.png",
       imagewidth = 135,
       imageheight = 23,
@@ -1810,6 +1817,7 @@ return {
       tileheight = 14,
       spacing = 0,
       margin = 0,
+      columns = 3,
       image = "../../../images/npcs/enemy/moonfly/moonflyMoveRightSpritesheet.png",
       imagewidth = 54,
       imageheight = 14,
@@ -1856,6 +1864,7 @@ return {
       tileheight = 21,
       spacing = 0,
       margin = 0,
+      columns = 6,
       image = "../../../images/npcs/enemy/plant/upPlantIdleSpritesheet.png",
       imagewidth = 192,
       imageheight = 21,
@@ -1916,6 +1925,7 @@ return {
       tileheight = 21,
       spacing = 0,
       margin = 0,
+      columns = 6,
       image = "../../../images/npcs/enemy/plant/downPlantIdleSpritesheet.png",
       imagewidth = 192,
       imageheight = 21,
@@ -1976,6 +1986,7 @@ return {
       tileheight = 16,
       spacing = 0,
       margin = 0,
+      columns = 4,
       image = "../../../images/tiles/mushroom.png",
       imagewidth = 64,
       imageheight = 64,
@@ -2114,6 +2125,7 @@ return {
       tileheight = 16,
       spacing = 0,
       margin = 0,
+      columns = 4,
       image = "../../../images/tiles/rock.png",
       imagewidth = 64,
       imageheight = 64,
@@ -2252,6 +2264,7 @@ return {
       tileheight = 22,
       spacing = 0,
       margin = 0,
+      columns = 1,
       image = "../../../images/tiles/teleporter/teleporterOff.png",
       imagewidth = 32,
       imageheight = 22,
@@ -2286,6 +2299,7 @@ return {
       tileheight = 23,
       spacing = 0,
       margin = 0,
+      columns = 6,
       image = "../../../images/npcs/enemy/fuzzy/fuzzyMoveRightSpritesheet.png",
       imagewidth = 162,
       imageheight = 23,
@@ -2308,6 +2322,32 @@ return {
             ["npc"] = true,
             ["xOffset"] = 0,
             ["yOffset"] = 5
+          },
+          animation = {
+            {
+              tileid = 0,
+              duration = 100
+            },
+            {
+              tileid = 1,
+              duration = 100
+            },
+            {
+              tileid = 2,
+              duration = 100
+            },
+            {
+              tileid = 3,
+              duration = 100
+            },
+            {
+              tileid = 4,
+              duration = 100
+            },
+            {
+              tileid = 5,
+              duration = 100
+            }
           }
         }
       }
@@ -2316,6 +2356,7 @@ return {
   layers = {
     {
       type = "tilelayer",
+      id = 1,
       name = "grassBg",
       x = 0,
       y = 0,
@@ -2351,6 +2392,7 @@ return {
     },
     {
       type = "tilelayer",
+      id = 2,
       name = "ladder",
       x = 0,
       y = 0,
@@ -2376,7 +2418,7 @@ return {
         0, 0, 68, 0, 0, 0, 0, 0, 0, 0, 0, 0, 68, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 68, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 68, 0, 0, 0, 0, 65, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 68, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 68, 0, 0, 0, 0, 68, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 68, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 68, 0, 0, 0, 0, 68, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 71, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 68, 0, 0, 0, 0, 68, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 68, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 68, 0, 0, 0, 0, 68, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 68, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 71, 0, 0, 0, 0, 68, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 68, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 71, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 71, 0, 0, 0, 0, 0, 0, 0,
@@ -2386,6 +2428,7 @@ return {
     },
     {
       type = "tilelayer",
+      id = 3,
       name = "woodenPlatform",
       x = 0,
       y = 0,
@@ -2421,6 +2464,7 @@ return {
     },
     {
       type = "tilelayer",
+      id = 4,
       name = "acorn",
       x = 0,
       y = 0,
@@ -2456,6 +2500,7 @@ return {
     },
     {
       type = "tilelayer",
+      id = 5,
       name = "downPlant",
       x = 0,
       y = 0,
@@ -2491,6 +2536,7 @@ return {
     },
     {
       type = "tilelayer",
+      id = 6,
       name = "fuzzy",
       x = 0,
       y = 0,
@@ -2526,6 +2572,7 @@ return {
     },
     {
       type = "tilelayer",
+      id = 7,
       name = "upPlant",
       x = 0,
       y = 0,
@@ -2561,6 +2608,7 @@ return {
     },
     {
       type = "tilelayer",
+      id = 8,
       name = "downPlant",
       x = 0,
       y = 0,
@@ -2596,6 +2644,7 @@ return {
     },
     {
       type = "tilelayer",
+      id = 9,
       name = "mushroomMonster",
       x = 0,
       y = 0,
@@ -2631,6 +2680,7 @@ return {
     },
     {
       type = "tilelayer",
+      id = 10,
       name = "teleporter",
       x = 0,
       y = 0,
@@ -2666,6 +2716,7 @@ return {
     },
     {
       type = "tilelayer",
+      id = 11,
       name = "rock",
       x = 0,
       y = 0,
@@ -2701,6 +2752,7 @@ return {
     },
     {
       type = "tilelayer",
+      id = 12,
       name = "mushroom",
       x = 0,
       y = 0,
@@ -2736,6 +2788,7 @@ return {
     },
     {
       type = "tilelayer",
+      id = 13,
       name = "grass",
       x = 0,
       y = 0,
@@ -2771,6 +2824,7 @@ return {
     },
     {
       type = "objectgroup",
+      id = 14,
       name = "objects",
       visible = true,
       opacity = 1,

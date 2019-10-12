@@ -41,6 +41,9 @@ function getUiImages()
 	greyBar = love.graphics.newImage("images/ui/newWeapon/greyBar.png")
 	greyConnecter = love.graphics.newImage("images/ui/newWeapon/greyConnecter.png")
 	statIcons = love.graphics.newImage("images/ui/statIcons.png")
+	speedKnockbackStatIcons = love.graphics.newImage("images/ui/speedKnockbackStatIcons.png")
+	damageIcon = love.graphics.newImage("images/ui/damageIcon.png")
+	poisonIcon = love.graphics.newImage("images/ui/poisonIcon.png")
 
 	optionsVideoSprite = love.graphics.newImage("images/ui/options/optionsVideo.png")
 	optionsAudioSprite = love.graphics.newImage("images/ui/options/optionsAudio.png")
@@ -113,6 +116,9 @@ function newUi(name, data1, data2)
 		ui.weapon2SpeedBarCanvas = love.graphics.newCanvas(ui.emptyBar:getWidth(), ui.emptyBar:getHeight())
 		ui.weapon2KnockbackBarCanvas = love.graphics.newCanvas(ui.emptyBar:getWidth(), ui.emptyBar:getHeight())
 
+		ui.damageIcon = damageIcon
+		ui.poisonIcon = poisonIcon
+
 		local weapon1 = getWeaponStats(player.equippedWeapon1)
 		local weapon2 = getWeaponStats(player.equippedWeapon2)
 		ui.weaponSprite1Canvas = giveOutline(weapon1.iconSprite, {0.973, 0.973, 0.973}, true)
@@ -163,8 +169,13 @@ function newUi(name, data1, data2)
 		ui.speedBarCanvas = love.graphics.newCanvas(ui.emptyBar:getWidth(), ui.emptyBar:getHeight())
 		ui.knockbackBarCanvas = love.graphics.newCanvas(ui.emptyBar:getWidth(), ui.emptyBar:getHeight())
 
-		ui.newWeaponName = data1
-		ui.newWeaponSprite = data2
+		ui.damageIcon = damageIcon
+		ui.poisonIcon = poisonIcon
+
+		ui.weaponStats = data1
+		ui.weaponItem = data2
+		ui.newWeaponName = ui.weaponStats.name
+		ui.newWeaponSprite = ui.weaponStats.iconSprite
 		ui.newWeaponSpriteCanvas = giveOutline(ui.newWeaponSprite, {0.973, 0.973, 0.973}, true)
 	elseif ui.name == "options" then
 		if data ~= nil then
@@ -213,7 +224,7 @@ function newUi(name, data1, data2)
 	ui.firstFrame = true
 	
 	function ui:act(index)
-		if getTableLength(uis) < 2 then
+		if #uis < 2 then
 			ui.control = true
 		end
 		
@@ -321,10 +332,14 @@ function newUi(name, data1, data2)
 					if ui.weapon1Selected then
 						menuConfirmSound:play()
 						player.equippedWeapon1 = ui.newWeaponName
+						ui.weaponItem.remove = true
+						player.money = player.money - ui.weaponItem.price
 						ui.remove = true
 					elseif ui.weapon2Selected then
 						menuConfirmSound:play()
 						player.equippedWeapon2 = ui.newWeaponName
+						ui.weaponItem.remove = true
+						player.money = player.money - ui.weaponItem.price
 						ui.remove = true
 					end
 				end
@@ -624,6 +639,23 @@ function newUi(name, data1, data2)
 			else
 				love.graphics.draw(ui.sprite)
 			end
+
+			if weapon1.statusDuration > 0 then
+				if weapon1.status == "poison" then
+					love.graphics.draw(ui.poisonIcon, 12, 66)
+				end
+			else
+				love.graphics.draw(ui.damageIcon, 12, 66)
+			end
+
+			if weapon2.statusDuration > 0 then
+				if weapon2.status == "poison" then
+					love.graphics.draw(ui.poisonIcon, 110, 66)
+				end
+			else
+				love.graphics.draw(ui.damageIcon, 110, 66)
+			end
+
 			love.graphics.draw(ui.healthBarCanvas, 45, 24)
 			love.graphics.draw(ui.healthBarOutlineCanvas, 45 - 2, 24 - 2)
 			love.graphics.draw(ui.healthBarOutline2, 45 - 2 + ui.healthBarOutlineCanvas:getWidth(), 24 - 2)
@@ -696,6 +728,14 @@ function newUi(name, data1, data2)
 			love.graphics.draw(ui.weaponSprite1Canvas, 6, 104)
 			love.graphics.draw(ui.newWeaponSpriteCanvas, 58, 104)
 			love.graphics.draw(ui.weaponSprite2Canvas, 110, 104)
+
+			if weapon1.statusDuration > 0 then
+				if weapon1.status == "poison" then
+					love.graphics.draw(ui.poisonIcon, 30, 56)
+				end
+			else
+				love.graphics.draw(ui.damageIcon, 30, 56)
+			end
 
 			love.graphics.setFont(textFont1)
 			love.graphics.printf(weapon1.damage, 96, 59, 14, "right")

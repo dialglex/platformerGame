@@ -1,4 +1,9 @@
 function getTileImages()
+	corruption1Spritesheet = love.graphics.newImage("images/tiles/corruption/corruption1.png")
+	corruption2Spritesheet = love.graphics.newImage("images/tiles/corruption/corruption2.png")
+	corruption3Spritesheet = love.graphics.newImage("images/tiles/corruption/corruption3.png")
+	corruption4Spritesheet = love.graphics.newImage("images/tiles/corruption/corruption4.png")
+
 	teleporterOffSprite = love.graphics.newImage("images/tiles/teleporter/teleporterOff.png")
 	teleporterOnSpritesheet = love.graphics.newImage("images/tiles/teleporter/teleporterOn.png")
 
@@ -55,6 +60,11 @@ function newTile(tileName, tileWidth, tileHeight, x, y, tileQuad, tileset, tileC
 	end
 
 	if tile.name == "chest" then
+		if tile.x < (16+480+16)/2 then
+			tile.side = "left"
+		else
+			tile.side = "right"
+		end
 		tile.opening = false
 		tile.quads = {}
 		tile.frames = 27
@@ -65,7 +75,18 @@ function newTile(tileName, tileWidth, tileHeight, x, y, tileQuad, tileset, tileC
 
 	function tile:act(index)
 		tile.index = index
-		if tile.name == "teleporter" then
+
+		if tile.name == "corruption" then
+			if tile.counter < 1*6 then
+				tile.spritesheet = corruption1Spritesheet
+			elseif tile.counter < 2*6 then
+				tile.spritesheet = corruption2Spritesheet
+			elseif tile.counter < 3*6 then
+				tile.spritesheet = corruption3Spritesheet
+			else
+				tile.spritesheet = corruption4Spritesheet
+			end
+		elseif tile.name == "teleporter" then
 			if blocked then
 				tile.active = true
 			end
@@ -92,76 +113,92 @@ function newTile(tileName, tileWidth, tileHeight, x, y, tileQuad, tileset, tileC
 			else
 				tile.spritesheet = teleporterOffSprite
 			end
-		end
-
-
-		if tile.name == "chest" then
-			if mapNumber == 2 then
-				tile.chestType = firstChestType
+		elseif tile.name == "chest" then
+			if bossLevel and enemyCounter > 0 then
+				tile.active = false
 			else
-				tile.chestType = secondChestType
+				tile.active = true
 			end
 
-			if currentMap.chestOpened then
-				if tile.frame < tile.frames then
-					tile.opening = true
-					tile.animationCounter = tile.animationCounter + 1
-					if tile.animationCounter > 2 then
-						tile.frame = tile.frame + 1
-						tile.animationCounter = 0
-						if tile.frame == 8 then
-							local itemType = tile.chestType .. "ChestItem"
-							local itemStats = getItemStats(itemType)
-							tile.item = newItem(itemType, math.floor(tile.x + tile.width/2 - itemStats.width/2 - 1 + 0.5), math.floor(tile.y + tile.height - itemStats.height/2 - 1 - 24 + 0.5), itemStats)
-							table.insert(actors, tile.item)
-						elseif tile.frame == 16 then
-							if shakeLength < 2 then
-								shakeLength = 2
-							end
-							maxShakeLength = shakeLength
-							if shakeAmount < 3 then
-								shakeAmount = 3
-							end
-							maxShakeAmount = shakeAmount
-						elseif tile.frame == 20 then
-							if shakeLength < 1 then
-								shakeLength = 1
-							end
-							maxShakeLength = shakeLength
-							if shakeAmount < 1 then
-								shakeAmount = 1
-							end
-							maxShakeAmount = shakeAmount
-						elseif tile.frame == 25 + 1 then
-							if tile.item.remove == false then
-								tile.frame = 25
-							end
-						end
-					end
-					if tile.chestType == "weapon" then
-						tile.spritesheet = weaponChestOpeningSpritesheet
-					else
-						tile.spritesheet = accessoryChestOpeningSpritesheet
-					end
-					tile.quad = tile.quads[tile.frame]
-				else
-					tile.opening = false
-					if tile.chestType == "weapon" then
-						tile.spritesheet = weaponChestOpenSprite
-					else
-						tile.spritesheet = accessoryChestOpenSprite
-					end
-				end
+			if mapNumber == 2 then
+				tile.chestType = firstChestType
+			elseif mapNumber == 4 then
+				tile.chestType = secondChestType
 			else
-				if tile.chestType == "weapon" then
-					tile.spritesheet = weaponChestClosedSprite
+				if tile.side == "left" then
+					tile.chestType = firstChestType
 				else
-					tile.spritesheet = accessoryChestClosedSprite
+					tile.chestType = secondChestType
+				end
+			end
+
+			if tile.active then
+				local chestOpened = false
+				if tile.side == "left" and currentMap.leftChestOpened or tile.side == "right" and currentMap.rightChestOpened then
+					chestOpened = true
 				end
 
-				if tile.counter == 60 then
-					table.insert(actors, newDust(tile.x + math.random(0 + 6, tile.width - 6), tile.y + math.random(20 + 4, tile.height - 4), "sparkle"))
-					tile.counter = 0
+				if chestOpened then
+					if tile.frame < tile.frames then
+						tile.opening = true
+						tile.animationCounter = tile.animationCounter + 1
+						if tile.animationCounter > 2 then
+							tile.frame = tile.frame + 1
+							tile.animationCounter = 0
+							if tile.frame == 8 then
+								local itemType = tile.chestType .. "ChestItem"
+								local itemStats = getItemStats(itemType)
+								tile.item = newItem(itemType, math.floor(tile.x + tile.width/2 - itemStats.width/2 - 1 + 0.5), math.floor(tile.y + tile.height - itemStats.height/2 - 1 - 23 + 0.5), itemStats)
+								table.insert(actors, tile.item)
+							elseif tile.frame == 16 then
+								if shakeLength < 2 then
+									shakeLength = 2
+								end
+								maxShakeLength = shakeLength
+								if shakeAmount < 3 then
+									shakeAmount = 3
+								end
+								maxShakeAmount = shakeAmount
+							elseif tile.frame == 20 then
+								if shakeLength < 1 then
+									shakeLength = 1
+								end
+								maxShakeLength = shakeLength
+								if shakeAmount < 1 then
+									shakeAmount = 1
+								end
+								maxShakeAmount = shakeAmount
+							elseif tile.frame == 25 + 1 then
+								if tile.item.remove == false then
+									tile.frame = 25
+								end
+							end
+						end
+						if tile.chestType == "weapon" then
+							tile.spritesheet = weaponChestOpeningSpritesheet
+						else
+							tile.spritesheet = accessoryChestOpeningSpritesheet
+						end
+						tile.quad = tile.quads[tile.frame]
+					else
+						tile.opening = false
+						if tile.chestType == "weapon" then
+							tile.spritesheet = weaponChestOpenSprite
+						else
+							tile.spritesheet = accessoryChestOpenSprite
+						end
+					end
+				else
+					if tile.chestType == "weapon" then
+						tile.spritesheet = weaponChestClosedSprite
+					else
+						tile.spritesheet = accessoryChestClosedSprite
+					end
+
+					if tile.counter == 60 then
+						table.insert(actors, newDust(tile.x + math.random(0 + 6, tile.width - 6), tile.y + math.random(20 + 4, tile.height - 4), "sparkle"))
+						tile.counter = 0
+					end
 				end
 			end
 		end

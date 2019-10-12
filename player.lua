@@ -62,13 +62,10 @@ function newPlayer(playerX, playerY)
 	player.previousHp = player.hp
 	player.knockbackRestistance = 1
 	player.weaponOut = false
-	player.equippedWeapon1 = "mushroomBow"
+	player.equippedWeapon1 = "woodenSword"
 	player.equippedWeapon2 = "woodenBow"
 	player.accessories = {}
-	player.money = 1000
-
-	player.interactSound = interactSound
-	player.teleportSound = teleportSound
+	player.money = 0
 
 	player.idleCounter = 0
 	player.idleQuads = {}
@@ -217,26 +214,20 @@ function newPlayer(playerX, playerY)
 		player:mapTransition()
 		player:checkGrounded()
 		player:checkBoss()
+		player:openUi()
 		if player.frozen == false then
 			player.previousX = player.x
 			player.previousY = player.y
 			player:statChanges()
 			player:combatLogic()
 			player:ladder()
-			player:openUi()
 			if player.onLadder == false then
 				player:physics()
-				player:xMovement()
-				if player.grounded == false then
-					player:airPhysics()
-				end
-			else
-				player:airPhysics()
+				player:xMovement()	
 			end
+			player:airPhysics()
 			if player:isDead() == false then
-				if player.jumpAble and player.jumpsLeft > 0 then
-					player:jump()
-				end
+				player:jump()
 				if player.invincible == false then
 					player:hitCollision()
 				end
@@ -271,6 +262,8 @@ function newPlayer(playerX, playerY)
 		
 		debugPrint("spawnRate: "..spawnRate)
 		debugPrint("mapNumber: "..mapNumber)
+
+		debugPrint("pressInputs.jump"..tostring(pressInputs.jump))
 	end
 
 	function player:statChanges()
@@ -353,8 +346,8 @@ function newPlayer(playerX, playerY)
 			local stats = getWeaponStats(player.attackWeapon)
 			stats.direction = player.direction
 
-			table.insert(actors, newWeapon(actors[getTableLength(actors)+1], 0, 0, nil, stats))
-			player.currentWeapon = actors[getTableLength(actors)]
+			table.insert(actors, newWeapon(actors[#actors + 1], 0, 0, nil, stats))
+			player.currentWeapon = actors[#actors]
 			player.lastUsedWeapon = player.currentWeapon
 			player.weaponOut = true
 		end
@@ -397,7 +390,7 @@ function newPlayer(playerX, playerY)
 		end
 
 		if bossLevel and enemyCounter == 0 then
-			-- win = true
+			win = true
 		end
 	end
 
@@ -408,7 +401,7 @@ function newPlayer(playerX, playerY)
 	function player:ladder()
 		if player.onLadder then
 			player.jumpHoldCounter = 0
-			if pressInputs.jump or (pressInputs.interact) then
+			if pressInputs.interact then
 				if lastInputType == "gamepad" then
 					pressInputs.interact = false
 				end
@@ -445,9 +438,38 @@ function newPlayer(playerX, playerY)
 		end
 	end
 
-	function player:newMap(map, door)
+	function player:newMap(map)
+		local oldCoins = {}
+		for i, actor in ipairs(actors) do
+			if actor.actor == "dust" then
+				table.remove(actors, actor.index)
+			elseif actor.actor == "item" and actor.type == "coin" then
+				table.insert(oldCoins, actor)
+				table.remove(actors, actor.index)
+			end
+		end
 		currentMap = allMaps[map]
 		actors = currentMap.actors
+
+		for i, coin in ipairs(oldCoins) do
+			if newMapDirection == "topToBottom" then
+				coin.x = coin.x
+				coin.y = coin.y + 270
+			elseif newMapDirection == "bottomToTop" then
+				coin.x = coin.x
+				coin.y = coin.y - 270
+			elseif newMapDirection == "leftToRight" then
+				coin.x = coin.x + 480
+				coin.y = coin.y
+			elseif newMapDirection == "rightToLeft" then
+			    coin.x = coin.x - 480
+				coin.y = coin.y
+			else
+				coin.x = coin.x
+				coin.y = coin.y
+			end
+			table.insert(actors, coin)
+		end
 
 		local numberOfEnemies = 0
 		if mapNumber == 0 then -- starting map
@@ -459,12 +481,12 @@ function newPlayer(playerX, playerY)
 			numberOfEnemies = 3
 		elseif mapNumber == 2 then -- cave
 			if indoor then
-				numberOfEnemies = 9
+				numberOfEnemies = 8
 			else
 				if currentMap.explored == false then
 					table.insert(enemiesInLevel, grasslandEnemiesOrder[2])
 				end
-				numberOfEnemies = 6
+				numberOfEnemies = 5
 			end
 		elseif mapNumber == 3 then -- shop
 			if indoor then
@@ -473,23 +495,21 @@ function newPlayer(playerX, playerY)
 				if currentMap.explored == false then
 					table.insert(enemiesInLevel, grasslandEnemiesOrder[3])
 				end
-				numberOfEnemies = 9
+				numberOfEnemies = 7
 			end
 		elseif mapNumber == 4 then -- cave
 			if indoor then
-				numberOfEnemies = 15
+				numberOfEnemies = 12
 			else
 				if currentMap.explored == false then
 					table.insert(enemiesInLevel, grasslandEnemiesOrder[4])
 				end
-				numberOfEnemies = 12
+				numberOfEnemies = 9
 			end
 		elseif mapNumber == 5 then
-			numberOfEnemies = 15
+			numberOfEnemies = 11
 		elseif mapNumber == 6 then
-			numberOfEnemies = 18
-		elseif mapNumber == 7 then
-			numberOfEnemies = 21
+			numberOfEnemies = 13
 		end
 
 		if isInTable(player, actors) == false then
@@ -504,9 +524,8 @@ function newPlayer(playerX, playerY)
 				end
 			else
 				for i = 1, numberOfEnemies do
+					local stopSpawning = false
 					local random = math.random(#currentMap.npcSpawns)
-					print(random)
-					print(currentMap.npcSpawns)
 					local npcSpawn = currentMap.npcSpawns[random]
 					local npcName = npcSpawn.name
 					if npcName == "downPlant" or npcName == "upPlant" then
@@ -514,18 +533,22 @@ function newPlayer(playerX, playerY)
 					end
 					table.remove(currentMap.npcSpawns, random)
 					while isInTable(npcName, enemiesInLevel) == false do
-						print(random)
-						print(currentMap.npcSpawns)
 						random = math.random(#currentMap.npcSpawns)
 						npcSpawn = currentMap.npcSpawns[random]
+						if npcSpawn == nil then
+							stopSpawning = true
+						end
+						if stopSpawning or npcSpawn.boss then
+							break
+						end
 						npcName = npcSpawn.name
 						if npcName == "downPlant" or npcName == "upPlant" then
 							npcName = "plant"
 						end
-						if npcSpawn.boss then
-							break
-						end
 						table.remove(currentMap.npcSpawns, random)
+					end
+					if stopSpawning then
+						break
 					end
 					table.insert(actors, npcSpawn)
 				end
@@ -555,9 +578,7 @@ function newPlayer(playerX, playerY)
 		rightMiddle = currentMap.rightMiddle
 		rightBottom = currentMap.rightBottom
 
-		if door ~= false then
-			backgroundCanvas, foregroundCanvas = unpack(setupCanvases(actors))
-		end
+		newMapDirection = ""
 	end
 
 	function isSuitableMap(randomMap)
@@ -638,11 +659,6 @@ function newPlayer(playerX, playerY)
 	end
 
 	function player:findRandomMap()
-		for i, item in ipairs(items) do
-			if item.type == "coin" then
-				player.money = player.money + 1
-			end
-		end
 		table.insert(mapsUsed, (string.gsub(currentMapDirectory, ".lua", "", 1)))
 		mapNumber = mapNumber + 1
 		local mapsToCheck = {}
@@ -665,7 +681,7 @@ function newPlayer(playerX, playerY)
 			end
 		end
 
-		local randomNumber = math.random(1, getTableLength(mapsToCheck))
+		local randomNumber = math.random(1, #mapsToCheck)
 		local randomMap = mapsToCheck[randomNumber]
 
 		local suitableMap = false
@@ -674,7 +690,7 @@ function newPlayer(playerX, playerY)
 		local i = 0
 		-- print(i .. "  mapNumber: " .. tostring(mapNumber) .. "  randomMap: " .. randomMap)
 		while suitableMap == false do
-			local randomNumber = math.random(1, getTableLength(mapsToCheck))
+			local randomNumber = math.random(1, #mapsToCheck)
 			randomMap = mapsToCheck[randomNumber]
 
 			if isSuitableMap(randomMap) then
@@ -686,116 +702,117 @@ function newPlayer(playerX, playerY)
 
 		player:newMap(randomMap, false)
 
-		local image = love.graphics.newImage("images/tiles/corruption.png")
+		local image = love.graphics.newImage("images/tiles/corruption/corruption.png")
 		if blockTopLeft and currentMap.topLeft then
-			local quad = love.graphics.newQuad(32, 0, 16, 16, 80, 80)
-			table.insert(actors, newTile("corruption", 16, 16, 5*16, 16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 6*16, 16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 7*16, 16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 8*16, 16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 9*16, 16, quad, image, true, true, false, true, 0, 0, 16, 16))
+			local quad1 = love.graphics.newQuad(16, 16, 16, 16, 64, 64)
+			local quad2 = love.graphics.newQuad(16, 0, 16, 16, 64, 64)
+			for i = 5, 9 do
+				table.insert(actors, newTile("corruption", 16, 16, i*16, 16, quad1, image, true, true, false, true, 0, 0, 16, 8))
+				table.insert(actors, newTile("corruption", 16, 16, i*16, 0, quad2, image, false, true, false, true, 0, 0, 16, 16))
+			end
 		end
 		if blockTopMiddle and currentMap.topMiddle then
-			local quad = love.graphics.newQuad(32, 0, 16, 16, 80, 80)
-			table.insert(actors, newTile("corruption", 16, 16, 13*16, 16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 14*16, 16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 15*16, 16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 16*16, 16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 17*16, 16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 18*16, 16, quad, image, true, true, false, true, 0, 0, 16, 16))
+			local quad1 = love.graphics.newQuad(16, 16, 16, 16, 64, 64)
+			local quad2 = love.graphics.newQuad(16, 0, 16, 16, 64, 64)
+			for i = 13, 18 do
+				table.insert(actors, newTile("corruption", 16, 16, i*16, 16, quad1, image, true, true, false, true, 0, 0, 16, 8))
+				table.insert(actors, newTile("corruption", 16, 16, i*16, 0, quad2, image, false, true, false, true, 0, 0, 16, 16))
+			end
 		end
 		if blockTopRight and currentMap.topRight then
-			local quad = love.graphics.newQuad(32, 0, 16, 16, 80, 80)
-			table.insert(actors, newTile("corruption", 16, 16, 22*16, 16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 23*16, 16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 24*16, 16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 25*16, 16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 26*16, 16, quad, image, true, true, false, true, 0, 0, 16, 16))
+			local quad1 = love.graphics.newQuad(16, 16, 16, 16, 64, 64)
+			local quad2 = love.graphics.newQuad(16, 0, 16, 16, 64, 64)
+			for i = 22, 26 do
+				table.insert(actors, newTile("corruption", 16, 16, i*16, 16, quad1, image, true, true, false, true, 0, 0, 16, 8))
+				table.insert(actors, newTile("corruption", 16, 16, i*16, 0, quad2, image, false, true, false, true, 0, 0, 16, 16))
+			end
 		end
 		if blockBottomLeft and currentMap.bottomLeft then
-			local quad = love.graphics.newQuad(32, 0, 16, 16, 80, 80)
-			table.insert(actors, newTile("corruption", 16, 16, 5*16, 17*16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 6*16, 17*16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 7*16, 17*16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 8*16, 17*16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 9*16, 17*16, quad, image, true, true, false, true, 0, 0, 16, 16))
+			local quad1 = love.graphics.newQuad(0, 0, 16, 16, 64, 64)
+			local quad2 = love.graphics.newQuad(0, 16, 16, 16, 64, 64)
+			for i = 5, 9 do
+				table.insert(actors, newTile("corruption", 16, 16, i*16, 17*16, quad1, image, true, true, false, true, 0, 8, 16, 8))
+				table.insert(actors, newTile("corruption", 16, 16, i*16, 18*16, quad2, image, false, true, false, true, 0, 0, 16, 16))
+			end
 		end
 		if blockBottomMiddle and currentMap.bottomMiddle then
-			local quad = love.graphics.newQuad(32, 0, 16, 16, 80, 80)
-			table.insert(actors, newTile("corruption", 16, 16, 13*16, 17*16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 14*16, 17*16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 15*16, 17*16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 16*16, 17*16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 17*16, 17*16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 18*16, 17*16, quad, image, true, true, false, true, 0, 0, 16, 16))
+			local quad1 = love.graphics.newQuad(0, 0, 16, 16, 64, 64)
+			local quad2 = love.graphics.newQuad(0, 16, 16, 16, 64, 64)
+			for i = 13, 18 do
+				table.insert(actors, newTile("corruption", 16, 16, i*16, 17*16, quad1, image, true, true, false, true, 0, 8, 16, 8))
+				table.insert(actors, newTile("corruption", 16, 16, i*16, 18*16, quad2, image, false, true, false, true, 0, 0, 16, 16))
+			end
 		end
 		if blockBottomRight and currentMap.bottomRight then
-			local quad = love.graphics.newQuad(32, 0, 16, 16, 80, 80)
-			table.insert(actors, newTile("corruption", 16, 16, 22*16, 17*16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 23*16, 17*16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 24*16, 17*16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 25*16, 17*16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 26*16, 17*16, quad, image, true, true, false, true, 0, 0, 16, 16))
+			local quad1 = love.graphics.newQuad(0, 0, 16, 16, 64, 64)
+			local quad2 = love.graphics.newQuad(0, 16, 16, 16, 64, 64)
+			for i = 22, 26 do
+				table.insert(actors, newTile("corruption", 16, 16, i*16, 17*16, quad1, image, true, true, false, true, 0, 8, 16, 8))
+				table.insert(actors, newTile("corruption", 16, 16, i*16, 18*16, quad2, image, false, true, false, true, 0, 0, 16, 16))
+			end
 		end
 		if blockLeftTop and currentMap.leftTop then
-			local quad = love.graphics.newQuad(0, 32, 16, 16, 80, 80)
-			table.insert(actors, newTile("corruption", 16, 16, 16, 2*16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 16, 3*16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 16, 4*16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 16, 5*16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 16, 6*16, quad, image, true, true, false, true, 0, 0, 16, 16))
+			local quad1 = love.graphics.newQuad(16, 48, 16, 16, 64, 64)
+			local quad2 = love.graphics.newQuad(0, 48, 16, 16, 64, 64)
+			for i = 2, 6 do
+				table.insert(actors, newTile("corruption", 16, 16, 16, i*16, quad1, image, true, true, false, true, 0, 0, 8, 16))
+				table.insert(actors, newTile("corruption", 16, 16, 0, i*16, quad2, image, true, true, false, true, 0, 0, 16, 16))
+			end
 		end
 		if blockLeftMiddle and currentMap.leftMiddle then
-			local quad = love.graphics.newQuad(0, 32, 16, 16, 80, 80)
-			table.insert(actors, newTile("corruption", 16, 16, 16, 7*16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 16, 8*16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 16, 9*16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 16, 10*16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 16, 11*16, quad, image, true, true, false, true, 0, 0, 16, 16))
+			local quad1 = love.graphics.newQuad(16, 48, 16, 16, 64, 64)
+			local quad2 = love.graphics.newQuad(0, 48, 16, 16, 64, 64)
+			for i = 7, 11 do
+				table.insert(actors, newTile("corruption", 16, 16, 16, i*16, quad1, image, true, true, false, true, 0, 0, 8, 16))
+				table.insert(actors, newTile("corruption", 16, 16, 0, i*16, quad2, image, true, true, false, true, 0, 0, 16, 16))
+			end
 		end
 		if blockLeftBottom and currentMap.leftBottom then
-			local quad = love.graphics.newQuad(0, 32, 16, 16, 80, 80)
-			table.insert(actors, newTile("corruption", 16, 16, 16, 12*16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 16, 13*16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 16, 14*16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 16, 15*16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 16, 16*16, quad, image, true, true, false, true, 0, 0, 16, 16))
+			local quad1 = love.graphics.newQuad(16, 48, 16, 16, 64, 64)
+			local quad2 = love.graphics.newQuad(0, 48, 16, 16, 64, 64)
+			for i = 12, 16 do
+				table.insert(actors, newTile("corruption", 16, 16, 16, i*16, quad1, image, true, true, false, true, 0, 0, 8, 16))
+				table.insert(actors, newTile("corruption", 16, 16, 0, i*16, quad2, image, true, true, false, true, 0, 0, 16, 16))
+			end
 		end
 		if blockRightTop and currentMap.rightTop then
-			local quad = love.graphics.newQuad(0, 32, 16, 16, 80, 80)
-			table.insert(actors, newTile("corruption", 16, 16, 30*16, 2*16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 30*16, 3*16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 30*16, 4*16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 30*16, 5*16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 30*16, 6*16, quad, image, true, true, false, true, 0, 0, 16, 16))
+			local quad1 = love.graphics.newQuad(0, 32, 16, 16, 64, 64)
+			local quad2 = love.graphics.newQuad(16, 32, 16, 16, 64, 64)
+			for i = 2, 6 do
+				table.insert(actors, newTile("corruption", 16, 16, 30*16, i*16, quad1, image, true, true, false, true, 8, 0, 8, 16))
+				table.insert(actors, newTile("corruption", 16, 16, 31*16, i*16, quad2, image, true, true, false, true, 0, 0, 16, 16))
+			end
 		end
 		if blockRightMiddle and currentMap.rightMiddle then
-			local quad = love.graphics.newQuad(0, 32, 16, 16, 80, 80)
-			table.insert(actors, newTile("corruption", 16, 16, 30*16, 7*16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 30*16, 8*16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 30*16, 9*16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 30*16, 10*16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 30*16, 11*16, quad, image, true, true, false, true, 0, 0, 16, 16))
+			local quad1 = love.graphics.newQuad(0, 32, 16, 16, 64, 64)
+			local quad2 = love.graphics.newQuad(16, 32, 16, 16, 64, 64)
+			for i = 7, 11 do
+				table.insert(actors, newTile("corruption", 16, 16, 30*16, i*16, quad1, image, true, true, false, true, 8, 0, 8, 16))
+				table.insert(actors, newTile("corruption", 16, 16, 31*16, i*16, quad2, image, true, true, false, true, 0, 0, 16, 16))
+			end
 		end
 		if blockRightBottom and currentMap.rightBottom then
-			local quad = love.graphics.newQuad(0, 32, 16, 16, 80, 80)
-			table.insert(actors, newTile("corruption", 16, 16, 30*16, 12*16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 30*16, 13*16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 30*16, 14*16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 30*16, 15*16, quad, image, true, true, false, true, 0, 0, 16, 16))
-			table.insert(actors, newTile("corruption", 16, 16, 30*16, 16*16, quad, image, true, true, false, true, 0, 0, 16, 16))
+			local quad1 = love.graphics.newQuad(0, 32, 16, 16, 64, 64)
+			local quad2 = love.graphics.newQuad(16, 32, 16, 16, 64, 64)
+			for i = 12, 16 do
+				table.insert(actors, newTile("corruption", 16, 16, 30*16, i*16, quad1, image, true, true, false, true, 8, 0, 8, 16))
+				table.insert(actors, newTile("corruption", 16, 16, 31*16, i*16, quad2, image, true, true, false, true, 0, 0, 16, 16))
+			end
 		end
 
 		backgroundCanvas, foregroundCanvas = unpack(setupCanvases(actors))
 	end
 
 	function player:mapTransition()
+		debugPrint(newMapDirection)
 		if player.x + player.width <= 16 then
 			transitioningScreen = true
 			if fadeIn == false then
 				player:findRandomMap()
 				player.x = 496 - player.width - 16
 				player.y = player.previousY
+			else
+				newMapDirection = "leftToRight"
 			end
 		elseif player.x >= 496 then
 			transitioningScreen = true
@@ -803,6 +820,8 @@ function newPlayer(playerX, playerY)
 				player:findRandomMap()
 				player.x = 16 + 16
 				player.y = player.previousY
+			else
+				newMapDirection = "rightToLeft"
 			end
 		end
 
@@ -812,6 +831,8 @@ function newPlayer(playerX, playerY)
 				player:findRandomMap()
 				player.x = player.previousX
 				player.y = 286 - player.height - 16
+			else
+				newMapDirection = "topToBottom"
 			end
 		elseif player.y >= 286 then
 			transitioningScreen = true
@@ -819,6 +840,8 @@ function newPlayer(playerX, playerY)
 				player:findRandomMap()
 				player.x = player.previousX
 				player.y = 16 + 16
+			else
+				newMapDirection = "bottomToTop"
 			end
 		end
 
@@ -833,7 +856,17 @@ function newPlayer(playerX, playerY)
 	end
 
 	function player:jump()
-		if pressInputs.jump and player.downPlatform == false then
+		if pressInputs.jump and ((pressInputs.down ~= true and player.jumpAble and player.jumpsLeft > 0 and player.downPlatform == false) or player.onLadder) then
+			if player.onLadder then
+				player.jumpsLeft = player.jumps
+				player.onLadder = false
+				player.jumpAble = true
+				player.yVelocity = 0
+				player.xVelocity = 0
+				interactSound:stop()
+				interactSound:play()
+				player.offLadderFirstFrame = true
+			end
 			player.grounded = false
 			player.y = player.y - 1
 			player.jumpHoldCounter = 0
@@ -912,13 +945,13 @@ function newPlayer(playerX, playerY)
 						actor.near = true
 						if pressInputs.interact and (player.money >= actor.price or actor.type == "chest") then
 							if actor.name == "weaponShopItem" or actor.name == "weaponChestItem" then
-								local weapon = getWeaponStats(actor.randomName)
-								table.insert(actors, newUi("newWeapon", weapon.name, weapon.iconSprite))
+								local weaponStats = getWeaponStats(actor.randomName)
+								table.insert(actors, newUi("newWeapon", weaponStats, actor))
 							elseif actor.name == "accessoryShopItem" or actor.name == "accessoryChestItem" then
 								table.insert(player.accessories, actor.randomName)
+								actor.remove = true
+								player.money = player.money - actor.price
 							end
-							player.money = player.money - actor.price
-							actor.remove = true
 						end
 					elseif actor.type == "coin" then
 						player.money = player.money + 1
@@ -952,13 +985,12 @@ function newPlayer(playerX, playerY)
 						end
 					elseif actor.type == "chest" then
 						if pressInputs.interact and actor.active then
-							currentMap.chestOpened = true
-							actor.active = false
-							player.xVelocity = 0
-							player.xAcceleration = 0
-							if player.weaponOut then
-								table.remove(actors, player.currentWeapon.index)
+							if actor.side == "left" then
+								currentMap.leftChestOpened = true
+							else
+								currentMap.rightChestOpened = true
 							end
+							actor.used = true
 							player.weaponOut = false
 						end
 					elseif actor.type == "teleporter" then
@@ -973,7 +1005,6 @@ function newPlayer(playerX, playerY)
 								end
 								bossLevel = false
 								mapNumber = 0
-								spawnRate = 0
 								player:newMap("maps/maps/"..levelName.."/1")
 							else
 								bossLevel = true
@@ -1022,56 +1053,57 @@ function newPlayer(playerX, playerY)
 			player.yVelocity = player.yVelocity + player.fallAcceleration
 		end
 
-		local minYMovement = player.yVelocity
-		if minYMovement > 0 then
-			--collision below player
-			for _, actor in ipairs(getCollidingActors(player:getX(), player:getY() + player.height, player.width, 32, true, true, false, true, false, false)) do
-				local newYMovement = (actor.y + actor.hitboxY) - (player.y + player.height)
-				if newYMovement < minYMovement then
-					if downInputs.down and downInputs.jump and actor.platform or player.onLadder and actor.platform then
-						player.downPlatform = true
-					else
-						if actor.platform == false then
-							platformBlocked = true
+		if player.grounded == false or player.onLadder then
+			local minYMovement = player.yVelocity
+			if minYMovement > 0 then
+				--collision below player
+				for _, actor in ipairs(getCollidingActors(player:getX(), player:getY() + player.height, player.width, 32, true, true, false, true, false, false)) do
+					local newYMovement = (actor.y + actor.hitboxY) - (player.y + player.height)
+					if newYMovement < minYMovement then
+						if actor.platform and downInputs.down and (downInputs.jump or player.onLadder) then
+							player.downPlatform = true
+						else
+							if actor.platform == false then
+								platformBlocked = true
+							end
+							minYMovement = newYMovement
 						end
+					end
+				end
+			elseif minYMovement < 0 then
+				--collision above player
+				for _, actor in ipairs(getCollidingActors(player:getX(), player:getY() - 32, player.width, 32, true, false, false, true, false, false)) do
+					local newYMovement = (actor.y + actor.hitboxY) + actor.hitboxHeight - player.y
+					if newYMovement > minYMovement then
 						minYMovement = newYMovement
+						player.yVelocity = 0
 					end
 				end
 			end
-		elseif minYMovement < 0 then
-			--collision above player
-			for _, actor in ipairs(getCollidingActors(player:getX(), player:getY() - 32, player.width, 32, true, false, false, true, false, false)) do
-				local newYMovement = (actor.y + actor.hitboxY) + actor.hitboxHeight - player.y
-				if newYMovement > minYMovement then
-					minYMovement = newYMovement
-					player.yVelocity = 0
+			if platformBlocked then
+				player.downPlatform = false
+			end
+
+			if player.yVelocity >= player.yTerminalVelocity then
+				player.yVelocity = player.yTerminalVelocity
+			end
+
+			if player.jumpAbleCounter <= player.jumpAbleDuration and player.jumpAble then
+				player.jumpAbleCounter = player.jumpAbleCounter + 1
+			else
+				if player.jumpsLeft == player.jumps then -- if the player still has all their jumps
+					player.jumpsLeft = player.jumpsLeft - 1
 				end
+				player.jumpAbleCounter = 0
 			end
-		end
 
-		if platformBlocked then
-			player.downPlatform = false
-		end
-
-		if player.yVelocity >= player.yTerminalVelocity then
-			player.yVelocity = player.yTerminalVelocity
-		end
-
-		if player.jumpAbleCounter <= player.jumpAbleDuration and player.jumpAble then
-			player.jumpAbleCounter = player.jumpAbleCounter + 1
-		else
-			if player.jumpsLeft == player.jumps then -- if the player still has all their jumps
-				player.jumpsLeft = player.jumpsLeft - 1
+			player.jumpHoldCounter = player.jumpHoldCounter + 1
+			if downInputs.jump and player.jumpHoldCounter <= player.jumpHoldDuration * ((player.jumpsLeft+1) + (1 - (player.jumpsLeft+1)/player.jumps))/player.jumps then
+				player.yVelocity = player.previousYVelocity
 			end
-			player.jumpAbleCounter = 0
-		end
 
-		player.jumpHoldCounter = player.jumpHoldCounter + 1
-		if downInputs.jump and player.jumpHoldCounter <= player.jumpHoldDuration * ((player.jumpsLeft+1) + (1 - (player.jumpsLeft+1)/player.jumps))/player.jumps then
-			player.yVelocity = player.previousYVelocity
+			player.y = player.y + minYMovement
 		end
-
-		player.y = player.y + minYMovement
 	end
 
 	function player:xMovement()
@@ -1111,7 +1143,7 @@ function newPlayer(playerX, playerY)
 	function player:hitCollision()
 		for _, actor in ipairs(npcs) do
 			local canHit = false
-			if actor.projectile then
+			if actor.projectile and actor.invincibility == 0 then
 				canHit = isInTable(actor.animationFrame, actor.attackHitFrames)
 			elseif actor.attacking or actor.diving then
 				canHit = isInTable(actor.attackAnimationFrame, actor.attackHitFrames)
@@ -1142,6 +1174,7 @@ function newPlayer(playerX, playerY)
 											player.knockbackAngle = math.atan2((player.y + player.height/2) - (actor.y + actor.attackHeight/2), (player.x + player.width/2) - (actor.x + actor.attackWidth/2))
 											player.knockbackDx = math.cos(player.knockbackAngle)
 											player.knockbackDy = math.sin(player.knockbackAngle)
+											player.onLadder = false
 											player.hit = true
 											actor.hitPlayer = true
 											if shakeLength < actor.screenShakeLength then
@@ -1162,7 +1195,11 @@ function newPlayer(playerX, playerY)
 													actor.previousHp = actor.hp
 													actor.lastDamagedTimer = 0
 													actor.lastHitTimer = 0
-													actor.hp = actor.hp - 30
+													actor.hp = actor.hp - 25
+													if actor.poison < 60*2.5 then
+														actor.poison = actor.poison + 60*2.5
+														actor.lastPoisonDuration = actor.poison
+													end
 													if actor.hp < 0 then
 														actor.hp = 0
 													end

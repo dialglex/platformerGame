@@ -113,6 +113,8 @@ function getWeaponImages()
 	featherArrowIcon = love.graphics.newImage("images/weapons/bows/featherArrow/featherArrowIcon.png")
 	featherArrowSpritesheet = love.graphics.newImage("images/weapons/bows/featherArrow/featherArrow.png")
 	featherArrowQuads = getQuads(featherArrowSpritesheet, 5)
+
+	poisonDartProjectileSprite = love.graphics.newImage("images/weapons/poisonDart.png")
 end
 
 function getWeaponStats(weapon)
@@ -154,11 +156,11 @@ function getWeaponStats(weapon)
 			iconSprite = mushroomSwordIcon,
 			spritesheet = mushroomSwordSpritesheet,
 			quads = mushroomSwordQuads,
-			damage = 10, -- 20 DoT
+			damage = 15, -- 15 DoT
 			speed = 60,
 			knockback = 80,
 			status =  "poison", 
-			statusDuration = 60*2,
+			statusDuration = 60*1.5,
 			shootDirection = shootDirection,
 			xOffset = 1,
 			yOffset = -7,
@@ -344,11 +346,11 @@ function getWeaponStats(weapon)
 			iconSprite = mushroomBowIcon,
 			spritesheet = spritesheet,
 			quads = quads,
-			damage = 5,
+			damage = 5, -- 5 DoT
 			speed = 60,
 			knockback = 60,
 			status = "poison", 
-			statusDuration = 60*1,
+			statusDuration = 60*0.5,
 			shootDirection = shootDirection,
 			sideXOffset = 5.5,
 			sideYOffset = -1,
@@ -367,11 +369,11 @@ function getWeaponStats(weapon)
 			iconSprite = mushroomArrowIcon,
 			spritesheet = mushroomArrowSpritesheet,
 			quads = mushroomArrowQuads,
-			damage = 5, -- 10 DoT
+			damage = 5, -- 5 DoT
 			speed = 0,
 			knockback = 60,
 			status = "poison", 
-			statusDuration = 60*1,
+			statusDuration = 60*0.5,
 			shootDirection = shootDirection,
 			movementReduction = 0,
 			velocity = 5.5,
@@ -397,7 +399,7 @@ function getWeaponStats(weapon)
 			iconSprite = thornBowIcon,
 			spritesheet = spritesheet,
 			quads = quads,
-			damage = 10, -- 15 DoT
+			damage = 15, -- 15 DoT
 			speed = 50,
 			knockback = 20,
 			status = "poison", 
@@ -420,7 +422,7 @@ function getWeaponStats(weapon)
 			iconSprite = thornArrowIcon,
 			spritesheet = thornArrowSpritesheet,
 			quads = thornArrowQuads,
-			damage = 10, -- 15 DoT
+			damage = 15, -- 15 DoT
 			speed = 0,
 			knockback = 20,
 			status = "poison", 
@@ -642,6 +644,27 @@ function getWeaponStats(weapon)
 			movementReduction = 0,
 			velocity = 7,
 			yAcceleration = 0.1,
+			pierce = 1,
+			projectile = ""
+		}
+	end
+
+	if weapon == "poisonDart" then
+		return {
+			name = weapon,
+			weaponType = "projectile",
+			iconSprite = poisonDartProjectileSprite,
+			spritesheet = poisonDartProjectileSprite,
+			quads = nil,
+			damage = 0,
+			speed = 0,
+			knockback = 0,
+			status = "poison", 
+			statusDuration = 60*1,
+			shootDirection = shootDirection,
+			movementReduction = 0,
+			velocity = 8,
+			yAcceleration = 0,
 			pierce = 1,
 			projectile = ""
 		}
